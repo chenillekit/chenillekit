@@ -26,6 +26,10 @@ import org.hibernate.type.TypeFactory;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
+/**
+ * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
+ * @version $Id$
+ */
 public class GenericEnumUserType implements UserType, ParameterizedType
 {
     private static final String DEFAULT_IDENTIFIER_METHOD_NAME = "name";
