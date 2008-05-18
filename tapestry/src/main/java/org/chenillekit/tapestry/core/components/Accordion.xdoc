@@ -1,10 +1,24 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
 <document>
     <body>
 
         <section name="Examples">
 
             <p>
-                In this example, we are showing how to use Accordion.
+                a short description how to use Accordion component.
             </p>
 
             <subsection name="MyPage.tml">
@@ -14,7 +28,7 @@
     <body>
         <h1>Hello Guys and Dolls</h1>
 
-            <div t:type="t5components/Accordion" subjects="subjects" details="details" style="width: 350px;"/>
+            <div t:type="chenillekit/Accordion" subjects="subjects" details="details" style="width: 350px;"/>
 
     </body>
 </html>
