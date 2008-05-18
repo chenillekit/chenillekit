@@ -1,0 +1,51 @@
+ ----
+ Release Checklist
+ ----
+
+Release Checklist
+
+  Quick notes on how to prepare a new release of T5Components.
+
+Preparation
+
+  Make <<sure>> (<<sure!>>) you have the latest copies of the T5Components project and all its modules.
+  Update all poms with the new release number.
+
+Commit Changes
+
+  Commit all changes into the trunk.
+
+Build site
+
+  Execute <<<mvn clean site -Prollout>>>
+
+Build/install packages
+
+  Execute <<<mvn install -Prollout>>>
+
+Deploy artifacts
+
+  Execute <<<mvn deploy -Prollout>>>
+
+Deploy site
+
+  Execute <<<mvn site:deploy -Prollout>>>
+
+Bring Demo Application online
+
+  * login to demo server
+
+  * copy the war file into /srv/t5components
+
+  * restart jetty
+
+Update the Downloads Page
+
+  * Execute <<<mvn assembly:assembly -Prollout>>>
+
+  * Upload the binary packages and describe the download link.
+
+Make Marketing
+
+  inform in tapestry-user group for new release
+
