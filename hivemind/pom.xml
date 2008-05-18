@@ -31,7 +31,6 @@
     -->
     <dependencies>
 
-
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-ioc</artifactId>

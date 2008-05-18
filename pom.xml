@@ -6,6 +6,9 @@
         <tapestry-release-version>5.0.12-SNAPSHOT</tapestry-release-version>
         <update-release-info>false</update-release-info>
         <cobertura-plugin-version>2.2</cobertura-plugin-version>
+        <hibernate-release-version>3.2.6.ga</hibernate-release-version>
+        <hibernate-ann-release-version>3.3.0.ga</hibernate-ann-release-version>
+        <jta-release-version>1.1</jta-release-version>
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
@@ -92,9 +95,9 @@
     </developers>
 
     <modules>
-        <module>tapestry</module>
         <module>hivemind</module>
         <module>hibernate</module>
+        <module>tapestry</module>
     </modules>
 
     <!--
@@ -187,6 +190,54 @@
                 <groupId>oro</groupId>
                 <artifactId>oro</artifactId>
                 <version>2.0.8</version>
+            </dependency>
+
+            <dependency>
+                <groupId>antlr</groupId>
+                <artifactId>antlr</artifactId>
+                <version>2.7.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate</artifactId>
+                <version>${hibernate-release-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.transaction</groupId>
+                        <artifactId>jta</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-annotations</artifactId>
+                <version>${hibernate-ann-release-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-commons-annotations</artifactId>
+                <version>${hibernate-ann-release-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.transaction</groupId>
+                <artifactId>jta</artifactId>
+                <version>${jta-release-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>1.8.0.4</version>
             </dependency>
 
         </dependencies>
