@@ -49,4 +49,21 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertEquals(getElementHeight("xpath=//div[@id='accordion_content_3']"), 20);
         assertEquals(getElementHeight("xpath=//div[@id='accordion_content_1']"), 0);
     }
+
+    @Test
+    public void test_datetimefield() throws InterruptedException
+    {
+        open(BASE_URL);
+
+        start("DateTimeField");
+        waitForPageToLoad("5000");
+
+        type("xpath=//input[@id='dateTimeField1']", "10-12-2008 15:12");
+        type("xpath=//input[@id='dateTimeField2']", "11/31/2007");
+        clickAndWait(SUBMIT);
+
+        assertEquals(getValue("xpath=//input[@id='dateTimeField1']"), "10-12-2008 15:12");
+        assertEquals(getValue("xpath=//input[@id='dateTimeField2']"), "12/01/2007");
+        assertEquals(getValue("xpath=//input[@id='dateTimeField3']"), "");
+    }
 }

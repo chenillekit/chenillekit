@@ -60,7 +60,8 @@ public class Start
     }
 
     private static final List<Item> ITEMS = CollectionFactory.newList(
-            new Item("AccordionDemo", "Accordion", "tests Accordion component")
+            new Item("AccordionDemo", "Accordion", "tests Accordion component"),
+            new Item("DateTimeFieldDemo", "DateTimeField", "tests DateTimeField component")
     );
 
     static

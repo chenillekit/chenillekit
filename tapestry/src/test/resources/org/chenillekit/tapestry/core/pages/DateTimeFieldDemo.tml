@@ -17,12 +17,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 <head>
-    <title>Accordion Test</title>
+    <title>DateTimeField Test</title>
 </head>
 
 <body>
 
-<div t:id="accordion" style="width: 350px;"/>
+<form t:id="form">
+    <input t:id="dateTimeField1"/>
+    <br/>
+    <input t:id="dateTimeField2"/>
+    <br/>
+    <input t:id="dateTimeField3"/>
+    <br/>
+    <input type="submit" id="submit"/>
+</form>
 
 </body>
 </html>
