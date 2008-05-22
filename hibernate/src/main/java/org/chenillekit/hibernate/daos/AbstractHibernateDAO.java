@@ -18,8 +18,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.tapestry.hibernate.HibernateSessionManager;
-import org.apache.tapestry.ioc.internal.util.Defense;
+import org.apache.tapestry5.hibernate.HibernateSessionManager;
+import org.apache.tapestry5.ioc.internal.util.Defense;
 
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
@@ -29,8 +29,8 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.type.Type;
 
-import org.slf4j.Logger;
 import org.chenillekit.hibernate.utils.QueryParameter;
+import org.slf4j.Logger;
 
 /**
  * abstract hibernate based data access object.

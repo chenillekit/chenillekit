@@ -13,10 +13,10 @@
  */
 package org.chenillekit.hivemind.services.impl;
 
-import org.apache.tapestry.ioc.AnnotationProvider;
-import org.apache.tapestry.ioc.ObjectLocator;
-import org.apache.tapestry.ioc.ObjectProvider;
-import org.apache.tapestry.ioc.internal.IOCInternalTestCase;
+import org.apache.tapestry5.ioc.AnnotationProvider;
+import org.apache.tapestry5.ioc.ObjectLocator;
+import org.apache.tapestry5.ioc.ObjectProvider;
+import org.apache.tapestry5.ioc.internal.IOCInternalTestCase;
 
 import org.chenillekit.hivemind.services.NullService;
 import org.chenillekit.hivemind.services.SimpleService;

@@ -14,8 +14,8 @@
 
 package org.chenillekit.tapestry.core.pages;
 
-import org.apache.tapestry.annotation.Component;
-import org.apache.tapestry.annotation.Property;
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Property;
 
 import org.chenillekit.tapestry.core.components.Accordion;
 

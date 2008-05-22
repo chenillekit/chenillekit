@@ -14,8 +14,8 @@
 
 package org.chenillekit.tapestry.core;
 
-import org.apache.tapestry.ioc.Configuration;
-import org.apache.tapestry.services.LibraryMapping;
+import org.apache.tapestry5.ioc.Configuration;
+import org.apache.tapestry5.services.LibraryMapping;
 
 /**
  * module for chenillekit web module.

@@ -17,9 +17,9 @@ package org.chenillekit.hivemind.services.impl;
 import org.apache.hivemind.ApplicationRuntimeException;
 import org.apache.hivemind.Registry;
 import org.apache.hivemind.impl.RegistryBuilder;
-import org.apache.tapestry.ioc.AnnotationProvider;
-import org.apache.tapestry.ioc.ObjectLocator;
-import org.apache.tapestry.ioc.ObjectProvider;
+import org.apache.tapestry5.ioc.AnnotationProvider;
+import org.apache.tapestry5.ioc.ObjectLocator;
+import org.apache.tapestry5.ioc.ObjectProvider;
 
 import org.slf4j.Logger;
 

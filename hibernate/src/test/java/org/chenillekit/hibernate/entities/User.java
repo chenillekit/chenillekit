@@ -28,7 +28,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.apache.tapestry.beaneditor.Validate;
+import org.apache.tapestry5.beaneditor.Validate;
 
 import org.hibernate.annotations.Cascade;
 

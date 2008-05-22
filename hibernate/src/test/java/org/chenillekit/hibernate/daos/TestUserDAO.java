@@ -17,11 +17,11 @@ package org.chenillekit.hibernate.daos;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.tapestry.hibernate.HibernateModule;
-import org.apache.tapestry.hibernate.HibernateSessionManager;
-import org.apache.tapestry.ioc.Registry;
-import org.apache.tapestry.ioc.RegistryBuilder;
-import org.apache.tapestry.services.TapestryModule;
+import org.apache.tapestry5.hibernate.HibernateModule;
+import org.apache.tapestry5.hibernate.HibernateSessionManager;
+import org.apache.tapestry5.ioc.Registry;
+import org.apache.tapestry5.ioc.RegistryBuilder;
+import org.apache.tapestry5.services.TapestryModule;
 
 import org.hibernate.SQLQuery;
 

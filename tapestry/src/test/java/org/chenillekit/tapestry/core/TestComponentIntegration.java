@@ -14,7 +14,7 @@
 
 package org.chenillekit.tapestry.core;
 
-import org.apache.tapestry.test.AbstractIntegrationTestSuite;
+import org.apache.tapestry5.test.AbstractIntegrationTestSuite;
 
 import org.testng.annotations.Test;
 

@@ -14,7 +14,7 @@
 
 package org.chenillekit.hibernate.factories;
 
-import org.apache.tapestry.hibernate.HibernateSessionManager;
+import org.apache.tapestry5.hibernate.HibernateSessionManager;
 
 import org.chenillekit.hibernate.daos.AddressDAO;
 import org.chenillekit.hibernate.daos.AddressDAOHibernate;

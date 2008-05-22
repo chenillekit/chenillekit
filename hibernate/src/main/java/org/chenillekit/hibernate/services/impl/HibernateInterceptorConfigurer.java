@@ -14,7 +14,7 @@
 
 package org.chenillekit.hibernate.services.impl;
 
-import org.apache.tapestry.hibernate.HibernateConfigurer;
+import org.apache.tapestry5.hibernate.HibernateConfigurer;
 
 import org.hibernate.Interceptor;
 import org.hibernate.cfg.Configuration;

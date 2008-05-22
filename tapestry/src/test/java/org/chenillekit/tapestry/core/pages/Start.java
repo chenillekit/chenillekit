@@ -17,7 +17,7 @@ package org.chenillekit.tapestry.core.pages;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.tapestry.ioc.internal.util.CollectionFactory;
+import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>

@@ -16,18 +16,18 @@ package org.chenillekit.tapestry.core.components;
 
 import java.util.List;
 
-import org.apache.tapestry.BindingConstants;
-import org.apache.tapestry.ClientElement;
-import org.apache.tapestry.ComponentResources;
-import org.apache.tapestry.MarkupWriter;
-import org.apache.tapestry.RenderSupport;
-import org.apache.tapestry.annotation.Environmental;
-import org.apache.tapestry.annotation.IncludeJavaScriptLibrary;
-import org.apache.tapestry.annotation.IncludeStylesheet;
-import org.apache.tapestry.annotation.Parameter;
-import org.apache.tapestry.annotation.SupportsInformalParameters;
-import org.apache.tapestry.ioc.annotation.Inject;
-import org.apache.tapestry.services.Environment;
+import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.ClientElement;
+import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.MarkupWriter;
+import org.apache.tapestry5.RenderSupport;
+import org.apache.tapestry5.annotations.Environmental;
+import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.SupportsInformalParameters;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.Environment;
 
 /**
  * accordion component.

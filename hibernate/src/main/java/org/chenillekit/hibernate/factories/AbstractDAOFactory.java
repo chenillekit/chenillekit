@@ -17,7 +17,7 @@ package org.chenillekit.hibernate.factories;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.tapestry.ioc.internal.util.Defense;
+import org.apache.tapestry5.ioc.internal.util.Defense;
 
 import org.chenillekit.hibernate.daos.GenericDAO;
 

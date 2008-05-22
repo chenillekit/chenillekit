@@ -16,10 +16,10 @@ package org.chenillekit.tapestry.core.pages;
 
 import java.util.Date;
 
-import org.apache.tapestry.annotation.Component;
-import org.apache.tapestry.annotation.Persist;
-import org.apache.tapestry.annotation.Property;
-import org.apache.tapestry.corelib.components.Form;
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.Form;
 
 import org.chenillekit.tapestry.core.components.DateTimeField;
 
