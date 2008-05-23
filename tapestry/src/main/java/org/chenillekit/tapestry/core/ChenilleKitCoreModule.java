@@ -28,5 +28,6 @@ public class ChenilleKitCoreModule
     public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration)
     {
         configuration.add(new LibraryMapping("chenillekit", "org.chenillekit.tapestry.core"));
+        configuration.add(new LibraryMapping("ck", "org.chenillekit.tapestry.core"));
     }
 }
