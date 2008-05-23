@@ -1,10 +1,24 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  -->
 <document>
     <body>
 
         <section name="Examples">
 
             <p>
-                In this example, we are showing how to use DateFormat.
+                this example describe how to use the DateFormat component.
             </p>
 
             <subsection name="MyPage.tml">
@@ -17,17 +31,17 @@
             <ul>
                 <li>
                     Date with body on the left side:
-                    <span t:type="t5components/DateFormat" value="dateValue"
+                    <span t:type="ck/DateFormat" value="dateValue"
                             pattern="prop:patternDE" bodyPosition="1">today is </span>
                 </li>
                 <li>
                     Date with body on the right side:
-                    <span t:type="t5components/DateFormat" value="dateValue"
+                    <span t:type="ck/DateFormat" value="dateValue"
                             pattern="prop:patternUS" bodyPosition="2"> todays date</span>
                 </li>
                 <li>
                     Date with discarded body
-                    <span t:type="t5components/DateFormat" value="dateValue">without body</span>
+                    <span t:type="ck/DateFormat" value="dateValue">without body</span>
                 </li>
             </ul>
 

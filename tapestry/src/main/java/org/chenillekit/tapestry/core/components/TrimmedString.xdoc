@@ -1,10 +1,24 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  -->
 <document>
     <body>
 
         <section name="Examples">
 
             <p>
-                In this example, we are showing how TrimmedString works.
+                this example describe how to use the TrimmedString component.
             </p>
 
             <subsection name="MyPage.tml">
@@ -17,20 +31,20 @@
         <p>
             trimmed string at position 20
             <br/>
-            <span t:type="t5components/TrimmedString"
+            <span t:type="ck/TrimmedString"
                     value="literal:this ist a very long test string"/>
         </p>
 
         <p>
             trimmed string at position 10
             <br/>
-            <span t:type="t5components/TrimmedString" maxLength="10"
+            <span t:type="ck/TrimmedString" maxLength="10"
                     value="literal:this ist a very long test string"/>
         </p>
         <p>
             trimmed string at position 20 (left side)
             <br/>
-            <span t:type="t5components/TrimmedString" maxLength="20"
+            <span t:type="ck/TrimmedString" maxLength="20"
                     value="literal:this ist a very long test string" trimPos="left"/>
         </p>
     </body>
