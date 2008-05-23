@@ -30,7 +30,7 @@
 
     <filter>
         <filter-name>test</filter-name>
-        <filter-class>org.apache.tapestry.TapestryFilter</filter-class>
+        <filter-class>org.apache.tapestry5.TapestryFilter</filter-class>
     </filter>
 
     <filter-mapping>
