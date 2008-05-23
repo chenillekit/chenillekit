@@ -21,7 +21,8 @@
     <scm>
         <url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-demo/</url>
         <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-demo/</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-demo/</developerConnection>
+        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-demo/
+        </developerConnection>
     </scm>
 
     <!--
@@ -88,6 +89,20 @@
                             </Implementation-Version>
                         </manifestEntries>
                     </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <configuration>
+                    <webAppSourceDirectory>${basedir}/src/webapp</webAppSourceDirectory>
+                    <!-- Log to the console. -->
+                    <requestLog implementation="org.mortbay.jetty.NCSARequestLog">
+                        <!-- This doesn't do anything for Jetty, but is a workaround for a Maven bug
+                 that prevents the requestLog from being set. -->
+                        <append>true</append>
+                    </requestLog>
                 </configuration>
             </plugin>
 
