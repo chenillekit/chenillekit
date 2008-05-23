@@ -66,4 +66,22 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertEquals(getValue("xpath=//input[@id='dateTimeField2']"), "12/01/2007");
         assertEquals(getValue("xpath=//input[@id='dateTimeField3']"), "");
     }
+
+    @Test
+    public void test_formater() throws InterruptedException
+    {
+        open(BASE_URL);
+
+        start("Formater");
+        waitForPageToLoad("5000");
+
+        assertEquals(getText("xpath=//div[@id='test1']"), "today is 01.01.1970");
+        assertEquals(getText("xpath=//div[@id='test2']"), "01/01/1970 is an US formated date");
+        assertEquals(getText("xpath=//div[@id='test3']"), "01/01/1970");
+        assertEquals(getText("xpath=//span[@id='test4']"), "this ist a very long...");
+        assertEquals(getText("xpath=//span[@id='test5']"), "this ist a...");
+        assertEquals(getText("xpath=//span[@id='test6']"), "...ery long test string");
+        assertEquals(getText("xpath=//span[@id='test7']"), "555-685458-0");
+        assertEquals(getText("xpath=//span[@id='test8']"), "555-6854__-_");
+    }
 }

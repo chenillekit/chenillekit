@@ -1,0 +1,65 @@
+<document>
+    <body>
+
+        <section name="Examples">
+
+            <p>
+                In this example, we are showing how to use DateFormat.
+            </p>
+
+            <subsection name="MyPage.tml">
+                <source>
+                    <![CDATA[
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+    <body>
+        <h1>Hello Guys and Dolls</h1>
+
+            <ul>
+                <li>
+                    Date with body on the left side:
+                    <span t:type="t5components/DateFormat" value="dateValue"
+                            pattern="prop:patternDE" bodyPosition="1">today is </span>
+                </li>
+                <li>
+                    Date with body on the right side:
+                    <span t:type="t5components/DateFormat" value="dateValue"
+                            pattern="prop:patternUS" bodyPosition="2"> todays date</span>
+                </li>
+                <li>
+                    Date with discarded body
+                    <span t:type="t5components/DateFormat" value="dateValue">without body</span>
+                </li>
+            </ul>
+
+    </body>
+</html>
+]]>
+                </source>
+            </subsection>
+
+            <subsection name="MyPage.java">
+                <source>
+                    <![CDATA[
+public class MyPage
+{
+    @Property(write = false)
+    private Date _dateValue;
+
+    @Property(write = false)
+    private String _patternUS = "dd/MM/yyyy";
+
+    @Property(write = false)
+    private String _patternDE = "dd.MM.yyyy";
+
+    void setupRender()
+    {
+        _dateValue = new Date();
+    }
+}
+]]>
+                </source>
+            </subsection>
+
+        </section>
+    </body>
+</document>

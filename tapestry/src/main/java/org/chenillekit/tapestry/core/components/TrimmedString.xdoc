@@ -1,0 +1,44 @@
+<document>
+    <body>
+
+        <section name="Examples">
+
+            <p>
+                In this example, we are showing how TrimmedString works.
+            </p>
+
+            <subsection name="MyPage.tml">
+                <source>
+                    <![CDATA[
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+    <body>
+        <h1>Hello Guys and Dolls</h1>
+
+        <p>
+            trimmed string at position 20
+            <br/>
+            <span t:type="t5components/TrimmedString"
+                    value="literal:this ist a very long test string"/>
+        </p>
+
+        <p>
+            trimmed string at position 10
+            <br/>
+            <span t:type="t5components/TrimmedString" maxLength="10"
+                    value="literal:this ist a very long test string"/>
+        </p>
+        <p>
+            trimmed string at position 20 (left side)
+            <br/>
+            <span t:type="t5components/TrimmedString" maxLength="20"
+                    value="literal:this ist a very long test string" trimPos="left"/>
+        </p>
+    </body>
+</html>
+]]>
+                </source>
+            </subsection>
+
+        </section>
+    </body>
+</document>
