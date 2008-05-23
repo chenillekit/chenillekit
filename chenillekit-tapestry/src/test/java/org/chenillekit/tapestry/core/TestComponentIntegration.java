@@ -124,4 +124,15 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         Thread.sleep(2000);
         assertEquals(getElementHeight("xpath=//fieldset[@id='fieldSet2']"), 50);
     }
+
+    @Test
+    public void test_element() throws InterruptedException
+    {
+        open(BASE_URL);
+
+        start("Element");
+        waitForPageToLoad("5000");
+
+        assertEquals(getText("xpath=//strong[@id='element']"), "BlaBla");
+    }
 }
