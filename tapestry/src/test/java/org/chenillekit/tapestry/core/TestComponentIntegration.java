@@ -84,4 +84,16 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertEquals(getText("xpath=//span[@id='test7']"), "555-685458-0");
         assertEquals(getText("xpath=//span[@id='test8']"), "555-6854__-_");
     }
+
+    @Test
+    public void test_contains() throws InterruptedException
+    {
+        open(BASE_URL);
+
+        start("Contains");
+        waitForPageToLoad("5000");
+
+        assertEquals(getText("xpath=//div[@id='test1']"), "list contains 'test1'");
+        assertEquals(getText("xpath=//div[@id='test4']"), "list doesnt contains 'test6'");
+    }
 }

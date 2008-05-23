@@ -62,6 +62,7 @@ public class Start
     private static final List<Item> ITEMS = CollectionFactory.newList(
             new Item("AccordionDemo", "Accordion", "tests Accordion component"),
             new Item("FormaterDemo", "Formater", "tests Formater components"),
+            new Item("ContainsDemo", "Contains", "tests Contains component"),
             new Item("DateTimeFieldDemo", "DateTimeField", "tests DateTimeField component")
     );
 
