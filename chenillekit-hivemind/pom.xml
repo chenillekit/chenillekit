@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.chenillekit</groupId>
-    <artifactId>quartz</artifactId>
+    <artifactId>chenillekit-hivemind</artifactId>
     <packaging>jar</packaging>
 
     <parent>
@@ -13,15 +13,15 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>hibernate related module</name>
+    <name>hivemind related module</name>
     <description>
-        A collection of quartz related utils
+        A collection of hivemind related utils
     </description>
 
     <scm>
-        <url>http://chenillekit.googlecode.com/svn/trunk/quartz/</url>
-        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/quartz/</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/quartz/</developerConnection>
+        <url>http://chenillekit.googlecode.com/svn/trunk/hivemind/</url>
+        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/hivemind/</connection>
+        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/hivemind/</developerConnection>
     </scm>
 
     <!--
@@ -31,43 +31,14 @@
     -->
     <dependencies>
 
-        <!-- Logging. -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.4.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.4.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-ioc</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>javax.transaction</groupId>
-            <artifactId>jta</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>quartz</artifactId>
+            <groupId>hivemind</groupId>
+            <artifactId>hivemind</artifactId>
         </dependency>
 
         <dependency>
@@ -75,6 +46,22 @@
             <artifactId>testng</artifactId>
             <classifier>jdk15</classifier>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>oro</groupId>
+            <artifactId>oro</artifactId>
         </dependency>
 
     </dependencies>
@@ -104,7 +91,7 @@
                         <index>true</index>
                         <manifestEntries>
                             <Tapestry-Module-Classes>
-                                org.chenillekit.hibernate.ChenilleHibernateModule
+                                org.chenillekit.hivemind.ChenilleHivemindModule
                             </Tapestry-Module-Classes>
                             <Implementation-Version>
                                 ${project.version}

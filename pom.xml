@@ -95,10 +95,10 @@
     </developers>
 
     <modules>
-        <module>quartz</module>
-        <module>hivemind</module>
-        <module>hibernate</module>
-        <module>tapestry</module>
+        <module>chenillekit-quartz</module>
+        <module>chenillekit-hivemind</module>
+        <module>chenillekit-hibernate</module>
+        <module>chenillekit-tapestry</module>
     </modules>
 
     <!--

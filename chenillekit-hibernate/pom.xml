@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.chenillekit</groupId>
-    <artifactId>hibernate</artifactId>
+    <artifactId>chenillekit-hibernate</artifactId>
     <packaging>jar</packaging>
 
     <parent>
