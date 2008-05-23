@@ -15,6 +15,8 @@
 package org.chenillekit.tapestry.core;
 
 import org.apache.tapestry5.ioc.Configuration;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.LibraryMapping;
 
 /**
@@ -29,5 +31,23 @@ public class ChenilleKitCoreModule
     {
         configuration.add(new LibraryMapping("chenillekit", "org.chenillekit.tapestry.core"));
         configuration.add(new LibraryMapping("ck", "org.chenillekit.tapestry.core"));
+    }
+
+    public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration)
+    {
+        // This is designed to make it easy to keep syncrhonized with FCKeditor. As we
+        // support a new version, we create a new folder, and update the path entry. We can then
+        // delete the old version folder (or keep it around). This should be more manageable than
+        // ovewriting the local copy with updates. There's also a ClasspathAliasManager
+        // contribution based on the path.
+        configuration.add("ck.components", "org/chenillekit/tapestry/core/components");
+        configuration.add("ck.fckeditor", "classpath:${ck.components}/fckeditor");
+    }
+
+    public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
+                                                            @Symbol("ck.components")String fckEditorScriptPath)
+    {
+        configuration.add("fckeditor/", fckEditorScriptPath + "/fckeditor/");
+//        configuration.add("window/", scriptPath + "/window/");
     }
 }
