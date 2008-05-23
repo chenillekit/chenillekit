@@ -20,9 +20,9 @@
     </description>
 
     <scm>
-        <url>http://chenillekit.googlecode.com/svn/trunk/tapestry/</url>
-        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/tapestry/</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/tapestry/</developerConnection>
+        <url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-tapestry/</url>
+        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-tapestry/</connection>
+        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-tapestry/</developerConnection>
     </scm>
 
     <!--

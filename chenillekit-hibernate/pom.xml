@@ -19,9 +19,9 @@
     </description>
 
     <scm>
-        <url>http://chenillekit.googlecode.com/svn/trunk/hibernate/</url>
-        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/hibernate/</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/hibernate/</developerConnection>
+        <url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-hibernate/</url>
+        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-hibernate/</connection>
+        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-hibernate/</developerConnection>
     </scm>
 
     <!--

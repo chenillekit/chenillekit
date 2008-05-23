@@ -99,6 +99,7 @@
         <module>chenillekit-hivemind</module>
         <module>chenillekit-hibernate</module>
         <module>chenillekit-tapestry</module>
+        <module>chenillekit-demo</module>
     </modules>
 
     <!--
