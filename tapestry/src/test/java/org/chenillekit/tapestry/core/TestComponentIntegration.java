@@ -108,4 +108,20 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertEquals(getText("xpath=//div[@id='test2']"), "'testLeft' dont equals 'testRight'");
         assertEquals(getText("xpath=//div[@id='test3']"), "'testLeft' dont equals 'testRight'");
     }
+
+    @Test
+    public void test_fieldset() throws InterruptedException
+    {
+        open(BASE_URL);
+
+        start("FieldSet");
+        waitForPageToLoad("5000");
+        click("xpath=//fieldset[@id='fieldSet1']//legend");
+        Thread.sleep(2000);
+        assertEquals(getElementHeight("xpath=//fieldset[@id='fieldSet1']"), 150);
+
+        click("xpath=//fieldset[@id='fieldSet2']//legend");
+        Thread.sleep(2000);
+        assertEquals(getElementHeight("xpath=//fieldset[@id='fieldSet2']"), 50);
+    }
 }

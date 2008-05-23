@@ -64,6 +64,7 @@ public class Start
             new Item("FormaterDemo", "Formater", "tests Formater components"),
             new Item("ContainsDemo", "Contains", "tests Contains component"),
             new Item("EqualsDemo", "Equals", "tests Equals component"),
+            new Item("FieldSetDemo", "FieldSet", "tests FieldSet component"),
             new Item("DateTimeFieldDemo", "DateTimeField", "tests DateTimeField component")
     );
 
