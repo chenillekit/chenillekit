@@ -45,6 +45,11 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <scope>test</scope>
@@ -53,6 +58,11 @@
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-ioc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
         </dependency>
 
         <dependency>

@@ -12,13 +12,12 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.quartz.services.impl;
+package org.chenillekit.quartz;
 
-import org.chenillekit.quartz.AbstractIOCTest;
-import org.chenillekit.quartz.ChenilleKitQuartzModule;
 import org.chenillekit.quartz.services.QuartzSchedulerManager;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+import org.quartz.SchedulerException;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
@@ -29,12 +28,23 @@ public class TestSimpleJob extends AbstractIOCTest
     @BeforeSuite
     public final void setup_registry()
     {
-        super.setup_registry(ChenilleKitQuartzModule.class);
+        super.setup_registry(ChenilleKitQuartzTestModule.class);
     }
 
     @Test
-    public void test_simple_job()
+    public void test_simple_job() throws InterruptedException
     {
         QuartzSchedulerManager manager = getService(QuartzSchedulerManager.class);
+
+        Thread.sleep(2000);
+
+        try
+        {
+            assertTrue(manager.getScheduler().getMetaData().numJobsExecuted() > 2);
+        }
+        catch (SchedulerException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

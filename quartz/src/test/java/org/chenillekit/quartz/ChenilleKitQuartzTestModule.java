@@ -46,9 +46,7 @@ public class ChenilleKitQuartzTestModule
     public static void contributeQuartzSchedulerManager(OrderedConfiguration<JobSchedulingBundle> configuration)
     {
         JobDetail myTestDetail = new JobDetail("MyTestJob", "MyTestGroup", MyTestJob.class);
-        myTestDetail.getJobDataMap().put("exec_counter", 0l);
-
-        Trigger myTestTrigger = TriggerUtils.makeMinutelyTrigger();
+        Trigger myTestTrigger = TriggerUtils.makeSecondlyTrigger();
         myTestTrigger.setName("MyTestTrigger");
 
         configuration.add("MyFirstJob", new SimpleJobSchedulingBundleImpl(myTestDetail, myTestTrigger));

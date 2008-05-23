@@ -15,7 +15,6 @@
 package org.chenillekit.quartz;
 
 import org.quartz.Job;
-import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
@@ -27,9 +26,6 @@ public class MyTestJob implements Job
 {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException
     {
-        JobDataMap dataMap = jobExecutionContext.getJobDetail().getJobDataMap();
-
-        Long execCounter = (Long) dataMap.get("exec_counter");
-        System.err.println("Hello World: " + ++execCounter);
+        jobExecutionContext.setResult(String.format("Greetings from %s", this.getClass().getName()));
     }
 }
