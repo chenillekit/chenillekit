@@ -95,6 +95,7 @@
     </developers>
 
     <modules>
+        <module>quartz</module>
         <module>hivemind</module>
         <module>hibernate</module>
         <module>tapestry</module>
@@ -240,6 +241,12 @@
                 <version>1.8.0.4</version>
             </dependency>
 
+            <dependency>
+                <groupId>opensymphony</groupId>
+                <artifactId>quartz</artifactId>
+                <version>1.6.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -250,6 +257,17 @@
     -->
     <dependencies>
 
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-ioc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <classifier>jdk15</classifier>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
