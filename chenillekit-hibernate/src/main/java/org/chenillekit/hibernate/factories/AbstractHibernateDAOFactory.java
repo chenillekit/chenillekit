@@ -14,9 +14,8 @@
 
 package org.chenillekit.hibernate.factories;
 
-import org.apache.tapestry5.hibernate.HibernateSessionManager;
-
 import org.chenillekit.hibernate.daos.AbstractHibernateDAO;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 
 /**
@@ -28,11 +27,11 @@ import org.slf4j.Logger;
 public class AbstractHibernateDAOFactory extends AbstractDAOFactory
 {
     protected Logger _serviceLog;
-    protected HibernateSessionManager _sessionManager;
+    protected Session session;
 
-    public AbstractHibernateDAOFactory(Logger serviceLog, HibernateSessionManager sessionManager)
+    public AbstractHibernateDAOFactory(Logger serviceLog, Session session)
     {
-        _sessionManager = sessionManager;
+        this.session = session;
         _serviceLog = serviceLog;
     }
 
@@ -42,7 +41,7 @@ public class AbstractHibernateDAOFactory extends AbstractDAOFactory
         {
             AbstractHibernateDAO dao = (AbstractHibernateDAO) daoClass.newInstance();
             dao.setLogger(_serviceLog);
-            dao.setSessionManager(_sessionManager);
+            dao.setSession(session);
             return dao;
         }
         catch (Exception ex)

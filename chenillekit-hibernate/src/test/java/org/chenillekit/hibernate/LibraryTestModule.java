@@ -15,19 +15,17 @@
 package org.chenillekit.hibernate;
 
 import org.apache.tapestry5.hibernate.HibernateConfigurer;
-import org.apache.tapestry5.hibernate.HibernateSessionManager;
 import org.apache.tapestry5.internal.InternalConstants;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
-
-import org.hibernate.Interceptor;
-
 import org.chenillekit.hibernate.factories.GenericDAOFactory;
 import org.chenillekit.hibernate.factories.LibraryTestDAOFactory;
 import org.chenillekit.hibernate.interceptors.AuditInterceptor;
 import org.chenillekit.hibernate.services.impl.HibernateInterceptorConfigurer;
+import org.hibernate.Interceptor;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 
 /**
@@ -42,9 +40,9 @@ public class LibraryTestModule
         configuration.add(InternalConstants.TAPESTRY_APP_PACKAGE_PARAM, "only_testing");
     }
 
-    public static GenericDAOFactory buildLibraryTestDAOFactory(Logger serviceLog, HibernateSessionManager sessionManager)
+    public static GenericDAOFactory buildLibraryTestDAOFactory(Logger serviceLog, Session session)
     {
-        return new LibraryTestDAOFactory(serviceLog, sessionManager);
+        return new LibraryTestDAOFactory(serviceLog, session);
     }
 
     /**

@@ -18,18 +18,16 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.tapestry5.hibernate.HibernateSessionManager;
 import org.apache.tapestry5.ioc.internal.util.Defense;
-
+import org.chenillekit.hibernate.utils.QueryParameter;
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.type.Type;
-
-import org.chenillekit.hibernate.utils.QueryParameter;
 import org.slf4j.Logger;
 
 /**
@@ -42,7 +40,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
 {
     private Logger _logger;
     private Class<T> _persistentClass;
-    private HibernateSessionManager _hsm;
+    private Session session;
 
     @SuppressWarnings("unchecked")
     public AbstractHibernateDAO()
@@ -76,9 +74,9 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      *
      * @param hsm hibernate session manager.
      */
-    public void setSessionManager(HibernateSessionManager hsm)
+    public void setSession(Session session)
     {
-        _hsm = hsm;
+        this.session = session;
     }
 
     /**
@@ -86,7 +84,8 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public void commit()
     {
-        _hsm.commit();
+        session.getTransaction().commit();
+        session.getTransaction().begin();
     }
 
     /**
@@ -94,7 +93,8 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public void rollback()
     {
-        _hsm.abort();
+    	session.getTransaction().rollback();
+    	session.getTransaction().begin();
     }
 
     /**
@@ -118,7 +118,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public void flush()
     {
-        _hsm.getSession().flush();
+        session.flush();
     }
 
     /**
@@ -128,7 +128,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public void clear()
     {
-        _hsm.getSession().clear();
+        session.clear();
     }
 
     /**
@@ -141,7 +141,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     @SuppressWarnings("unchecked")
     protected List<T> findByCriteria(Criterion... criterions)
     {
-        Criteria crit = _hsm.getSession().createCriteria(getPersistentClass());
+        Criteria crit = session.createCriteria(getPersistentClass());
 
         for (Criterion c : criterions)
             crit.add(c);
@@ -174,9 +174,9 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
         Defense.notNull(id, "id");
 
         if (lock)
-            entity = (T) _hsm.getSession().load(getPersistentClass(), id, LockMode.UPGRADE);
+            entity = (T) session.load(getPersistentClass(), id, LockMode.UPGRADE);
         else
-            entity = (T) _hsm.getSession().load(getPersistentClass(), id);
+            entity = (T) session.load(getPersistentClass(), id);
 
         return entity;
     }
@@ -210,7 +210,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public List<T> findAll(String... sortFields)
     {
-        Criteria criteria = _hsm.getSession().createCriteria(getPersistentClass());
+        Criteria criteria = session.createCriteria(getPersistentClass());
 
         for (String sortField : sortFields)
             criteria.addOrder(Order.asc(sortField));
@@ -245,7 +245,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     @SuppressWarnings("unchecked")
     public List<T> findByQuery(String queryString, int offset, int limit, QueryParameter... parameters)
     {
-        Query query = _hsm.getSession().createQuery(queryString);
+        Query query = session.createQuery(queryString);
         for (QueryParameter parameter : parameters)
         {
             if (parameter.getParameterValue() instanceof Collection)
@@ -275,7 +275,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public List<T> findBySQLQuery(String queryString)
     {
-        SQLQuery sqlQuery = _hsm.getSession().createSQLQuery(queryString);
+        SQLQuery sqlQuery = session.createSQLQuery(queryString);
 
         if (_logger.isDebugEnabled())
             _logger.debug(sqlQuery.getQueryString());
@@ -295,7 +295,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     @SuppressWarnings("unchecked")
     public Object countByQuery(String queryString, QueryParameter... parameters)
     {
-        Query query = _hsm.getSession().createQuery(queryString);
+        Query query = session.createQuery(queryString);
         for (QueryParameter parameter : parameters)
         {
             if (parameter.getParameterValue() instanceof Collection)
@@ -317,7 +317,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public Object aggregateOrGroup(String queryString, QueryParameter... parameters)
     {
-        Query query = _hsm.getSession().createQuery(queryString);
+        Query query = session.createQuery(queryString);
         for (QueryParameter parameter : parameters)
         {
             if (parameter.getParameterValue() instanceof Collection)
@@ -362,7 +362,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     public T doSave(T entity)
     {
         preDoSave(entity);
-        _hsm.getSession().saveOrUpdate(entity);
+        session.saveOrUpdate(entity);
         postDoSave(entity);
 
         return entity;
@@ -400,7 +400,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     public void doDelete(T entity)
     {
         preDoDelete(entity);
-        _hsm.getSession().delete(entity);
+        session.delete(entity);
         postDoDelete(entity);
     }
 
@@ -443,7 +443,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public T doRefresh(T entity)
     {
-        _hsm.getSession().refresh(entity);
+        session.refresh(entity);
         return entity;
     }
 
@@ -454,7 +454,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public void enableFilter(String filterName)
     {
-        _hsm.getSession().enableFilter(filterName);
+        session.enableFilter(filterName);
     }
 
     /**
@@ -464,6 +464,6 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public void disableFilter(String filterName)
     {
-        _hsm.getSession().disableFilter(filterName);
+        session.disableFilter(filterName);
     }
 }

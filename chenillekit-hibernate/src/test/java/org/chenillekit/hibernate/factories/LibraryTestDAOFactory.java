@@ -14,12 +14,11 @@
 
 package org.chenillekit.hibernate.factories;
 
-import org.apache.tapestry5.hibernate.HibernateSessionManager;
-
 import org.chenillekit.hibernate.daos.AddressDAO;
 import org.chenillekit.hibernate.daos.AddressDAOHibernate;
 import org.chenillekit.hibernate.daos.UserDAO;
 import org.chenillekit.hibernate.daos.UserDAOHibernate;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 
 /**
@@ -30,9 +29,9 @@ import org.slf4j.Logger;
  */
 public class LibraryTestDAOFactory extends AbstractHibernateDAOFactory
 {
-    public LibraryTestDAOFactory(Logger serviceLog, HibernateSessionManager sessionManager)
+    public LibraryTestDAOFactory(Logger serviceLog, Session session)
     {
-        super(serviceLog, sessionManager);
+        super(serviceLog, session);
     }
 
     public UserDAO getUserDAO()
