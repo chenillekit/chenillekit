@@ -14,22 +14,10 @@
 
 package org.chenillekit.tapestry.core.components;
 
-import java.util.Locale;
-
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.Translator;
-import org.apache.tapestry5.ValidationException;
-import org.apache.tapestry5.ValidationTracker;
-import org.apache.tapestry5.annotations.AfterRender;
-import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.Parameter;
-import org.apache.tapestry5.corelib.base.AbstractField;
-import org.apache.tapestry5.ioc.Messages;
+import org.apache.tapestry5.corelib.base.AbstractTextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.ComponentDefaultProvider;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.ValidationMessagesSource;
 
 /**
  * place a hidden field into a form.
@@ -37,102 +25,34 @@ import org.apache.tapestry5.services.ValidationMessagesSource;
  * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
-public class Hidden extends AbstractField
+public class Hidden extends AbstractTextField
 {
     @Inject
-    private ComponentResources _resources;
-
-    @Inject
-    private Request _request;
-
-    @Inject
-    private ValidationMessagesSource _messagesSource;
-
-    @Inject
-    private Locale _locale;
-
-    @Environmental
-    private ValidationTracker _tracker;
+    private ComponentResources resources;
 
     /**
-     * The object which will perform translation between server-side and client-side
-     * representations. If not specified, a value will usually be generated based on the type of the
-     * value parameter.
+     * Invoked from {@link #begin(org.apache.tapestry5.MarkupWriter)} to write out the element and attributes (typically, &lt;input&gt;). The
+     * {@linkplain org.apache.tapestry5.corelib.base.AbstractField#getControlName() controlName} and {@linkplain org.apache.tapestry5.corelib.base.AbstractField#getClientId() clientId}
+     * properties will already have been set or updated.
+     * <p/>
+     * Generally, the subclass will invoke {@link org.apache.tapestry5.MarkupWriter#element(String, Object[])}, and will be responsible for
+     * including an {@link org.apache.tapestry5.annotations.AfterRender} phase method to invoke {@link org.apache.tapestry5.MarkupWriter#end()}.
+     *
+     * @param writer markup write to send output to
+     * @param value  the value (either obtained and translated from the value parameter, or obtained from the tracker)
      */
-    @Parameter
-    private Translator _translate;
-
-    /**
-     * The value to read or update.
-     */
-    @Parameter(required = true)
-    private Object _value;
-
-    @Inject
-    private ComponentDefaultProvider _defaultProvider;
-
-    /**
-     * Computes a default value for the "translate" parameter using {@link org.apache.tapestry5.services.ComponentDefaultProvider#defaultTranslator(String,
-     * org.apache.tapestry5.ComponentResources)}.
-     */
-    final Translator defaultTranslate()
+    protected void writeFieldTag(MarkupWriter writer, String value)
     {
-        return _defaultProvider.defaultTranslator("value", _resources);
-    }
-
-    void beginRender(MarkupWriter writer)
-    {
-        if (_translate == null)
-            _translate = defaultTranslate();
-
-        if (_value == null)
-            _value = "";
+        if (value == null)
+            value = "";
 
         writer.element("input", "type", "hidden",
                        "id", getClientId(),
                        "name", getControlName(),
-                       "value", _value);
+                       "value", value);
 
-        _resources.renderInformalParameters(writer);
-    }
+        resources.renderInformalParameters(writer);
 
-    @AfterRender
-    void doAfterRender(MarkupWriter writer)
-    {
         writer.end();
-    }
-
-    public Object getValue()
-    {
-        return _value;
-    }
-
-    public void setValue(Object value)
-    {
-        _value = value;
-    }
-
-    /**
-     * Method implemented by subclasses to actually do the work of processing the submission of the
-     * form. The element's elementName property will already have been set. This method is only
-     * invoked if the field is <strong>not {@link #isDisabled() disabled}</strong>.
-     *
-     * @param elementName the name of the element (used to find the correct parameter in the request)
-     */
-    @Override
-    protected void processSubmission(String elementName)
-    {
-        String rawValue = _request.getParameter(elementName);
-
-        Messages messages = _messagesSource.getValidationMessages(_locale);
-
-        try
-        {
-            _value = _translate.parseClient(rawValue, messages);
-        }
-        catch (ValidationException ex)
-        {
-            _tracker.recordError(this, ex.getMessage());
-        }
     }
 }

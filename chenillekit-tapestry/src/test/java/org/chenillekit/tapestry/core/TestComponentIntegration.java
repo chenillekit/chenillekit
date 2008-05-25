@@ -135,4 +135,24 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
 
         assertEquals(getText("xpath=//strong[@id='element']"), "BlaBla");
     }
+
+    @Test
+    public void test_hidden() throws InterruptedException
+    {
+        open(BASE_URL);
+
+        start("Hidden");
+        waitForPageToLoad("5000");
+
+        this.runScript("document.form.hidden1.value = 'BlaBla';");
+        this.runScript("document.form.hidden2.value = '200';");
+        this.runScript("document.form.hidden3.value = '200.12';");
+        submit("xpath=//form[@id='form']");
+
+        waitForPageToLoad("5000");
+
+        assertEquals(getText("xpath=//strong[@id='hiddenResult1']"), "BlaBla");
+        assertEquals(getText("xpath=//strong[@id='hiddenResult2']"), "200");
+        assertEquals(getText("xpath=//strong[@id='hiddenResult3']"), "200.12");
+    }
 }
