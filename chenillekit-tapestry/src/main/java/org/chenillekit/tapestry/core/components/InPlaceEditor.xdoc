@@ -1,0 +1,57 @@
+<document>
+    <body>
+
+        <section name="Examples">
+
+            <p>
+                this sample describe the implementation of the InPlaceEditor in a grid component.
+            </p>
+
+            <subsection name="MyPage.java">
+
+                this is a sample code sequence of the page class
+
+                <source>
+                    <![CDATA[
+
+    @Component(parameters = {"source=trackList", "row=track", "model=beanModel"})
+    private Grid _grid;
+
+    @Component(parameters = {"value=track.title", "context=track.id", "size=30"})
+    private InPlaceEditor _inPlaceEditor;
+
+    void pageLoaded()
+    {
+        _beanModel = _beanModelSource.create(Track.class, false, _resources);
+        _beanModel.exclude("genre", "playCount", "rating", "album");
+        _trackList = _musicLibrary.getTracks();
+    }
+
+    @OnEvent(component = "inPlaceEditor", value = InPlaceEditor.SAVE_EVENT)
+    void actionFromEditor(Long rackId, String titleValue)
+    {
+        Track track = _musicLibrary.getById(rackId);
+        track.setTitle(titleValue);
+    }
+]]>
+                </source>
+            </subsection>
+
+            <subsection name="MyPage.tml">
+
+                this is a sample code sequence of the page template
+
+                <source>
+                    <![CDATA[
+    <div t:id="grid">
+        <t:parameter name="titleCell">
+            <div t:id="inPlaceEditor" size="20"/>
+        </t:parameter>
+    </div>
+]]>
+                </source>
+            </subsection>
+
+        </section>
+    </body>
+</document>

@@ -155,4 +155,23 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertEquals(getText("xpath=//strong[@id='hiddenResult2']"), "200");
         assertEquals(getText("xpath=//strong[@id='hiddenResult3']"), "200.12");
     }
+
+    @Test
+    public void test_inplace() throws InterruptedException
+    {
+        open(BASE_URL);
+
+        start("InPlace");
+        waitForPageToLoad("5000");
+
+        click("xpath=//input[@id='inPlaceCheckbox']");
+//        click("xpath=//span[@id='inPlaceEditor']");
+//        type("xpath=//form[@id='inPlaceEditor-inplaceeditor']//input", "BlaBla");
+//        Thread.sleep(5000);
+//        click("xpath=//form[@id='inPlaceEditor-inplaceeditor']//input[@class='editor_ok_button']");
+        Thread.sleep(1000);
+
+        assertEquals(getText("xpath=//strong[@id='inPlaceCheckboxValue']"), "checked");
+//        assertEquals(getText("xpath=//span[@id='inPlaceEditor']"), "BlaBla");
+    }
 }
