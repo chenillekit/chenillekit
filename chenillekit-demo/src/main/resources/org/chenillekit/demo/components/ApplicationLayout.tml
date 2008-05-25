@@ -32,7 +32,7 @@
         Header
     </div>
     <div id="bd">
-        Body
+        <t:body/>
     </div>
     <div id="ft">
         Footer

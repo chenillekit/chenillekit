@@ -36,7 +36,7 @@ import org.chenillekit.tapestry.core.utils.XYDataItem;
  * @version $Id$
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"org/chenillekit/tapestry/core/chart/excanvas.js",
+@IncludeJavaScriptLibrary(value = {"${ck.components}/excanvas.js",
         "${ck.components}/chart/flotr.debug-0.1.0alpha.js"})
 public class Chart implements ClientElement
 {
