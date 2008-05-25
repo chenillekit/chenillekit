@@ -10,15 +10,15 @@
   ~ You may obtain a copy of the License at
   ~
   ~ http://www.apache.org/licenses/LICENSE-2.0
-  ~
   -->
+
 <document>
     <body>
 
         <section name="Examples">
 
             <p>
-                This example describe how to use the TrimmedString component.
+                This example describe how to use the Remove component.
             </p>
 
             <subsection name="MyPage.tml">
@@ -28,25 +28,10 @@
     <body>
         <h1>Hello Guys and Dolls</h1>
 
-        <p>
-            trimmed string at position 20
-            <br/>
-            <span t:type="ck/TrimmedString"
-                    value="literal:this ist a very long test string"/>
-        </p>
-
-        <p>
-            trimmed string at position 10
-            <br/>
-            <span t:type="ck/TrimmedString" maxLength="10"
-                    value="literal:this ist a very long test string"/>
-        </p>
-        <p>
-            trimmed string at position 20 (left side)
-            <br/>
-            <span t:type="ck/TrimmedString" maxLength="20"
-                    value="literal:this ist a very long test string" trimPos="left"/>
-        </p>
+            <span t:type="ck/Remove">
+                Tapestry removes all content inside the remove component.
+                This is good for developer comments or other development issues.
+            </div>
     </body>
 </html>
 ]]>

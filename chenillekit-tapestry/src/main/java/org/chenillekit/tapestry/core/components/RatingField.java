@@ -1,0 +1,207 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2008 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+package org.chenillekit.tapestry.core.components;
+
+import java.util.List;
+
+import org.apache.tapestry5.Asset;
+import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.MarkupWriter;
+import org.apache.tapestry5.RenderSupport;
+import org.apache.tapestry5.ValueEncoder;
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Path;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.base.AbstractField;
+import org.apache.tapestry5.corelib.components.Label;
+import org.apache.tapestry5.corelib.components.Loop;
+import org.apache.tapestry5.corelib.components.Radio;
+import org.apache.tapestry5.corelib.components.RadioGroup;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.services.PropertyAccess;
+import org.apache.tapestry5.services.Environment;
+
+import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
+
+
+/**
+ * This component provides the ability to associate a RadioGroup and its
+ * subordinate Radio fields with a set of values displayed as a rating scale.
+ * This is typified by the "star field" where grayed stars represent the choices
+ * and highlighted stars represent the chosen value and all values up to the
+ * chosen value from left to right.
+ * <p/>
+ * This is in fact that default visual appearance. However, the images can be
+ * overridden via parameters and the entire component can, of course, be styled
+ * via CSS.
+ * <p/>
+ * As an added benefit, since the underlying representation is simply a
+ * RadioGroup with Radio fields it should degrade well when JS and/or CSS is
+ * disabled. This should keep the component rather accessible.
+ * <p/>
+ * By default the first value display image will be hidden as this typically
+ * will indicate no value.
+ *
+ * @author Tod Orr
+ * @version $Id$
+ */
+@IncludeJavaScriptLibrary(value = {"Rating.js"})
+@IncludeStylesheet(value = {"Rating.css"})
+public class RatingField<T> extends AbstractField
+{
+    /**
+     * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
+     * times, a suffix will be appended to the to id to ensure uniqueness. The uniqued value may be accessed via the
+     * {@link #getClientId() clientId property}.
+     */
+    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+    private String _clientId;
+
+    /**
+     * The value to read or update.
+     */
+    @Parameter(required = true)
+    @Property
+    private T _value;
+
+    /**
+     * the rateable value list.
+     */
+    @Parameter(required = true)
+    @Property
+    private List<T> _source;
+
+    /**
+     * Encoder used to translate between server-side objects
+     * and client-side strings.
+     */
+    @Parameter
+    private ValueEncoder _encoder;
+
+    /**
+     * the optional Selected-Image
+     */
+    @Parameter(required = false)
+    private Asset _selectedImage;
+
+    /**
+     * the optional UnSelected-Image
+     */
+    @Parameter(required = false)
+    private Asset _unselectedImage;
+
+    @Inject
+    @Path("rating_default_selected.gif")
+    private Asset _defaultSelectedImage;
+
+    @Inject
+    @Path("rating_default_unselected.gif")
+    private Asset _defaultUnselectedImage;
+
+    @Inject
+    private Environment _environment;
+
+    @Inject
+    private RenderSupport _pageRenderSupport;
+
+    @Inject
+    private ComponentResources _componentResources;
+
+    @Inject
+    private PropertyAccess _propertyAccess;
+
+    @Component(parameters = {"value=prop:value", "encoder=encoder"})
+    private RadioGroup _radioGroup;
+
+    @Component(parameters = {"source=prop:source", "value=loopValue"})
+    private Loop _loop;
+
+    @Property
+    private T _loopValue;
+
+    @Component(parameters = {"value=loopValue", "label=prop:radioLabel"})
+    private Radio _radio;
+
+    @Component(parameters = {"for=radio"})
+    private Label _label;
+
+    /**
+     * Returns the image representing an unselected value.
+     *
+     * @return
+     */
+    public Asset getUnselectedImage()
+    {
+        return (_unselectedImage == null) ? _defaultUnselectedImage : _unselectedImage;
+    }
+
+    /**
+     * Returns the image representing a selected value.
+     *
+     * @return
+     */
+    public Asset getSelectedImage()
+    {
+        return _selectedImage == null ? _defaultSelectedImage : _selectedImage;
+    }
+
+    /**
+     * Returns an appropriate ValueEncoder implementation based on the value
+     * type.
+     *
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public ValueEncoder getEncoder()
+    {
+        if (_encoder == null)
+            _encoder = new GenericValueEncoder(_source);
+
+        return _encoder;
+    }
+
+    /**
+     * Returns a reasonable label for the radio value. If the value is primitive
+     * it will be returned as is. Otherwise the toString() method will be called
+     * on the value object.
+     *
+     * @return
+     */
+    public String getRadioLabel()
+    {
+        return _loopValue.toString();
+    }
+
+    /**
+     * Method implemented by subclasses to actually do the work of processing the submission of the form. The element's
+     * elementName property will already have been set. This method is only invoked if the field is <strong>not {@link
+     * #isDisabled() disabled}</strong>.
+     *
+     * @param elementName the name of the element (used to find the correct parameter in the request)
+     */
+    protected void processSubmission(String elementName)
+    {
+    }
+
+    public void afterRender(MarkupWriter writer)
+    {
+        _pageRenderSupport.addScript("new RatingField('%s', '%s', '%s');", _clientId,
+                                     getSelectedImage().toClientURL(), getUnselectedImage().toClientURL());
+    }
+}
