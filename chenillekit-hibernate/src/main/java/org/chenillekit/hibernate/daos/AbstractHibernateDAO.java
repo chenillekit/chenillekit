@@ -18,7 +18,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.chenillekit.hibernate.utils.QueryParameter;
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
@@ -65,7 +64,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public Logger getLogger()
     {
-        Defense.notNull(_logger, "logger");
+        if(_logger == null) throw new IllegalArgumentException("Member logger was null!");
         return _logger;
     }
 
@@ -171,7 +170,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     public T doRetrieve(ID id, boolean lock)
     {
         T entity;
-        Defense.notNull(id, "id");
+        if(id == null) throw new IllegalArgumentException("Parameter id was null!");
 
         if (lock)
             entity = (T) session.load(getPersistentClass(), id, LockMode.UPGRADE);

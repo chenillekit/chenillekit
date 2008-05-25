@@ -17,8 +17,6 @@ package org.chenillekit.hibernate.factories;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.tapestry5.ioc.internal.util.Defense;
-
 import org.chenillekit.hibernate.daos.GenericDAO;
 
 /**
@@ -69,7 +67,7 @@ public abstract class AbstractDAOFactory implements GenericDAOFactory
 
     private String getShortClassName(Class clasz)
     {
-        Defense.notNull(clasz, "clasz");
+        if(clasz == null) throw new IllegalArgumentException("Parameter clasz was null!");
         String className = clasz.getName();
 
         int lastPointPos = className.lastIndexOf('.');
