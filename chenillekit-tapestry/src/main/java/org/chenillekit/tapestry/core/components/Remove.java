@@ -1,14 +1,18 @@
 /*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
  *
- *  Copyright (c) 2007 homburg Softwaretechnik
- *                       All Rights Reserved.
+ * Copyright 2008 by chenillekit.org
  *
- *  Permission to use, copy, modify, and distribute this software and its
- *  documentation for any purpose, without fee, and without a written
- *  agreement, is not allowed.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
+ * http://www.apache.org/licenses/LICENSE-2.0
  */
-package org.apache.tapestry.commons.components;
+
+package org.chenillekit.tapestry.core.components;
 
 /**
  * removes all its content of compoments body.
