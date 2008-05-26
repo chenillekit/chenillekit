@@ -41,7 +41,7 @@ import org.chenillekit.tapestry.core.base.AbstractAjaxField;
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "InPlaceCheckbox.js"})
 public class InPlaceCheckbox extends AbstractAjaxField
 {
-    public static final String EVENT_NAME = "clicked";
+    public static final String EVENT_NAME = "checkboxclicked";
 
     @Inject
     private Request request;
