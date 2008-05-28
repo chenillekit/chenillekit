@@ -34,7 +34,7 @@ import org.apache.tapestry5.services.Environment;
  * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id: Tooltip.java 682 2008-05-20 22:00:02Z homburgs $
  */
-@IncludeJavaScriptLibrary(value = {"Tooltip.js"})
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "Tooltip.js"})
 @IncludeStylesheet(value = {"Tooltip.css"})
 public class Tooltip
 {

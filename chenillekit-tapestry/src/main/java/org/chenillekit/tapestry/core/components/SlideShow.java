@@ -14,9 +14,9 @@
 
 package org.chenillekit.tapestry.core.components;
 
+import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
@@ -31,7 +31,7 @@ import org.apache.tapestry5.json.JSONObject;
  * @author Chris Lewis Nov 8, 2007 <chris@thegodcode.net>
  * @version $Id: SlideShow.java 682 2008-05-20 22:00:02Z homburgs $
  */
-@IncludeJavaScriptLibrary("SlideShow.js")
+@IncludeJavaScriptLibrary({"../Chenillekit.js", "SlideShow.js"})
 @IncludeStylesheet("SlideShow.css")
 public class SlideShow implements ClientElement
 {

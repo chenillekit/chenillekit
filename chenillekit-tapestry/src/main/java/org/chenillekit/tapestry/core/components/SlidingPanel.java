@@ -35,7 +35,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
  * @version $Id: SlidingPanel.java 682 2008-05-20 22:00:02Z homburgs $
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"SlidingPanel.js"})
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "SlidingPanel.js"})
 @IncludeStylesheet(value = {"SlidingPanel.css"})
 public class SlidingPanel implements ClientElement
 {

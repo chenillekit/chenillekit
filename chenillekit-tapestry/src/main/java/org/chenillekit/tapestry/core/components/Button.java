@@ -37,7 +37,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
  * @version $Id: Button.java 682 2008-05-20 22:00:02Z homburgs $
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"${commons.scripts}/T5COnEvents.js"})
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "CkOnEvents.js"})
 public class Button implements ClientElement
 {
     static final String CLICKED_EVENT = "clicked";
