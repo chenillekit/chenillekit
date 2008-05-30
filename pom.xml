@@ -90,7 +90,7 @@
             <roles>
                 <role>committer</role>
             </roles>
-            <timezone>+1</timezone>
+            <timezone>-5</timezone>
         </developer>
     </developers>
 
