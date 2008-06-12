@@ -3,12 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <properties>
-        <tapestry-release-version>5.0.12-SNAPSHOT</tapestry-release-version>
+        <tapestry-release-version>5.0.14-SNAPSHOT</tapestry-release-version>
         <update-release-info>false</update-release-info>
         <cobertura-plugin-version>2.2</cobertura-plugin-version>
-        <hibernate-release-version>3.2.6.ga</hibernate-release-version>
-        <hibernate-ann-release-version>3.3.0.ga</hibernate-ann-release-version>
-        <jta-release-version>1.1</jta-release-version>
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
@@ -99,6 +96,7 @@
         <module>chenillekit-hivemind</module>
         <module>chenillekit-hibernate</module>
         <module>chenillekit-tapestry</module>
+        <module>chenillekit-lucene</module>
         <module>chenillekit-demo</module>
     </modules>
 
@@ -209,7 +207,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate</artifactId>
-                <version>${hibernate-release-version}</version>
+                <version>3.2.6.ga</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.transaction</groupId>
@@ -221,19 +219,19 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-annotations</artifactId>
-                <version>${hibernate-ann-release-version}</version>
+                <version>3.3.1.GA</version>
             </dependency>
 
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-commons-annotations</artifactId>
-                <version>${hibernate-ann-release-version}</version>
+                <version>3.3.0.ga</version>
             </dependency>
 
             <dependency>
                 <groupId>javax.transaction</groupId>
                 <artifactId>jta</artifactId>
-                <version>${jta-release-version}</version>
+                <version>1.1</version>
             </dependency>
 
             <dependency>
@@ -442,15 +440,15 @@
         </plugins>
     </reporting>
 
-    <distributionManagement>
+    <!--<distributionManagement>-->
 
-        <site>
-            <id>site-domain</id>
-            <name>Site Host</name>
-            <url>scp://www.chenillekit.org/</url>
-        </site>
+        <!--<site>-->
+            <!--<id>site-domain</id>-->
+            <!--<name>Site Host</name>-->
+            <!--<url>scp://www.chenillekit.org/</url>-->
+        <!--</site>-->
 
-    </distributionManagement>
+    <!--</distributionManagement>-->
 
     <profiles>
         <profile>
@@ -504,6 +502,11 @@
     </profiles>
 
     <repositories>
+        <repository>
+            <id>jboss</id>
+            <name>JBoss Maven repository</name>
+            <url>http://repository.jboss.org/maven2/</url>
+        </repository>
         <repository>
             <id>tapestry</id>
             <url>http://tapestry.formos.com/maven-repository</url>

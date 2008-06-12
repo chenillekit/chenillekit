@@ -97,9 +97,7 @@ public class HashMapBlobType implements UserType
         if (value == null)
             return null;
 
-        HashMap<Object, Object> tmpValue = new HashMap<Object, Object>((HashMap<Object, Object>) value);
-
-        return tmpValue;
+        return new HashMap<Object, Object>((HashMap<Object, Object>) value);
     }
 
     public boolean isMutable()

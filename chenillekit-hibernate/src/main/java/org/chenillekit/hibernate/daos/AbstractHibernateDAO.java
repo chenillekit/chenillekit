@@ -18,7 +18,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.chenillekit.hibernate.utils.QueryParameter;
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
@@ -27,6 +26,8 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.type.Type;
+
+import org.chenillekit.hibernate.utils.QueryParameter;
 import org.slf4j.Logger;
 
 /**
@@ -64,14 +65,14 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public Logger getLogger()
     {
-        if(_logger == null) throw new IllegalArgumentException("Member logger was null!");
+        if (_logger == null) throw new IllegalArgumentException("Member logger was null!");
         return _logger;
     }
 
     /**
      * set hibernate session manager.
      *
-     * @param hsm hibernate session manager.
+     * @param session hibernate session manager.
      */
     public void setSession(Session session)
     {
@@ -92,8 +93,8 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public void rollback()
     {
-    	session.getTransaction().rollback();
-    	session.getTransaction().begin();
+        session.getTransaction().rollback();
+        session.getTransaction().begin();
     }
 
     /**
@@ -109,7 +110,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     /**
      * Force this session to flush. Must be called at the end of a
      * unit of work, before commiting the transaction and closing the
-     * session (depending on {@link #setFlushMode flush-mode},
+     * session,
      * {@link org.hibernate.Transaction#commit()} calls this method).
      * <p/>
      * <i>Flushing</i> is the process of synchronizing the underlying persistent
@@ -170,7 +171,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     public T doRetrieve(ID id, boolean lock)
     {
         T entity;
-        if(id == null) throw new IllegalArgumentException("Parameter id was null!");
+        if (id == null) throw new IllegalArgumentException("Parameter id was null!");
 
         if (lock)
             entity = (T) session.load(getPersistentClass(), id, LockMode.UPGRADE);
@@ -207,6 +208,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      *
      * @return all entities
      */
+    @SuppressWarnings("unchecked")
     public List<T> findAll(String... sortFields)
     {
         Criteria criteria = session.createCriteria(getPersistentClass());
@@ -272,6 +274,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      *
      * @return list of entities
      */
+    @SuppressWarnings("unchecked")
     public List<T> findBySQLQuery(String queryString)
     {
         SQLQuery sqlQuery = session.createSQLQuery(queryString);
@@ -347,7 +350,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     }
 
     /**
-     * Either {@link #save(Object)} or {@link #update(Object)} the given
+     * Either save or update the given
      * instance, depending upon resolution of the unsaved-value checks (see the
      * manual for discussion of unsaved-value checking).
      * <p/>
