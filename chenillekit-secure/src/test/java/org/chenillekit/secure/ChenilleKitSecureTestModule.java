@@ -14,10 +14,13 @@
 
 package org.chenillekit.secure;
 
+import org.apache.tapestry5.ioc.annotations.SubModule;
+
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class ChenilleKitSecureModule
+@SubModule(value = {ChenilleKitSecureModule.class})
+public class ChenilleKitSecureTestModule
 {
 }
