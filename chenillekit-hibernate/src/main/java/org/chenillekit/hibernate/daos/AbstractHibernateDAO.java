@@ -38,63 +38,16 @@ import org.slf4j.Logger;
  */
 public abstract class AbstractHibernateDAO<T, ID extends Serializable> implements GenericDAO<T, ID>
 {
-    private Logger _logger;
+    private Logger logger;
     private Class<T> _persistentClass;
     private Session session;
 
     @SuppressWarnings("unchecked")
-    public AbstractHibernateDAO()
+    public AbstractHibernateDAO(Logger logger, Session session)
     {
-        _persistentClass = (Class<T>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    }
-
-    /**
-     * set the logging facility.
-     *
-     * @param logger logging facility
-     */
-    public void setLogger(Logger logger)
-    {
-        _logger = logger;
-    }
-
-    /**
-     * get the logging facility.
-     *
-     * @return logging facility
-     */
-    public Logger getLogger()
-    {
-        if (_logger == null) throw new IllegalArgumentException("Member logger was null!");
-        return _logger;
-    }
-
-    /**
-     * set hibernate session manager.
-     *
-     * @param session hibernate session manager.
-     */
-    public void setSession(Session session)
-    {
+        this.logger = logger;
         this.session = session;
-    }
-
-    /**
-     * commit all database changes.
-     */
-    public void commit()
-    {
-        session.getTransaction().commit();
-        session.getTransaction().begin();
-    }
-
-    /**
-     * rollback all database changes.
-     */
-    public void rollback()
-    {
-        session.getTransaction().rollback();
-        session.getTransaction().begin();
+        _persistentClass = (Class<T>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     /**
@@ -105,30 +58,6 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     public Class<T> getPersistentClass()
     {
         return _persistentClass;
-    }
-
-    /**
-     * Force this session to flush. Must be called at the end of a
-     * unit of work, before commiting the transaction and closing the
-     * session,
-     * {@link org.hibernate.Transaction#commit()} calls this method).
-     * <p/>
-     * <i>Flushing</i> is the process of synchronizing the underlying persistent
-     * store with persistable state held in memory.
-     */
-    public void flush()
-    {
-        session.flush();
-    }
-
-    /**
-     * Completely clear the session. Evict all loaded instances and cancel all pending
-     * saves, updates and deletions. Do not close open iterators or instances of
-     * <tt>ScrollableResults</tt>.
-     */
-    public void clear()
-    {
-        session.clear();
     }
 
     /**
@@ -261,8 +190,8 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
         if (offset > 0)
             query.setFirstResult(offset);
 
-        if (_logger.isDebugEnabled())
-            _logger.debug(query.getQueryString());
+        if (logger.isDebugEnabled())
+            logger.debug(query.getQueryString());
 
         return query.list();
     }
@@ -279,8 +208,8 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     {
         SQLQuery sqlQuery = session.createSQLQuery(queryString);
 
-        if (_logger.isDebugEnabled())
-            _logger.debug(sqlQuery.getQueryString());
+        if (logger.isDebugEnabled())
+            logger.debug(sqlQuery.getQueryString());
 
         return sqlQuery.list();
     }

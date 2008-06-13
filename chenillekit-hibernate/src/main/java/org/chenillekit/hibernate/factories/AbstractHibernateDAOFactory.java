@@ -14,8 +14,11 @@
 
 package org.chenillekit.hibernate.factories;
 
-import org.chenillekit.hibernate.daos.AbstractHibernateDAO;
+import java.lang.reflect.Constructor;
+
 import org.hibernate.Session;
+
+import org.chenillekit.hibernate.daos.AbstractHibernateDAO;
 import org.slf4j.Logger;
 
 /**
@@ -26,27 +29,25 @@ import org.slf4j.Logger;
  */
 public class AbstractHibernateDAOFactory extends AbstractDAOFactory
 {
-    protected Logger _serviceLog;
+    protected Logger logger;
     protected Session session;
 
-    public AbstractHibernateDAOFactory(Logger serviceLog, Session session)
+    public AbstractHibernateDAOFactory(final Logger logger, final Session session)
     {
+        this.logger = logger;
         this.session = session;
-        _serviceLog = serviceLog;
     }
 
     protected AbstractHibernateDAO instantiateDAO(Class daoClass)
     {
         try
         {
-            AbstractHibernateDAO dao = (AbstractHibernateDAO) daoClass.newInstance();
-            dao.setLogger(_serviceLog);
-            dao.setSession(session);
-            return dao;
+            Constructor constructor = daoClass.getConstructor(Logger.class, Session.class);
+            return (AbstractHibernateDAO) constructor.newInstance(logger, session);
         }
         catch (Exception ex)
         {
-            throw new RuntimeException("Can not instantiate DAO: " + daoClass, ex);
+            throw new RuntimeException("cant create DAO: " + daoClass, ex);
         }
     }
 }

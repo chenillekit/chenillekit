@@ -14,7 +14,10 @@
 
 package org.chenillekit.hibernate.daos;
 
+import org.hibernate.Session;
+
 import org.chenillekit.hibernate.entities.User;
+import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
@@ -22,4 +25,8 @@ import org.chenillekit.hibernate.entities.User;
  */
 public class UserDAOHibernate extends AbstractHibernateDAO<User, Long> implements UserDAO
 {
+    public UserDAOHibernate(Logger logger, Session session)
+    {
+        super(logger, session);
+    }
 }

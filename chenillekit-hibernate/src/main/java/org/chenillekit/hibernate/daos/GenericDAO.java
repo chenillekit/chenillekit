@@ -18,8 +18,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.chenillekit.hibernate.utils.QueryParameter;
-import org.slf4j.Logger;
-
 
 /**
  * a generic data access object.
@@ -30,36 +28,11 @@ import org.slf4j.Logger;
 public interface GenericDAO<T, ID extends Serializable>
 {
     /**
-     * set the logging facility.
-     *
-     * @param logger logging facility
-     */
-    void setLogger(Logger logger);
-
-    /**
-     * get the logging facility.
-     *
-     * @return logging facility
-     */
-    Logger getLogger();
-
-    /**
      * get class type of entity.
      *
      * @return class type
      */
     Class<T> getPersistentClass();
-
-
-    /**
-     * commit all database changes.
-     */
-    void commit();
-
-    /**
-     * rollback all database changes.
-     */
-    void rollback();
 
     /**
      * retrieve all entities.
