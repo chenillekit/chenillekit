@@ -13,7 +13,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>Chenillekit Hibernate Module</name>
+    <name>Chenillekit Hibernate</name>
+    <version>0.0.1-SNAPSHOT</version>
     <description>
         A collection of hibernate related utils
     </description>
@@ -114,9 +115,41 @@
 
         <plugins>
 
+            <!--
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            + build the module site
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <!-- Snapshots after this are broken. %#%#%$#@% Maven. TAPESTRY-1943 -->
+                <version>2.0-beta-5</version>
+                <configuration>
+                    <templateFile>${basedir}/../src/site/maven-site.vm</templateFile>
+                    <stagingDirectory>${basedir}/../target/staging</stagingDirectory>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <compress>true</compress>
+                        <index>true</index>
+                        <manifestEntries>
+                            <Implementation-Version>
+                                ${project.version}
+                            </Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
 
         </plugins>
