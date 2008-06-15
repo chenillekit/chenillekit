@@ -32,12 +32,12 @@ public class LuceneSearcherServiceTest extends AbstractTestSuite
     public void query_records() throws IOException
     {
         SearcherService service = registry.getService(SearcherService.class);
-        Hits hits = (Hits) service.search("name", "Sven OR Lusetti");
+        Hits hits = (Hits) service.search("content", "manufacturers OR \"British Government Warehouse\"");
         Iterator<Hit> hitsIterator = hits.iterator();
         while (hitsIterator.hasNext())
         {
             Hit hit = hitsIterator.next();
-            System.err.println(String.format("%f - %f - %s", hit.getBoost(), hit.getScore(), hit.getDocument().get("name")));
+            System.err.println(String.format("%f - %f - %s", hit.getBoost(), hit.getScore(), hit.getDocument().get("filename")));
         }
 
         assertEquals(hits.length(), 2);
