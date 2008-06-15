@@ -13,7 +13,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>hibernate related module</name>
+    <name>Chenillekit Hibernate Module</name>
     <description>
         A collection of hibernate related utils
     </description>

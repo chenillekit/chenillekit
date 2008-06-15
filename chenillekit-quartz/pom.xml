@@ -13,7 +13,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>hibernate related module</name>
+    <name>Chenillekit Quartz Module</name>
     <description>
         A collection of quartz related utils
     </description>

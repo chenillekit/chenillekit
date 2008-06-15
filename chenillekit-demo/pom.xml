@@ -13,7 +13,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>tapestry web module</name>
+    <name>Chenillekit Tapestry Web Demo</name>
     <description>
         a demo application
     </description>

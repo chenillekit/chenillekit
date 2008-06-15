@@ -13,7 +13,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>hivemind related module</name>
+    <name>Chenillekit Hivemind Module</name>
     <description>
         A collection of hivemind related utils
     </description>

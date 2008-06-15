@@ -13,7 +13,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>tapestry web module</name>
+    <name>Chenillekit Tapestry Module</name>
     <description>
         A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
         and many more ...
