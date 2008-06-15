@@ -13,7 +13,6 @@
  */
 package org.chenillekit.lucene.services;
 
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 
 /**
@@ -22,7 +21,7 @@ import org.apache.lucene.index.IndexWriter;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public interface IndexerService
+public interface IndexerService<T>
 {
     public final String CONFIG_KEY_PROPERTIES = "lucene.properties";
     public final String PROPERTIES_KEY_IF = "search.index.folder";
@@ -42,7 +41,7 @@ public interface IndexerService
      *
      * @param document
      */
-    void addDocument(Document document);
+    void addDocument(T document);
 
     /**
      * add a document to the given index.
@@ -50,7 +49,7 @@ public interface IndexerService
      * @param indexWriter
      * @param document
      */
-    void addDocument(IndexWriter indexWriter, Document document);
+    void addDocument(IndexWriter indexWriter, T document);
 
     /**
      * close all handles inside the service.

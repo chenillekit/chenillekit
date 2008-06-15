@@ -34,4 +34,10 @@ public class ChenilleKitLuceneTestModule
         Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "lucene.properties");
         configuration.add(IndexerService.CONFIG_KEY_PROPERTIES, cpResource);
     }
+
+    public static void contributeSearcherService(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
+    {
+        Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "lucene.properties");
+        configuration.add(IndexerService.CONFIG_KEY_PROPERTIES, cpResource);
+    }
 }

@@ -39,17 +39,17 @@ import org.slf4j.Logger;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class IndexerServiceImpl implements IndexerService, RegistryShutdownListener
+public class IndexerServiceImpl implements IndexerService<Document>, RegistryShutdownListener
 {
-    private Logger _serviceLog;
+    private Logger logger;
     private IndexWriter _diskIndexWriter;
     private Directory _directory;
     private IndexWriter _ramIndexWriter;
 
-    public IndexerServiceImpl(final Logger serviceLog, final Resource configResource)
+    public IndexerServiceImpl(final Logger logger, final Resource configResource)
     {
         Defense.notNull(configResource, "configResource");
-        _serviceLog = serviceLog;
+        this.logger = logger;
 
         if (!configResource.exists())
             throw new RuntimeException(String.format("config resource '%s' not found!", configResource.toURL().toString()));
@@ -77,7 +77,6 @@ public class IndexerServiceImpl implements IndexerService, RegistryShutdownListe
             Class analyzerClass = getClass().getClassLoader().loadClass(analyzerClassName);
             _diskIndexWriter = new IndexWriter(_directory, (Analyzer) analyzerClass.newInstance(), createFolder);
             _diskIndexWriter.setMaxFieldLength(maxFieldLength);
-            _diskIndexWriter.setInfoStream(System.err);
         }
         catch (IOException e)
         {
@@ -139,7 +138,9 @@ public class IndexerServiceImpl implements IndexerService, RegistryShutdownListe
     {
         try
         {
-            indexWriter.addDocument(document);
+            logger.debug("adding document '%s', to writer", document);
+
+            indexWriter.addDocument((org.apache.lucene.document.Document) document);
         }
         catch (IOException e)
         {
@@ -208,18 +209,15 @@ public class IndexerServiceImpl implements IndexerService, RegistryShutdownListe
 
         try
         {
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("merging ram to disk");
+            logger.debug("merging ram to disk");
 
             _diskIndexWriter.addIndexes(new Directory[]{_ramIndexWriter.getDirectory()});
 
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("optimizing disk indexer");
+            logger.debug("optimizing disk indexer");
 
             optimizeIndex();
 
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("flush disk indexer");
+            logger.debug("flush disk indexer");
 
             _diskIndexWriter.flush();
         }
@@ -231,8 +229,7 @@ public class IndexerServiceImpl implements IndexerService, RegistryShutdownListe
         {
             try
             {
-                if (_serviceLog.isInfoEnabled())
-                    _serviceLog.info("close disk indexer");
+                logger.debug("close disk indexer");
 
                 _ramIndexWriter.close();
                 _ramIndexWriter = null;

@@ -20,7 +20,9 @@ import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 
 import org.chenillekit.lucene.services.IndexerService;
+import org.chenillekit.lucene.services.SearcherService;
 import org.chenillekit.lucene.services.impl.IndexerServiceImpl;
+import org.chenillekit.lucene.services.impl.SearcherServiceImpl;
 import org.slf4j.Logger;
 
 /**
@@ -42,6 +44,23 @@ public class ChenilleKitLuceneModule
                                                      RegistryShutdownHub shutdownHub)
     {
         IndexerServiceImpl service = new IndexerServiceImpl(logger, configuration.get(IndexerService.CONFIG_KEY_PROPERTIES));
+        shutdownHub.addRegistryShutdownListener(service);
+        return service;
+    }
+
+    /**
+     * bind the <a href="http://lucene.apache.org/java/docs/index.html">lucene</a> based searcher service.
+     *
+     * @param logger        system logger
+     * @param configuration IOC configuration map
+     * @param shutdownHub   the shutdown hub
+     *
+     * @return searcher engine
+     */
+    public static SearcherService buildSearcherService(Logger logger, Map<String, Resource> configuration,
+                                                       RegistryShutdownHub shutdownHub)
+    {
+        SearcherServiceImpl service = new SearcherServiceImpl(logger, configuration.get(IndexerService.CONFIG_KEY_PROPERTIES));
         shutdownHub.addRegistryShutdownListener(service);
         return service;
     }

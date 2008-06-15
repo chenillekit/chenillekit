@@ -17,49 +17,18 @@ package org.chenillekit.lucene.services;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.tapestry5.ioc.Registry;
-import org.apache.tapestry5.ioc.RegistryBuilder;
 
-import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import org.testng.Assert;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
-public class TestLuceneService extends Assert
+public class LuceneIndexerServiceTest extends AbstractTestSuite
 {
-    private static Registry registry;
-
     @BeforeSuite
-    public final void setup_registry()
-    {
-        RegistryBuilder builder = new RegistryBuilder();
-
-        builder.add(ChenilleKitLuceneTestModule.class);
-        registry = builder.build();
-
-        registry.performRegistryStartup();
-
-        initialize_lucene_dictionary();
-    }
-
-    public final void shutdown()
-    {
-        throw new UnsupportedOperationException("No registry shutdown until @AfterSuite.");
-    }
-
-    @AfterSuite
-    public final void shutdown_registry()
-    {
-        registry.shutdown();
-        registry = null;
-    }
-
-    private void initialize_lucene_dictionary()
+    public void initialize_lucene_dictionary()
     {
         IndexerService service = registry.getService(IndexerService.class);
         IndexWriter indexWriter = service.createRamIndexWriter();
@@ -80,7 +49,7 @@ public class TestLuceneService extends Assert
     }
 
     @Test
-    public void find_records()
+    public void indexed_records()
     {
         IndexerService service = registry.getService(IndexerService.class);
         assertEquals(service.getDocCount(), 3);
