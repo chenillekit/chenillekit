@@ -37,7 +37,7 @@ public class LuceneSearcherServiceTest extends AbstractTestSuite
         while (hitsIterator.hasNext())
         {
             Hit hit = hitsIterator.next();
-            System.err.println(String.format("%f - %f - %s", hit.getBoost(), hit.getScore(), hit.getDocument().get("filename")));
+            System.err.println(String.format("%f - %f - %s", hit.getBoost(), hit.getScore(), hit.getDocument().get("id")));
         }
 
         assertEquals(hits.length(), 2);

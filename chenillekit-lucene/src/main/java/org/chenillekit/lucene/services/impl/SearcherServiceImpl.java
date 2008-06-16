@@ -105,6 +105,7 @@ public class SearcherServiceImpl implements SearcherService<Hits>, RegistryShutd
     {
         try
         {
+            indexSearcher.doc(1);
             QueryParser parser = new QueryParser(fieldName, standardAnalyzer);
             Query query = parser.parse(queryString);
             return (T) indexSearcher.search(query);

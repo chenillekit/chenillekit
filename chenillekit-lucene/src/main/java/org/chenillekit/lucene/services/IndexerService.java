@@ -11,6 +11,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package org.chenillekit.lucene.services;
 
 import org.apache.lucene.index.IndexWriter;
@@ -50,6 +51,14 @@ public interface IndexerService<T>
      * @param document
      */
     void addDocument(IndexWriter indexWriter, T document);
+
+    /**
+     * delete documents by the given field name and the query.
+     *
+     * @param field       name of the field
+     * @param queryString
+     */
+    boolean delDocument(String field, String queryString);
 
     /**
      * close all handles inside the service.

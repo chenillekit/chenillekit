@@ -11,6 +11,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package org.chenillekit.lucene.services.impl;
 
 import java.io.File;
@@ -22,7 +23,9 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
@@ -43,6 +46,7 @@ public class IndexerServiceImpl implements IndexerService<Document>, RegistryShu
 {
     private Logger logger;
     private IndexWriter _diskIndexWriter;
+    private IndexReader _diskIndexReader;
     private Directory _directory;
     private IndexWriter _ramIndexWriter;
 
@@ -77,6 +81,8 @@ public class IndexerServiceImpl implements IndexerService<Document>, RegistryShu
             Class analyzerClass = getClass().getClassLoader().loadClass(analyzerClassName);
             _diskIndexWriter = new IndexWriter(_directory, (Analyzer) analyzerClass.newInstance(), createFolder);
             _diskIndexWriter.setMaxFieldLength(maxFieldLength);
+
+            _diskIndexReader = IndexReader.open(_directory);
         }
         catch (IOException e)
         {
@@ -129,6 +135,31 @@ public class IndexerServiceImpl implements IndexerService<Document>, RegistryShu
     }
 
     /**
+     * delete documents by the given field name and the query.
+     *
+     * @param field name of the field
+     * @param queryString
+     */
+    public boolean delDocument(String field, String queryString)
+    {
+        boolean deleted = false;
+        try
+        {
+            if (_diskIndexReader.deleteDocuments(new Term(field, queryString)) > 0)
+            {
+                _diskIndexReader.flush();
+                deleted = true;
+            }
+
+            return deleted;
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
+    /**
      * add a document to the given index.
      *
      * @param indexWriter
@@ -138,9 +169,10 @@ public class IndexerServiceImpl implements IndexerService<Document>, RegistryShu
     {
         try
         {
-            logger.debug("adding document '%s', to writer", document);
+            if (logger.isDebugEnabled())
+                logger.debug("adding document '%s', to writer", document);
 
-            indexWriter.addDocument((org.apache.lucene.document.Document) document);
+            indexWriter.addDocument(document);
         }
         catch (IOException e)
         {
@@ -163,6 +195,9 @@ public class IndexerServiceImpl implements IndexerService<Document>, RegistryShu
 
             if (_diskIndexWriter != null)
                 _diskIndexWriter.close();
+
+            if (_diskIndexReader != null)
+                _diskIndexReader.close();
 
             if (_directory != null)
                 _directory.close();

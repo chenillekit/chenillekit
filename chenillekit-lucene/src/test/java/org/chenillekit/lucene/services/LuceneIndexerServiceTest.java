@@ -42,19 +42,20 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
     {
         IndexerService service = registry.getService(IndexerService.class);
         IndexWriter indexWriter = service.createRamIndexWriter();
+        String[] fileNames = new String[]{"airbag.txt", "consp.txt", "aliens.txt"};
 
-        Resource res1 = new ClasspathResource(this.getClass().getClassLoader(), "airbag.txt");
-        Resource res2 = new ClasspathResource(this.getClass().getClassLoader(), "consp.txt");
+        for (String fileName : fileNames)
+        {
+            System.err.println(String.format("adding file '%s' to index", fileName));
 
-        Document document1 = new Document();
-        document1.add(new Field("filename", res1.toURL().toString(), Field.Store.YES, Field.Index.NO));
-        document1.add(new Field("content", readFile(res1.toURL()), Field.Store.YES, Field.Index.TOKENIZED));
-        service.addDocument(document1);
+            Resource resource = new ClasspathResource(this.getClass().getClassLoader(), fileName);
 
-        Document document2 = new Document();
-        document2.add(new Field("filename", res2.toURL().toString(), Field.Store.YES, Field.Index.NO));
-        document2.add(new Field("content", readFile(res2.toURL()), Field.Store.YES, Field.Index.TOKENIZED));
-        service.addDocument(document2);
+            Document document = new Document();
+            document.add(new Field("id", fileName, Field.Store.YES, Field.Index.UN_TOKENIZED));
+            document.add(new Field("url", resource.toURL().toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+            document.add(new Field("content", readFile(resource.toURL()), Field.Store.YES, Field.Index.TOKENIZED));
+            service.addDocument(document);
+        }
 
         service.mergeRamIndexWriterToDisk();
     }
@@ -63,6 +64,16 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
     public void indexed_records()
     {
         IndexerService service = registry.getService(IndexerService.class);
+        assertEquals(service.getDocCount(), 3);
+    }
+
+    @Test(dependsOnMethods = {"indexed_records"})
+    public void delete_document()
+    {
+        IndexerService service = registry.getService(IndexerService.class);
+
+        System.err.println("deleted: " + service.delDocument("id", "consp.txt"));
+
         assertEquals(service.getDocCount(), 2);
     }
 
