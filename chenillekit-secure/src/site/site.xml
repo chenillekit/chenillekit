@@ -16,7 +16,7 @@
 <project name="Chenille Kit Quartz">
 
     <bannerLeft>
-        <name>Chenille Kit Quartz</name>
+        <name>Chenille Kit Secure</name>
         <href>index.html</href>
         <src>images/chenillekit-logo.png</src>
     </bannerLeft>
@@ -35,6 +35,10 @@
             <item name="Project" href="../index.html"/>
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
+
+        <menu name="Documentation">
+            <item name="Secure" href="howto_secure.html"/>
+        </menu>
 
         <menu ref="reports"/>
 

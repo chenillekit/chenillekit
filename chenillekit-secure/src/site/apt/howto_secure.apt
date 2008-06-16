@@ -1,0 +1,16 @@
+ ---
+ HowTo use chenillekit's secure module
+ ---
+
+Tell Me How Should I Use Secure ....
+
+    blablabla
+
+    a preformated code snippet
+
++---------------------------------------------------+
+public void makeNonSense()
+{
+    System.err.println("NonSense");
+}
++---------------------------------------------------+
