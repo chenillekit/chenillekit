@@ -27,6 +27,9 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SecuredPage
+public @interface Private
 {
+	 int role() default 1;
+
+     String group() default "N/A";
 }
