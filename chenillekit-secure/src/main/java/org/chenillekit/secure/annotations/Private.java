@@ -21,7 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
+ * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
 @Target({ElementType.TYPE})
