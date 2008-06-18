@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.chenillekit</groupId>
-    <artifactId>chenillekit-secure</artifactId>
+    <artifactId>chenillekit-private</artifactId>
     <packaging>jar</packaging>
 
     <parent>
@@ -13,10 +13,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>Chenillekit Secure</name>
+    <name>Chenillekit Private</name>
     <version>0.0.1-SNAPSHOT</version>
     <description>
-        A collection of secure related utils
+        A library to make your pages accessible to authenticated users
     </description>
 
     <scm>
