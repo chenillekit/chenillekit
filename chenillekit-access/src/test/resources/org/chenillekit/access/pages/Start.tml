@@ -22,7 +22,7 @@
 
 <body>
 
-<p>${webUser.name}</p>
+<p>${rootUser.name}</p>
 
 <p>${items.size()} standard test pages</p>
 

@@ -19,6 +19,7 @@ import org.apache.tapestry5.services.ApplicationStateContribution;
 import org.apache.tapestry5.services.ApplicationStateCreator;
 
 import org.chenillekit.access.utils.WebUser;
+import org.chenillekit.access.utils.RootUser;
 
 /**
  * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
@@ -28,19 +29,19 @@ public class TestAppModule
 {
     public static void contributeASOs(MappedConfiguration<Class, ApplicationStateContribution> configuration)
     {
-        ApplicationStateCreator<WebUser> creator = new ApplicationStateCreator<WebUser>()
+        ApplicationStateCreator<RootUser> creator = new ApplicationStateCreator<RootUser>()
         {
-            public WebUser create()
+            public RootUser create()
             {
-                return new WebUser(1, "root", new int[]{1, 2}, new String[]{"superusers"});
+                return new RootUser();
             }
         };
 
-        configuration.add(WebUser.class, new ApplicationStateContribution("session", creator));
+        configuration.add(RootUser.class, new ApplicationStateContribution("session", creator));
     }
 
     public static void contributeAccessControllerDispatcher(MappedConfiguration<String, Class> configuration)
     {
-        configuration.add("webuser.implementation", WebUser.class);
+        configuration.add("webuser.implementation", RootUser.class);
     }
 }
