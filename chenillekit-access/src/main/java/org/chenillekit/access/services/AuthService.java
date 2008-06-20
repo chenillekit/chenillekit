@@ -12,15 +12,19 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.secure;
-
-import org.apache.tapestry5.ioc.annotations.SubModule;
+package org.chenillekit.access.services;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-@SubModule(value = {ChenilleKitSecureModule.class})
-public class ChenilleKitSecureTestModule
+public interface AuthService<T>
 {
+    /**
+     * user authentification.
+     *
+     * @param userName name of the user
+     * @param password users password
+     */
+    T doAuthentificate(String userName, String password);
 }

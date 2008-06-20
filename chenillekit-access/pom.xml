@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.chenillekit</groupId>
-    <artifactId>chenillekit-private</artifactId>
+    <artifactId>chenillekit-access</artifactId>
     <packaging>jar</packaging>
 
     <parent>
@@ -13,7 +13,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>Chenillekit Private</name>
+    <name>Chenillekit Access</name>
     <version>0.0.1-SNAPSHOT</version>
     <description>
         A library to make your pages accessible to authenticated users
@@ -110,7 +110,7 @@
                         <index>true</index>
                         <manifestEntries>
                             <Tapestry-Module-Classes>
-                                org.chenillekit.secure.ChenilleKitSecureModule
+                                org.chenillekit.access.ChenilleKitAccessModule
                             </Tapestry-Module-Classes>
                             <Implementation-Version>
                                 ${project.version}

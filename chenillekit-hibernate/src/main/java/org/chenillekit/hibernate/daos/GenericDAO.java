@@ -42,13 +42,13 @@ public interface GenericDAO<T, ID extends Serializable>
     List<T> findAll();
 
     /**
-     * retrieve all entities sorted by <em>sortFields</em>.
+     * retrieve all entities ordered by <em>orderProperties</em>.
      *
-     * @param sortFields sort by fields
+     * @param orderProperties sort by this properties
      *
      * @return all entities
      */
-    List<T> findAll(String... sortFields);
+    List<T> findAll(String... orderProperties);
 
     /**
      * retieve entites by query.
@@ -112,9 +112,9 @@ public interface GenericDAO<T, ID extends Serializable>
     /**
      * methode executes after entity retieved.
      *
-     * @param id
+     * @param entity the retrieved entity (maybe null if not found)
      */
-    void preDoRetrieve(ID id);
+    void preDoRetrieve(T entity);
 
     /**
      * methode executes before entity saved.

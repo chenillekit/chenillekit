@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.secure.services.impl;
+package org.chenillekit.access.services.impl;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -30,8 +30,8 @@ import org.apache.tapestry5.services.MetaDataLocator;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Response;
 
-import org.chenillekit.secure.ChenilleKitSecureConstants;
-import org.chenillekit.secure.WebUser;
+import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.WebUser;
 import org.slf4j.Logger;
 
 /**
@@ -89,7 +89,7 @@ public class AccessController implements Dispatcher
         this.locator = locator;
         this.logger = logger;
         this.linkFactory = linkFactory;
-        this.loginPage = symbols.valueForSymbol(ChenilleKitSecureConstants.LOGIN_PAGE);
+        this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
     }
 
     /**
@@ -173,7 +173,7 @@ public class AccessController implements Dispatcher
             }
         }
 
-        boolean pagePrivate = locator.findMeta(ChenilleKitSecureConstants.PRIVATE_PAGE, page.getComponentResources(), Boolean.class);
+        boolean pagePrivate = locator.findMeta(ChenilleKitAccessConstants.PRIVATE_PAGE, page.getComponentResources(), Boolean.class);
 
         if (logger.isInfoEnabled())
             logger.info("The page " + pageName + " (" +
@@ -188,10 +188,10 @@ public class AccessController implements Dispatcher
                 WebUser webuser = asm.get(WebUser.class);
                 int role = Integer.parseInt(page.getComponentResources()
                         .getComponentModel()
-                        .getMeta(ChenilleKitSecureConstants.PRIVATE_PAGE_ROLE));
+                        .getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE));
                 String group = page.getComponentResources()
                         .getComponentModel()
-                        .getMeta(ChenilleKitSecureConstants.PRIVATE_PAGE_GROUP);
+                        .getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP);
 
                 if (webuser.getRole() >= role &&
                         webuser.getGroup().equalsIgnoreCase(group))

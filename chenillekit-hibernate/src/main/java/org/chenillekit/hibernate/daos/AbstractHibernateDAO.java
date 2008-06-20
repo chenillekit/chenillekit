@@ -114,9 +114,9 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      * methode executes after entity retieved.
      * this implementation do nothing.
      *
-     * @param id
+     * @param entity the retrieved entity (maybe null if not found)
      */
-    public void preDoRetrieve(ID id)
+    public void preDoRetrieve(T entity)
     {
     }
 
@@ -131,19 +131,19 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     }
 
     /**
-     * retrieve all entities sorted by <em>sortFields</em>.
+     * retrieve all entities ordered by <em>orderProperties</em>.
      *
-     * @param sortFields sort by fields
+     * @param orderProperties sort by this properties
      *
      * @return all entities
      */
     @SuppressWarnings("unchecked")
-    public List<T> findAll(String... sortFields)
+    public List<T> findAll(String... orderProperties)
     {
         Criteria criteria = session.createCriteria(getPersistentClass());
 
-        for (String sortField : sortFields)
-            criteria.addOrder(Order.asc(sortField));
+        for (String orderProperty : orderProperties)
+            criteria.addOrder(Order.asc(orderProperty));
 
         return criteria.list();
     }

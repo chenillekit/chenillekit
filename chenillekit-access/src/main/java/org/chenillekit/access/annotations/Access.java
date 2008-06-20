@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.secure.annotations;
+package org.chenillekit.access.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

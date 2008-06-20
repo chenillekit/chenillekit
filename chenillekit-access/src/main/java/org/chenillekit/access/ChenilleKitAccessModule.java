@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.secure;
+package org.chenillekit.access;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -23,18 +23,18 @@ import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.Dispatcher;
-import org.chenillekit.secure.annotations.AccessControlDispatcher;
-import org.chenillekit.secure.services.impl.AccessControlWorker;
-import org.chenillekit.secure.services.impl.AccessController;
+import org.chenillekit.access.annotations.AccessControlDispatcher;
+import org.chenillekit.access.services.impl.AccessControlWorker;
+import org.chenillekit.access.services.impl.AccessController;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class ChenilleKitSecureModule
+public class ChenilleKitAccessModule
 {
 	/**
-	 * 
+	 *
 	 * @param binder
 	 */
 	public static void bind(ServiceBinder binder)
@@ -43,7 +43,7 @@ public class ChenilleKitSecureModule
     }
 
 	/**
-	 * 
+	 *
 	 * @param configuration
 	 * @param accessController
 	 */
@@ -54,7 +54,7 @@ public class ChenilleKitSecureModule
     }
 
 	/**
-	 * 
+	 *
 	 * @param configuration
 	 */
     public static void contributeComponentClassTransformWorker(
@@ -62,10 +62,10 @@ public class ChenilleKitSecureModule
     {
         configuration.add("Private", new AccessControlWorker(), "after:Secure");
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @param configuration
      */
     public static void contributeApplicationDefaults(
@@ -74,7 +74,7 @@ public class ChenilleKitSecureModule
     	Properties prop = new Properties();
     	try
     	{
-    		prop.load(ChenilleKitSecureModule.class.getResourceAsStream("/chenillekit-secure.properties"));
+    		prop.load(ChenilleKitAccessModule.class.getResourceAsStream("/chenillekit-access.properties"));
     	}
     	catch (IOException e)
     	{
@@ -88,6 +88,6 @@ public class ChenilleKitSecureModule
     		configuration.add(key.toString(), value.toString());
     	}
     }
-    
-	
+
+
 }

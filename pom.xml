@@ -97,7 +97,7 @@
         <module>chenillekit-hibernate</module>
         <module>chenillekit-tapestry</module>
         <module>chenillekit-lucene</module>
-        <module>chenillekit-private</module>
+        <module>chenillekit-access</module>
         <module>chenillekit-demo</module>
     </modules>
 
