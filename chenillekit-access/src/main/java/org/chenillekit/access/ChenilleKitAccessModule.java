@@ -68,6 +68,7 @@ public class ChenilleKitAccessModule
     public void contributeMasterDispatcher(OrderedConfiguration<Dispatcher> configuration,
                                            @ChenilleKitAccess Dispatcher accessController)
     {
+    	// This should be always before ComponentEvent
         configuration.add("AccessController", accessController, "before:ComponentEvent");
     }
 
