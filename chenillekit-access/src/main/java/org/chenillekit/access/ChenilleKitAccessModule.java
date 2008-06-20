@@ -15,16 +15,24 @@
 package org.chenillekit.access;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.tapestry5.internal.services.LinkFactory;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
-import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.Marker;
+import org.apache.tapestry5.ioc.services.SymbolSource;
+import org.apache.tapestry5.services.ApplicationStateManager;
+import org.apache.tapestry5.services.ComponentClassResolver;
+import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Dispatcher;
+import org.apache.tapestry5.services.MetaDataLocator;
 
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.services.impl.AccessController;
+import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
@@ -32,12 +40,24 @@ import org.chenillekit.access.services.impl.AccessController;
  */
 public class ChenilleKitAccessModule
 {
-    /**
-     * @param binder
-     */
-    public static void bind(ServiceBinder binder)
+    @Marker(ChenilleKitAccess.class)
+    public static Dispatcher buildAccessControllerDispatcher(ApplicationStateManager stateManager,
+                                                             ComponentClassResolver resolver,
+                                                             ComponentSource componentSource,
+                                                             MetaDataLocator locator,
+                                                             Logger logger,
+                                                             LinkFactory linkFactory,
+                                                             SymbolSource symbols,
+                                                             Map<String, Class> contribution)
     {
-        binder.bind(Dispatcher.class, AccessController.class).withMarker(ChenilleKitAccess.class);
+        return new AccessController(stateManager,
+                                    resolver,
+                                    componentSource,
+                                    locator,
+                                    logger,
+                                    linkFactory,
+                                    symbols,
+                                    contribution.get("webuser.implementation"));
     }
 
     /**
@@ -63,8 +83,7 @@ public class ChenilleKitAccessModule
     /**
      * @param configuration
      */
-    public static void contributeApplicationDefaults(
-            MappedConfiguration<String, String> configuration)
+    public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
     {
         Properties prop = new Properties();
         try

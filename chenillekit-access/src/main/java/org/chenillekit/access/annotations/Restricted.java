@@ -21,6 +21,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * this annotation holds the role ids and the group names the user
+ * must have in his profile to access this marked page.
+ *
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
@@ -29,7 +32,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Restricted
 {
-	 int role() default 1;
+    int[] roles() default 1;
 
-     String group() default "N/A";
+    String[] groups() default "N/A";
 }

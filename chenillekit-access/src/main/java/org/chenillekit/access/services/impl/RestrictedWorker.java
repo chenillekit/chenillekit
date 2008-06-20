@@ -41,8 +41,8 @@ public class RestrictedWorker implements ComponentClassTransformWorker
         if (pageRestricted != null)
         {
             model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE, "true");
-            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP, pageRestricted.group());
-            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE, Integer.toString(pageRestricted.role()));
+            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP, pageRestricted.groups()[0]);
+            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE, Integer.toString(pageRestricted.roles()[0]));
         }
     }
 }

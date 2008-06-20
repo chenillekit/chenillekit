@@ -14,20 +14,33 @@
 
 package org.chenillekit.access.services;
 
-import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.services.ApplicationStateContribution;
+import org.apache.tapestry5.services.ApplicationStateCreator;
 
-import org.chenillekit.access.ChenilleKitAccessModule;
+import org.chenillekit.access.utils.WebUser;
 
 /**
  * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
-@SubModule(value = {ChenilleKitAccessModule.class})
 public class TestAppModule
 {
-    public static void bind(ServiceBinder binder)
+    public static void contributeASOs(MappedConfiguration<Class, ApplicationStateContribution> configuration)
     {
-        System.err.println("dsafhasjkf");
+        ApplicationStateCreator<WebUser> creator = new ApplicationStateCreator<WebUser>()
+        {
+            public WebUser create()
+            {
+                return new WebUser(1, "root", new int[]{1, 2}, new String[]{"superusers"});
+            }
+        };
+
+        configuration.add(WebUser.class, new ApplicationStateContribution("session", creator));
+    }
+
+    public static void contributeAccessControllerDispatcher(MappedConfiguration<String, Class> configuration)
+    {
+        configuration.add("webuser.implementation", WebUser.class);
     }
 }

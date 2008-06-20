@@ -14,13 +14,10 @@
 
 package org.chenillekit.access;
 
-import org.apache.tapestry5.ioc.annotations.SubModule;
-
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-@SubModule(value = {ChenilleKitAccessModule.class})
 public class ChenilleKitAccessTestModule
 {
 }

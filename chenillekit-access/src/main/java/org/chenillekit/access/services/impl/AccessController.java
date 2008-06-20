@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.internal.services.LinkFactory;
 import org.apache.tapestry5.ioc.services.SymbolSource;
+import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentClassResolver;
@@ -85,6 +86,7 @@ public class AccessController implements Dispatcher
                             Logger logger, LinkFactory linkFactory, SymbolSource symbols,
                             Class<? extends WebSessionUser> webSessionUserImplmentation)
     {
+        Defense.notNull(webSessionUserImplmentation, "webSessionUserImplmentation");
         this.asm = stateManager;
         this.componentResolver = resolver;
         this.componentSource = componentSource;
@@ -177,10 +179,37 @@ public class AccessController implements Dispatcher
         WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
         if (webSessionUser != null)
         {
-            int role = restrictedPage.role();
-            String group = restrictedPage.group();
+            boolean hasRole = false;
+            boolean hasGroup = false;
 
-            if (webSessionUser.getRole() >= role && webSessionUser.getGroup().equalsIgnoreCase(group))
+            for (int pageRole : restrictedPage.roles())
+            {
+                for (int userRole : webSessionUser.getRoles())
+                {
+                    if (userRole >= pageRole)
+                    {
+                        hasRole = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!hasRole)
+            {
+                for (String pageGroup : restrictedPage.groups())
+                {
+                    for (String userGroup : webSessionUser.getGroups())
+                    {
+                        if (userGroup.equalsIgnoreCase(pageGroup))
+                        {
+                            hasGroup = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (hasRole || hasGroup)
                 canAccess = true;
         }
 

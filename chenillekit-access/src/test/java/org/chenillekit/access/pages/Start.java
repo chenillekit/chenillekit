@@ -18,6 +18,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.annotations.ApplicationState;
+import org.apache.tapestry5.annotations.Property;
+
+import org.chenillekit.access.utils.WebUser;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
@@ -25,6 +30,10 @@ import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
  */
 public class Start
 {
+    @ApplicationState
+    @Property
+    private WebUser webUser;
+
     public static class Item implements Comparable<Item>
     {
         private final String _pageName;

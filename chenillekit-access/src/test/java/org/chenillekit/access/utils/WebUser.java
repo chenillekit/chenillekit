@@ -26,24 +26,26 @@ package org.chenillekit.access.utils;
  * @version $Id: WebUser.java 88 2008-06-16 16:43:40Z homburgs $
  */
 
-public class WebUser
+public class WebUser implements WebSessionUser
 {
     private int userId;
     private String name;
 
     // Both used for security constraints
-    private int role = 1;
-    private String group = "N/A";
+    private int[] roles;
+    private String[] groups;
 
+    public WebUser(int userId, String name, int[] roles, String[] groups)
+    {
+        this.userId = userId;
+        this.name = name;
+        this.roles = roles;
+        this.groups = groups;
+    }
 
     public int getUserId()
     {
         return userId;
-    }
-
-    public void setUserId(int userId)
-    {
-        this.userId = userId;
     }
 
     public String getName()
@@ -51,29 +53,23 @@ public class WebUser
         return name;
     }
 
-    public void setName(String name)
+    /**
+     * get the role ids.
+     *
+     * @return role ids
+     */
+    public int[] getRoles()
     {
-        this.name = name;
+        return roles;
     }
 
-    public int getRole()
+    /**
+     * get the group names.
+     *
+     * @return group names
+     */
+    public String[] getGroups()
     {
-        return role;
+        return groups;
     }
-
-    public void setRole(int role)
-    {
-        this.role = role;
-    }
-
-    public String getGroup()
-    {
-        return group;
-    }
-
-    public void setGroup(String group)
-    {
-        this.group = group;
-    }
-
 }

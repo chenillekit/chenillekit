@@ -21,16 +21,16 @@ package org.chenillekit.access.utils;
 public interface WebSessionUser
 {
     /**
-     * get the role id.
+     * get the role ids.
      *
-     * @return role id
+     * @return role ids
      */
-    int getRole();
+    int[] getRoles();
 
     /**
-     * get the group name.
+     * get the group names.
      *
-     * @return group name
+     * @return group names
      */
-    String getGroup();
+    String[] getGroups();
 }
