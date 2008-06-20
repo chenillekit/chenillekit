@@ -26,12 +26,13 @@ import org.apache.tapestry5.ioc.annotations.Marker;
 import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentClassResolver;
+import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.MetaDataLocator;
-
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.services.impl.AccessController;
+import org.chenillekit.access.services.impl.RestrictedWorker;
 import org.slf4j.Logger;
 
 /**
@@ -67,17 +68,17 @@ public class ChenilleKitAccessModule
     public void contributeMasterDispatcher(OrderedConfiguration<Dispatcher> configuration,
                                            @ChenilleKitAccess Dispatcher accessController)
     {
-        configuration.add("AccessController", accessController, "before:PageRender");
+        configuration.add("AccessController", accessController, "before:ComponentEvent");
     }
 
-//    /**
-//     * @param configuration
-//     */
-//    public static void contributeComponentClassTransformWorker(
-//            OrderedConfiguration<ComponentClassTransformWorker> configuration)
-//    {
-//        configuration.add("Restricted", new RestrictedWorker(), "after:Secure");
-//    }
+    /**
+     * @param configuration
+     */
+    public static void contributeComponentClassTransformWorker(
+            OrderedConfiguration<ComponentClassTransformWorker> configuration)
+    {
+        configuration.add("Restricted", new RestrictedWorker(), "after:Secure");
+    }
 
 
     /**

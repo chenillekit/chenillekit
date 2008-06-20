@@ -21,7 +21,6 @@ package org.chenillekit.access.services.impl;
 import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 
@@ -37,12 +36,19 @@ public class RestrictedWorker implements ComponentClassTransformWorker
     public void transform(ClassTransformation transformation, MutableComponentModel model)
     {
         Restricted pageRestricted = transformation.getAnnotation(Restricted.class);
-
         if (pageRestricted != null)
         {
             model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE, "true");
             model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP, pageRestricted.groups()[0]);
             model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE, Integer.toString(pageRestricted.roles()[0]));
         }
+        
+//        TODO Add checks for method annotations
+//        for (TransformMethodSignature method :
+//        			transformation.findMethodsWithAnnotation(Restricted.class))
+//        {
+//        	
+//			
+//		}
     }
 }

@@ -15,12 +15,13 @@
 package org.chenillekit.access.services.impl;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.internal.services.LinkFactory;
-import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.ioc.internal.util.Defense;
+import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentClassResolver;
@@ -29,7 +30,6 @@ import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.MetaDataLocator;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Response;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.utils.WebSessionUser;
@@ -110,36 +110,38 @@ public class AccessController implements Dispatcher
         if (logger.isTraceEnabled())
             logger.trace("Checking security/access constraints on: {}", request.getPath());
 
-//        Matcher matcher = PATH_PATTERN.matcher(request.getPath());
-//
-//        if (!matcher.matches())
-//            return false;
+        Matcher matcher = PATH_PATTERN.matcher(request.getPath());
 
-        /**
-         * We need to get the Tapestry page requested by the user.
-         * So we parse the path extracted from the request
-         */
-        String path = request.getPath();
-        if (path.equals(""))
+        if (!matcher.matches())
             return false;
 
-        int nextslashx = path.length();
-        String pageName;
-
-        while (true)
-        {
-            pageName = path.substring(1, nextslashx);
-            if (!pageName.endsWith("/") && componentResolver.isPageName(pageName))
-                break;
-            nextslashx = path.lastIndexOf('/', nextslashx - 1);
-            if (nextslashx <= 1)
-                return false;
-        }
+//        /**
+//         * We need to get the Tapestry page requested by the user.
+//         * So we parse the path extracted from the request
+//         */
+//        String path = request.getPath();
+//        if (path.equals(""))
+//            return false;
+//
+//        int nextslashx = path.length();
+//        String pageName;
+//
+//        while (true)
+//        {
+//            pageName = path.substring(1, nextslashx);
+//            if (!pageName.endsWith("/") && componentResolver.isPageName(pageName))
+//                break;
+//            nextslashx = path.lastIndexOf('/', nextslashx - 1);
+//            if (nextslashx <= 1)
+//                return false;
+//        }
+        
+        String logicalPageName = matcher.group(LOGICAL_PAGE_NAME);
 
         String nestedComponentId = null; //matcher.group(NESTED_ID);
         String eventType = null; //matcher.group(EVENT_NAME);
 
-        if (!hasAccess(pageName, nestedComponentId, eventType))
+        if (!hasAccess(logicalPageName, nestedComponentId, eventType))
         {
             // WARN  linkFactory is an internal interace...
             Link link = linkFactory.createPageLink(loginPage, false);
@@ -162,57 +164,125 @@ public class AccessController implements Dispatcher
     private boolean hasAccess(String pageName, String componentId, String eventType)
     {
         boolean canAccess = false;
-
+        
         if (logger.isTraceEnabled())
             logger.trace("check access for pageName/componentId/eventType: {}/{}/{}",
                          new Object[]{pageName, componentId, eventType});
-
-        Component page = componentSource.getPage(pageName);
-        Restricted restrictedPage = page.getClass().getAnnotation(Restricted.class);
-        if (restrictedPage == null)
-            return true;
-
-        if (logger.isTraceEnabled())
-            logger.trace("page '{}' is restricted", pageName);
-
-        /* Is the user already authentified ? */
-        WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
-        if (webSessionUser != null)
+        
+        /* Is the requested page private ? */
+        Component page = null;
+        boolean found = false;
+        while ( !found )
         {
-            boolean hasRole = false;
-            boolean hasGroup = false;
-
-            for (int pageRole : restrictedPage.roles())
-            {
-                for (int userRole : webSessionUser.getRoles())
+                try
                 {
-                    if (userRole >= pageRole)
-                    {
-                        hasRole = true;
-                        break;
-                    }
+                        page = componentSource.getPage(pageName);
+                        found = true;
                 }
-            }
-
-            if (!hasRole)
-            {
-                for (String pageGroup : restrictedPage.groups())
+                catch (IllegalArgumentException iae)
                 {
-                    for (String userGroup : webSessionUser.getGroups())
-                    {
-                        if (userGroup.equalsIgnoreCase(pageGroup))
+                        if (pageName.lastIndexOf('/') != -1)
                         {
-                            hasGroup = true;
-                            break;
+                                pageName = pageName.substring(0, pageName.lastIndexOf('/'));
+                                if (logger.isTraceEnabled())
+                                        logger.trace("Nuovo pagename: " + pageName);
                         }
-                    }
+                        else
+                        {
+                                throw iae;
+                        }
                 }
-            }
+        }
 
-            if (hasRole || hasGroup)
-                canAccess = true;
+        boolean pagePrivate = locator.findMeta(ChenilleKitAccessConstants.PRIVATE_PAGE, page.getComponentResources(), Boolean.class);
+        
+        if (pagePrivate)
+        {
+        	WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
+        	if (webSessionUser != null)
+        	{
+        		int role = Integer.parseInt(page.getComponentResources()
+        				.getComponentModel()
+        				.getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE));
+        		String group = page.getComponentResources()
+        				.getComponentModel()
+        				.getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP);
+
+        		boolean hasRole = false;
+        		boolean hasGroup = false;
+        		// We will see if this will need a changes...
+        		for (int i = 0; i < webSessionUser.getRoles().length; i++)
+        		{
+        			int userRole = webSessionUser.getRoles()[i];
+        			if (userRole >= role)
+        			{
+        				hasRole = true;
+        				break;
+        			}
+				}
+        		for (int i = 0; i < webSessionUser.getGroups().length; i++)
+        		{
+        			String userGroup = webSessionUser.getGroups()[i];
+        			if (userGroup.equals(group))
+        			{
+        				hasGroup = true;
+        				break;
+        			}
+				}
+        		
+        		// Let's see if it can access it
+        		canAccess = hasGroup && hasRole;
+        	}
+        	
         }
 
         return canAccess;
+        
+
+//      Component page = componentSource.getPage(pageName);
+//      Restricted restrictedPage = page.getClass().getAnnotation(Restricted.class);
+//      if (restrictedPage == null)
+//          return true;
+
+//      if (logger.isTraceEnabled())
+//          logger.trace("page '{}' is restricted", pageName);
+      
+//      /* Is the user already authentified ? */
+//      WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
+//      if (webSessionUser != null)
+//      {
+//          boolean hasRole = false;
+//          boolean hasGroup = false;
+//
+//          for (int pageRole : restrictedPage.roles())
+//          {
+//              for (int userRole : webSessionUser.getRoles())
+//              {
+//                  if (userRole >= pageRole)
+//                  {
+//                      hasRole = true;
+//                      break;
+//                  }
+//              }
+//          }
+//
+//          if (!hasRole)
+//          {
+//              for (String pageGroup : restrictedPage.groups())
+//              {
+//                  for (String userGroup : webSessionUser.getGroups())
+//                  {
+//                      if (userGroup.equalsIgnoreCase(pageGroup))
+//                      {
+//                          hasGroup = true;
+//                          break;
+//                      }
+//                  }
+//              }
+//          }
+//
+//          if (hasRole || hasGroup)
+//              canAccess = true;
+//      }
     }
 }
