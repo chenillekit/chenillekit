@@ -16,7 +16,7 @@
  *
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.utils;
 
 /**
  * JavaBean used to store infos about the user currently logged

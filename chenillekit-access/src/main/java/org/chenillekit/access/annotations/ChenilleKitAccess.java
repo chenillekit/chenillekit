@@ -33,6 +33,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface AccessControlDispatcher
+public @interface ChenilleKitAccess
 {
 }

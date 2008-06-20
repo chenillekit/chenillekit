@@ -23,33 +23,26 @@ import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 
 import org.chenillekit.access.ChenilleKitAccessConstants;
-import org.chenillekit.access.annotations.Private;
+import org.chenillekit.access.annotations.Restricted;
 
 /**
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id: AccessControlWorker.java 88 2008-06-16 16:43:40Z homburgs $
  */
-public class AccessControlWorker implements ComponentClassTransformWorker
+public class RestrictedWorker implements ComponentClassTransformWorker
 {
     /* (non-Javadoc)
       * @see org.apache.tapestry5.services.ComponentClassTransformWorker#transform(org.apache.tapestry5.services.ClassTransformation, org.apache.tapestry5.model.MutableComponentModel)
       */
     public void transform(ClassTransformation transformation, MutableComponentModel model)
     {
-        Private pagePrivate = transformation.getAnnotation(Private.class);
+        Restricted pageRestricted = transformation.getAnnotation(Restricted.class);
 
-        if (pagePrivate != null)
+        if (pageRestricted != null)
         {
             model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE, "true");
-            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP, pagePrivate.group());
-            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE, Integer.toString(pagePrivate.role()));
+            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP, pageRestricted.group());
+            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE, Integer.toString(pageRestricted.role()));
         }
-//		else
-//		{
-//			model.setMeta(AmadoriEcommConstants.PRIVATE_PAGE, "false");
-//		}
-
-        // TODO Add checks for method annotations
     }
-
 }

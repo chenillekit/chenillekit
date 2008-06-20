@@ -24,8 +24,12 @@
         </layout>
     </appender>
 
+    <category name="org.chenillekit.access.services.impl.AccessController">
+        <priority value="trace"/>
+    </category>
+
     <root>
-        <priority value="info"/>
+        <priority value="warn"/>
         <appender-ref ref="console"/>
     </root>
 </log4j:configuration>

@@ -15,7 +15,6 @@
 package org.chenillekit.access.services.impl;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.tapestry5.Link;
@@ -31,7 +30,8 @@ import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Response;
 
 import org.chenillekit.access.ChenilleKitAccessConstants;
-import org.chenillekit.access.WebUser;
+import org.chenillekit.access.annotations.Restricted;
+import org.chenillekit.access.utils.WebSessionUser;
 import org.slf4j.Logger;
 
 /**
@@ -50,6 +50,7 @@ public class AccessController implements Dispatcher
     private final MetaDataLocator locator;
     // Warn... this is an internal interface!
     private final LinkFactory linkFactory;
+    private final Class<? extends WebSessionUser> webSessionUserImplmentation;
 
     private final Logger logger;
 
@@ -81,7 +82,8 @@ public class AccessController implements Dispatcher
 
     public AccessController(ApplicationStateManager stateManager, ComponentClassResolver resolver,
                             ComponentSource componentSource, MetaDataLocator locator,
-                            Logger logger, LinkFactory linkFactory, SymbolSource symbols)
+                            Logger logger, LinkFactory linkFactory, SymbolSource symbols,
+                            Class<? extends WebSessionUser> webSessionUserImplmentation)
     {
         this.asm = stateManager;
         this.componentResolver = resolver;
@@ -89,6 +91,7 @@ public class AccessController implements Dispatcher
         this.locator = locator;
         this.logger = logger;
         this.linkFactory = linkFactory;
+        this.webSessionUserImplmentation = webSessionUserImplmentation;
         this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
     }
 
@@ -102,105 +105,39 @@ public class AccessController implements Dispatcher
      */
     public boolean dispatch(Request request, Response response) throws IOException
     {
+        if (logger.isTraceEnabled())
+            logger.trace("Checking security/access constraints on: {}", request.getPath());
 
+//        Matcher matcher = PATH_PATTERN.matcher(request.getPath());
+//
+//        if (!matcher.matches())
+//            return false;
 
-        if (logger.isInfoEnabled())
-            logger.info("Checking security/access constraints on: " + request.getPath());
+        /**
+         * We need to get the Tapestry page requested by the user.
+         * So we parse the path extracted from the request
+         */
+        String path = request.getPath();
+        if (path.equals(""))
+            return false;
 
+        int nextslashx = path.length();
+        String pageName;
 
-        Matcher matcher = PATH_PATTERN.matcher(request.getPath());
-
-        if (!matcher.matches()) return false;
-
-        String activePageName = matcher.group(LOGICAL_PAGE_NAME);
-
-//  	Not used... yet
-        String nestedComponentId = matcher.group(NESTED_ID);
-        String eventType = matcher.group(EVENT_NAME);
-
-        if (logger.isInfoEnabled())
+        while (true)
         {
-            logger.info("Found:");
-            logger.info("  activePageName: " + activePageName);
-            logger.info("  nestedComponentId: " + nestedComponentId);
-            logger.info("  eventType: " + eventType);
+            pageName = path.substring(1, nextslashx);
+            if (!pageName.endsWith("/") && componentResolver.isPageName(pageName))
+                break;
+            nextslashx = path.lastIndexOf('/', nextslashx - 1);
+            if (nextslashx <= 1)
+                return false;
         }
 
-//  	TODO Add checks for method annotations/meta datas...
+        String nestedComponentId = null; //matcher.group(NESTED_ID);
+        String eventType = null; //matcher.group(EVENT_NAME);
 
-        boolean res = checkAccess(activePageName, request, response);
-
-        return res;
-    }
-
-    /**
-     * Check the rights of the user for the page requested
-     *
-     * @param pageName name of the page
-     * @param request  the request object
-     * @param response the response object
-     *
-     * @return if true then leave the chain
-     *
-     * @throws java.io.IOException
-     */
-    private boolean checkAccess(String pageName, Request request, Response response) throws IOException
-    {
-        boolean canAccess = true;
-
-        /* Is the requested page private ? */
-        Component page = null;
-        boolean found = false;
-        while (!found)
-        {
-            try
-            {
-                page = componentSource.getPage(pageName);
-                found = true;
-            }
-            catch (IllegalArgumentException iae)
-            {
-                if (pageName.lastIndexOf('/') != -1)
-                {
-                    pageName = pageName.substring(0, pageName.lastIndexOf('/'));
-                    if (logger.isInfoEnabled())
-                        logger.info("Nuovo pagename: " + pageName);
-                }
-                else
-                {
-                    throw iae;
-                }
-            }
-        }
-
-        boolean pagePrivate = locator.findMeta(ChenilleKitAccessConstants.PRIVATE_PAGE, page.getComponentResources(), Boolean.class);
-
-        if (logger.isInfoEnabled())
-            logger.info("The page " + pageName + " (" +
-                    page.toString() + ") has private annotation: " + pagePrivate);
-
-        if (pagePrivate)
-        {
-            canAccess = false;
-            /* Is the user already authentified ? */
-            if (asm.exists(WebUser.class))
-            {
-                WebUser webuser = asm.get(WebUser.class);
-                int role = Integer.parseInt(page.getComponentResources()
-                        .getComponentModel()
-                        .getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE));
-                String group = page.getComponentResources()
-                        .getComponentModel()
-                        .getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP);
-
-                if (webuser.getRole() >= role &&
-                        webuser.getGroup().equalsIgnoreCase(group))
-                    canAccess = true;
-            }
-        }
-
-        /* This page can't be requested by a non authentified user => we redirect him on the signon page */
-        if (!canAccess)
+        if (!hasAccess(pageName, nestedComponentId, eventType))
         {
             // WARN  linkFactory is an internal interace...
             Link link = linkFactory.createPageLink(loginPage, false);
@@ -209,7 +146,44 @@ public class AccessController implements Dispatcher
         }
 
         return false;
+    }
 
+    /**
+     * Check the rights of the user for the page requested
+     *
+     * @param pageName    name of the page
+     * @param componentId component id (not used yet)
+     * @param eventType   event type (not used yet)
+     *
+     * @return if true then leave the chain
+     */
+    private boolean hasAccess(String pageName, String componentId, String eventType)
+    {
+        boolean canAccess = false;
 
+        if (logger.isTraceEnabled())
+            logger.trace("check access for pageName/componentId/eventType: {}/{}/{}",
+                         new Object[]{pageName, componentId, eventType});
+
+        Component page = componentSource.getPage(pageName);
+        Restricted restrictedPage = page.getClass().getAnnotation(Restricted.class);
+        if (restrictedPage == null)
+            return true;
+
+        if (logger.isTraceEnabled())
+            logger.trace("page '{}' is restricted", pageName);
+
+        /* Is the user already authentified ? */
+        WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
+        if (webSessionUser != null)
+        {
+            int role = restrictedPage.role();
+            String group = restrictedPage.group();
+
+            if (webSessionUser.getRole() >= role && webSessionUser.getGroup().equalsIgnoreCase(group))
+                canAccess = true;
+        }
+
+        return canAccess;
     }
 }
