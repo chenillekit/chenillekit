@@ -39,7 +39,6 @@ public class TestAccessIntegration extends AbstractIntegrationTestSuite
         start("Restricted");
         waitForPageToLoad("5000");
 
-//        assertEquals("1", "you only should read this, if you have access rights for this page!");
-        assertEquals(getText("xpath=//span[@id='no_access']"), "no access");
+        assertEquals(getText("xpath=//span[@id='has_access']"), "Has Access");
     }
 }

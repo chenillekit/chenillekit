@@ -23,7 +23,7 @@
 
 <body>
 
-<span id="test">you only should read this, if you have access rights for this page!</span>
+<span id="has_access">Has Access</span>
 
 
 </body>
