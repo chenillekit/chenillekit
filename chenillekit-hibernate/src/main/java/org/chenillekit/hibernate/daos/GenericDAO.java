@@ -209,4 +209,24 @@ public interface GenericDAO<T, ID extends Serializable>
      */
     public void disableFilter(String filterName);
 
+
+    /**
+     * bulk database record update.
+     *
+     * @param queryString the query to update records.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return quantity of updated records
+     */
+    int updateByQuery(String queryString, QueryParameter... parameters);
+
+    /**
+     * bulk database record delete.
+     *
+     * @param queryString the query to delete records.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return quantity of deleted records
+     */
+    int deleteByQuery(String queryString, QueryParameter... parameters);
 }

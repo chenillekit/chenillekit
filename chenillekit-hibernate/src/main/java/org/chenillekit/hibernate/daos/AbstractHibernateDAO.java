@@ -397,4 +397,42 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     {
         session.disableFilter(filterName);
     }
+
+    /**
+     * bulk database record update.
+     *
+     * @param queryString the query to update records.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return quantity of updated records
+     */
+    public int updateByQuery(String queryString, QueryParameter... parameters)
+    {
+        Query query = session.createQuery(queryString);
+        for (QueryParameter parameter : parameters)
+        {
+            if (parameter.getParameterValue() instanceof Collection)
+                query.setParameterList(parameter.getParameterName(), (Collection) parameter.getParameterValue());
+            else
+                query.setParameter(parameter.getParameterName(), parameter.getParameterValue());
+        }
+
+        if (logger.isDebugEnabled())
+            logger.debug(query.getQueryString());
+
+        return query.executeUpdate();
+    }
+
+    /**
+     * bulk database record delete.
+     *
+     * @param queryString the query to delete records.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return quantity of deleted records
+     */
+    public int deleteByQuery(String queryString, QueryParameter... parameters)
+    {
+        return updateByQuery(queryString, parameters);
+    }
 }
