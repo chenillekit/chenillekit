@@ -21,10 +21,10 @@ package org.chenillekit.access.services;
 public interface AuthService<T>
 {
     /**
-     * user authentification.
+     * User authentication.
      *
      * @param userName name of the user
      * @param password users password
      */
-    T doAuthentificate(String userName, String password);
+    T doAuthenticate(String userName, String password);
 }
