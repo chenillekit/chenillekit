@@ -1,0 +1,13 @@
+ ----
+ Home
+ ----
+
+Chenille Kit Reports
+
+  The ChenileKit-Private module let you have private pages which are accessible only to
+  a user who has been previously authenticated (in some way).
+
+  The authentication mechanism is let outside the scope of the library.
+
+  The library needs to have a Bean (WebUser) as ApplicationState to recognize the user
+  and his group and role properties.

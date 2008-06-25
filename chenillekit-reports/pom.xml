@@ -1,0 +1,180 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.chenillekit</groupId>
+    <artifactId>chenillekit-reports</artifactId>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>org.chenillekit</groupId>
+        <artifactId>chenillekit-project</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <name>Chenillekit Reports</name>
+    <version>0.0.1-SNAPSHOT</version>
+    <description>
+        A library to make your pages accessible to authenticated users
+    </description>
+
+    <scm>
+        <url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-reports</url>
+        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-reports</connection>
+        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-reports</developerConnection>
+    </scm>
+
+    <!--
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    + dependencies for this module
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    -->
+    <dependencies>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <classifier>jdk15</classifier>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        ++ Tapestry IOC
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        -->
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-ioc</artifactId>
+        </dependency>
+
+        <!--
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        ++ Jasperreports
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        -->
+        <dependency>
+            <groupId>jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+
+            <!--
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            + build the module site
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <!-- Snapshots after this are broken. %#%#%$#@% Maven. TAPESTRY-1943 -->
+                <version>2.0-beta-5</version>
+                <configuration>
+                    <templateFile>${basedir}/../src/site/maven-site.vm</templateFile>
+                    <stagingDirectory>${basedir}/../target/staging</stagingDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <!--
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            + build the module site
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <compress>true</compress>
+                        <index>true</index>
+                        <manifestEntries>
+                            <Tapestry-Module-Classes>
+                                org.chenillekit.reports.ChenilleKitReportsModule
+                            </Tapestry-Module-Classes>
+                            <Implementation-Version>
+                                ${project.version}
+                            </Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>${cobertura-plugin-version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>summary</report>
+                            <report>dependencies</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+        </plugins>
+    </reporting>
+
+    <profiles>
+        <profile>
+            <id>assembly</id>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assembly/bin.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
