@@ -1,16 +1,4 @@
  ---
- HowTo use chenillekit's private module
+ HowTo use chenillekit's report module
  ---
 
-Tell Me How Should I Use Secure ....
-
-    blablabla
-
-    a preformated code snippet
-
-+---------------------------------------------------+
-public void makeNonSense()
-{
-    System.err.println("NonSense");
-}
-+---------------------------------------------------+
