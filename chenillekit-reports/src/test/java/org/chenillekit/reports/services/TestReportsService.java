@@ -28,7 +28,7 @@ import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperPrint;
 import org.chenillekit.reports.ChenilleKitReportsTestModule;
-import org.chenillekit.reports.utils.JasperExportFormat;
+import org.chenillekit.reports.utils.ExportFormat;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -37,7 +37,7 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
-public class TestJasperreportsService extends Assert
+public class TestReportsService extends Assert
 {
     private Registry _registry;
 
@@ -53,7 +53,7 @@ public class TestJasperreportsService extends Assert
     @Test
     public void test_simple_report() throws FileNotFoundException
     {
-        JasperReportsService service = _registry.getService(JasperReportsService.class);
+        ReportsService service = _registry.getService(ReportsService.class);
 
         Map parameterMap = new HashMap(10);
         parameterMap.put("testString", "this is a test string");
@@ -65,7 +65,7 @@ public class TestJasperreportsService extends Assert
 
         FileOutputStream fos = new FileOutputStream(pdfFile);
 
-        service.fillAndExport(new ClasspathResource("TestReport.jrxml"), JasperExportFormat.PDF, parameterMap, new JREmptyDataSource(), fos);
+        service.fillAndExport(new ClasspathResource("TestReport.jrxml"), ExportFormat.PDF, parameterMap, new JREmptyDataSource(), fos);
 
         assertTrue(pdfFile.exists());
     }
@@ -73,7 +73,7 @@ public class TestJasperreportsService extends Assert
     @Test
     public void test_append_report() throws FileNotFoundException
     {
-        JasperReportsService service = _registry.getService(JasperReportsService.class);
+        ReportsService service = _registry.getService(ReportsService.class);
 
         Map parameterMap = new HashMap(10);
         parameterMap.put("testString", "this is a test string for page 1");
@@ -93,7 +93,7 @@ public class TestJasperreportsService extends Assert
 
         jasperPrint = service.fillReport(jasperPrint, new ClasspathResource("TestReport.jrxml"), parameterMap, new JREmptyDataSource());
 
-        service.export(jasperPrint, JasperExportFormat.PDF, fos);
+        service.export(jasperPrint, ExportFormat.PDF, fos);
 
         assertTrue(pdfFile.exists());
     }

@@ -49,8 +49,8 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
-import org.chenillekit.reports.services.JasperReportsService;
-import org.chenillekit.reports.utils.JasperExportFormat;
+import org.chenillekit.reports.services.ReportsService;
+import org.chenillekit.reports.utils.ExportFormat;
 import org.slf4j.Logger;
 
 /**
@@ -60,11 +60,11 @@ import org.slf4j.Logger;
  * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
-public class JasperReportsServiceImpl implements JasperReportsService
+public class ReportsServiceImpl implements ReportsService
 {
     private Logger logger;
 
-    public JasperReportsServiceImpl(Logger logger, Resource configuration)
+    public ReportsServiceImpl(Logger logger, Resource configuration)
     {
         Defense.notNull(configuration, "configuration");
         InputStream is = null;
@@ -136,7 +136,7 @@ public class JasperReportsServiceImpl implements JasperReportsService
      *
      * @return JRAbstractExporter reporting output engine
      */
-    protected JRAbstractExporter getJasperExporter(JasperExportFormat format)
+    protected JRAbstractExporter getJasperExporter(ExportFormat format)
     {
         JRAbstractExporter abstractExporter = null;
 
@@ -179,7 +179,7 @@ public class JasperReportsServiceImpl implements JasperReportsService
      * @param dataSource    the datasource, maybe null or empty.
      * @param outputStream  the output stream
      */
-    public void fillAndExport(Resource inputResource, JasperExportFormat format, Map parameterMap, JRDataSource dataSource, OutputStream outputStream)
+    public void fillAndExport(Resource inputResource, ExportFormat format, Map parameterMap, JRDataSource dataSource, OutputStream outputStream)
     {
         JasperPrint jasperPrint = fillReport(inputResource, parameterMap, dataSource);
         export(jasperPrint, format, outputStream);
@@ -192,7 +192,7 @@ public class JasperReportsServiceImpl implements JasperReportsService
      * @param format       the output format
      * @param outputStream the output stream
      */
-    public void export(JasperPrint jasperPrint, JasperExportFormat format, OutputStream outputStream)
+    public void export(JasperPrint jasperPrint, ExportFormat format, OutputStream outputStream)
     {
         JRAbstractExporter exporter = getJasperExporter(format);
         if (exporter == null)

@@ -21,7 +21,7 @@ import org.apache.tapestry5.ioc.Resource;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.chenillekit.reports.utils.JasperExportFormat;
+import org.chenillekit.reports.utils.ExportFormat;
 
 /**
  * reporting tool that has the ability to deliver rich content to the screen or printer or into PDF, HTML, XLS, CSV and XML files
@@ -30,7 +30,7 @@ import org.chenillekit.reports.utils.JasperExportFormat;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public interface JasperReportsService
+public interface ReportsService
 {
     public final String CONFIG_RESOURCE_KEY = "jasperreports.properties";
 
@@ -43,7 +43,7 @@ public interface JasperReportsService
      * @param dataSource    the datasource, maybe null or empty.
      * @param outputStream  the output stream
      */
-    void fillAndExport(Resource inputResource, JasperExportFormat format, Map parameterMap, JRDataSource dataSource, OutputStream outputStream);
+    void fillAndExport(Resource inputResource, ExportFormat format, Map parameterMap, JRDataSource dataSource, OutputStream outputStream);
 
     /**
      * export the report.
@@ -52,7 +52,7 @@ public interface JasperReportsService
      * @param format       the output format
      * @param outputStream the output stream
      */
-    void export(JasperPrint jasperPrint, JasperExportFormat format, OutputStream outputStream);
+    void export(JasperPrint jasperPrint, ExportFormat format, OutputStream outputStream);
 
     /**
      * Fills the report design loaded from the supplied input resource and returns the generated report object.

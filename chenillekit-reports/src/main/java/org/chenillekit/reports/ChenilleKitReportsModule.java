@@ -17,9 +17,11 @@ package org.chenillekit.reports;
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.annotations.Marker;
 
-import org.chenillekit.reports.services.JasperReportsService;
-import org.chenillekit.reports.services.impl.JasperReportsServiceImpl;
+import org.chenillekit.reports.services.ReportsService;
+import org.chenillekit.reports.services.impl.ReportsServiceImpl;
+import org.chenillekit.reports.annotations.ChenilleKitReports;
 import org.slf4j.Logger;
 
 /**
@@ -36,8 +38,9 @@ public class ChenilleKitReportsModule
      *
      * @return the jasperreports service
      */
-    public static JasperReportsService buildJasperReportsService(Logger logger, Map<String, Resource> configuration)
+    @Marker(ChenilleKitReports.class)
+    public static ReportsService buildReportsService(Logger logger, Map<String, Resource> configuration)
     {
-        return new JasperReportsServiceImpl(logger, configuration.get(JasperReportsService.CONFIG_RESOURCE_KEY));
+        return new ReportsServiceImpl(logger, configuration.get(ReportsService.CONFIG_RESOURCE_KEY));
     }
 }

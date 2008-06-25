@@ -19,7 +19,7 @@ import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
-import org.chenillekit.reports.services.JasperReportsService;
+import org.chenillekit.reports.services.ReportsService;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
@@ -33,9 +33,9 @@ public class ChenilleKitReportsTestModule
      *
      * @param configuration
      */
-    public static void contributeJasperReportsService(MappedConfiguration<String, Resource> configuration)
+    public static void contributeReportsService(MappedConfiguration<String, Resource> configuration)
     {
-        configuration.add(JasperReportsService.CONFIG_RESOURCE_KEY, new ClasspathResource("jasperreports.properties"));
+        configuration.add(ReportsService.CONFIG_RESOURCE_KEY, new ClasspathResource("jasperreports.properties"));
     }
 
 }
