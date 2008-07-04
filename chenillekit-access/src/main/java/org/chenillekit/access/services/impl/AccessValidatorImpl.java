@@ -60,8 +60,8 @@ public class AccessValidatorImpl implements AccessValidator
 	{
 		boolean canAccess = false;
         
-//        if (logger.isTraceEnabled())
-            logger.info("check access for pageName/componentId/eventType: {}/{}/{}",
+        if (logger.isDebugEnabled())
+            logger.debug("check access for pageName/componentId/eventType: {}/{}/{}",
                          new Object[]{pageName, componentId, eventType});
         
         /* Is the requested page private ? */
@@ -81,8 +81,8 @@ public class AccessValidatorImpl implements AccessValidator
                         if (pageName.lastIndexOf('/') != -1)
                         {
                                 pageName = pageName.substring(0, pageName.lastIndexOf('/'));
-//                                if (logger.isTraceEnabled())
-                                        logger.info("New pagename: " + pageName);
+                                if (logger.isTraceEnabled())
+                                        logger.trace("New pagename: " + pageName);
                         }
                         else
                         {
