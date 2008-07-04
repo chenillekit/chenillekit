@@ -25,13 +25,18 @@ import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentClassResolver;
+import org.apache.tapestry5.services.ComponentEventRequestFilter;
+import org.apache.tapestry5.services.ComponentEventRequestHandler;
+import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.MetaDataLocator;
+import org.apache.tapestry5.services.PageRenderRequestFilter;
+import org.apache.tapestry5.services.PageRenderRequestHandler;
+import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Response;
 import org.chenillekit.access.ChenilleKitAccessConstants;
-import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.utils.WebSessionUser;
 import org.slf4j.Logger;
 
@@ -96,6 +101,28 @@ public class AccessController implements Dispatcher
         this.webSessionUserImplmentation = webSessionUserImplmentation;
         this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
     }
+    
+//    /* (non-Javadoc)
+//	 * @see org.apache.tapestry5.services.PageRenderRequestFilter#handle(org.apache.tapestry5.services.PageRenderRequestParameters, org.apache.tapestry5.services.PageRenderRequestHandler)
+//	 */
+//	public void handle(PageRenderRequestParameters parameters,
+//			PageRenderRequestHandler handler) throws IOException
+//	{
+//		if (hasAccess(parameters.getLogicalPageName(), null, null))
+//			handler.handle(parameters);
+//	}
+//	
+//	
+//	/*
+//	 * (non-Javadoc)
+//	 * @see org.apache.tapestry5.services.ComponentEventRequestFilter#handle(org.apache.tapestry5.services.ComponentEventRequestParameters, org.apache.tapestry5.services.ComponentEventRequestHandler)
+//	 */
+//	public void handle(ComponentEventRequestParameters parameters,
+//			ComponentEventRequestHandler handler) throws IOException
+//	{
+//		if (hasAccess(parameters.getActivePageName(), parameters.getNestedComponentId(), parameters.getEventType()));
+//			handler.handle(parameters);
+//	}
 
     /**
      * Analyzes the incoming request and performs an appropriate operation for each.
@@ -114,27 +141,6 @@ public class AccessController implements Dispatcher
 
         if (!matcher.matches())
             return false;
-
-//        /**
-//         * We need to get the Tapestry page requested by the user.
-//         * So we parse the path extracted from the request
-//         */
-//        String path = request.getPath();
-//        if (path.equals(""))
-//            return false;
-//
-//        int nextslashx = path.length();
-//        String pageName;
-//
-//        while (true)
-//        {
-//            pageName = path.substring(1, nextslashx);
-//            if (!pageName.endsWith("/") && componentResolver.isPageName(pageName))
-//                break;
-//            nextslashx = path.lastIndexOf('/', nextslashx - 1);
-//            if (nextslashx <= 1)
-//                return false;
-//        }
         
         String logicalPageName = matcher.group(LOGICAL_PAGE_NAME);
 
@@ -171,6 +177,8 @@ public class AccessController implements Dispatcher
         
         /* Is the requested page private ? */
         Component page = null;
+        
+        // This should be unnecessary...
         boolean found = false;
         while ( !found )
         {
@@ -238,51 +246,5 @@ public class AccessController implements Dispatcher
 
         return canAccess;
         
-
-//      Component page = componentSource.getPage(pageName);
-//      Restricted restrictedPage = page.getClass().getAnnotation(Restricted.class);
-//      if (restrictedPage == null)
-//          return true;
-
-//      if (logger.isTraceEnabled())
-//          logger.trace("page '{}' is restricted", pageName);
-      
-//      /* Is the user already authentified ? */
-//      WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
-//      if (webSessionUser != null)
-//      {
-//          boolean hasRole = false;
-//          boolean hasGroup = false;
-//
-//          for (int pageRole : restrictedPage.roles())
-//          {
-//              for (int userRole : webSessionUser.getRoles())
-//              {
-//                  if (userRole >= pageRole)
-//                  {
-//                      hasRole = true;
-//                      break;
-//                  }
-//              }
-//          }
-//
-//          if (!hasRole)
-//          {
-//              for (String pageGroup : restrictedPage.groups())
-//              {
-//                  for (String userGroup : webSessionUser.getGroups())
-//                  {
-//                      if (userGroup.equalsIgnoreCase(pageGroup))
-//                      {
-//                          hasGroup = true;
-//                          break;
-//                      }
-//                  }
-//              }
-//          }
-//
-//          if (hasRole || hasGroup)
-//              canAccess = true;
-//      }
     }
 }

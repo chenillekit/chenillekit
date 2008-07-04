@@ -41,4 +41,14 @@ public class TestAccessIntegration extends AbstractIntegrationTestSuite
 
         assertEquals(getText("xpath=//span[@id='has_access']"), "Has Access");
     }
+    
+    @Test
+    public void test_not_enough_rights()
+    {
+        open(BASE_URL);
+        start("NotEnoughRights");
+        waitForPageToLoad("5000");
+
+        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
+    }
 }

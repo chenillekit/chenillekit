@@ -26,6 +26,8 @@ package org.chenillekit.access;
  */
 public class ChenilleKitAccessConstants
 {
+	public static final String WEB_USER_IMPLEMENTATION = "webuser.implementation";
+	
     /**
      * The logical name of the login page
      */
