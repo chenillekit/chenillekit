@@ -100,6 +100,7 @@
         <module>chenillekit-access</module>
         <module>chenillekit-demo</module>
         <module>chenillekit-reports</module>
+        <module>chenillekit-template</module>
     </modules>
 
     <!--
@@ -290,6 +291,28 @@
                 <groupId>jasperreports</groupId>
                 <artifactId>jasperreports</artifactId>
                 <version>3.0.0</version>
+            </dependency>
+
+            <!--
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            ++ Freemarker
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.10</version>
+            </dependency>
+
+            <!--
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            ++ Velocity
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <dependency>
+                <groupId>velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.5</version>
             </dependency>
 
         </dependencies>
