@@ -17,7 +17,14 @@ package org.chenillekit.tapestry.core;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.tapestry5.services.BindingFactory;
+import org.apache.tapestry5.services.BindingSource;
 import org.apache.tapestry5.services.LibraryMapping;
+
+import org.chenillekit.tapestry.core.factories.ListBindingFactory;
+import org.chenillekit.tapestry.core.factories.LoopBindingFactory;
+import org.chenillekit.tapestry.core.factories.MessageFormatBindingFactory;
+import org.chenillekit.tapestry.core.factories.OgnlBindingFactory;
 
 /**
  * module for chenillekit web module.
@@ -49,5 +56,14 @@ public class ChenilleKitCoreModule
     {
         configuration.add("fckeditor/", scriptPath + "/fckeditor/");
         configuration.add("window/", scriptPath + "/window/");
+    }
+
+    public static void contributeBindingSource(MappedConfiguration<String, BindingFactory> configuration,
+                                               BindingSource bindingSource)
+    {
+        configuration.add("messageformat", new MessageFormatBindingFactory(bindingSource));
+        configuration.add("list", new ListBindingFactory(bindingSource));
+        configuration.add("loop", new LoopBindingFactory(bindingSource));
+        configuration.add("ognl", new OgnlBindingFactory());
     }
 }

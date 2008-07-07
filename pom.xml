@@ -3,6 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <properties>
+        <chenillekit-release-version>0.0.1-SNAPSHOT</chenillekit-release-version>
         <tapestry-release-version>5.0.14-SNAPSHOT</tapestry-release-version>
         <update-release-info>false</update-release-info>
         <cobertura-plugin-version>2.2</cobertura-plugin-version>
@@ -12,7 +13,7 @@
     <groupId>org.chenillekit</groupId>
     <artifactId>chenillekit-project</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${chenillekit-release-version}</version>
     <name>Chenillekit Project</name>
     <description>
         A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
@@ -92,6 +93,7 @@
     </developers>
 
     <modules>
+        <module>chenillekit-core</module>
         <module>chenillekit-quartz</module>
         <module>chenillekit-hivemind</module>
         <module>chenillekit-hibernate</module>
@@ -117,6 +119,17 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!--
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            ++ ChenilleKit
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <dependency>
+                <groupId>org.chenillekit</groupId>
+                <artifactId>chenillekit-core</artifactId>
+                <version>${chenillekit-release-version}</version>
+            </dependency>
 
             <!-- Tapestry artifacts -->
             <dependency>
@@ -345,6 +358,12 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
                 <version>1.5.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ognl</groupId>
+                <artifactId>ognl</artifactId>
+                <version>2.6.9</version>
             </dependency>
 
         </dependencies>
