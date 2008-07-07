@@ -3,7 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <properties>
-        <chenillekit-release-version>0.0.1-SNAPSHOT</chenillekit-release-version>
         <tapestry-release-version>5.0.14-SNAPSHOT</tapestry-release-version>
         <update-release-info>false</update-release-info>
         <cobertura-plugin-version>2.2</cobertura-plugin-version>
@@ -13,7 +12,7 @@
     <groupId>org.chenillekit</groupId>
     <artifactId>chenillekit-project</artifactId>
     <packaging>pom</packaging>
-    <version>${chenillekit-release-version}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>Chenillekit Project</name>
     <description>
         A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
