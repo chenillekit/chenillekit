@@ -28,15 +28,15 @@ public class HiddenDemo
 {
     @Persist
     @Property
-    private String hiddenValue1;
+    private String hiddenValue1 = "Blub";
 
     @Persist
     @Property
-    private Long hiddenValue2;
+    private Long hiddenValue2 = 200l;
 
     @Persist
     @Property
-    private Float hiddenValue3;
+    private Float hiddenValue3 = 123.456f;
 
     @Component(parameters = {"value=hiddenValue1"})
     private Hidden hidden1;

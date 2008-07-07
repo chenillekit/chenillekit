@@ -175,6 +175,23 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
 //        assertEquals(getText("xpath=//span[@id='inPlaceEditor']"), "BlaBla");
     }
 
+    @Test
+    public void test_thumbnail()
+    {
+        open(BASE_URL);
+
+        start("ThumbNail");
+        waitForPageToLoad("5000");
+        captureScreenshot("test_thumbnail.png");
+        assertAttribute("xpath=//img@src", "thumbnails/2373045207");
+
+        click("xpath=//img[@id='thumbNail']");
+        assertAttribute("xpath=//img[@id='thumbNail']@src", "assets/images/sven.jpg");
+
+        mouseOut("xpath=//img[@id='thumbNail']");
+        assertAttribute("xpath=//img[@id='thumbNail']@src", "http://localhost:9999/thumbnails/2373045207");
+    }
+
 //    @Test
 //    public void test_tabset()
 //    {

@@ -52,6 +52,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.chenillekit</groupId>
+            <artifactId>chenillekit-image</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-test</artifactId>
             <scope>test</scope>

@@ -69,6 +69,7 @@ public class Start
             new Item("HiddenDemo", "Hidden", "tests Hidden component"),
             new Item("InPlaceDemo", "InPlace", "tests InPlace components"),
             new Item("TabSetDemo", "TabSet", "tests TabSet component"),
+            new Item("ThumbNailDemo", "ThumbNail", "tests ThumbNail component"),
             new Item("DateTimeFieldDemo", "DateTimeField", "tests DateTimeField component")
     );
 
