@@ -14,14 +14,18 @@
 
 package org.chenillekit.template.services.impl;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -38,6 +42,7 @@ import org.slf4j.Logger;
 public class VelocityServiceImpl implements TemplateService
 {
     public static final String CONFIG_RESOURCE_KEY = "velocity.configuration";
+    public static final String SERVICE_NAME = "VelocityService";
 
     private Resource _configuration;
     private Logger _serviceLog;
@@ -168,6 +173,69 @@ public class VelocityServiceImpl implements TemplateService
 
             if (_serviceLog.isInfoEnabled())
                 _serviceLog.info("processing template file '" + template.getPath() + "' finished");
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
+    }
+
+    /**
+     * merge data from parameter map with template resource into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     */
+    public void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap)
+    {
+        mergeDataWithStream(templateStream, outputStream, parameterMap, (Collection) null);
+    }
+
+    /**
+     * merge data from parameter map and array of elements with template stream into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     * @param elements       collection of elements
+     */
+    public void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap, Collection elements)
+    {
+        mergeDataWithStream(templateStream, outputStream, parameterMap, elements != null ? elements.toArray() : null);
+    }
+
+    /**
+     * merge data from parameter map and array of elements with template string into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     * @param elements       array of elements
+     */
+    public void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap, Object[] elements)
+    {
+        Defense.notNull(templateStream, "template stream");
+
+        try
+        {
+            VelocityContext context = buildContext(parameterMap, elements);
+
+            if (_serviceLog.isInfoEnabled())
+                _serviceLog.info("processing template stream");
+
+            Writer out = new OutputStreamWriter(outputStream);
+            Reader reader = new InputStreamReader(templateStream);
+            Velocity.evaluate(context, out, SERVICE_NAME, reader);
+
+            /*
+            *  flush the writer
+            */
+            out.flush();
+
+            if (_serviceLog.isInfoEnabled())
+                _serviceLog.info("processing template finished");
 
         }
         catch (Exception e)

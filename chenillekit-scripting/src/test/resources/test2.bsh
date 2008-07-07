@@ -1,0 +1,8 @@
+registry = bsf.lookupBean("registry");
+
+x = "Hello World from 'test2.bsh' script";
+y = x;
+
+System.out.println(registry.getClass().getName());
+
+return y;

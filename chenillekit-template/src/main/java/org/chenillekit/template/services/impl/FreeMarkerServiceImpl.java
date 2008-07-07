@@ -17,6 +17,7 @@ package org.chenillekit.template.services.impl;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 
@@ -120,5 +121,43 @@ public class FreeMarkerServiceImpl implements TemplateService
         {
             throw new RuntimeException(e.getLocalizedMessage());
         }
+    }
+
+    /**
+     * merge data from parameter map with template resource into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     */
+    public void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap)
+    {
+        mergeDataWithStream(templateStream, outputStream, parameterMap, (Collection) null);
+    }
+
+    /**
+     * merge data from parameter map and array of elements with template stream into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     * @param elements       collection of elements
+     */
+    public void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap, Collection elements)
+    {
+        mergeDataWithStream(templateStream, outputStream, parameterMap, elements != null ? elements.toArray() : null);
+    }
+
+    /**
+     * merge data from parameter map and array of elements with template stream into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     * @param elements       array of elements
+     */
+    public void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap, Object[] elements)
+    {
+        throw new RuntimeException("not implemented yet!");
     }
 }

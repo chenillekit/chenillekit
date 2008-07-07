@@ -16,6 +16,7 @@ package org.chenillekit.template.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
@@ -66,6 +67,24 @@ public class TestTemplateService extends Assert
         assertTrue(result.contains("tried 3"));
         assertTrue(result.contains("Athur Dent"));
         assertFalse(result.contains("block_date"));
+    }
+
+    @Test
+    public void test_velocity_service_stream()
+    {
+        TemplateService service = _registry.getService("VelocityService", TemplateService.class);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        Map<String, Serializable> parameterMap = new HashMap<String, Serializable>();
+        parameterMap.put("var", "fine short");
+
+        ByteArrayInputStream bais = new ByteArrayInputStream("this is a ${var} test string".getBytes());
+        service.mergeDataWithStream(bais, baos, parameterMap);
+
+        String result = baos.toString();
+        System.err.println(result);
+
+        assertTrue(result.contains("fine short"));
     }
 
     @Test

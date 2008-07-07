@@ -101,6 +101,9 @@
         <module>chenillekit-demo</module>
         <module>chenillekit-reports</module>
         <module>chenillekit-template</module>
+        <module>chenillekit-image</module>
+        <module>chenillekit-google</module>
+        <module>chenillekit-scripting</module>
     </modules>
 
     <!--
@@ -218,6 +221,12 @@
                 <version>1.5</version>
             </dependency>
 
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.1</version>
+            </dependency>
+
             <!--
             +++++++++++++++++++++++++++++++++++++++++++++++++++++++
             ++ JBoss Hibernate
@@ -313,6 +322,29 @@
                 <groupId>velocity</groupId>
                 <artifactId>velocity</artifactId>
                 <version>1.5</version>
+            </dependency>
+
+            <!--
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            ++ Others
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <dependency>
+                <groupId>net.sf.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>1.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>bsf</groupId>
+                <artifactId>bsf</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>1.5.4</version>
             </dependency>
 
         </dependencies>
@@ -511,11 +543,11 @@
 
     <!--<distributionManagement>-->
 
-        <!--<site>-->
-            <!--<id>site-domain</id>-->
-            <!--<name>Site Host</name>-->
-            <!--<url>scp://www.chenillekit.org/</url>-->
-        <!--</site>-->
+    <!--<site>-->
+    <!--<id>site-domain</id>-->
+    <!--<name>Site Host</name>-->
+    <!--<url>scp://www.chenillekit.org/</url>-->
+    <!--</site>-->
 
     <!--</distributionManagement>-->
 

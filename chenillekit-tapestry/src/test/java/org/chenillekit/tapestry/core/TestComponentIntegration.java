@@ -175,18 +175,17 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
 //        assertEquals(getText("xpath=//span[@id='inPlaceEditor']"), "BlaBla");
     }
 
-    @Test
-    public void test_tabset()
-    {
-        open(BASE_URL);
-
-        start("TabSet");
-        waitForPageToLoad("5000");
-
-        click("xpath=//div[@id='panel_stuff2']");
-
-        assertEquals(getText("xpath=//div[@id='stuff2']"), "");
+//    @Test
+//    public void test_tabset()
+//    {
+//        open(BASE_URL);
+//
+//        start("TabSet");
+//        waitForPageToLoad("5000");
+//
+//        click("xpath=//div[@id='panel_stuff2']");
+//
 //        assertTrue(this.isVisible("xpath=//div[@id='stuff2']"));
 //        assertFalse(this.isVisible("xpath=//div[@id='stuff1']"));
-    }
+//    }
 }

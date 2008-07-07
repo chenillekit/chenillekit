@@ -11,8 +11,10 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package org.chenillekit.template.services;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Map;
@@ -56,4 +58,33 @@ public interface TemplateService
      * @param elements     array of elements
      */
     void mergeDataWithResource(Resource template, OutputStream outputStream, Map parameterMap, Object[] elements);
+
+    /**
+     * merge data from parameter map with template resource into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     */
+    void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap);
+
+    /**
+     * merge data from parameter map and array of elements with template stream into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     * @param elements       collection of elements
+     */
+    void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap, Collection elements);
+
+    /**
+     * merge data from parameter map and array of elements with template stream into given output stream.
+     *
+     * @param templateStream template stream
+     * @param outputStream   where to write in
+     * @param parameterMap   parameters for template
+     * @param elements       array of elements
+     */
+    void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap, Object[] elements);
 }
