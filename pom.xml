@@ -120,17 +120,6 @@
     <dependencyManagement>
         <dependencies>
 
-            <!--
-            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            ++ ChenilleKit
-            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            -->
-            <dependency>
-                <groupId>org.chenillekit</groupId>
-                <artifactId>chenillekit-core</artifactId>
-                <version>${chenillekit-release-version}</version>
-            </dependency>
-
             <!-- Tapestry artifacts -->
             <dependency>
                 <groupId>org.apache.tapestry</groupId>
