@@ -8,7 +8,7 @@ import org.apache.tapestry5.ioc.Resource;
 import static org.apache.tapestry5.ioc.internal.util.CollectionFactory.newConcurrentMap;
 import org.apache.tapestry5.services.AssetFactory;
 
-import org.chenillekit.core.resources.URIResource;
+import org.chenillekit.tapestry.core.resources.URIResource;
 import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 
 /**
