@@ -32,7 +32,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
  * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id: AbstractEventMixin.java 682 2008-05-20 22:00:02Z homburgs $
  */
-@IncludeJavaScriptLibrary(value = {"../components/CkOnEvents.js"})
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "../components/CkOnEvents.js"})
 @MixinAfter
 abstract public class AbstractEventMixin implements EventMixin
 {
@@ -88,10 +88,15 @@ abstract public class AbstractEventMixin implements EventMixin
         Link link = resources.createActionLink(getEventName().toLowerCase(), true, contextArray);
         String id = clientElement.getClientId();
 
-        String jsString = "new Ck.OnEvent('%s', '%s', %b, '%s', '%s');";
-        String callBackString = resources.isBound("onCompleteCallback") ? onCompleteCallback : "";
-        boolean doStop = resources.isBound("stop") ? stop : false;
+        String ajaxString = "new Ck.OnEvent('%s', '%s', %b, '%s'";
 
-        pageRenderSupport.addScript(jsString, getEventName(), id, doStop, link.toAbsoluteURI(), callBackString);
+        if (resources.isBound("onCompleteCallback"))
+            ajaxString += ",'" + onCompleteCallback + "'";
+
+        ajaxString += ");";
+
+        boolean doStop = resources.isBound("stop") && stop;
+
+        pageRenderSupport.addScript(ajaxString, getEventName(), id, doStop, link.toAbsoluteURI());
     }
 }

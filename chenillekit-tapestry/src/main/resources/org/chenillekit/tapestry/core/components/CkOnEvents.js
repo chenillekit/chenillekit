@@ -21,12 +21,7 @@ Ck.OnEvent.prototype = {
 
         this.element = $(elementId);
         this.stop = stop;
-
-        this.onCompleteCallback = null
-
-        if (onCompleteCallback.length > 0)
-            this.onCompleteCallback = onCompleteCallback;
-
+        this.onCompleteCallback = onCompleteCallback;
         this.requestUrl = requestUrl;
 
         Event.observe(this.element, eventName, this.reflectOnEvent.bind(this), false);
@@ -56,15 +51,15 @@ Ck.OnEvent.prototype = {
             method: 'post',
             onFailure: function(t)
             {
-                alert(t.responseText);
+                alert('Error communication with the server: ' + t.responseText.stripTags());
             },
             onException: function(t, exception)
             {
-                alert(exception);
+                alert('Error communication with the server: ' + exception.stripTags());
             },
             onSuccess: function(t)
             {
-                if (this.onCompleteCallback != null)
+                if (this.onCompleteCallback != "undefined")
                     eval(this.onCompleteCallback + "('" + t.responseText + "')");
             }.bind(this)
         });
@@ -72,9 +67,8 @@ Ck.OnEvent.prototype = {
 }
 
 
-var ButtonEvent = Class.create();
-
-ButtonEvent.prototype =
+Ck.ButtonEvent = Class.create();
+Ck.ButtonEvent.prototype =
 {
     initialize: function(elementId, requestUrl)
     {

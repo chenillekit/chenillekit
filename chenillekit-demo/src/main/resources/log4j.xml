@@ -24,7 +24,7 @@
     </appender>
 
     <root>
-        <level value="trace"/>
+        <level value="info"/>
         <appender-ref ref="Console"/>
     </root>
 

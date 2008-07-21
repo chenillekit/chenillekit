@@ -29,9 +29,8 @@ import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
-import org.chenillekit.access.ChenilleKitAccessConstants;
+
 import org.chenillekit.demo.data.Track;
-import org.chenillekit.demo.utils.WebUser;
 import org.slf4j.Logger;
 
 /**
@@ -48,21 +47,6 @@ public class DemoModule
     public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
     {
         configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en_en,it_it,de_de");
-        configuration.add(ChenilleKitAccessConstants.LOGIN_PAGE, "login");
-    }
-    
-    /**
-     * 
-     * @param configuration
-     */
-    public static void contributeAccessControllerDispatcher(MappedConfiguration<String, Class> configuration)
-    {
-        configuration.add("webuser.implementation", WebUser.class);
-    }
-    
-    public static void contributeAccessValidator(MappedConfiguration<String, Class> configuration)
-    {
-        configuration.add("webuser.implementation", WebUser.class);
     }
 
     /**

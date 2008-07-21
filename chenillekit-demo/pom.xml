@@ -61,12 +61,6 @@
             <artifactId>chenillekit-tapestry</artifactId>
             <version>${version}</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.chenillekit</groupId>
-            <artifactId>chenillekit-access</artifactId>
-            <version>${version}</version>
-        </dependency>
 
     </dependencies>
 

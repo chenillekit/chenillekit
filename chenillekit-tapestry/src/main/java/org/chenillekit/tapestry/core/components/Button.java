@@ -107,7 +107,7 @@ public class Button implements ClientElement
         if (!_disabled && _type.equalsIgnoreCase(BUTTON_TYPE))
         {
             Link link = _resources.createActionLink(_event, false, _contextArray);
-            _renderSupport.addScript("new ButtonEvent('%s', '%s');", getClientId(), link.toAbsoluteURI());
+            _renderSupport.addScript("new Ck.ButtonEvent('%s', '%s');", getClientId(), link.toAbsoluteURI());
         }
 
         // Close the button tag
