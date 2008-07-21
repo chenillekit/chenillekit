@@ -192,6 +192,20 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertAttribute("xpath=//img[@id='thumbNail']@src", "http://localhost:9999/thumbnails/2373045207");
     }
 
+    @Test
+    public void test_onevent() throws InterruptedException
+    {
+        open(BASE_URL);
+
+        start("OnEvent");
+        waitForPageToLoad("5000");
+        select("xpath=//select[@id='select1']", "BLACK");
+        select("xpath=//select[@id='select1']", "GREEN");
+        Thread.sleep(1000);
+
+        assertEquals(getText("xpath=//div[@id='result1']"), "GREEN");
+    }
+
 //    @Test
 //    public void test_tabset()
 //    {

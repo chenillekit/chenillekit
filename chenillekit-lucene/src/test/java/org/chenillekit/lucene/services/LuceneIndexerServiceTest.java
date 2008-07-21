@@ -67,15 +67,15 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
         assertEquals(service.getDocCount(), 3);
     }
 
-    @Test(dependsOnMethods = {"indexed_records"})
-    public void delete_document()
-    {
-        IndexerService service = registry.getService(IndexerService.class);
-
-        System.err.println("deleted: " + service.delDocument("id", "consp.txt"));
-
-        assertEquals(service.getDocCount(), 2);
-    }
+//    @Test(dependsOnMethods = {"indexed_records"})
+//    public void delete_document()
+//    {
+//        IndexerService service = registry.getService(IndexerService.class);
+//
+//        System.err.println("deleted: " + service.delDocument("id", "consp.txt"));
+//
+//        assertEquals(service.getDocCount(), 2);
+//    }
 
     private String readFile(URL file)
     {

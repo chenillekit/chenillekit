@@ -16,6 +16,7 @@ package org.chenillekit.hibernate.daos;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Collection;
 
 import org.chenillekit.hibernate.utils.QueryParameter;
 
@@ -63,6 +64,16 @@ public interface GenericDAO<T, ID extends Serializable>
     /**
      * retieve entites by query.
      *
+     * @param queryString the query to find entities.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return list of entities
+     */
+    List<T> findByQuery(String queryString, Collection<QueryParameter> parameters);
+
+    /**
+     * retieve entites by query.
+     *
      * @param queryString the query to fin entities.
      * @param offset      record number where start to read.
      * @param limit       amount of records to read.
@@ -71,6 +82,18 @@ public interface GenericDAO<T, ID extends Serializable>
      * @return list of entities
      */
     List<T> findByQuery(String queryString, int offset, int limit, QueryParameter... parameters);
+
+    /**
+     * retieve entites by query.
+     *
+     * @param queryString the query to fin entities.
+     * @param offset      record number where start to read.
+     * @param limit       amount of records to read.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return list of entities
+     */
+    List<T> findByQuery(String queryString, int offset, int limit, Collection<QueryParameter> parameters);
 
     /**
      * sends a COUNT(*) query to database.
@@ -83,6 +106,16 @@ public interface GenericDAO<T, ID extends Serializable>
     Object countByQuery(String queryString, QueryParameter... parameters);
 
     /**
+     * sends a COUNT(*) query to database.
+     *
+     * @param queryString the query to count entities.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return
+     */
+    Object countByQuery(String queryString, Collection<QueryParameter> parameters);
+
+    /**
      * sends a query that retrieve an aggregate or group result.
      *
      * @param queryString the query to count entities.
@@ -91,6 +124,16 @@ public interface GenericDAO<T, ID extends Serializable>
      * @return aggregate or group result
      */
     Object aggregateOrGroup(String queryString, QueryParameter... parameters);
+
+    /**
+     * sends a query that retrieve an aggregate or group result.
+     *
+     * @param queryString the query to count entities.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return aggregate or group result
+     */
+    Object aggregateOrGroup(String queryString, Collection<QueryParameter> parameters);
 
     /**
      * methode executes before entity retieved.

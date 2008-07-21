@@ -60,6 +60,7 @@ public class Start
     }
 
     private static final List<Item> ITEMS = CollectionFactory.newList(
+            new Item("OnEventDemo", "OnEvent", "tests OnEvent mixin"),
             new Item("AccordionDemo", "Accordion", "tests Accordion component"),
             new Item("FormaterDemo", "Formater", "tests Formater components"),
             new Item("ContainsDemo", "Contains", "tests Contains component"),

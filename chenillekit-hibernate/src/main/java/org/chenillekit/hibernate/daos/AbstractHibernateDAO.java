@@ -15,6 +15,7 @@
 package org.chenillekit.hibernate.daos;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -159,6 +160,20 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     @SuppressWarnings("unchecked")
     public List<T> findByQuery(String queryString, QueryParameter... parameters)
     {
+        return findByQuery(queryString, 0, 0, Arrays.asList(parameters));
+    }
+
+    /**
+     * retieve entites by HQL query.
+     *
+     * @param queryString the query to find entities.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return list of entities
+     */
+    @SuppressWarnings("unchecked")
+    public List<T> findByQuery(String queryString, Collection<QueryParameter> parameters)
+    {
         return findByQuery(queryString, 0, 0, parameters);
     }
 
@@ -174,6 +189,22 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     @SuppressWarnings("unchecked")
     public List<T> findByQuery(String queryString, int offset, int limit, QueryParameter... parameters)
+    {
+        return findByQuery(queryString, offset, limit, Arrays.asList(parameters));
+    }
+
+    /**
+     * retieve entites by HQL query.
+     *
+     * @param queryString the query to fin entities.
+     * @param offset      record number where start to read.
+     * @param limit       amount of records to read.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return list of entities
+     */
+    @SuppressWarnings("unchecked")
+    public List<T> findByQuery(String queryString, int offset, int limit, Collection<QueryParameter> parameters)
     {
         Query query = session.createQuery(queryString);
         for (QueryParameter parameter : parameters)
@@ -226,6 +257,20 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
     @SuppressWarnings("unchecked")
     public Object countByQuery(String queryString, QueryParameter... parameters)
     {
+        return countByQuery(queryString, Arrays.asList(parameters));
+    }
+
+    /**
+     * wir holen uns die Anzahl der Entitaeten, die den uebergebenen <em>queryString</em> entsprechen.
+     *
+     * @param queryString the query to fin entities.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return Anzahl der gefundenen Entitaeten.
+     */
+    @SuppressWarnings("unchecked")
+    public Object countByQuery(String queryString, Collection<QueryParameter> parameters)
+    {
         Query query = session.createQuery(queryString);
         for (QueryParameter parameter : parameters)
         {
@@ -247,6 +292,19 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      * @return aggregate or group result
      */
     public Object aggregateOrGroup(String queryString, QueryParameter... parameters)
+    {
+        return aggregateOrGroup(queryString, Arrays.asList(parameters));
+    }
+
+    /**
+     * sends a query that retrieve an aggregate or group result.
+     *
+     * @param queryString the query to count entities.
+     * @param parameters  the (optional) parameters for the query.
+     *
+     * @return aggregate or group result
+     */
+    public Object aggregateOrGroup(String queryString, Collection<QueryParameter> parameters)
     {
         Query query = session.createQuery(queryString);
         for (QueryParameter parameter : parameters)

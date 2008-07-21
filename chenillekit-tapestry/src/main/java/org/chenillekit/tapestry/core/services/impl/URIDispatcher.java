@@ -23,9 +23,9 @@ import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Response;
 
-import org.chenillekit.tapestry.core.resources.URIResource;
 import org.chenillekit.tapestry.core.ChenilleKitCoreConstants;
 import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
+import org.chenillekit.core.resources.URIResource;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>

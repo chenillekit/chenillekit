@@ -88,7 +88,7 @@ abstract public class AbstractEventMixin implements EventMixin
         Link link = resources.createActionLink(getEventName().toLowerCase(), true, contextArray);
         String id = clientElement.getClientId();
 
-        String jsString = "new T5COnEvent('%s', '%s', %b, '%s', '%s');";
+        String jsString = "new Ck.OnEvent('%s', '%s', %b, '%s', '%s');";
         String callBackString = resources.isBound("onCompleteCallback") ? onCompleteCallback : "";
         boolean doStop = resources.isBound("stop") ? stop : false;
 
