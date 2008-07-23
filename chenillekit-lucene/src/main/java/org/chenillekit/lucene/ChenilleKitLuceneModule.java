@@ -17,6 +17,7 @@ package org.chenillekit.lucene;
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 
 import org.chenillekit.lucene.services.IndexerService;
@@ -36,15 +37,15 @@ public class ChenilleKitLuceneModule
      *
      * @param logger        system logger
      * @param configuration IOC configuration map
-     * @param shutdownHub   the shutdown hub
+     * @param threadManager the thread manager
      *
      * @return indexer engine
      */
     public static IndexerService buildIndexerService(Logger logger, Map<String, Resource> configuration,
-                                                     RegistryShutdownHub shutdownHub)
+                                                     PerthreadManager threadManager)
     {
         IndexerServiceImpl service = new IndexerServiceImpl(logger, configuration.get(IndexerService.CONFIG_KEY_PROPERTIES));
-        shutdownHub.addRegistryShutdownListener(service);
+        threadManager.addThreadCleanupListener(service);
         return service;
     }
 

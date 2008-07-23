@@ -31,7 +31,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.Defense;
-import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
+import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
 
 import org.chenillekit.lucene.services.IndexerService;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ import org.slf4j.Logger;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class IndexerServiceImpl implements IndexerService<Document>, RegistryShutdownListener
+public class IndexerServiceImpl implements IndexerService<Document>, ThreadCleanupListener
 {
     private Logger logger;
     private IndexWriter _diskIndexWriter;
@@ -137,7 +137,7 @@ public class IndexerServiceImpl implements IndexerService<Document>, RegistryShu
     /**
      * delete documents by the given field name and the query.
      *
-     * @param field name of the field
+     * @param field       name of the field
      * @param queryString
      */
     public boolean delDocument(String field, String queryString)
@@ -287,11 +287,10 @@ public class IndexerServiceImpl implements IndexerService<Document>, RegistryShu
     }
 
     /**
-     * Invoked when the registry shuts down, giving services a chance to perform any final
-     * operations. Service implementations should not attempt to invoke methods on other services
-     * (via proxies) as the service proxies may themselves be shutdown.
+     * Invoked by {@link org.apache.tapestry5.ioc.services.PerthreadManager} service when a thread performs and
+     * end-of-request cleanup.
      */
-    public void registryDidShutdown()
+    public void threadDidCleanup()
     {
         close();
     }
