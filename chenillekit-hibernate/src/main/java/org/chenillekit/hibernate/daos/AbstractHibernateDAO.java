@@ -26,7 +26,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
-import org.hibernate.type.Type;
 
 import org.chenillekit.hibernate.utils.QueryParameter;
 import org.slf4j.Logger;
@@ -306,6 +305,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
      */
     public Object aggregateOrGroup(String queryString, Collection<QueryParameter> parameters)
     {
+        boolean returnCollection = false;
         Query query = session.createQuery(queryString);
         for (QueryParameter parameter : parameters)
         {
@@ -315,13 +315,8 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
                 query.setParameter(parameter.getParameterName(), parameter.getParameterValue());
         }
 
-        boolean returnCollection = false;
-        Type[] types = query.getReturnTypes();
-        for (Type type : types)
-        {
-            if (type.isCollectionType())
-                returnCollection = true;
-        }
+        if (query.getReturnTypes().length > 1)
+            returnCollection = true;
 
         return returnCollection ? query.list() : query.uniqueResult();
     }
