@@ -50,8 +50,8 @@ public class PagedLoop implements ClientElement
      * The element to render. If not null, then the loop will render the indicated element around its body (on each pass through the loop).
      * The default is derived from the component template.
      */
-    @Parameter(value = "prop:componentResources.elementName", defaultPrefix = "literal")
-    private String _elementName;
+    @Parameter(value = "prop:componentResources.element", defaultPrefix = "literal")
+    private String element;
 
     /**
      * Defines the collection of values for the loop to iterate over.
@@ -113,7 +113,7 @@ public class PagedLoop implements ClientElement
 
     @SuppressWarnings("unused")
     @Component(parameters = {"source=pagedSource",
-            "elementName=prop:elementName", "value=inherit:value",
+            "element=prop:element", "value=inherit:value",
             "volatile=inherit:volatile", "encoder=inherit:encoder",
             "index=inherit:index"})
     private Loop _loop;
@@ -141,9 +141,9 @@ public class PagedLoop implements ClientElement
 
     private String _assignedClientId;
 
-    public String getElementName()
+    public String getElement()
     {
-        return _elementName;
+        return element;
     }
 
     public Object getPagerTop()
