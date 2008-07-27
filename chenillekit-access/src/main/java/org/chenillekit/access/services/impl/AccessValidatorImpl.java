@@ -18,7 +18,9 @@ import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.MetaDataLocator;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.utils.WebSessionUser;
 import org.slf4j.Logger;
@@ -26,7 +28,6 @@ import org.slf4j.Logger;
 /**
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
- *
  */
 public class AccessValidatorImpl implements AccessValidator
 {
@@ -36,107 +37,106 @@ public class AccessValidatorImpl implements AccessValidator
     private final Class<? extends WebSessionUser> webSessionUserImplmentation;
 
     private final Logger logger;
-    
-    
-    public AccessValidatorImpl(ApplicationStateManager stateManager,
-    		ComponentSource componentSource, MetaDataLocator locator,
-    		Logger logger,
-    		Class<? extends WebSessionUser> webSessionUserImplmentation)
-    {
-    	Defense.notNull(webSessionUserImplmentation, "webSessionUserImplmentation");
-    	this.asm = stateManager;
-    	this.componentSource = componentSource;
-    	this.locator = locator;
-    	this.logger = logger;
-    	this.webSessionUserImplmentation = webSessionUserImplmentation;
-    }
-    
-    
 
-	/* (non-Javadoc)
-	 * @see org.chenillekit.access.services.AccessValidator#hasAccess(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	public boolean hasAccess(String pageName, String componentId, String eventType)
-	{
-		boolean canAccess = false;
-        
+
+    public AccessValidatorImpl(ApplicationStateManager stateManager,
+                               ComponentSource componentSource, MetaDataLocator locator,
+                               Logger logger,
+                               Class<? extends WebSessionUser> webSessionUserImplmentation)
+    {
+        Defense.notNull(webSessionUserImplmentation, "webSessionUserImplmentation");
+        this.asm = stateManager;
+        this.componentSource = componentSource;
+        this.locator = locator;
+        this.logger = logger;
+        this.webSessionUserImplmentation = webSessionUserImplmentation;
+    }
+
+
+    /* (non-Javadoc)
+      * @see org.chenillekit.access.services.AccessValidator#hasAccess(java.lang.String, java.lang.String, java.lang.String)
+      */
+    public boolean hasAccess(String pageName, String componentId, String eventType)
+    {
+        boolean canAccess = true;
+
         if (logger.isDebugEnabled())
             logger.debug("check access for pageName/componentId/eventType: {}/{}/{}",
                          new Object[]{pageName, componentId, eventType});
-        
+
         /* Is the requested page private ? */
         Component page = null;
-        
+
         // This should be unnecessary...
         boolean found = false;
-        while ( !found )
+        while (!found)
         {
-                try
+            try
+            {
+                page = componentSource.getPage(pageName);
+                found = true;
+            }
+            catch (IllegalArgumentException iae)
+            {
+                if (pageName.lastIndexOf('/') != -1)
                 {
-                        page = componentSource.getPage(pageName);
-                        found = true;
+                    pageName = pageName.substring(0, pageName.lastIndexOf('/'));
+                    if (logger.isTraceEnabled())
+                        logger.trace("New pagename: " + pageName);
                 }
-                catch (IllegalArgumentException iae)
+                else
                 {
-                        if (pageName.lastIndexOf('/') != -1)
-                        {
-                                pageName = pageName.substring(0, pageName.lastIndexOf('/'));
-                                if (logger.isTraceEnabled())
-                                        logger.trace("New pagename: " + pageName);
-                        }
-                        else
-                        {
-                                throw iae;
-                        }
+                    throw iae;
                 }
+            }
         }
 
-        boolean pagePrivate = locator.findMeta(ChenilleKitAccessConstants.PRIVATE_PAGE, page.getComponentResources(), Boolean.class);
-        
-        if (pagePrivate)
-        {
-        	WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
-        	if (webSessionUser != null)
-        	{
-        		int role = Integer.parseInt(page.getComponentResources()
-        				.getComponentModel()
-        				.getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE));
-        		String group = page.getComponentResources()
-        				.getComponentModel()
-        				.getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP);
+        Restricted pagePrivate = page.getClass().getAnnotation(Restricted.class);
 
-        		boolean hasRole = false;
-        		boolean hasGroup = false;
-        		// We will see if this will need a changes...
-        		for (int i = 0; i < webSessionUser.getRoles().length; i++)
-        		{
-        			int userRole = webSessionUser.getRoles()[i];
-        			if (userRole >= role)
-        			{
-        				hasRole = true;
-        				break;
-        			}
-				}
-        		for (int i = 0; i < webSessionUser.getGroups().length; i++)
-        		{
-        			String userGroup = webSessionUser.getGroups()[i];
-        			if (userGroup.equals(group))
-        			{
-        				hasGroup = true;
-        				break;
-        			}
-				}
-        		
-        		logger.info("hasRole = " + hasRole);
-				logger.info("hasGroup = " + hasGroup);
-        		
-        		// Let's see if it can access it
-        		canAccess = hasGroup && hasRole;
-        	}
-        	
+        if (pagePrivate != null)
+        {
+            WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
+            if (webSessionUser != null)
+            {
+                int role = Integer.parseInt(page.getComponentResources()
+                        .getComponentModel()
+                        .getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE));
+                String group = page.getComponentResources()
+                        .getComponentModel()
+                        .getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP);
+
+                boolean hasRole = false;
+                boolean hasGroup = false;
+                // We will see if this will need a changes...
+                for (int i = 0; i < webSessionUser.getRoles().length; i++)
+                {
+                    int userRole = webSessionUser.getRoles()[i];
+                    if (userRole >= role)
+                    {
+                        hasRole = true;
+                        break;
+                    }
+                }
+                for (int i = 0; i < webSessionUser.getGroups().length; i++)
+                {
+                    String userGroup = webSessionUser.getGroups()[i];
+                    if (userGroup.equals(group))
+                    {
+                        hasGroup = true;
+                        break;
+                    }
+                }
+
+                logger.info("hasRole = " + hasRole);
+                logger.info("hasGroup = " + hasGroup);
+
+                // Let's see if it can access it
+                canAccess = hasGroup && hasRole;
+            }
+
         }
 
         return canAccess;
-	}
+    }
 
 }

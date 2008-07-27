@@ -17,12 +17,10 @@ package org.chenillekit.access.pages;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.ApplicationState;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 
-import org.chenillekit.access.utils.WebUser;
 import org.chenillekit.access.utils.RootUser;
 
 /**

@@ -39,9 +39,9 @@ public class TestAccessIntegration extends AbstractIntegrationTestSuite
         start("Restricted");
         waitForPageToLoad("5000");
 
-        assertEquals(getText("xpath=//span[@id='has_access']"), "Has Access");
+        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
     }
-    
+
     @Test
     public void test_not_enough_rights()
     {
