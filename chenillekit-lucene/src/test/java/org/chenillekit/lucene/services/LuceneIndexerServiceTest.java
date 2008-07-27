@@ -28,8 +28,8 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
-import org.chenillekit.core.utils.AbstractTestSuite;
 import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
+import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;

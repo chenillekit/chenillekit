@@ -49,13 +49,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>dumbster</groupId>
             <artifactId>dumbster</artifactId>
             <scope>test</scope>
@@ -63,11 +56,11 @@
 
         <dependency>
             <groupId>org.chenillekit</groupId>
-            <artifactId>chenillekit-core</artifactId>
+            <artifactId>chenillekit-test</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
-        
+
     </dependencies>
 
     <build>

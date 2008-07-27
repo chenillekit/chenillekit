@@ -93,6 +93,7 @@
 
     <modules>
         <module>chenillekit-core</module>
+        <module>chenillekit-test</module>
         <module>chenillekit-quartz</module>
         <module>chenillekit-hivemind</module>
         <module>chenillekit-hibernate</module>
@@ -178,14 +179,12 @@
                 <artifactId>testng</artifactId>
                 <version>5.7</version>
                 <classifier>jdk15</classifier>
-                <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>org.easymock</groupId>
                 <artifactId>easymock</artifactId>
                 <version>2.3</version>
-                <scope>test</scope>
             </dependency>
 
             <dependency>

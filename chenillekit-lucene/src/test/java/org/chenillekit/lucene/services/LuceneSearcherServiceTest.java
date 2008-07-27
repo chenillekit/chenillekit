@@ -20,8 +20,8 @@ import java.util.Iterator;
 import org.apache.lucene.search.Hit;
 import org.apache.lucene.search.Hits;
 
-import org.chenillekit.core.utils.AbstractTestSuite;
 import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
+import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 

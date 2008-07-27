@@ -25,8 +25,8 @@ import org.apache.commons.mail.SimpleEmail;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
 import com.dumbster.smtp.SimpleSmtpServer;
-import org.chenillekit.core.utils.AbstractTestSuite;
 import org.chenillekit.mail.ChenilleKitMailTestModule;
+import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
