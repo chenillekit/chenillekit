@@ -55,6 +55,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.chenillekit</groupId>
+            <artifactId>chenillekit-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

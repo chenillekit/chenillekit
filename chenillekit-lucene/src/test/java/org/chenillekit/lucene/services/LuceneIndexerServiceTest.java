@@ -28,6 +28,9 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
+import org.chenillekit.core.utils.AbstractTestSuite;
+import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -38,6 +41,12 @@ import org.testng.annotations.Test;
 public class LuceneIndexerServiceTest extends AbstractTestSuite
 {
     @BeforeSuite
+    public final void setup_registry()
+    {
+        super.setup_registry(ChenilleKitLuceneTestModule.class);
+    }
+
+    @BeforeClass
     public void initialize_lucene_dictionary()
     {
         IndexerService service = registry.getService(IndexerService.class);

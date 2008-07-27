@@ -105,6 +105,7 @@
         <module>chenillekit-image</module>
         <module>chenillekit-google</module>
         <module>chenillekit-scripting</module>
+        <module>chenillekit-mail</module>
     </modules>
 
     <!--
@@ -123,6 +124,12 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>2.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4</version>
             </dependency>
 
             <!-- Tapestry artifacts -->
@@ -234,6 +241,12 @@
                 <version>3.1</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>1.1</version>
+            </dependency>
+
             <!--
             +++++++++++++++++++++++++++++++++++++++++++++++++++++++
             ++ JBoss Hibernate
@@ -340,6 +353,12 @@
                 <groupId>net.sf.opencsv</groupId>
                 <artifactId>opencsv</artifactId>
                 <version>1.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>dumbster</groupId>
+                <artifactId>dumbster</artifactId>
+                <version>1.6</version>
             </dependency>
 
             <dependency>

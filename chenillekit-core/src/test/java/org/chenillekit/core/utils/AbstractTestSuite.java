@@ -12,15 +12,13 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.lucene.services;
+package org.chenillekit.core.utils;
 
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
 
-import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
@@ -30,12 +28,11 @@ public class AbstractTestSuite extends Assert
 {
     protected static Registry registry;
 
-    @BeforeSuite
-    public final void setup_registry()
+    public final void setup_registry(Class... moduleClasses)
     {
         RegistryBuilder builder = new RegistryBuilder();
 
-        builder.add(ChenilleKitLuceneTestModule.class);
+        builder.add(moduleClasses);
         registry = builder.build();
 
         registry.performRegistryStartup();

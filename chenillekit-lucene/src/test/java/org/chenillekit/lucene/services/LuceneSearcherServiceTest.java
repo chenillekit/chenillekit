@@ -20,6 +20,9 @@ import java.util.Iterator;
 import org.apache.lucene.search.Hit;
 import org.apache.lucene.search.Hits;
 
+import org.chenillekit.core.utils.AbstractTestSuite;
+import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 /**
@@ -28,6 +31,12 @@ import org.testng.annotations.Test;
  */
 public class LuceneSearcherServiceTest extends AbstractTestSuite
 {
+    @BeforeSuite
+    public final void setup_registry()
+    {
+        super.setup_registry(ChenilleKitLuceneTestModule.class);
+    }
+
     @Test
     public void query_records() throws IOException
     {
