@@ -25,9 +25,9 @@ import org.chenillekit.mail.services.SmtpService;
 import org.slf4j.Logger;
 
 /**
- * e-mailer tool send text based mail away based on <a href="http://jakarta.apache.org/commons/email">commons-email</a>.
+ * simple SMTP tool for sending emails based on <a href="http://jakarta.apache.org/commons/email">commons-email</a>.
  *
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
+ * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class SimpleSmtpServiceImpl implements SmtpService<Email>
