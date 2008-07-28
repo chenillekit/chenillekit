@@ -46,6 +46,7 @@ public class DemoModule
      */
     public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
     {
+        configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
         configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en_en,it_it,de_de");
     }
 

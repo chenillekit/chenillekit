@@ -11,9 +11,13 @@
   ~
   ~ http://www.apache.org/licenses/LICENSE-2.0
   -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
 
-<body t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd" xmlns="http://www.w3.org/1999/xhtml">
-   <a href="#" t:id="pagedLoopDemo">PagedLoopDemo</a>
-</body>
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <ul>
+        <li t:id="pagedLoop">
+            ${track.album}
+        </li>
+    </ul>
+
+</span>

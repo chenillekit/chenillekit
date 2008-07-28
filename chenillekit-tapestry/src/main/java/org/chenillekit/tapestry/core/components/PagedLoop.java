@@ -50,7 +50,7 @@ public class PagedLoop implements ClientElement
      * The element to render. If not null, then the loop will render the indicated element around its body (on each pass through the loop).
      * The default is derived from the component template.
      */
-    @Parameter(value = "prop:componentResources.element", defaultPrefix = "literal")
+    @Parameter(value = "prop:componentResources.elementName", defaultPrefix = "literal")
     private String element;
 
     /**

@@ -14,9 +14,14 @@
 
 package org.chenillekit.demo.pages;
 
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.corelib.components.PageLink;
+
 /**
  * ChenilleKit demo application start page.
  */
 public class Start
 {
+    @Component(parameters = {"page=PagedLoopDemo"})
+    private PageLink pagedLoopDemo;
 }

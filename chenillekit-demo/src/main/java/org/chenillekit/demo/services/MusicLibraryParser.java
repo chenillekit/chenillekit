@@ -34,7 +34,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
- * Reads an iTunes music library file into a list of {@link org.apache.tapestry5.integration.app1.data.Track} elements.
+ * Reads an iTunes music library file into a list of {@link Track} elements.
  */
 public class MusicLibraryParser
 {
