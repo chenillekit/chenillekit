@@ -107,6 +107,7 @@
         <module>chenillekit-google</module>
         <module>chenillekit-scripting</module>
         <module>chenillekit-mail</module>
+        <module>chenillekit-ldap</module>
     </modules>
 
     <!--
