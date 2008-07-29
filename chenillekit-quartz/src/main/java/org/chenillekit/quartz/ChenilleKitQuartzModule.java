@@ -32,6 +32,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
+import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
@@ -47,7 +48,7 @@ public class ChenilleKitQuartzModule
      *
      * @return scheduler factory
      */
-    public static SchedulerFactory buildSchedulerFactory(Map<String, Resource> configuration,
+    public static SchedulerFactory buildSchedulerFactory(Logger logger, Map<String, Resource> configuration,
                                                          RegistryShutdownHub shutdownHub)
     {
         final SchedulerFactory factory;
@@ -58,6 +59,10 @@ public class ChenilleKitQuartzModule
             {
                 Properties properties = new Properties();
                 properties.load(configuration.get("quartz.properties").openStream());
+
+                if (logger.isInfoEnabled())
+                    logger.info("initialize configured scheduler factory");
+
                 factory = new StdSchedulerFactory(properties);
             }
             catch (IOException e)
@@ -70,7 +75,12 @@ public class ChenilleKitQuartzModule
             }
         }
         else
+        {
+            if (logger.isInfoEnabled())
+                logger.info("initialize un-configured scheduler factory");
+
             factory = new StdSchedulerFactory();
+        }
 
         shutdownHub.addRegistryShutdownListener(new RegistryShutdownListener()
         {
@@ -107,9 +117,9 @@ public class ChenilleKitQuartzModule
      * @return scheduler manager
      */
     @EagerLoad
-    public static QuartzSchedulerManager buildQuartzSchedulerManager(final SchedulerFactory schedulerFactory,
+    public static QuartzSchedulerManager buildQuartzSchedulerManager(Logger logger, final SchedulerFactory schedulerFactory,
                                                                      final List<JobSchedulingBundle> jobSchedulingBundles)
     {
-        return new QuartzSchedulerManagerImpl(schedulerFactory, jobSchedulingBundles);
+        return new QuartzSchedulerManagerImpl(logger, schedulerFactory, jobSchedulingBundles);
     }
 }

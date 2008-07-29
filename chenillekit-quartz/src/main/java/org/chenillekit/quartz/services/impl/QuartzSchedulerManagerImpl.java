@@ -21,9 +21,13 @@ import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.chenillekit.quartz.services.QuartzSchedulerManager;
+import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
+import org.quartz.Trigger;
+import org.quartz.CronTrigger;
+import org.slf4j.Logger;
 
 /**
  * manages the Quartz schedulers.
@@ -35,18 +39,22 @@ import org.quartz.SchedulerFactory;
  */
 public class QuartzSchedulerManagerImpl implements QuartzSchedulerManager
 {
-    private final SchedulerFactory factory;
+    private final SchedulerFactory schedulerFactory;
+    private final Logger logger;
 
-    public QuartzSchedulerManagerImpl(SchedulerFactory schedulerFactory,
+    public QuartzSchedulerManagerImpl(Logger logger,
+                                      SchedulerFactory schedulerFactory,
                                       Collection<JobSchedulingBundle> jobSchedulingBundles)
     {
+        this.logger = logger;
+        this.schedulerFactory = schedulerFactory;
+
         try
         {
-            factory = schedulerFactory;
             for (JobSchedulingBundle jobSchedulingBundle : jobSchedulingBundles)
                 addBundleToScheduler(jobSchedulingBundle);
 
-            List<Scheduler> schedulers = CollectionFactory.newList(factory.getAllSchedulers());
+            List<Scheduler> schedulers = CollectionFactory.newList(this.schedulerFactory.getAllSchedulers());
             for (Scheduler scheduler : schedulers)
                 scheduler.start();
         }
@@ -82,9 +90,9 @@ public class QuartzSchedulerManagerImpl implements QuartzSchedulerManager
         try
         {
             if (schedulerId == null || schedulerId.length() == 0)
-                scheduler = factory.getScheduler();
+                scheduler = schedulerFactory.getScheduler();
             else
-                scheduler = factory.getScheduler(schedulerId);
+                scheduler = schedulerFactory.getScheduler(schedulerId);
 
             return scheduler;
         }
@@ -101,7 +109,7 @@ public class QuartzSchedulerManagerImpl implements QuartzSchedulerManager
     {
         try
         {
-            List<Scheduler> schedulers = CollectionFactory.newList(factory.getAllSchedulers());
+            List<Scheduler> schedulers = CollectionFactory.newList(schedulerFactory.getAllSchedulers());
             for (Scheduler scheduler : schedulers)
                 shutdown(scheduler.getSchedulerName());
         }
@@ -120,7 +128,7 @@ public class QuartzSchedulerManagerImpl implements QuartzSchedulerManager
     {
         try
         {
-            Scheduler scheduler = factory.getScheduler(schedulerId);
+            Scheduler scheduler = schedulerFactory.getScheduler(schedulerId);
             scheduler.shutdown();
         }
         catch (SchedulerException e)
@@ -137,10 +145,36 @@ public class QuartzSchedulerManagerImpl implements QuartzSchedulerManager
     @SuppressWarnings({"JavaDoc"})
     private void addBundleToScheduler(JobSchedulingBundle jobSchedulingBundle) throws SchedulerException
     {
-        Scheduler scheduler = getScheduler(jobSchedulingBundle.getSchedulerId());
-        if (jobSchedulingBundle.getTrigger() != null)
-            scheduler.scheduleJob(jobSchedulingBundle.getJobDetail(), jobSchedulingBundle.getTrigger());
+        JobDetail jobDetail = jobSchedulingBundle.getJobDetail();
+        Trigger trigger = jobSchedulingBundle.getTrigger();
+        String schedulerId = jobSchedulingBundle.getSchedulerId();
+
+        Scheduler scheduler = getScheduler(schedulerId);
+
+        if (schedulerId == null || schedulerId.length() == 0)
+            schedulerId = "default";
+
+        if (trigger != null)
+        {
+
+            if (logger.isInfoEnabled())
+            {
+                String triggerName = trigger.getName();
+                if (trigger instanceof CronTrigger)
+                    triggerName += " (" + ((CronTrigger)trigger).getCronExpression() + ")";
+
+                logger.info("schedule job '{}' with trigger '{}' to scheduler '{}'",
+                            new Object[]{jobDetail.getName(), triggerName, schedulerId});
+            }
+
+            scheduler.scheduleJob(jobDetail, trigger);
+        }
         else
-            scheduler.addJob(jobSchedulingBundle.getJobDetail(), true);
+        {
+            if (logger.isInfoEnabled())
+                logger.info("add job '{}' to scheduler '{}'", jobDetail.getName(), schedulerId);
+
+            scheduler.addJob(jobDetail, true);
+        }
     }
 }
