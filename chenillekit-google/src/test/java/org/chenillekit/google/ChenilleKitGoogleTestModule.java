@@ -15,6 +15,12 @@
 package org.chenillekit.google;
 
 import org.apache.tapestry5.ioc.annotations.SubModule;
+import org.apache.tapestry5.ioc.services.ClassFactory;
+import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
+
+import org.chenillekit.google.services.GoogleMapService;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
@@ -23,4 +29,9 @@ import org.apache.tapestry5.ioc.annotations.SubModule;
 @SubModule(value = {ChenilleKitGoogleModule.class})
 public class ChenilleKitGoogleTestModule
 {
+    public static void contributeGoogleMapService(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
+    {
+        Resource resource = new ClasspathResource(classFactory.getClassLoader(), "gmap.properties");
+        configuration.add(GoogleMapService.CONFIG_KEY, resource);
+    }
 }

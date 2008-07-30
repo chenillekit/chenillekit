@@ -28,18 +28,24 @@ import org.chenillekit.google.utils.LatLng;
  */
 public interface GoogleMapService
 {
+    public static String CONFIG_KEY = "/src/test/conf/gmap.properties";
+    public static String GOOGLE_KEY_FILE = "google.keyfile";
+    public static String GOOGLE_TIMEOUT = "google.timeout";
+    public static String GOOGLE_PROXY = "google.proxy";
+
     /**
      * get the geo code from google map service for address.
      *
-     * @param street  the street
-     * @param country the country
-     * @param state   the state
-     * @param zipCode the zip code
-     * @param city    the city
+     * @param geoCodes empty list for geo codes received from google maps
+     * @param street   the street
+     * @param country  the country
+     * @param state    the state
+     * @param zipCode  the zip code
+     * @param city     the city
      *
-     * @return list of google resonsed values
+     * @return google error code
      */
-    List<GoogleGeoCode> getGeoCode(String street, String country, String state, String zipCode, String city);
+    int getGeoCode(List<GoogleGeoCode> geoCodes, String street, String country, String state, String zipCode, String city);
 
     /**
      * get the latitude and longitude from geo code as string array.

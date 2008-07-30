@@ -17,11 +17,9 @@ package org.chenillekit.google;
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.internal.util.Defense;
 
 import org.chenillekit.google.services.GoogleMapService;
 import org.chenillekit.google.services.impl.GoogleMapServiceImpl;
-import org.chenillekit.google.utils.ProxyConfig;
 import org.slf4j.Logger;
 
 /**
@@ -40,13 +38,8 @@ public class ChenilleKitGoogleModule
      */
     public static GoogleMapService buildGoogleMapService(Logger syslog, Map<String, Object> configuration)
     {
-        Resource keyResource = (Resource) configuration.get("google.map.key");
-
-        Defense.notNull(keyResource, "google.map.key");
-
-        Integer timeout = (Integer) configuration.get("google.service.timeout");
-        ProxyConfig proxyConfig = (ProxyConfig) configuration.get("google.service.proxy");
-        return new GoogleMapServiceImpl(syslog, keyResource, proxyConfig, timeout);
+        Resource configResource = (Resource) configuration.get(GoogleMapService.CONFIG_KEY);
+        return new GoogleMapServiceImpl(syslog, configResource);
     }
 
 }

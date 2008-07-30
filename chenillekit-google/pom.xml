@@ -59,6 +59,19 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.chenillekit</groupId>
+            <artifactId>chenillekit-test</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.chenillekit</groupId>
+            <artifactId>chenillekit-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- Tapestry artifacts -->
         <dependency>
             <groupId>org.apache.tapestry</groupId>
@@ -75,6 +88,11 @@
             <artifactId>commons-httpclient</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+        </dependency>
+
         <!--
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         ++ Others
@@ -84,7 +102,7 @@
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
         </dependency>
-        
+
     </dependencies>
 
     <build>

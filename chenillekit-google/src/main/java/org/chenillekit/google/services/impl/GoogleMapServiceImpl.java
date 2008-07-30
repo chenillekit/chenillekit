@@ -15,6 +15,7 @@
 package org.chenillekit.google.services.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -22,12 +23,14 @@ import java.net.ConnectException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.internal.util.Defense;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -45,49 +48,82 @@ import org.slf4j.Logger;
  */
 public class GoogleMapServiceImpl implements GoogleMapService
 {
-    private Logger _sysLogger;
+    private final Logger logger;
+    private final Resource configResource;
 
     /**
      * our proxy configuration
      */
-    private ProxyConfig _proxyConfig;
+    private ProxyConfig proxyConfig;
 
     /**
      * your personal google map key.
      */
-    private Resource _googleMapKey;
+    private File googleKeyResource;
 
     /**
      * the client engine.
      */
-    private HttpClient _httpClient;
+    private HttpClient httpClient;
 
     /**
      * timeout for service request.
      */
-    private int _timeout;
+    private int timeout;
 
     /**
      * standard constructor.
      *
-     * @param syslog       system logger
-     * @param googleMapKey file that holds your google map key
-     * @param proxyConfig  the proxy configuration (may be null)
-     * @param timeout      timeout for service request (default 30000 ms.)
+     * @param logger         system logger
+     * @param configResource file that holds your google map setup
      */
-    public GoogleMapServiceImpl(Logger syslog, Resource googleMapKey, ProxyConfig proxyConfig, int timeout)
+    public GoogleMapServiceImpl(Logger logger, Resource configResource)
     {
-        _sysLogger = syslog;
+        Defense.notNull(configResource, "configResource");
 
-        Defense.notNull(googleMapKey, "googleMapKey");
-        Defense.notNull(timeout, "timeout");
+        this.configResource = configResource;
+        this.logger = logger;
 
-        _googleMapKey = googleMapKey;
-        _proxyConfig = proxyConfig;
-        _timeout = timeout > 0 ? timeout : 30000;
+        if (!this.configResource.exists())
+            throw new RuntimeException(String.format("config resource '%s' not found!", this.configResource.toString()));
 
-        // configure Commons-HTTP
-        _httpClient = createHttpClient();
+        initService(configResource);
+    }
+
+    /**
+     * read and check all service parameters.
+     */
+    private void initService(Resource configResource)
+    {
+        try
+        {
+            Configuration configuration = new PropertiesConfiguration(configResource.toURL());
+
+            String googleKeyFileName = configuration.getString("google.keyfile");
+            if (googleKeyFileName.length() == 0)
+                throw new RuntimeException("the property 'google.keyfile' is not set!");
+
+            /**
+             * do we need a proxy?
+             */
+            if (configuration.getString("google.proxy.server").length() > 0)
+            {
+                proxyConfig = new ProxyConfig(configuration.getString("google.proxy.server"),
+                                              configuration.getInt("google.proxy.port", 3128),
+                                              configuration.getString("google.proxy.user"),
+                                              configuration.getString("google.proxy.password"));
+            }
+
+            googleKeyResource = new File(googleKeyFileName);
+            timeout = configuration.getInt("google.timeout", 30000);
+
+            // configure Commons-HTTP
+            httpClient = createHttpClient();
+        }
+        catch (ConfigurationException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -112,9 +148,12 @@ public class GoogleMapServiceImpl implements GoogleMapService
     {
         BufferedReader br = null;
 
+        if (!googleKeyResource.exists())
+            throw new RuntimeException("the named google key file does not exists: '" + googleKeyResource.toString() + "'!");
+
         try
         {
-            br = new BufferedReader(new InputStreamReader(_googleMapKey.toURL().openStream()));
+            br = new BufferedReader(new InputStreamReader(googleKeyResource.toURL().openStream()));
             String lastReadedLine;
             while ((lastReadedLine = br.readLine()) != null)
             {
@@ -144,23 +183,20 @@ public class GoogleMapServiceImpl implements GoogleMapService
     /**
      * get the geo code from google map service for address.
      *
-     * @param street  the street
-     * @param country the country
-     * @param zipCode the zip code
-     * @param city    the city
+     * @param geoCodes empty list for geo codes received from google maps
+     * @param street   the street
+     * @param country  the country
+     * @param state    the state
+     * @param zipCode  the zip code
+     * @param city     the city
      *
-     * @return xml stream
+     * @return google error code
      */
-    public List<GoogleGeoCode> getGeoCode(String street, String country, String state, String zipCode, String city)
+    public int getGeoCode(List<GoogleGeoCode> geoCodes,
+                          String street, String country, String state, String zipCode, String city)
     {
-//        Defense.notNull(street, "street");
-//        Defense.notNull(country, "country");
-//        Defense.notNull(state, "state");
-//        Defense.notNull(zipCode, "zipCode");
-//        Defense.notNull(city, "city");
-
+        Defense.notNull(geoCodes, "geoCodes");
         GetMethod getMethod = null;
-        List<GoogleGeoCode> goggleMapResponse = CollectionFactory.newList();
 
         try
         {
@@ -172,15 +208,15 @@ public class GoogleMapServiceImpl implements GoogleMapService
                                                getEncodedString(city),
                                                getAccessKey());
 
-            if (_sysLogger.isDebugEnabled())
-                _sysLogger.debug(String.format("send query '%s' to google maps", queryString));
+            if (logger.isDebugEnabled())
+                logger.debug(String.format("send query '%s' to google maps", queryString));
 
             getMethod = new GetMethod("http://maps.google.com");
             getMethod.setPath("/maps/geo");
             getMethod.setQueryString(queryString);
 
 
-            int iGetResultCode = _httpClient.executeMethod(getMethod);
+            int iGetResultCode = httpClient.executeMethod(getMethod);
 
             if (iGetResultCode == 200)
             {
@@ -188,32 +224,29 @@ public class GoogleMapServiceImpl implements GoogleMapService
                 for (Object aValuesList : valuesList)
                 {
                     String[] values = (String[]) aValuesList;
+                    iGetResultCode = Integer.parseInt(values[0]);
 
-                    if (values[0].equals("602"))
-                    {
-                        if (_sysLogger.isWarnEnabled())
-                            _sysLogger.warn(String.format("GoogleMapService receives error code '%s'", values[0]));
+                    if (iGetResultCode == 602)
                         break;
-                    }
 
                     int resultCode = Integer.parseInt(values[0]);
                     int accuracy = Integer.parseInt(values[1]);
                     String latitude = values[2];
                     String longitude = values[3];
 
-                    goggleMapResponse.add(new GoogleGeoCode(resultCode, accuracy,
-                                                            resultCode != 200 ? null : latitude,
-                                                            resultCode != 200 ? null : longitude));
+                    geoCodes.add(new GoogleGeoCode(resultCode, accuracy,
+                                                   resultCode != 200 ? null : latitude,
+                                                   resultCode != 200 ? null : longitude));
                 }
             }
             else
             {
-                if (_sysLogger.isWarnEnabled())
-                    _sysLogger.warn("GoogleMapService receives an error: '%s' with code '%d'", getMethod.getStatusText(),
-                                    getMethod.getStatusCode());
+                if (logger.isWarnEnabled())
+                    logger.warn("GoogleMapService receives an error: '%s' with code '%d'", getMethod.getStatusText(),
+                                getMethod.getStatusCode());
             }
 
-            return goggleMapResponse;
+            return iGetResultCode;
         }
         catch (HttpException e)
         {
@@ -229,7 +262,6 @@ public class GoogleMapServiceImpl implements GoogleMapService
         }
         finally
         {
-
             if (getMethod != null)
                 getMethod.releaseConnection();
         }
@@ -263,10 +295,10 @@ public class GoogleMapServiceImpl implements GoogleMapService
     {
         HttpClient httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
 
-        if (_proxyConfig != null)
-            httpClient.getHostConfiguration().setProxy(_proxyConfig.getHost(), _proxyConfig.getPort());
+        if (proxyConfig != null)
+            httpClient.getHostConfiguration().setProxy(proxyConfig.getHost(), proxyConfig.getPort());
 
-        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(_timeout);
+        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(timeout);
 
         return httpClient;
     }
