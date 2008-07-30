@@ -14,10 +14,8 @@
 
 package org.chenillekit.google.services;
 
-import java.util.List;
-
-import org.chenillekit.google.utils.GoogleGeoCode;
-import org.chenillekit.google.utils.LatLng;
+import org.chenillekit.google.utils.GMapLocation;
+import org.chenillekit.google.utils.GeoCodeResultList;
 
 
 /**
@@ -36,26 +34,29 @@ public interface GoogleMapService
     /**
      * get the geo code from google map service for address.
      *
+     * @param gMapLocation location holder
+     */
+    GeoCodeResultList getGeoCode(GMapLocation gMapLocation);
+
+    /**
+     * get the geo code from google map service for address.
+     *
+     * @param geoCodes     empty list for geo codes received from google maps
+     * @param gMapLocation location holder
+     */
+    void getGeoCode(GeoCodeResultList geoCodes, GMapLocation gMapLocation);
+
+    /**
+     * get the geo code from google map service for address.
+     *
      * @param geoCodes empty list for geo codes received from google maps
      * @param street   the street
      * @param country  the country
      * @param state    the state
      * @param zipCode  the zip code
      * @param city     the city
-     *
-     * @return google error code
      */
-    int getGeoCode(List<GoogleGeoCode> geoCodes, String street, String country, String state, String zipCode, String city);
-
-    /**
-     * get the latitude and longitude from geo code as string array.
-     *
-     * @param goggleMapResponse the response from google map service as list
-     * @param position          get the list element at position <em>position</em>
-     *
-     * @return the latitude and longitude
-     */
-    LatLng getLatLag(List<GoogleGeoCode> goggleMapResponse, int position);
+    void getGeoCode(GeoCodeResultList geoCodes, String street, String country, String state, String zipCode, String city);
 
     /**
      * get the access key for your map service.

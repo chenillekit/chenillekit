@@ -14,12 +14,10 @@
 
 package org.chenillekit.google.services;
 
-import java.util.List;
-
-import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-
 import org.chenillekit.google.ChenilleKitGoogleTestModule;
-import org.chenillekit.google.utils.GoogleGeoCode;
+import org.chenillekit.google.utils.GMapLocation;
+import org.chenillekit.google.utils.GeoCodeResult;
+import org.chenillekit.google.utils.GeoCodeResultList;
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -42,30 +40,50 @@ public class TestGeoCoding extends AbstractTestSuite
     @Test
     public void test_geocoding_exist()
     {
-        List<GoogleGeoCode> geoCodes = CollectionFactory.newList();
-        int errorCode = googleMapService.getGeoCode(geoCodes, "Neue Wollkämmereistrasse 2", "DE", "", "21220", "Hamburg");
+        GeoCodeResultList geoCodes = new GeoCodeResultList();
+        geoCodes.setMinAccuracyForGoodMatch(6);
+        googleMapService.getGeoCode(geoCodes, "Neue Wollkämmereistrasse 2", "DE", "", "21220", "Hamburg");
 
-        for (GoogleGeoCode geoCode : geoCodes)
+        for (GeoCodeResult geoCode : geoCodes)
         {
-            System.err.println(String.format("Latitude/Longitude: %s/%s", geoCode.getLatLng().getLatitude(),
-                                             geoCode.getLatLng().getLongitude()));
+            if (geoCode.getHttpResult() == GeoCodeResult.G_GEO_SUCCESS)
+                System.err.println(String.format("Latitude/Longitude: %s/%s", geoCode.getLatitude(),
+                                                 geoCode.getLongitude()));
         }
 
-        assertTrue(geoCodes.size() > 0 && errorCode == 200);
+        assertTrue(geoCodes.size() > 0);
+    }
+
+    @Test
+    public void test_geocoding_holder_exist()
+    {
+        GeoCodeResultList geoCodes = new GeoCodeResultList();
+        GMapLocation location = new GMapLocation("Neue Wollkämmereistrasse 2", "DE", "", "21220", "Hamburg");
+        googleMapService.getGeoCode(geoCodes, location);
+
+        for (GeoCodeResult geoCode : geoCodes)
+        {
+            if (geoCode.getHttpResult() == GeoCodeResult.G_GEO_SUCCESS)
+                System.err.println(String.format("Latitude/Longitude: %s/%s", geoCode.getLatitude(),
+                                                 geoCode.getLongitude()));
+        }
+
+        assertTrue(geoCodes.size() > 0);
     }
 
     @Test
     public void test_geocoding_notexist()
     {
-        List<GoogleGeoCode> geoCodes = CollectionFactory.newList();
-        int errorCode = googleMapService.getGeoCode(geoCodes, "Neue Wollstrasse 2", "DE", "", "21220", "Hamburg");
+        GeoCodeResultList geoCodes = new GeoCodeResultList();
+        googleMapService.getGeoCode(geoCodes, "Neue Wollstrasse 2", "DE", "", "21220", "Hamburg");
 
-        for (GoogleGeoCode geoCode : geoCodes)
+        for (GeoCodeResult geoCode : geoCodes)
         {
-            System.err.println(String.format("Latitude/Longitude: %s/%s", geoCode.getLatLng().getLatitude(),
-                                             geoCode.getLatLng().getLongitude()));
+            if (geoCode.getHttpResult() == GeoCodeResult.G_GEO_SUCCESS)
+                System.err.println(String.format("Latitude/Longitude: %s/%s", geoCode.getLatitude(),
+                                                 geoCode.getLongitude()));
         }
 
-        assertTrue(errorCode == 602);
+        assertTrue(geoCodes.goodMatches() == 0);
     }
 }

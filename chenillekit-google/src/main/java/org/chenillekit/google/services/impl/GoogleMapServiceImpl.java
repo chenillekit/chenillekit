@@ -35,8 +35,9 @@ import org.apache.tapestry5.ioc.internal.util.Defense;
 
 import au.com.bytecode.opencsv.CSVReader;
 import org.chenillekit.google.services.GoogleMapService;
-import org.chenillekit.google.utils.GoogleGeoCode;
-import org.chenillekit.google.utils.LatLng;
+import org.chenillekit.google.utils.GMapLocation;
+import org.chenillekit.google.utils.GeoCodeResult;
+import org.chenillekit.google.utils.GeoCodeResultList;
 import org.chenillekit.google.utils.ProxyConfig;
 import org.slf4j.Logger;
 
@@ -183,17 +184,42 @@ public class GoogleMapServiceImpl implements GoogleMapService
     /**
      * get the geo code from google map service for address.
      *
+     * @param gMapLocation location holder
+     */
+    public GeoCodeResultList getGeoCode(GMapLocation gMapLocation)
+    {
+        GeoCodeResultList geoCodes = new GeoCodeResultList();
+
+        getGeoCode(geoCodes, gMapLocation.getStreet(), gMapLocation.getCountry(),
+                   gMapLocation.getState(), gMapLocation.getZipCode(), gMapLocation.getCity());
+
+        return geoCodes;
+    }
+
+    /**
+     * get the geo code from google map service for address.
+     *
+     * @param geoCodes     empty list for geo codes received from google maps
+     * @param gMapLocation location holder
+     */
+    public void getGeoCode(GeoCodeResultList geoCodes, GMapLocation gMapLocation)
+    {
+        getGeoCode(geoCodes, gMapLocation.getStreet(), gMapLocation.getCountry(),
+                   gMapLocation.getState(), gMapLocation.getZipCode(), gMapLocation.getCity());
+    }
+
+    /**
+     * get the geo code from google map service for address.
+     *
      * @param geoCodes empty list for geo codes received from google maps
      * @param street   the street
      * @param country  the country
      * @param state    the state
      * @param zipCode  the zip code
      * @param city     the city
-     *
-     * @return google error code
      */
-    public int getGeoCode(List<GoogleGeoCode> geoCodes,
-                          String street, String country, String state, String zipCode, String city)
+    public void getGeoCode(GeoCodeResultList geoCodes,
+                           String street, String country, String state, String zipCode, String city)
     {
         Defense.notNull(geoCodes, "geoCodes");
         GetMethod getMethod = null;
@@ -216,27 +242,19 @@ public class GoogleMapServiceImpl implements GoogleMapService
             getMethod.setQueryString(queryString);
 
 
-            int iGetResultCode = httpClient.executeMethod(getMethod);
-
-            if (iGetResultCode == 200)
+            if (httpClient.executeMethod(getMethod) == 200)
             {
                 List valuesList = new CSVReader(new InputStreamReader(getMethod.getResponseBodyAsStream()), ',').readAll();
                 for (Object aValuesList : valuesList)
                 {
                     String[] values = (String[]) aValuesList;
-                    iGetResultCode = Integer.parseInt(values[0]);
 
-                    if (iGetResultCode == 602)
-                        break;
+                    GeoCodeResult geoCodeResult = new GeoCodeResult(Integer.parseInt(values[0]),
+                                                                    Integer.parseInt(values[1]),
+                                                                    Float.parseFloat(values[2]),
+                                                                    Float.parseFloat(values[3]));
 
-                    int resultCode = Integer.parseInt(values[0]);
-                    int accuracy = Integer.parseInt(values[1]);
-                    String latitude = values[2];
-                    String longitude = values[3];
-
-                    geoCodes.add(new GoogleGeoCode(resultCode, accuracy,
-                                                   resultCode != 200 ? null : latitude,
-                                                   resultCode != 200 ? null : longitude));
+                    geoCodes.add(geoCodeResult);
                 }
             }
             else
@@ -245,8 +263,6 @@ public class GoogleMapServiceImpl implements GoogleMapService
                     logger.warn("GoogleMapService receives an error: '%s' with code '%d'", getMethod.getStatusText(),
                                 getMethod.getStatusCode());
             }
-
-            return iGetResultCode;
         }
         catch (HttpException e)
         {
@@ -265,25 +281,6 @@ public class GoogleMapServiceImpl implements GoogleMapService
             if (getMethod != null)
                 getMethod.releaseConnection();
         }
-    }
-
-    /**
-     * get the geo code from google map service for address.
-     *
-     * @param goggleMapResponse the response from google map service as list
-     * @param position          get the list element at position <em>position</em>
-     *
-     * @return the latitude an longitude
-     */
-    public LatLng getLatLag(List<GoogleGeoCode> goggleMapResponse, int position)
-    {
-        if (position > goggleMapResponse.size())
-            return null;
-
-        if (goggleMapResponse.get(position).getHttpStatusCode() != 200)
-            return null;
-
-        return goggleMapResponse.get(position).getLatLng();
     }
 
     /**
