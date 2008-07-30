@@ -51,7 +51,7 @@ public class SimpleSmtpServiceImpl implements SmtpService<Email>
         this.configResource = configResource;
 
         if (!this.configResource.exists())
-            throw new RuntimeException(String.format("config resource '%s' not found!", this.configResource.toURL().toString()));
+            throw new RuntimeException(String.format("config resource '%s' not found!", this.configResource.toString()));
 
         initService(configResource);
     }
