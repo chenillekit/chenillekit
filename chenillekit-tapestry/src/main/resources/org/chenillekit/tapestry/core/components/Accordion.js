@@ -22,6 +22,10 @@ Ck.Accordion.prototype = {
         this.container = $(container);
         this.currentAccordion = null;
 
+        this.options = Object.extend({
+            duration: 0.2
+        }, arguments[1] || {});
+
         var accordions = $A(this.container.getElementsByClassName('ck_accordionToggle'));
         accordions.each(function(accordion)
         {
@@ -35,19 +39,19 @@ Ck.Accordion.prototype = {
     activate : function(myEvent)
     {
         var accordion = Event.element(myEvent);
-        var content = accordion.next().cleanWhitespace();
+        var content = accordion.next();
 
         if (this.currentAccordion != null)
         {
-            var currentAccordionContent = this.currentAccordion.next().cleanWhitespace();
+            var currentAccordionContent = this.currentAccordion.next();
             if (this.currentAccordion != accordion)
-                Effect.SlideUp(currentAccordionContent, { queue: 'end'});
+                Effect.SlideUp(currentAccordionContent, {duration: this.options.duration, queue: 'end'});
         }
 
         if (this.currentAccordion == accordion)
-            Effect.SlideUp(content);
+            Effect.SlideUp(content, {duration: this.options.duration});
         else
-            Effect.SlideDown(content);
+            Effect.SlideDown(content, {duration: this.options.duration});
 
 
         this.currentAccordion = (this.currentAccordion == accordion ? null : accordion)

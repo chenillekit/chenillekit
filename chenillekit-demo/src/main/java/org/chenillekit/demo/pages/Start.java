@@ -24,4 +24,7 @@ public class Start
 {
     @Component(parameters = {"page=PagedLoopDemo"})
     private PageLink pagedLoopDemo;
+
+    @Component(parameters = {"page=AccordionDemo"})
+    private PageLink accordionDemo;
 }

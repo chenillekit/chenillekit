@@ -65,6 +65,12 @@ public class Accordion implements ClientElement
     @Parameter(value = "false", required = false)
     private boolean _renderDetailsRaw;
 
+    /**
+     * duration of slide animation.
+     */
+    @Parameter(value = "0.2", required = false)
+    private String duration;
+
     @Inject
     private ComponentResources _resources;
 
@@ -117,7 +123,7 @@ public class Accordion implements ClientElement
     void afterRender(MarkupWriter writer)
     {
         writer.end(); // main div
-        _pageRenderSupport.addScript("new Ck.Accordion('%s');", getClientId());
+        _pageRenderSupport.addScript("new Ck.Accordion('%s', {duration: %s});", getClientId(), duration);
     }
 
     /**

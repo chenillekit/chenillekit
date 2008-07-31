@@ -19,10 +19,7 @@
 <head>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
-    <link rel="stylesheet" type="text/css" href="${asset:../assets/styles/reset-min.css}"/>
-    <link rel="stylesheet" type="text/css" href="${asset:../assets/styles/fonts-min.css}"/>
-    <link rel="stylesheet" type="text/css" href="${asset:../assets/styles/grids-min.css}"/>
-    <link rel="stylesheet" type="text/css" href="${asset:../assets/styles/base-min.css}"/>
+    <link rel="stylesheet" type="text/css" href="${asset:../assets/styles/default.css}"/>
     <title>Chenille Kit Demo Application</title>
 </head>
 <body>

@@ -1,0 +1,26 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <div class="yui-g">
+        <div class="yui-u first">
+            <div t:id="accordion1" style="width: 350px;"/>
+        </div>
+        <div class="yui-u">
+            <div t:id="accordion2" style="width: 350px;"/>
+        </div>
+    </div>
+
+</span>
