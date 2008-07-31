@@ -23,7 +23,6 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
@@ -45,10 +44,12 @@ import org.slf4j.Logger;
 public class IndexerServiceImpl implements IndexerService<Document>, ThreadCleanupListener
 {
     private Logger logger;
-    private IndexWriter _diskIndexWriter;
-    private IndexReader _diskIndexReader;
-    private Directory _directory;
-    private IndexWriter _ramIndexWriter;
+    private Directory directory;
+    private IndexWriter diskIndexWriter;
+    private IndexWriter ramIndexWriter;
+    private IndexWriter actualIndexWriter;
+    private boolean optimizeAfterRamwriterClosed;
+    private boolean enableLuceneOutput;
 
     public IndexerServiceImpl(final Logger logger, final Resource configResource)
     {
@@ -68,6 +69,8 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
             Configuration configuration = new PropertiesConfiguration(configResource.toURL());
             File indexFolderFile = new File(configuration.getString(IndexerService.PROPERTIES_KEY_IF));
             boolean createFolder = configuration.getBoolean(IndexerService.PROPERTIES_KEY_OIF, false);
+            boolean optimizeAfterRamwriterClosed = configuration.getBoolean(PROPERTIES_KEY_OPT, false);
+            boolean enableLuceneOutput = configuration.getBoolean(PROPERTIES_KEY_ELO, false);
             String analyzerClassName = configuration.getString(IndexerService.PROPERTIES_KEY_ACN, StandardAnalyzer.class.getName());
             int maxFieldLength = configuration.getInt(IndexerService.PROPERTIES_KEY_MFL, 250000);
 
@@ -77,12 +80,17 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
             if (!indexFolderFile.exists())
                 createFolder = true;
 
-            _directory = FSDirectory.getDirectory(indexFolderFile);
+            directory = FSDirectory.getDirectory(indexFolderFile);
             Class analyzerClass = getClass().getClassLoader().loadClass(analyzerClassName);
-            _diskIndexWriter = new IndexWriter(_directory, (Analyzer) analyzerClass.newInstance(), createFolder);
-            _diskIndexWriter.setMaxFieldLength(maxFieldLength);
 
-            _diskIndexReader = IndexReader.open(_directory);
+            if (enableLuceneOutput)
+                IndexWriter.setDefaultInfoStream(System.out);
+            
+            diskIndexWriter = new IndexWriter(directory, (Analyzer) analyzerClass.newInstance(), createFolder);
+            diskIndexWriter.setMaxFieldLength(maxFieldLength);
+            createRamIndexWriter();
+
+            useRamWriter(false);
         }
         catch (IOException e)
         {
@@ -107,21 +115,42 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
     }
 
     /**
-     * optimize the index.
+     * change between ram and disk writer.
+     * <p/>
+     * if <em>use</em> set to false and the ram writer was active,
+     * the ram writer content merged to disk writer first.
+     *
+     * @param use
      */
-    public boolean optimizeIndex()
+    public void useRamWriter(boolean use)
     {
-        boolean optimized = true;
+        if (use)
+            actualIndexWriter = ramIndexWriter;
+        else
+        {
+            if (isRamWriterActive())
+                mergeRamIndexWriterToDisk(false);
 
-        try
-        {
-            _diskIndexWriter.optimize();
-            return optimized;
+            actualIndexWriter = diskIndexWriter;
         }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+    }
+
+    /**
+     * test if ram indexwriter is active.
+     */
+    public boolean isRamWriterActive()
+    {
+        return actualIndexWriter == ramIndexWriter;
+    }
+
+    /**
+     * optimize the index.
+     * <p/>
+     * if the ram writer is active, the content of ram write merged to disk writer first.
+     */
+    public void optimizeIndex()
+    {
+        mergeRamIndexWriterToDisk(false);
     }
 
     /**
@@ -131,7 +160,7 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
      */
     public void addDocument(Document document)
     {
-        addDocument(_diskIndexWriter, document);
+        addDocument(actualIndexWriter, document);
     }
 
     /**
@@ -140,18 +169,13 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
      * @param field       name of the field
      * @param queryString
      */
-    public boolean delDocument(String field, String queryString)
+    public void delDocuments(String field, String queryString)
     {
-        boolean deleted = false;
         try
         {
-            if (_diskIndexReader.deleteDocuments(new Term(field, queryString)) > 0)
-            {
-                _diskIndexReader.flush();
-                deleted = true;
-            }
-
-            return deleted;
+            diskIndexWriter.deleteDocuments(new Term(field, queryString));
+            if (ramIndexWriter.docCount() > 0)
+                ramIndexWriter.deleteDocuments(new Term(field, queryString));
         }
         catch (IOException e)
         {
@@ -165,7 +189,7 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
      * @param indexWriter
      * @param document
      */
-    public void addDocument(IndexWriter indexWriter, Document document)
+    private void addDocument(IndexWriter indexWriter, Document document)
     {
         try
         {
@@ -182,25 +206,24 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
 
     /**
      * close all handles inside the service.
-     * wenn ein RAM-IndexWriter offen ist, dann wird dieser gemerged.
      *
      * @link LuceneServiceImpl.mergeRamIndexWriterToDisk
      */
-    public void close()
+    private void close()
     {
         try
         {
-            if (_ramIndexWriter != null)
-                mergeRamIndexWriterToDisk();
+            if (ramIndexWriter != null)
+                mergeRamIndexWriterToDisk(true);
 
-            if (_diskIndexWriter != null)
-                _diskIndexWriter.close();
+            if (diskIndexWriter != null)
+                diskIndexWriter.close();
 
-            if (_diskIndexReader != null)
-                _diskIndexReader.close();
+            if (ramIndexWriter != null)
+                ramIndexWriter.close();
 
-            if (_directory != null)
-                _directory.close();
+            if (directory != null)
+                directory.close();
         }
         catch (IOException e)
         {
@@ -211,18 +234,17 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
     /**
      * creates a ram located index writer
      */
-    public IndexWriter createRamIndexWriter()
+    private IndexWriter createRamIndexWriter()
     {
-        if (_diskIndexWriter == null)
+        if (diskIndexWriter == null)
             throw new RuntimeException("index writer not initialized");
-
-        if (_ramIndexWriter != null)
-            throw new RuntimeException("ram disk writer always initialized");
 
         try
         {
-            _ramIndexWriter = new IndexWriter(new RAMDirectory(), _diskIndexWriter.getAnalyzer(), true);
-            return _ramIndexWriter;
+            if (ramIndexWriter == null)
+                ramIndexWriter = new IndexWriter(new RAMDirectory(), diskIndexWriter.getAnalyzer(), true);
+
+            return ramIndexWriter;
         }
         catch (IOException e)
         {
@@ -234,27 +256,28 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
      * merged a ram located index writer to disk.
      * ram located index would be closed after merging
      */
-    public void mergeRamIndexWriterToDisk()
+    private void mergeRamIndexWriterToDisk(boolean closing)
     {
-        if (_diskIndexWriter == null)
+        if (diskIndexWriter == null)
             throw new RuntimeException("index writer not initialized");
 
-        if (_ramIndexWriter == null)
-            throw new RuntimeException("ram disk writer always initialized");
+        if (ramIndexWriter == null)
+            throw new RuntimeException("ram index writer not initialized");
 
         try
         {
             logger.debug("merging ram to disk");
 
-            _diskIndexWriter.addIndexes(new Directory[]{_ramIndexWriter.getDirectory()});
+            diskIndexWriter.addIndexes(new Directory[]{ramIndexWriter.getDirectory()});
 
             logger.debug("optimizing disk indexer");
 
-            optimizeIndex();
+            if (optimizeAfterRamwriterClosed || closing)
+                diskIndexWriter.optimize();
 
             logger.debug("flush disk indexer");
 
-            _diskIndexWriter.flush();
+            diskIndexWriter.flush();
         }
         catch (IOException e)
         {
@@ -266,8 +289,9 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
             {
                 logger.debug("close disk indexer");
 
-                _ramIndexWriter.close();
-                _ramIndexWriter = null;
+                ramIndexWriter.close();
+                ramIndexWriter = null;
+                createRamIndexWriter();
             }
             catch (IOException e)
             {
@@ -283,7 +307,7 @@ public class IndexerServiceImpl implements IndexerService<Document>, ThreadClean
      */
     public int getDocCount()
     {
-        return _diskIndexWriter.docCount();
+        return diskIndexWriter.docCount();
     }
 
     /**

@@ -14,8 +14,6 @@
 
 package org.chenillekit.lucene.services;
 
-import org.apache.lucene.index.IndexWriter;
-
 /**
  * implements indexer based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
@@ -29,13 +27,27 @@ public interface IndexerService<T>
     public final String PROPERTIES_KEY_OIF = "search.overwrite.index.folder";
     public final String PROPERTIES_KEY_ACN = "search.analyzer.class.name";
     public final String PROPERTIES_KEY_MFL = "search.max.field.length";
+    public final String PROPERTIES_KEY_OPT = "optimize.after.ramwriter.closed";
+    public final String PROPERTIES_KEY_ELO = "enable.lucene.log.output";
 
     /**
      * optimize the index.
      *
      * @return un-/successfull optimized
      */
-    boolean optimizeIndex();
+    void optimizeIndex();
+
+    /**
+     * service schould use the indexwriter or not.
+     *
+     * @param use
+     */
+    void useRamWriter(boolean use);
+
+    /**
+     * test if ram indexwriter is active.
+     */
+    boolean isRamWriterActive();
 
     /**
      * add a document to the standard index.
@@ -45,36 +57,12 @@ public interface IndexerService<T>
     void addDocument(T document);
 
     /**
-     * add a document to the given index.
-     *
-     * @param indexWriter
-     * @param document
-     */
-    void addDocument(IndexWriter indexWriter, T document);
-
-    /**
      * delete documents by the given field name and the query.
      *
      * @param field       name of the field
      * @param queryString
      */
-    boolean delDocument(String field, String queryString);
-
-    /**
-     * close all handles inside the service.
-     */
-    void close();
-
-    /**
-     * creates a ram located index writer
-     */
-    IndexWriter createRamIndexWriter();
-
-    /**
-     * merged a ram located index writer to disk.
-     * ram located index would be closed after merging
-     */
-    void mergeRamIndexWriterToDisk();
+    void delDocuments(String field, String queryString);
 
     /**
      * get the amount of documents stored in the disk index.

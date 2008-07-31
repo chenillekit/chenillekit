@@ -24,7 +24,6 @@ import java.net.URL;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexWriter;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
@@ -40,6 +39,9 @@ import org.testng.annotations.Test;
  */
 public class LuceneIndexerServiceTest extends AbstractTestSuite
 {
+    int repeating = 100;
+    int docAmount = 3;
+
     @BeforeSuite
     public final void setup_registry()
     {
@@ -50,41 +52,42 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
     public void initialize_lucene_dictionary()
     {
         IndexerService service = registry.getService(IndexerService.class);
-        IndexWriter indexWriter = service.createRamIndexWriter();
         String[] fileNames = new String[]{"airbag.txt", "consp.txt", "aliens.txt"};
 
-        for (String fileName : fileNames)
+        Document document = new Document();
+        document.add(new Field("id", "", Field.Store.YES, Field.Index.UN_TOKENIZED));
+        document.add(new Field("url", "", Field.Store.YES, Field.Index.UN_TOKENIZED));
+        document.add(new Field("content", "", Field.Store.YES, Field.Index.TOKENIZED));
+
+        for (int i = 0; i < repeating; i++)
         {
-            System.err.println(String.format("adding file '%s' to index", fileName));
+            for (String fileName : fileNames)
+            {
+                Resource resource = new ClasspathResource(this.getClass().getClassLoader(), fileName);
 
-            Resource resource = new ClasspathResource(this.getClass().getClassLoader(), fileName);
-
-            Document document = new Document();
-            document.add(new Field("id", fileName, Field.Store.YES, Field.Index.UN_TOKENIZED));
-            document.add(new Field("url", resource.toURL().toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-            document.add(new Field("content", readFile(resource.toURL()), Field.Store.YES, Field.Index.TOKENIZED));
-            service.addDocument(document);
+                document.getField("id").setValue(fileName + "_" + String.valueOf(i));
+                document.getField("url").setValue(resource.toURL().toString());
+                document.getField("content").setValue(readFile(resource.toURL()));
+                service.addDocument(document);
+            }
         }
-
-        service.mergeRamIndexWriterToDisk();
     }
 
     @Test
     public void indexed_records()
     {
         IndexerService service = registry.getService(IndexerService.class);
-        assertEquals(service.getDocCount(), 3);
+        assertEquals(service.getDocCount(), repeating * docAmount);
     }
 
-//    @Test(dependsOnMethods = {"indexed_records"})
-//    public void delete_document()
-//    {
-//        IndexerService service = registry.getService(IndexerService.class);
-//
-//        System.err.println("deleted: " + service.delDocument("id", "consp.txt"));
-//
-//        assertEquals(service.getDocCount(), 2);
-//    }
+    @Test(dependsOnMethods = {"indexed_records"})
+    public void delete_document()
+    {
+        IndexerService service = registry.getService(IndexerService.class);
+        service.delDocuments("id", "consp.txt_1");
+        service.optimizeIndex();
+        assertEquals(service.getDocCount(), (repeating * docAmount) - 1);
+    }
 
     private String readFile(URL file)
     {

@@ -28,7 +28,7 @@ public class AbstractTestSuite extends Assert
 {
     protected static Registry registry;
 
-    public final void setup_registry(Class... moduleClasses)
+    public void setup_registry(Class... moduleClasses)
     {
         RegistryBuilder builder = new RegistryBuilder();
 
@@ -46,6 +46,7 @@ public class AbstractTestSuite extends Assert
     @AfterSuite
     public final void shutdown_registry()
     {
+        registry.cleanupThread();
         registry.shutdown();
         registry = null;
     }

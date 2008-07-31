@@ -15,14 +15,10 @@
 package org.chenillekit.lucene.services;
 
 import java.io.IOException;
-import java.util.Iterator;
 
-import org.apache.lucene.search.Hit;
 import org.apache.lucene.search.Hits;
 
-import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
 import org.chenillekit.test.AbstractTestSuite;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 /**
@@ -31,24 +27,11 @@ import org.testng.annotations.Test;
  */
 public class LuceneSearcherServiceTest extends AbstractTestSuite
 {
-    @BeforeSuite
-    public final void setup_registry()
-    {
-        super.setup_registry(ChenilleKitLuceneTestModule.class);
-    }
-
     @Test
     public void query_records() throws IOException
     {
         SearcherService service = registry.getService(SearcherService.class);
         Hits hits = (Hits) service.search("content", "manufacturers OR \"British Government Warehouse\"");
-        Iterator<Hit> hitsIterator = hits.iterator();
-        while (hitsIterator.hasNext())
-        {
-            Hit hit = hitsIterator.next();
-            System.err.println(String.format("%f - %f - %s", hit.getBoost(), hit.getScore(), hit.getDocument().get("id")));
-        }
-
-        assertEquals(hits.length(), 2);
+        assertEquals(hits.length(), 199);
     }
 }
