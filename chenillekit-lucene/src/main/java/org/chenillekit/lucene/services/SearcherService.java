@@ -24,14 +24,7 @@ public interface SearcherService<T>
 {
     public final String CONFIG_KEY_PROPERTIES = "lucene.properties";
     public final String PROPERTIES_KEY_IF = "search.index.folder";
-    public final String PROPERTIES_KEY_OIF = "search.overwrite.index.folder";
     public final String PROPERTIES_KEY_ACN = "search.analyzer.class.name";
-    public final String PROPERTIES_KEY_MFL = "search.max.field.length";
 
     <T> T search(String fieldName, String queryString);
-
-    /**
-     * close all handles inside the service.
-     */
-    void close();
 }

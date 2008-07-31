@@ -123,7 +123,7 @@ public class SearcherServiceImpl implements SearcherService<Hits>, RegistryShutd
     /**
      * close all handles inside the service.
      */
-    public void close()
+    private void close()
     {
         try
         {
