@@ -18,6 +18,7 @@ import org.apache.tapestry5.Asset;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
@@ -34,9 +35,9 @@ import org.apache.tapestry5.services.AssetSource;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id: AbstractWindow.java 682 2008-05-20 22:00:02Z homburgs $
  */
-@IncludeJavaScriptLibrary(value = {"${tapestry.scriptaculous}/effects.js", "window/window.js",
-        "window/window_effects.js"})
-@IncludeStylesheet(value = {"window/themes/default.css"})
+@IncludeJavaScriptLibrary(value = {"${tapestry.scriptaculous}/effects.js", "../components/window/window.js",
+        "../components/window/window_effects.js"})
+@IncludeStylesheet(value = {"../components/window/themes/default.css"})
 abstract public class AbstractWindow implements ClientElement
 {
     /**
@@ -45,7 +46,7 @@ abstract public class AbstractWindow implements ClientElement
      * {@link #getClientId() clientId property}.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * style name for the window.
@@ -70,51 +71,57 @@ abstract public class AbstractWindow implements ClientElement
      * </ul>
      */
     @Parameter(value = "alphacube", defaultPrefix = BindingConstants.LITERAL, name = "style")
-    private String _className;
+    private String className;
 
     /**
      * initial width of the window.
      */
     @Parameter(value = "0", defaultPrefix = BindingConstants.PROP)
-    private int _width;
+    private int width;
 
     /**
      * initial height of the window.
      */
     @Parameter(value = "0", defaultPrefix = BindingConstants.PROP)
-    private int _height;
+    private int height;
 
     /**
      * Shows window at its current position.
      */
     @Parameter(value = "true", defaultPrefix = BindingConstants.PROP)
-    private boolean _show;
+    private boolean show;
 
     /**
      * Shows window centered (only if parameter "show" is true).
      */
     @Parameter(value = "true", defaultPrefix = BindingConstants.PROP)
-    private boolean _center;
+    private boolean center;
 
     /**
      * Shows window in modal mode (only if parameter "show" is true).
      */
     @Parameter(value = "true", defaultPrefix = BindingConstants.PROP)
-    private boolean _modal;
+    private boolean modal;
 
-    private String _assignedClientId;
+    /**
+     * set the window title.
+     */
+    @Parameter(value = "", defaultPrefix = BindingConstants.PROP)
+    private String title;
+
+    private String assignedClientId;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private RenderSupport renderSupport;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     @Inject
-    private AssetSource _assetSource;
+    private AssetSource assetSource;
 
     @Inject
-    private SymbolSource _symbolSource;
+    private SymbolSource symbolSource;
 
     /**
      * Tapestry render phase method.
@@ -124,33 +131,33 @@ abstract public class AbstractWindow implements ClientElement
     {
         // By default, use the component id as the (base) client id. If the clientid
         // parameter is bound, then that is the value to use.
-        // Often, these controlName and _clientId will end up as the same value. There are many
+        // Often, these controlName and clientId will end up as the same value. There are many
         // exceptions, including a form that renders inside a loop, or a form inside a component
         // that is used multiple times.
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        assignedClientId = renderSupport.allocateClientId(clientId);
     }
 
     /**
      * Tapestry render phase method.
      * Start a tag here, end it in afterRender
      */
-    void beginRender()
+    void beginRender(MarkupWriter writer)
     {
         String cssStyleFile;
 
-        String scriptPathSymbolValue = _symbolSource.expandSymbols("${commons.scripts}") + "/window/themes";
+        String scriptPathSymbolValue = symbolSource.expandSymbols("${ck.components}") + "/window/themes";
 
-        if (_className.endsWith("lighting"))
+        if (className.endsWith("lighting"))
             cssStyleFile = "lighting.css";
-        else if (_className.equals("dialog"))
+        else if (className.equals("dialog"))
             cssStyleFile = "default.css";
-        else if (_className.endsWith("_os_x"))
+        else if (className.endsWith("_os_x"))
             cssStyleFile = "mac_os_x.css";
         else
-            cssStyleFile = _className + ".css";
+            cssStyleFile = className + ".css";
 
-        Asset cssAsset = _assetSource.getClasspathAsset(scriptPathSymbolValue + "/" + cssStyleFile);
-        _pageRenderSupport.addStylesheetLink(cssAsset, "screen");
+        Asset cssAsset = assetSource.getClasspathAsset(scriptPathSymbolValue + "/" + cssStyleFile);
+        renderSupport.addStylesheetLink(cssAsset, "screen");
     }
 
     /**
@@ -173,41 +180,41 @@ abstract public class AbstractWindow implements ClientElement
      */
     public String getClientId()
     {
-        return _assignedClientId;
-    }
-
-    public RenderSupport getPageRenderSupport()
-    {
-        return _pageRenderSupport;
+        return assignedClientId;
     }
 
     public boolean isShow()
     {
-        return _show;
+        return show;
     }
 
     public boolean isCenter()
     {
-        return _center;
+        return center;
     }
 
     public boolean isModal()
     {
-        return _modal;
+        return modal;
     }
 
     public String getClassName()
     {
-        return _className;
+        return className;
     }
 
     public int getWidth()
     {
-        return _width;
+        return width;
     }
 
     public int getHeight()
     {
-        return _height;
+        return height;
+    }
+
+    public String getTitle()
+    {
+        return title;
     }
 }

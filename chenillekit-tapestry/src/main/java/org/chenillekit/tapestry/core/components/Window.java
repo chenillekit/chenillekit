@@ -15,6 +15,11 @@
 package org.chenillekit.tapestry.core.components;
 
 import org.apache.tapestry5.MarkupWriter;
+import org.apache.tapestry5.RenderSupport;
+import org.apache.tapestry5.annotations.AfterRender;
+import org.apache.tapestry5.annotations.AfterRenderBody;
+import org.apache.tapestry5.annotations.BeforeRenderBody;
+import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.json.JSONObject;
 
 import org.chenillekit.tapestry.core.base.AbstractWindow;
@@ -27,11 +32,46 @@ import org.chenillekit.tapestry.core.base.AbstractWindow;
  */
 public class Window extends AbstractWindow
 {
+    @Environmental
+    private RenderSupport renderSupport;
+
+    private boolean hasBody = false;
+
+    /**
+     * Tapestry render phase method.
+     * Called before component body is rendered.
+     *
+     * @param writer the markup writer
+     */
+    @BeforeRenderBody
+    void beforeRenderBody(MarkupWriter writer)
+    {
+        hasBody = true;
+        writer.element("div",
+                       "id", getClientId() + "Content",
+                       "style", "display:none;");
+    }
+
+    /**
+     * Tapestry render phase method.
+     * Called after component body is rendered.
+     * return false to render body again.
+     *
+     * @param writer the markup writer
+     */
+    @AfterRenderBody
+    void afterRenderBody(MarkupWriter writer)
+    {
+        writer.end();
+    }
+
+
     /**
      * Tapestry render phase method. End a tag here.
      *
      * @param writer the markup writer
      */
+    @AfterRender
     void afterRender(MarkupWriter writer)
     {
         JSONObject options = new JSONObject();
@@ -45,8 +85,14 @@ public class Window extends AbstractWindow
         //
         configure(options);
 
-        getPageRenderSupport().addScript("%s = new Window(%s);", getClientId(), options);
+        renderSupport.addScript("%s = new Window(%s);", getClientId(), options);
+
+        if (hasBody)
+            renderSupport.addScript("%s.setContent('%sContent');", getClientId(), getClientId());
+
+        renderSupport.addScript("%s.setTitle('%s');", getClientId(), getTitle());
+
         if (isShow())
-            getPageRenderSupport().addScript("%s.show%s(%s);", getClientId(), isCenter() ? "Center" : "", isModal());
+            renderSupport.addScript("%s.show%s(%s);", getClientId(), isCenter() ? "Center" : "", isModal());
     }
 }

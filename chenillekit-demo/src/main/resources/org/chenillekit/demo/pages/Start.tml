@@ -19,6 +19,7 @@
 <ul>
     <li><a href="#" t:id="pagedLoopDemo">PagedLoopDemo</a></li>
     <li><a href="#" t:id="accordionDemo">AccordionDemo</a></li>
+    <li><a href="#" t:id="windowDemo">WindowDemo</a></li>
 </ul>
 
 </body>

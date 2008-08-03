@@ -1,6 +1,29 @@
  ----
- Home
+ ChenilleKit Google Service Introduction
  ----
 
-Chenille Kit Google
+Description by Sample
 
+Configuration (java properties file)
+
+ * google.keyfile
+   the location where your GMap key file resists
+   you can get your free key <a href="http://code.google.com/apis/maps/signup.html">here</a>
+ * google.timeout = 30000
+ * google.proxy.server
+ * google.proxy.port
+ * google.proxy.user
+ * google.proxy.password
+
+
++-----------------------------------------------------------------------------------+
+package org.example.myapp;
+
+public class MyAppModule
+{
+  public static Indexer build()
+  {
+    return new IndexerImpl();
+  }
+}
++-----------------------------------------------------------------------------------+

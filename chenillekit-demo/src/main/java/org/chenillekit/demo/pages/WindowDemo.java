@@ -15,19 +15,15 @@
 package org.chenillekit.demo.pages;
 
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.corelib.components.PageLink;
+
+import org.chenillekit.tapestry.core.components.Window;
 
 /**
- * ChenilleKit demo application start page.
+ * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
+ * @version $Id$
  */
-public class Start
+public class WindowDemo
 {
-    @Component(parameters = {"page=PagedLoopDemo"})
-    private PageLink pagedLoopDemo;
-
-    @Component(parameters = {"page=AccordionDemo"})
-    private PageLink accordionDemo;
-
-    @Component(parameters = {"page=WindowDemo"})
-    private PageLink windowDemo;
+    @Component(parameters = {"style=bluelighting", "show=true", "modal=true", "title=literal:Window 1"})
+    private Window window1;
 }
