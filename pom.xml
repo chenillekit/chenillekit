@@ -334,6 +334,12 @@
                 <groupId>jasperreports</groupId>
                 <artifactId>jasperreports</artifactId>
                 <version>3.0.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jfree</groupId>
+                        <artifactId>jfreechart</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!--
