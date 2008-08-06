@@ -1,0 +1,45 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <div class="yui-g">
+        <div class="yui-u first">
+            <div t:id="panel1" style="width: 350px;">
+
+                Uhm... There wasn't one, well not a good one.
+
+                Haha! Like there was one. Well there was, but only for Rico and a bloated one by mootools, that's right I said bloated, live with it. For some reason there wasn't one for scriptaculous but now there is. The why is pretty simple, just like every other library, I had a need for it. Hope you can get some use out of it.
+
+                Oh, by the way, not only does this script handle vertical accordions, but horizontal as well!
+            </div>
+        </div>
+        <div class="yui-u">
+            <div t:id="panel2" style="width: 350px;">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.
+                Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.
+                Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis
+                dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora
+                torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet
+                consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.
+                Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar
+                a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.
+                In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.
+                Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.
+            </div>
+        </div>
+    </div>
+
+</span>

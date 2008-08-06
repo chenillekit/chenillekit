@@ -30,4 +30,7 @@ public class Start
 
     @Component(parameters = {"page=WindowDemo"})
     private PageLink windowDemo;
+
+    @Component(parameters = {"page=SlidingPanelDemo"})
+    private PageLink slidingPanelDemo;
 }

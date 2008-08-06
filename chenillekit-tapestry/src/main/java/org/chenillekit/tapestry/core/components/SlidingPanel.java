@@ -14,13 +14,11 @@
 
 package org.chenillekit.tapestry.core.components;
 
+import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.RenderSupport;
-import org.apache.tapestry5.annotations.AfterRender;
-import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
@@ -44,56 +42,69 @@ public class SlidingPanel implements ClientElement
      * times, a suffix will be appended to the to id to ensure uniqueness.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * the panel subject.
      */
-    @Parameter(value = "", required = false)
-    private String _subject;
+    @Parameter(value = "", required = false, defaultPrefix = BindingConstants.LITERAL)
+    private String subject;
 
     /**
      * show the panel initialy closed or open.
      */
     @Parameter(value = "false", required = false)
-    private boolean _closed;
+    private boolean closed;
+
+    /**
+     * the panel options (e.g. {duration:2.5}).
+     * <p/>
+     * look at http://github.com/madrobby/scriptaculous/wikis/core-effects for possible values.
+     */
+    @Parameter(value = "", required = false, defaultPrefix = BindingConstants.LITERAL)
+    private String options;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private RenderSupport renderSupport;
 
-    private String _assignedClientId;
+    private String assignedClientId;
 
     void setupRender()
     {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        assignedClientId = renderSupport.allocateClientId(clientId);
     }
 
-    @BeginRender
-    void doBeginRender(MarkupWriter writer)
+    /**
+     * Tapestry render phase method.
+     * Start a tag here, end it in afterRender
+     */
+    void beginRender(MarkupWriter writer)
     {
         writer.element("div", "id", getClientId(), "class", "ck_slidingpanel");
-        _resources.renderInformalParameters(writer);
+        resources.renderInformalParameters(writer);
 
         writer.element("div", "id", getClientId() + "_subject", "class", "ck_slidingPanelSubject");
         writer.element("div", "id", getClientId() + "_toggler", "class", "ck_slidingPanelSubject-toggler");
         writer.end(); // Tag 'toggler'
-        writer.write(_subject);
+        writer.write(subject);
         writer.end(); // Tag 'div.subject'
 
         writer.element("div", "id", getClientId() + "_content", "class", "ck_slidingPanelContent", "style", "display: none;");
         writer.element("span");
     }
 
-    @AfterRender
-    void doAfterRender(MarkupWriter writer)
+    /**
+     * Tapestry render phase method. End a tag here.
+     */
+    void afterRender(MarkupWriter writer)
     {
         writer.end(); // Tag 'div.outer_panel'
         writer.end(); // Tag 'div.outer_panel'
         writer.end(); // main div
-        _pageRenderSupport.addScript("new Ck.SlidingPanel('%s', %s);", getClientId(), _closed);
+        renderSupport.addScript("new Ck.SlidingPanel('%s', %s, %s);", getClientId(), closed, options);
     }
 
     /**
@@ -103,6 +114,6 @@ public class SlidingPanel implements ClientElement
      */
     public String getClientId()
     {
-        return _assignedClientId;
+        return assignedClientId;
     }
 }

@@ -20,19 +20,20 @@ Ck.SlidingPanel.prototype =
 {
     subjectClassName : 'ck_slidingPanelSubject',
 
-    initialize: function(panel, closed)
+    initialize: function(panelId, closed, options)
     {
-        this.panel = $(panel);
-        this.subject = this.panel.getElementsByClassName(this.subjectClassName)[0];
-        this.content = this.subject.next().cleanWhitespace();
+        this.panelId = panelId;
+        this.subject = this.panelId + "_subject";
+        this.content = this.panelId + "_content";
+        this.options = options;
 
         if (!closed)
-            this.content.style.display = 'block';
+            $(this.content).style.display = 'block';
 
-        Event.observe(this.subject, 'click', this.toggle.bindAsEventListener(this));
+        Event.observe($(this.subject), 'click', this.toggle.bind(this), false);
     },
     toggle: function (theEvent)
     {
-        Effect.toggle(this.content, 'slide');
+        Effect.toggle($(this.content), 'slide', this.options);
     }
 }
