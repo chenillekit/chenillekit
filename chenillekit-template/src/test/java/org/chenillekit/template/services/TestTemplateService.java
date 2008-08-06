@@ -16,15 +16,15 @@ package org.chenillekit.template.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
-import java.io.ByteArrayInputStream;
 import java.util.Date;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
+import org.chenillekit.core.streams.StringInputStream;
 import org.chenillekit.template.ChenilleKitTemplateTestModule;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -78,8 +78,7 @@ public class TestTemplateService extends Assert
         Map<String, Serializable> parameterMap = new HashMap<String, Serializable>();
         parameterMap.put("var", "fine short");
 
-        ByteArrayInputStream bais = new ByteArrayInputStream("this is a ${var} test string".getBytes());
-        service.mergeDataWithStream(bais, baos, parameterMap);
+        service.mergeDataWithStream(new StringInputStream("this is a ${var} test string"), baos, parameterMap);
 
         String result = baos.toString();
         System.err.println(result);
