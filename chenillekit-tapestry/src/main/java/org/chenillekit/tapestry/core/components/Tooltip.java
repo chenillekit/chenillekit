@@ -24,7 +24,6 @@ import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
-import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Environment;
 
@@ -43,47 +42,47 @@ public class Tooltip
      * times, a suffix will be appended to the to id to ensure uniqueness.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * the tooltip title.
      */
     @Parameter(value = "", required = false, defaultPrefix = "literal")
-    private String _title;
+    private String title;
 
     /**
      * the tooltip content.
      */
     @Parameter(value = "", required = false, defaultPrefix = "literal")
-    private String _value;
+    private String value;
 
     /**
      * the tooltip effect ("blind", "appear", "slide").
      */
     @Parameter(required = false, defaultPrefix = "literal")
-    private String _effect;
+    private String effect;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private RenderSupport renderSupport;
 
     @Inject
-    private Environment _environment;
+    private Environment environment;
 
-    private String _assignedClientId;
+    private String assignedClientId;
 
     void setupRender()
     {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        assignedClientId = renderSupport.allocateClientId(clientId);
     }
 
     @BeginRender
     void doBeginRender(MarkupWriter writer)
     {
-        Element element = writer.element("div");
-        element.attribute("id", _assignedClientId);
+        writer.element("span",
+                       "id", assignedClientId);
     }
 
     @AfterRender
@@ -94,13 +93,28 @@ public class Tooltip
         String jsCommand = "new Ck.Tip('%s', '%s'";
         jsCommand += ", {className: 'ck_tooltip'";
 
-        if (_title != null)
-            jsCommand += ", title: '" + _title + "'";
+        if (title != null)
+            jsCommand += ", title: '" + replaceJSChar(title) + "'";
 
-        if (_effect != null)
-            jsCommand += ", effect: '" + _effect + "'";
+        if (effect != null)
+            jsCommand += ", effect: '" + effect + "'";
 
         jsCommand += "});";
-        _pageRenderSupport.addScript(jsCommand, _assignedClientId, _value);
+        renderSupport.addScript(jsCommand, assignedClientId, replaceJSChar(value));
+    }
+
+    /**
+     * replace the ' char with the " char.
+     *
+     * @param value
+     *
+     * @return
+     */
+    private String replaceJSChar(String value)
+    {
+        if (value == null)
+            return "";
+
+        return value.replaceAll("'", "\"");
     }
 }

@@ -17,6 +17,8 @@ package org.chenillekit.lucene;
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;
+import static org.apache.tapestry5.ioc.IOCConstants.PERTHREAD_SCOPE;
+import org.apache.tapestry5.ioc.annotations.Scope;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 
@@ -41,6 +43,7 @@ public class ChenilleKitLuceneModule
      *
      * @return indexer engine
      */
+    @Scope(PERTHREAD_SCOPE)
     public static IndexerService buildIndexerService(Logger logger, Map<String, Resource> configuration,
                                                      PerthreadManager threadManager)
     {
