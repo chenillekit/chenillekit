@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<!--
+~ Apache License
+~ Version 2.0, January 2004
+~ http://www.apache.org/licenses/
+~
+~ Copyright 2008 by chenillekit.org
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~ http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>ChenilleKit Lucene Module</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
+
+    <body>
+
+        <section name="ChenilleKit Lucene Module">
+
+            <p>
+                This module offers you the possibilty to inject a leightweight Searcher and Indexer based on Apache Lucene.
+                <br/>
+                Apache Lucene is a high-performance, full-featured text search engine library written entirely in Java.
+                It is a technology suitable for nearly any application that requires full-text search, especially cross-platform.
+            </p>
+
+        </section>
+        
+    </body>
+
+</document>

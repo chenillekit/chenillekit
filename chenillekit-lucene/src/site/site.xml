@@ -13,10 +13,10 @@
   ~ http://www.apache.org/licenses/LICENSE-2.0
   -->
 
-<project name="Chenille Kit Quartz">
+<project name="ChenilleKit Lucene">
 
     <bannerLeft>
-        <name>Chenille Kit Quartz</name>
+        <name>ChenilleKit Lucene</name>
         <href>index.html</href>
         <src>images/chenillekit-logo.png</src>
     </bannerLeft>
@@ -27,14 +27,25 @@
         <version>1.1</version>
     </skin>
 
+    <poweredBy>
+        <logo name="Maven" href="http://maven.apache.org/"
+              img="http://maven.apache.org/images/logos/maven-feather.png"/>
+    </poweredBy>
+
     <publishDate format="yyyy-MM-dd HH:mm:SS"/>
 
     <body>
 
         <links>
-            <item name="Project" href="../index.html"/>
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
+
+        <menu ref="parent"/>
+
+        <menu name="Services">
+            <item name="Indexer" href="indexer.html"/>
+            <item name="Searcher" href="searcher.html"/>
+        </menu>
 
         <menu ref="reports"/>
 
