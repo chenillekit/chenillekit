@@ -101,22 +101,6 @@
 
             <!--
             ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            + build the module site
-            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <!-- Snapshots after this are broken. %#%#%$#@% Maven. TAPESTRY-1943 -->
-                <version>2.0-beta-5</version>
-                <configuration>
-                    <templateFile>${basedir}/../src/site/maven-site.vm</templateFile>
-                    <stagingDirectory>${basedir}/../target/staging</stagingDirectory>
-                </configuration>
-            </plugin>
-
-            <!--
-            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             + build the module jar
             ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             -->
