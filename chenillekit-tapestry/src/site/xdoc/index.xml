@@ -21,24 +21,17 @@
 <document>
 
     <properties>
-        <title>ChenilleKit Hibernate</title>
+        <title>ChenilleKit.org</title>
         <author email="homburgs@gmail.com"/>
     </properties>
 
-
     <body>
 
-        <section name="ChenilleKit Hibernate">
+        <section name="ChenilleKit Tapestry">
 
             <p>
-                This module will give you help to implement Hibernate and the use of DAO technology make more easy.
-            </p>
-
-            <p>
-                Hibernate is a powerful, high performance object/relational persistence and query service.
-                Hibernate lets you develop persistent classes following object-oriented idiom - including association,
-                inheritance, polymorphism, composition, and collections. Hibernate allows you to express queries in its
-                own portable SQL extension (HQL), as well as in native SQL, or with an object-oriented Criteria and Example API.
+                A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript
+                library and more ...
             </p>
 
         </section>

@@ -37,6 +37,7 @@
     <body>
 
         <links>
+            <item name="Project Home" href="../index.html"/>
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
 

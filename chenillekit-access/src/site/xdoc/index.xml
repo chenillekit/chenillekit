@@ -21,24 +21,27 @@
 <document>
 
     <properties>
-        <title>ChenilleKit Hibernate</title>
+        <title>ChenilleKit.org</title>
         <author email="homburgs@gmail.com"/>
     </properties>
 
-
     <body>
 
-        <section name="ChenilleKit Hibernate">
+        <section name="ChenilleKit Access">
 
             <p>
-                This module will give you help to implement Hibernate and the use of DAO technology make more easy.
+                The ChenileKit Access module let you have private pages which are accessible only to
+                a user who has been previously authenticated (in some way).
+            </p>
+
+
+            <p>
+                The authentication mechanism is let outside the scope of the library.
             </p>
 
             <p>
-                Hibernate is a powerful, high performance object/relational persistence and query service.
-                Hibernate lets you develop persistent classes following object-oriented idiom - including association,
-                inheritance, polymorphism, composition, and collections. Hibernate allows you to express queries in its
-                own portable SQL extension (HQL), as well as in native SQL, or with an object-oriented Criteria and Example API.
+                The library needs to have a Bean (WebUser) as ApplicationState to recognize the user
+                and his group and role properties.
             </p>
 
         </section>

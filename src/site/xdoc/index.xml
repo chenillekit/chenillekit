@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>ChenilleKit.org</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
+    <body>
+
+        <section name="What is Chenille Kit?">
+
+            <p>
+                Chenille Kit is a collection of modules with sophisticated components, services and utils based on Tapestry's IOC
+                but <strong>not</strong> only for Tapestry Framework based servlet applications.
+            </p>
+
+            <subsection name="The Modules">
+
+                <p>
+                    At the moment there exists some modules like:
+                </p>
+
+
+                <ul>
+                    <li>Core - core utils we need for some of the following modules</li>
+                    <li>Access -</li>
+                    <li>Google - Google based services like Map, Distance, etc</li>
+                    <li>Hibernate -</li>
+                    <li>Hivemind -</li>
+                    <li>Image -</li>
+                    <li>LDAP -</li>
+                    <li>Lucene -</li>
+                    <li>Mail -</li>
+                    <li>Quartz -
+                        <a href="http://www.opensymphony.com/quartz/">Quartz</a>
+                        based scheduler services
+                    </li>
+                    <li>Reports -
+                        <a href="http://jasperforge.org/plugins/project/project_home.php?group_id=102">Jasperreports</a>
+                        based
+                        reporting services
+                    </li>
+                    <li>Scripting -</li>
+                    <li>Tapestry - collection of components and services for your
+                        <a href="http://tapestry.apache.org/tapestry5/">Tapestry5</a>
+                        Framework based applications
+                    </li>
+                    <li>Template -
+                        <a href="http://velocity.apache.org/">Velocity</a>
+                        and
+                        <a href="http://freemarker.org/">FreeMarker</a>
+                        based
+                        template services
+                    </li>
+                </ul>
+
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>

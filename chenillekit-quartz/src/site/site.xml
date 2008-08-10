@@ -32,9 +32,11 @@
     <body>
 
         <links>
-            <item name="Project" href="../index.html"/>
+            <item name="Project Home" href="../index.html"/>
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
+
+        <menu ref="parent"/>
 
         <menu ref="reports"/>
 

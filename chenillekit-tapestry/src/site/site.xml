@@ -36,6 +36,8 @@
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
 
+        <menu ref="parent"/>
+
         <menu>
             <item name="Components" href="ref/index.html"/>
         </menu>

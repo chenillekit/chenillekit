@@ -673,15 +673,15 @@
         </plugins>
     </reporting>
 
-    <!--<distributionManagement>-->
+    <distributionManagement>
 
-    <!--<site>-->
-    <!--<id>site-domain</id>-->
-    <!--<name>Site Host</name>-->
-    <!--<url>scp://www.chenillekit.org/</url>-->
-    <!--</site>-->
+        <site>
+            <id>chenillekit-site</id>
+            <name>ChenilleKit Site Host</name>
+            <url>scp://212.202.126.8:66/srv/webapps/chenillekit/</url>
+        </site>
 
-    <!--</distributionManagement>-->
+    </distributionManagement>
 
     <profiles>
         <profile>

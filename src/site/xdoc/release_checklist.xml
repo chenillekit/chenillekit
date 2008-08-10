@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>ChenilleKit.org</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
+    <body>
+
+        <section name="Release Checklist">
+
+            <p>
+                Quick notes on how to prepare a new release of ChenilleKit.
+            </p>
+
+            <subsection name="Preparation">
+
+                <p>
+                    Make sure (sure!) you have the latest copies of the ChenilleKit project and all its modules.
+                    Update all poms with the new release number.
+                </p>
+
+            </subsection>
+
+            <subsection name="Commit Changes">
+
+                <p>
+                    Commit all changes into the trunk.
+                </p>
+
+            </subsection>
+
+            <subsection name="Build site">
+
+                <p>
+                    Execute <code>mvn clean site -Prollout</code>
+                </p>
+
+            </subsection>
+
+            <subsection name="Build/install packages">
+
+                <p>
+                    Execute <code>mvn install -Prollout</code>
+                </p>
+
+            </subsection>
+
+            <subsection name="Deploy artifacts">
+
+                <p>
+                    Execute <code>mvn deploy -Prollout</code>
+                </p>
+
+            </subsection>
+
+            <subsection name="Deploy site">
+
+                <p>
+                    Execute <code>mvn site:deploy -Prollout</code>
+                </p>
+
+            </subsection>
+
+            <subsection name="Bring Demo Application online">
+
+                <ul>
+                    <li>login to demo server</li>
+                    <li>copy the war file into /srv/chenillkit-demo</li>
+                    <li>restart jetty</li>
+                </ul>
+
+            </subsection>
+
+            <subsection name="Update the Downloads Page">
+
+                <ul>
+                    <li>Execute <code>mvn assembly:assembly -Prollout</code></li>
+                    <li>Upload the binary packages and describe the download link.</li>
+                </ul>
+
+            </subsection>
+
+            <subsection name="Make Marketing">
+
+                <p>
+                    inform in tapestry-user group for new release
+                </p>
+
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>
