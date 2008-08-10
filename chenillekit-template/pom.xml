@@ -53,9 +53,9 @@
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         -->
         <dependency>
-            <groupId>org.chenillekit</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -117,8 +117,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <!-- Snapshots after this are broken. %#%#%$#@% Maven. TAPESTRY-1943 -->
-                <version>2.0-beta-5</version>
                 <configuration>
                     <templateFile>${basedir}/../src/site/maven-site.vm</templateFile>
                     <stagingDirectory>${basedir}/../target/staging</stagingDirectory>
@@ -163,7 +161,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>${cobertura-plugin-version}</version>
             </plugin>
 
             <plugin>

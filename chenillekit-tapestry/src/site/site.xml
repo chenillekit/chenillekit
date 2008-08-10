@@ -13,10 +13,10 @@
   ~ http://www.apache.org/licenses/LICENSE-2.0
   -->
 
-<project name="Chenille Kit Quartz">
+<project name="ChenilleKit Tapestry">
 
     <bannerLeft>
-        <name>Chenille Kit Quartz</name>
+        <name>ChenilleKit Tapestry</name>
         <href>index.html</href>
         <src>images/chenillekit-logo.png</src>
     </bannerLeft>
@@ -32,9 +32,13 @@
     <body>
 
         <links>
-            <item name="Project" href="../index.html"/>
+            <item name="Project Home" href="../index.html"/>
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
+
+        <menu>
+            <item name="Components" href="ref/index.html"/>
+        </menu>
 
         <menu ref="reports"/>
 

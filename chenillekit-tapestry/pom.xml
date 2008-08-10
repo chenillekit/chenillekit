@@ -36,7 +36,6 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
             <scope>provided</scope>
         </dependency>
 
@@ -46,15 +45,15 @@
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         -->
         <dependency>
-            <groupId>org.chenillekit</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.chenillekit</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-image</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -107,8 +106,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <!-- Snapshots after this are broken. %#%#%$#@% Maven. TAPESTRY-1943 -->
-                <version>2.0-beta-5</version>
                 <configuration>
                     <templateFile>${basedir}/../src/site/maven-site.vm</templateFile>
                     <stagingDirectory>${basedir}/../target/staging</stagingDirectory>
@@ -172,7 +169,6 @@
             <plugin>
                 <groupId>org.apache.tapestry</groupId>
                 <artifactId>tapestry-component-report</artifactId>
-                <version>${tapestry-release-version}</version>
                 <configuration>
                     <rootPackage>org.chenillekit.tapestry.core</rootPackage>
                     <apidocs>../apidocs</apidocs>

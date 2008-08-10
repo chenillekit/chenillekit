@@ -13,10 +13,10 @@
   ~ http://www.apache.org/licenses/LICENSE-2.0
   -->
 
-<project name="Chenille Kit Quartz">
+<project name="ChenilleKit Access">
 
     <bannerLeft>
-        <name>Chenille Kit Secure</name>
+        <name>ChenilleKit Access</name>
         <href>index.html</href>
         <src>images/chenillekit-logo.png</src>
     </bannerLeft>

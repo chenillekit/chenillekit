@@ -13,10 +13,10 @@
   ~ http://www.apache.org/licenses/LICENSE-2.0
   -->
 
-<project name="Chenille Kit LDAP">
+<project name="ChenilleKit LDAP">
 
     <bannerLeft>
-        <name>Chenille Kit LDAP</name>
+        <name>ChenilleKit LDAP</name>
         <href>index.html</href>
         <src>images/chenillekit-logo.png</src>
     </bannerLeft>
