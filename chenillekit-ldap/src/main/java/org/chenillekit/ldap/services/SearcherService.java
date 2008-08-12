@@ -14,7 +14,8 @@
 package org.chenillekit.ldap.services;
 
 import java.util.List;
-import javax.naming.directory.Attribute;
+
+import netscape.ldap.LDAPEntry;
 
 /**
  * @author <a href="mailto:shomburg@hsofttec.com">shomburg</a>
@@ -23,11 +24,11 @@ import javax.naming.directory.Attribute;
 public interface SearcherService
 {
     public static String CONFIG_KEY = "ldap.properties";
-    public static String PROPKEY_INITIAL_CONTEXT_FACTORY = "ldap.initial.context.factory";
-    public static String PROPKEY_PROVIDER_URL = "ldap.provider.url";
-    public static String PROPKEY_SECURITY_AUTHENTICATION = "ldap.security.authentication";
-    public static String PROPKEY_SECURITY_PRINCIPAL = "ldap.security.principal";
-    public static String PROPKEY_SECURITY_CREDENTIALS = "ldap.security.credentials";
+    public static String PROPKEY_VERSION = "ldap.version";
+    public static String PROPKEY_HOSTNAME = "ldap.hostname";
+    public static String PROPKEY_HOSTPORT = "ldap.hostport";
+    public static String PROPKEY_AUTHDN = "ldap.authdn";
+    public static String PROPKEY_AUTHPWD = "ldap.authpwd";
 
     /**
      * get the result object of an attribute based on baseDN and filter.
@@ -38,5 +39,5 @@ public interface SearcherService
      *
      * @return
      */
-    public List<Attribute[]> search(String baseDN, String filter, String ... attributes);
+    public List<LDAPEntry> search(String baseDN, String filter, String... attributes);
 }

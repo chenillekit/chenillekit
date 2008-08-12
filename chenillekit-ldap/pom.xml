@@ -38,6 +38,11 @@
         </dependency>
 
         <dependency>
+          <groupId>ldapsdk</groupId>
+          <artifactId>ldapsdk</artifactId>
+        </dependency>
+        
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-test</artifactId>
             <version>${project.version}</version>

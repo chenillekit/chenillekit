@@ -14,28 +14,24 @@
 
 package org.chenillekit.ldap.services.impl;
 
-import java.util.Hashtable;
 import java.util.List;
-import javax.naming.Context;
-import javax.naming.NameNotFoundException;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
-import javax.naming.directory.SearchControls;
-import javax.naming.directory.SearchResult;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
 
+import netscape.ldap.LDAPConnection;
+import netscape.ldap.LDAPEntry;
+import netscape.ldap.LDAPException;
+import netscape.ldap.LDAPSearchResults;
+import netscape.ldap.LDAPv2;
+import netscape.ldap.LDAPv3;
 import org.chenillekit.ldap.services.SearcherService;
 import org.slf4j.Logger;
 
@@ -46,20 +42,23 @@ import org.slf4j.Logger;
 public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutdownListener
 {
     private Logger logger;
-    private final Resource configResource;
-    private DirContext dirContext;
+    private LDAPConnection ldapConnection;
+    private String ldapHostName;
+    private String ldapAuthDN;
+    private String ldapPwd;
+    private int ldapPort;
+    private int ldapVersion;
 
     public SimpleSearcherServiceImpl(Logger logger, Resource configResource)
     {
         Defense.notNull(configResource, "configResource");
 
         this.logger = logger;
-        this.configResource = configResource;
 
-        if (!this.configResource.exists())
-            throw new RuntimeException(String.format("config resource '%s' not found!", this.configResource.toString()));
+        if (!configResource.exists())
+            throw new RuntimeException(String.format("config resource '%s' not found!", configResource.toString()));
 
-        initService(this.configResource);
+        initService(configResource);
     }
 
     /**
@@ -70,19 +69,19 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
         try
         {
             Configuration configuration = new PropertiesConfiguration(configResource.toURL());
-            Hashtable<String, String> env = new Hashtable<String, String>();
-            env.put(Context.INITIAL_CONTEXT_FACTORY, configuration.getString(PROPKEY_INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory"));
-            env.put(Context.PROVIDER_URL, configuration.getString(PROPKEY_PROVIDER_URL));
-            env.put(Context.SECURITY_AUTHENTICATION, configuration.getString(PROPKEY_SECURITY_AUTHENTICATION));
-            env.put(Context.SECURITY_PRINCIPAL, configuration.getString(PROPKEY_SECURITY_PRINCIPAL));           // specify the username
-            env.put(Context.SECURITY_CREDENTIALS, configuration.getString(PROPKEY_SECURITY_CREDENTIALS));       // specify the password
-            dirContext = new InitialDirContext(env);
+
+            ldapHostName = configuration.getString(SearcherService.PROPKEY_HOSTNAME);
+            ldapAuthDN = configuration.getString(SearcherService.PROPKEY_AUTHDN);
+            ldapPwd = configuration.getString(SearcherService.PROPKEY_AUTHPWD);
+            ldapPort = configuration.getInt(SearcherService.PROPKEY_HOSTPORT, 389);
+            ldapVersion = configuration.getInt(SearcherService.PROPKEY_VERSION, 3);
+
+            if (StringUtils.isEmpty(ldapHostName))
+                throw new RuntimeException("property '" + SearcherService.PROPKEY_HOSTNAME + "' cant be empty!");
+
+            ldapConnection = new LDAPConnection();
         }
         catch (ConfigurationException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (NamingException e)
         {
             throw new RuntimeException(e);
         }
@@ -97,58 +96,56 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
      *
      * @return
      */
-    public List<Attribute[]> search(String baseDN, String filter, String ... attributes)
+    public List<LDAPEntry> search(String baseDN, String filter, String... attributes)
     {
-        List<Attribute[]> returnList = CollectionFactory.newList();
-        Attribute[] resultObject;
+        List<LDAPEntry> returnList = CollectionFactory.newList();
 
         try
         {
-            if (dirContext == null)
-                throw new RuntimeException("DirContext is not instantiatet");
+            connect();
 
             if (logger.isInfoEnabled())
                 logger.info("BaseDN: " + baseDN + " / Filter: " + filter + " / Attributes: " + ArrayUtils.toString(attributes, "null"));
 
-            SearchControls sc = new SearchControls();
-            sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            NamingEnumeration<SearchResult> ne;
+            int scope = LDAPv3.SCOPE_SUB;
+            if (ldapVersion == 2)
+                scope = LDAPv2.SCOPE_SUB;
 
-            // Here we actually perform the search.
-            ne = dirContext.search(baseDN, filter, sc);
-
+            LDAPSearchResults results = ldapConnection.search(baseDN, scope, filter, attributes, false);
             // We cycle through the NamingEnumeration
             // that is returned by the search.
-            while (ne.hasMore())
-            {
-                // Retrieve the result as a SearchResult
-                // and print it (not very pretty). There are
-                // methods for extracting the attributes and
-                // values without printing, as well.
-                SearchResult sr = ne.next();
-
-                resultObject = new Attribute[attributes.length];
-                for (int i = 0; i < attributes.length; i++)
-                {
-                    String attribute = attributes[i];
-                    resultObject[i] = sr.getAttributes().get(attribute);
-                }
-                returnList.add(resultObject);
-            }
-
+            while (results.hasMoreElements())
+                returnList.add(results.next());
 
             return returnList;
         }
-        catch (NameNotFoundException e)
-        {
-            if (logger.isWarnEnabled())
-                logger.warn(e.getMessage() + SystemUtils.LINE_SEPARATOR + "BaseDN: '" + baseDN + "' / Filter: '" + filter + "'");
-
-            return null;
-        }
-        catch (NamingException e)
+        catch (LDAPException e)
         {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * connect and/or authenticate at LDAP server.
+     *
+     * @throws LDAPException
+     */
+    private synchronized void connect() throws LDAPException
+    {
+        if (!ldapConnection.isConnected())
+        {
+            if (logger.isInfoEnabled())
+                logger.info("connecting server: {}", ldapHostName);
+
+            ldapConnection.connect(ldapVersion, ldapHostName, ldapPort, ldapAuthDN, ldapPwd);
+        }
+
+        if (!ldapConnection.isAuthenticated())
+        {
+            if (logger.isInfoEnabled())
+                logger.info("authenticate at server: {}", ldapHostName);
+
+            ldapConnection.authenticate(ldapVersion, ldapAuthDN, ldapPwd);
         }
     }
 
@@ -159,15 +156,17 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
      */
     public void registryDidShutdown()
     {
-        if (logger.isInfoEnabled())
-            logger.info("shutting down the dir context");
-
         try
         {
-            if (dirContext != null)
-                dirContext.close();
+            if (ldapConnection != null && ldapConnection.isConnected())
+            {
+                if (logger.isInfoEnabled())
+                    logger.info("disconnecting from server {}", ldapHostName);
+
+                ldapConnection.disconnect();
+            }
         }
-        catch (NamingException e)
+        catch (LDAPException e)
         {
             throw new RuntimeException(e);
         }

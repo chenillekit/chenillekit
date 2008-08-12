@@ -399,6 +399,12 @@
                 <version>2.7.3</version>
             </dependency>
 
+            <dependency>
+                <groupId>ldapsdk</groupId>
+                <artifactId>ldapsdk</artifactId>
+                <version>4.1</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
