@@ -37,6 +37,10 @@
         </links>
 
         <menu ref="parent"/>
+
+        <menu name="Services">
+            <item name="Configuration" href="configuration.html"/>
+        </menu>
         
         <menu ref="reports"/>
 

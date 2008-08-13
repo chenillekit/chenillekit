@@ -17,11 +17,8 @@ package org.chenillekit.ldap.services.impl;
 import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
@@ -49,42 +46,30 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
     private int ldapPort;
     private int ldapVersion;
 
-    public SimpleSearcherServiceImpl(Logger logger, Resource configResource)
+    public SimpleSearcherServiceImpl(Logger logger, Configuration configuration)
     {
-        Defense.notNull(configResource, "configResource");
+        Defense.notNull(configuration, "configuration");
 
         this.logger = logger;
 
-        if (!configResource.exists())
-            throw new RuntimeException(String.format("config resource '%s' not found!", configResource.toString()));
-
-        initService(configResource);
+        initService(configuration);
     }
 
     /**
      * read and check all service parameters.
      */
-    private void initService(Resource configResource)
+    private void initService(Configuration configuration)
     {
-        try
-        {
-            Configuration configuration = new PropertiesConfiguration(configResource.toURL());
+        ldapHostName = configuration.getString(SearcherService.PROPKEY_HOSTNAME);
+        ldapAuthDN = configuration.getString(SearcherService.PROPKEY_AUTHDN);
+        ldapPwd = configuration.getString(SearcherService.PROPKEY_AUTHPWD);
+        ldapPort = configuration.getInt(SearcherService.PROPKEY_HOSTPORT, 389);
+        ldapVersion = configuration.getInt(SearcherService.PROPKEY_VERSION, 3);
 
-            ldapHostName = configuration.getString(SearcherService.PROPKEY_HOSTNAME);
-            ldapAuthDN = configuration.getString(SearcherService.PROPKEY_AUTHDN);
-            ldapPwd = configuration.getString(SearcherService.PROPKEY_AUTHPWD);
-            ldapPort = configuration.getInt(SearcherService.PROPKEY_HOSTPORT, 389);
-            ldapVersion = configuration.getInt(SearcherService.PROPKEY_VERSION, 3);
+        if (StringUtils.isEmpty(ldapHostName))
+            throw new RuntimeException("property '" + SearcherService.PROPKEY_HOSTNAME + "' cant be empty!");
 
-            if (StringUtils.isEmpty(ldapHostName))
-                throw new RuntimeException("property '" + SearcherService.PROPKEY_HOSTNAME + "' cant be empty!");
-
-            ldapConnection = new LDAPConnection();
-        }
-        catch (ConfigurationException e)
-        {
-            throw new RuntimeException(e);
-        }
+        ldapConnection = new LDAPConnection();
     }
 
     /**

@@ -20,16 +20,18 @@ import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import org.apache.tapestry5.ioc.services.ClassFactory;
 
+import org.chenillekit.core.ChenilleKitCoreModule;
 import org.chenillekit.ldap.services.SearcherService;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id: ChenilleKitMailTestModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $
  */
-@SubModule(value = {ChenilleKitLDAPModule.class})
+@SubModule(value = {ChenilleKitCoreModule.class, ChenilleKitLDAPModule.class})
 public class ChenilleKitLDAPTestModule
 {
-    public static void contributeSimpleLdapSearcherService(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
+    public static void contributeSimpleLdapSearcherService(ClassFactory classFactory,
+                                                           MappedConfiguration<String, Resource> configuration)
     {
         Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "ldap.properties");
         configuration.add(SearcherService.CONFIG_KEY, cpResource);

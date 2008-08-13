@@ -14,19 +14,13 @@
 
 package org.chenillekit.core;
 
-import org.apache.tapestry5.ioc.ServiceBinder;
-
-import org.chenillekit.core.services.ConfigurationService;
-import org.chenillekit.core.services.impl.ConfigurationServiceImpl;
+import org.apache.tapestry5.ioc.annotations.SubModule;
 
 /**
  * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
-public class ChenilleKitCoreModule
+@SubModule(ChenilleKitCoreModule.class)
+public class ChenilleKitCoreTestModule
 {
-    public static void bind(ServiceBinder binder)
-    {
-        binder.bind(ConfigurationService.class, ConfigurationServiceImpl.class);
-    }
 }

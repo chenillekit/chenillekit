@@ -19,6 +19,7 @@ import java.util.Map;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 
+import org.chenillekit.core.services.ConfigurationService;
 import org.chenillekit.ldap.services.SearcherService;
 import org.chenillekit.ldap.services.impl.SimpleSearcherServiceImpl;
 import org.slf4j.Logger;
@@ -30,10 +31,13 @@ import org.slf4j.Logger;
 public class ChenilleKitLDAPModule
 {
     public static SearcherService buildSimpleLdapSearcherService(Logger logger,
+                                                                 ConfigurationService configurationService,
                                                                  Map<String, Resource> configuration,
                                                                  RegistryShutdownHub shutdownHub)
     {
-        SimpleSearcherServiceImpl service = new SimpleSearcherServiceImpl(logger, configuration.get(SearcherService.CONFIG_KEY));
+        SimpleSearcherServiceImpl service =
+                new SimpleSearcherServiceImpl(logger,
+                                              configurationService.getConfiguration(configuration.get(SearcherService.CONFIG_KEY)));
         shutdownHub.addRegistryShutdownListener(service);
         return service;
     }

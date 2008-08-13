@@ -33,11 +33,6 @@
     <dependencies>
 
         <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-        </dependency>
-
-        <dependency>
           <groupId>ldapsdk</groupId>
           <artifactId>ldapsdk</artifactId>
         </dependency>
@@ -47,6 +42,12 @@
             <artifactId>chenillekit-test</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>chenillekit-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
     </dependencies>

@@ -25,17 +25,110 @@
         <author email="homburgs@gmail.com"/>
     </properties>
 
-
     <body>
 
         <section name="ChenilleKit LDAP Module">
 
             <p>
-                This module offers you the possibilty to inject a leightweight LDAP search functionality.
+                This module offers you the possibilty to inject a leightweight LDAP search functionality to your application.
             </p>
 
+            <subsection name="how to configure">
+
+                <p>
+                    First create a property file (like "ldap.properties") where you store your access information to
+                    connect the LDAP server.
+                </p>
+
+                <p>
+                    <small>
+                        Not only a properties based configuration is possible. Please read the
+                        <a href="../chenillekit-core/configuration.html">"Configuration"</a>
+                        section in the core module for further information.
+                    </small>
+                </p>
+
+                <source xml:space="preserve">
+                    <![CDATA[
+#
+# choose the LDAP version, maybe 2 or 3
+# default = 3
+#
+ldap.version = 3
+
+#
+# set the hostname/ip of the LDAP server
+#
+ldap.hostname = x500.bund.de
+
+#
+# set the port of the LDAP server
+# default = 389
+#
+ldap.hostport = 389
+
+#
+# if the LDAP server require to authenticate
+# insert your auth DN here
+# default is empty
+#
+ldap.authdn =
+
+#
+# if the LDAP server require to authenticate
+# insert your auth password here
+# default is empty
+#
+ldap.authpwd =
+]]>
+                </source>
+
+                <p>
+                    Next, let the SearchService know, where to find the configuration file.
+                    Add to your Application Module (Tapestry IOC) the contribution:
+                </p>
+
+                <source xml:space="preserve">
+                    <![CDATA[
+public static void contributeSimpleLdapSearcherService(ClassFactory classFactory,
+                                                       MappedConfiguration<String, Resource> configuration)
+{
+    Resource resource = new ClasspathResource(classFactory.getClassLoader(), "ldap.properties");
+    configuration.add(SearcherService.CONFIG_KEY, resource);
+}
+]]>
+                </source>
+            </subsection>
+
+            <subsection name="how to use">
+                <p>
+                    Now your are able to use the LDAP search service.
+                    Here a short example:
+                </p>
+
+                <source xml:space="preserve">
+                    <![CDATA[
+String baseDN = "o=Bund,c=DE";
+String filter = "(cn=Bund*)";
+String attribute = "mail";
+
+List<LDAPEntry> matches = searcherService.search(baseDN, filter, attribute);
+for (LDAPEntry match : matches)
+{
+    Enumeration values = match.getAttribute(attribute).getStringValues();
+    while (values.hasMoreElements())
+    {
+        String value = (String) values.nextElement();
+        System.err.println(String.format("value of attribute '%s': %s", attribute, value));
+    }
+}
+]]>
+                </source>
+
+            </subsection>
+
         </section>
-        
+
     </body>
 
 </document>

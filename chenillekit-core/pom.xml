@@ -59,10 +59,23 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- ChenilleKit artifacts -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>chenillekit-test</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Tapestry artifacts -->
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-ioc</artifactId>
+        </dependency>
+
+        <!-- Apache Commons artifacts -->
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
         </dependency>
 
     </dependencies>
