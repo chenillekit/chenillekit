@@ -1,0 +1,62 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <div class="yui-g">
+
+        <div class="yui-u first menu">
+
+            <span t:id="menu">the menu</span>
+
+        </div>
+
+        <div class="yui-u content">
+
+            <fieldset class="snippet">
+                <legend>code snippet</legend>
+                <pre>
+                    <![CDATA[
+@Component(parameters = {"value=actualDate1", "datePattern=dd-MM-yyyy HH:mm"})
+private DateTimeField _dateTimeField1;
+
+@Component(parameters = {"value=actualDate2"})
+private DateTimeField _dateTimeField2;
+
+@Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=dd-MM-yyyy HH:mm"})
+private DateTimeField _dateTimeField3;
+]]>
+                </pre>
+            </fieldset>
+
+            <fieldset class="sample">
+                <legend>sample</legend>
+                <form t:id="form">
+                    <label style="float:left; width:250px;">date format dd-MM-yyyy HH:mm</label>
+                    <input t:id="dateTimeField1"/>
+                    <br/>
+                    <label style="float:left; width:250px;">date format MM/dd/yyyy</label>
+                    <input t:id="dateTimeField2"/>
+                    <br/>
+                    <label style="float:left; width:250px;">date format MM/dd/yyyy HH:mm</label>
+                    <input t:id="dateTimeField3"/>
+                </form>
+            </fieldset>
+
+
+        </div>
+    </div>
+
+</span>
