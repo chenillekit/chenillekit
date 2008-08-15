@@ -686,6 +686,20 @@
             <url>scp://212.202.126.8:66/srv/webapps/chenillekit/</url>
         </site>
 
+        <repository>
+            <id>chenillekit-site</id>
+            <name>Release Repository</name>
+            <url>scp://212.202.126.8:66/srv/webapps/chenillekit/maven-repository</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+
+        <snapshotRepository>
+            <id>chenillekit-site</id>
+            <name>SnapShot Repository</name>
+            <url>scp://212.202.126.8:66/srv/webapps/chenillekit/maven-repository</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+
     </distributionManagement>
 
     <profiles>
