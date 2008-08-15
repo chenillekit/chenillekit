@@ -14,13 +14,14 @@
 
 package org.chenillekit.demo.pages;
 
-import org.apache.tapestry5.StreamResponse;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Mixins;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Select;
-import org.apache.tapestry5.util.TextStreamResponse;
+import org.apache.tapestry5.json.JSONObject;
+
+import org.chenillekit.demo.components.LeftSideMenu;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
@@ -28,17 +29,22 @@ import org.apache.tapestry5.util.TextStreamResponse;
  */
 public class OnEventDemo
 {
+    @Component(parameters = {"menuName=demo"})
+    private LeftSideMenu menu;
+
     @Property
     private String selected1;
 
-    @Component(parameters = {"value=selected1", "model=literal:GREEN,BLUE,BLACK", "event=change",
+    @Component(parameters = {"value=selected1", "model=literal:silver, orange, yellow, green, blue, black", "event=change",
             "onCompleteCallback=literal:onCompleteFunction"})
     @Mixins({"ck/OnEvent"})
     private Select select1;
 
     @OnEvent(component = "select1", value = "change")
-    public StreamResponse onChangeEvent(String value)
+    public JSONObject onChangeEvent(String value)
     {
-        return new TextStreamResponse("text/html", value);
+        JSONObject json = new JSONObject();
+        json.put("color", value);
+        return json;
     }
 }

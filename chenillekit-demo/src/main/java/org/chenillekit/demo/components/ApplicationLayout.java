@@ -14,10 +14,16 @@
 
 package org.chenillekit.demo.components;
 
+import org.chenillekit.demo.DemoConstants;
+
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ApplicationLayout
 {
+    public String getDemoVersion()
+    {
+        return DemoConstants.VERSION;
+    }
 }

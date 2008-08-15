@@ -15,22 +15,14 @@
 package org.chenillekit.demo.pages;
 
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.corelib.components.PageLink;
+
+import org.chenillekit.demo.components.LeftSideMenu;
 
 /**
  * ChenilleKit demo application start page.
  */
 public class Start
 {
-    @Component(parameters = {"page=PagedLoopDemo"})
-    private PageLink pagedLoopDemo;
-
-    @Component(parameters = {"page=AccordionDemo"})
-    private PageLink accordionDemo;
-
-    @Component(parameters = {"page=WindowDemo"})
-    private PageLink windowDemo;
-
-    @Component(parameters = {"page=SlidingPanelDemo"})
-    private PageLink slidingPanelDemo;
+    @Component(parameters = {"menuName=demo"})
+    private LeftSideMenu menu;
 }

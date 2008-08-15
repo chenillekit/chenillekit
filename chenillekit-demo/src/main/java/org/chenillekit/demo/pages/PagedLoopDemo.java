@@ -17,11 +17,10 @@ package org.chenillekit.demo.pages;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.grid.GridDataSource;
-import org.apache.tapestry5.internal.grid.CollectionGridDataSource;
 
-import org.chenillekit.demo.services.MusicLibrary;
+import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.data.Track;
+import org.chenillekit.demo.services.MusicLibrary;
 import org.chenillekit.tapestry.core.components.PagedLoop;
 
 /**
@@ -30,6 +29,9 @@ import org.chenillekit.tapestry.core.components.PagedLoop;
  */
 public class PagedLoopDemo
 {
+    @Component(parameters = {"menuName=demo"})
+    private LeftSideMenu menu;
+
     @Property
     @Inject
     private MusicLibrary musicLibrary;

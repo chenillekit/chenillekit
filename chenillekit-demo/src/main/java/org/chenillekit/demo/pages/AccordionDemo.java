@@ -14,14 +14,10 @@
 
 package org.chenillekit.demo.pages;
 
-import org.apache.tapestry5.StreamResponse;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Mixins;
-import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.components.Select;
-import org.apache.tapestry5.util.TextStreamResponse;
 
+import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.Accordion;
 
 /**
@@ -46,49 +42,52 @@ public class AccordionDemo
             "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
             "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.",
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.\n" +
-            "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
-            "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
-            "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
-            "torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet\n" +
-            "consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.\n" +
-            "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n" +
-            "Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar\n" +
-            "a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.\n" +
-            "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
-            "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.",
+                    "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
+                    "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
+                    "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
+                    "torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet\n" +
+                    "consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.\n" +
+                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n" +
+                    "Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar\n" +
+                    "a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.\n" +
+                    "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
+                    "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.",
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.\n" +
-            "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
-            "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
-            "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
-            "torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet\n" +
-            "consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.\n" +
-            "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n" +
-            "Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar\n" +
-            "a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.\n" +
-            "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
-            "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.",
+                    "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
+                    "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
+                    "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
+                    "torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet\n" +
+                    "consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.\n" +
+                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n" +
+                    "Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar\n" +
+                    "a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.\n" +
+                    "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
+                    "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.",
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.\n" +
-            "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
-            "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
-            "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
-            "torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet\n" +
-            "consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.\n" +
-            "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n" +
-            "Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar\n" +
-            "a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.\n" +
-            "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
-            "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.",
+                    "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
+                    "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
+                    "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
+                    "torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet\n" +
+                    "consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.\n" +
+                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n" +
+                    "Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar\n" +
+                    "a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.\n" +
+                    "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
+                    "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.",
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.\n" +
-            "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
-            "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
-            "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
-            "torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet\n" +
-            "consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.\n" +
-            "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n" +
-            "Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar\n" +
-            "a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.\n" +
-            "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
-            "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc."};
+                    "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
+                    "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
+                    "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
+                    "torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet\n" +
+                    "consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.\n" +
+                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n" +
+                    "Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar\n" +
+                    "a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.\n" +
+                    "In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.\n" +
+                    "Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc."};
+
+    @Component(parameters = {"menuName=demo"})
+    private LeftSideMenu menu;
 
     @Component(parameters = {"subjects=subjects", "details=details"})
     private Accordion _accordion1;

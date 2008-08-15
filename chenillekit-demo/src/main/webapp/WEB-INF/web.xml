@@ -28,6 +28,11 @@
         <param-value>org.chenillekit.demo</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>leftsidemenu.config.path</param-name>
+        <param-value>WEB-INF/conf</param-value>
+    </context-param>
+
     <filter>
         <filter-name>demo</filter-name>
         <filter-class>org.apache.tapestry5.TapestryFilter</filter-class>

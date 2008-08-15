@@ -26,7 +26,7 @@
 
 <div id="doc3">
     <div id="hd" style="text-align: center;">
-        Header
+        <h2 style="padding-top:30px">ChenilleKit Demo V{demoVersion}</h2>
     </div>
     <div id="bd">
         <t:body/>

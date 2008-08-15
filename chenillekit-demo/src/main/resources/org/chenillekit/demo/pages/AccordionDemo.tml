@@ -15,11 +15,54 @@
 <span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
     <div class="yui-g">
-        <div class="yui-u first">
-            <div t:id="accordion1" style="width: 350px;"/>
+
+        <div class="yui-u first menu">
+
+            <span t:id="menu">the menu</span>
+
         </div>
-        <div class="yui-u">
-            <div t:id="accordion2" style="width: 350px;"/>
+
+        <div class="yui-u content">
+
+            <div class="yui-g" style="width:100%">
+                <div class="yui-u first">
+
+                    <fieldset class="snippet">
+                        <legend>code snippet</legend>
+                        <pre>
+                            <![CDATA[
+@Component(parameters = {"subjects=subjects", "details=details"})
+private Accordion accordion1;
+]]>
+                        </pre>
+                    </fieldset>
+
+                    <fieldset class="sample">
+                        <legend>sample</legend>
+                        <div t:id="accordion1" style="width: 350px;"/>
+                    </fieldset>
+
+                </div>
+                <div class="yui-u">
+
+                    <fieldset class="snippet">
+                        <legend>code snippet</legend>
+                        <pre>
+                            <![CDATA[
+@Component(parameters = {"subjects=subjects", "details=details",
+                         "duration=literal:1.0"})
+private Accordion accordion2;
+]]>
+                        </pre>
+                    </fieldset>
+
+                    <fieldset class="sample">
+                        <legend>sample</legend>
+                        <div t:id="accordion2" style="width: 350px;"/>
+                    </fieldset>
+                </div>
+            </div>
+
         </div>
     </div>
 

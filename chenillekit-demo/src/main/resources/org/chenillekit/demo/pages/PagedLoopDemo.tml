@@ -14,10 +14,44 @@
 
 <span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
-    <ul>
-        <li t:id="pagedLoop">
-            ${track.album}
-        </li>
-    </ul>
+    <div class="yui-g">
+
+        <div class="yui-u first menu">
+
+            <span t:id="menu">the menu</span>
+
+        </div>
+
+        <div class="yui-u content">
+
+
+            <fieldset class="snippet">
+                <legend>code snippet</legend>
+                        <pre>
+                            <![CDATA[
+@Component(parameters = {"source=musicLibrary.tracks", "value=track"})
+private PagedLoop pagedLoop;
+
+
+<ul>
+    <li t:id="pagedLoop">
+        ${track.album} - ${track.artist} - ${track.title}
+    </li>
+</ul>
+]]>
+                        </pre>
+            </fieldset>
+
+            <fieldset class="sample">
+                <legend>sample</legend>
+                <ul>
+                    <li t:id="pagedLoop">
+                        ${track.album} - ${track.artist} - ${track.title}
+                    </li>
+                </ul>
+            </fieldset>
+
+        </div>
+    </div>
 
 </span>

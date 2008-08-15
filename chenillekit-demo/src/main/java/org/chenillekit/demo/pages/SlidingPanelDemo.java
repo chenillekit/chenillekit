@@ -17,6 +17,7 @@ package org.chenillekit.demo.pages;
 import org.apache.tapestry5.annotations.Component;
 
 import org.chenillekit.tapestry.core.components.SlidingPanel;
+import org.chenillekit.demo.components.LeftSideMenu;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
@@ -24,6 +25,9 @@ import org.chenillekit.tapestry.core.components.SlidingPanel;
  */
 public class SlidingPanelDemo
 {
+    @Component(parameters = {"menuName=demo"})
+    private LeftSideMenu menu;
+    
     @Component(parameters = {"subject=Panel 1"})
     private SlidingPanel panel1;
 

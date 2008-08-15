@@ -16,6 +16,7 @@ package org.chenillekit.demo.pages;
 
 import org.apache.tapestry5.annotations.Component;
 
+import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.Window;
 
 /**
@@ -24,6 +25,24 @@ import org.chenillekit.tapestry.core.components.Window;
  */
 public class WindowDemo
 {
-    @Component(parameters = {"style=bluelighting", "show=true", "modal=true", "title=literal:Window 1"})
+    @Component(parameters = {"menuName=demo"})
+    private LeftSideMenu menu;
+
+    @Component(parameters = {"style=bluelighting", "show=false", "title=literal:Window 1", "width=300", "height=200"})
     private Window window1;
+
+    @Component(parameters = {"style=mac_os_x", "show=false", "title=literal:Window 2", "width=300", "height=200"})
+    private Window window2;
+
+    @Component(parameters = {"style=nuncio", "show=false", "title=literal:Window 3", "width=300", "height=200"})
+    private Window window3;
+
+    @Component(parameters = {"style=spread", "show=false", "title=literal:Window 4", "width=300", "height=200"})
+    private Window window4;
+
+    @Component(parameters = {"style=alphacube", "show=false", "title=literal:Window 5", "width=300", "height=200"})
+    private Window window5;
+
+    @Component(parameters = {"style=dialog", "show=false", "title=literal:Window 6", "width=300", "height=200"})
+    private Window window6;
 }
