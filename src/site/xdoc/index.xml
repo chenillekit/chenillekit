@@ -30,8 +30,11 @@
         <section name="What is Chenille Kit?">
 
             <p>
-                Chenille Kit is a collection of modules with sophisticated components, services and utils based on Tapestry's IOC
-                but <strong>not</strong> only for Tapestry Framework based servlet applications.
+                Chenille Kit is a collection of modules with sophisticated components, services and utils based on
+                Tapestry's IOC
+                but
+                <strong>not</strong>
+                only for Tapestry Framework based servlet applications.
             </p>
 
             <subsection name="The Modules">
@@ -40,17 +43,25 @@
                     At the moment there exists some modules like:
                 </p>
 
-
                 <ul>
                     <li>Core - core utils we need for some of the following modules</li>
-                    <li>Access -</li>
+                    <li>Access - [not ready yet]</li>
                     <li>Google - Google based services like Map, Distance, etc</li>
                     <li>Hibernate -</li>
-                    <li>Hivemind -</li>
+                    <li>Hivemind - a bridge from/to
+                        <a href="http://hivemind.apache.org/">HiveMind</a>
+                        to
+                        <a href="http://tapestry.apache.org/tapestry5/">Tapestry5</a>
+                    </li>
                     <li>Image -</li>
                     <li>LDAP -</li>
-                    <li>Lucene -</li>
-                    <li>Mail -</li>
+                    <li>Lucene - indexer and sercher service based on
+                        <a href="http://lucene.apache.org/java/docs/index.html">Apache Lucene's</a>
+                        fulltext engine.
+                    </li>
+                    <li>Mail - simple mail service based on
+                        <a href="http://commons.apache.org/email/">Apache Commons Email</a>
+                    </li>
                     <li>Quartz -
                         <a href="http://www.opensymphony.com/quartz/">Quartz</a>
                         based scheduler services

@@ -35,6 +35,10 @@
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
 
+        <menu>
+            <item name="Project Home" href="./index.html"/>
+        </menu>
+
         <menu name="Modules">
             <item name="Test" href="chenillekit-test/index.html"/>
             <item name="Core" href="chenillekit-core/index.html"/>
