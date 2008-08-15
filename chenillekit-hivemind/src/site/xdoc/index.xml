@@ -30,6 +30,32 @@
 
         <section name="ChenilleKit Hivemind">
 
+            This module builds a bridge between
+            <a href="http://tapestry.apache.org/tapestry5/">Tapestry 5</a>
+            and
+            <a href="http://maps.google.com/">HiveMind</a>.
+
+            <subsection name="configuration">
+                <source><![CDATA[
+public class AppModule
+{
+    /**
+     * Contribute the {@link org.apache.tapestry.ioc.ObjectProvider} for HiveMind services to
+     * the {@link org.apache.tapestry.ioc.services.MasterObjectProvider} T5 IoC service
+     *
+     * @param configuration the configuration for the {@link org.apache.tapestry.ioc.services.MasterObjectProvider}
+     * @param hivemind      the actual {@link org.apache.tapestry.ioc.ObjectProvider} for HiveMind services
+     */
+    public static void contributeMasterObjectProvider(OrderedConfiguration<ObjectProvider> configuration,
+                                                      @InjectService("HiveMind")
+                                                      ObjectProvider hivemind)
+    {
+        configuration.add("hivemind", hivemind);
+    }
+}]]>
+                </source>
+            </subsection>
+
         </section>
 
     </body>

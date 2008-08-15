@@ -61,7 +61,7 @@
             <subsection name="Build/install packages">
 
                 <p>
-                    Execute <code>mvn install -Prollout</code>
+                    Execute <code>mvn -Dmaven.test.skip=true install -Prollout</code>
                 </p>
 
             </subsection>
@@ -86,7 +86,7 @@
 
                 <ul>
                     <li>login to demo server</li>
-                    <li>copy the war file into /srv/chenillkit-demo</li>
+                    <li>extract the chenillekit-demo.war file into /srv/webapps/chenillekit</li>
                     <li>restart jetty</li>
                 </ul>
 
@@ -104,7 +104,7 @@
             <subsection name="Make Marketing">
 
                 <p>
-                    inform in tapestry-user group for new release
+                    inform in chenillekit-/tapestry-user groups for new release
                 </p>
 
             </subsection>
