@@ -25,8 +25,16 @@
 <body>
 
 <div id="doc3">
-    <div id="hd" style="text-align: center;">
-        <h2 style="padding-top:30px">ChenilleKit Demo V{demoVersion}</h2>
+    <div id="hd">
+        <div class="yui-g" style="width:100%">
+            <div class="yui-u first">
+                <img style="float:left;" src="${asset:../assets/images/chenillekit-logo.png}"/>
+            </div>
+
+            <div class="yui-u">
+                <h2 style="padding-top:45px">ChenilleKit Demo V{demoVersion}</h2>
+            </div>
+        </div>
     </div>
     <div id="bd">
         <t:body/>
