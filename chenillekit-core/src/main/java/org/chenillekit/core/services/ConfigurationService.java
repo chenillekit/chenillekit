@@ -14,6 +14,9 @@
 
 package org.chenillekit.core.services;
 
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 import org.apache.commons.configuration.Configuration;
 import org.apache.tapestry5.ioc.Resource;
 
@@ -31,4 +34,33 @@ public interface ConfigurationService
      * @return the configuration
      */
     Configuration getConfiguration(Resource configurationResource);
+
+    /**
+     * get the configuration from JNDI context.
+     *
+     * @param context the JNDI context
+     *
+     * @return the configuration
+     */
+    Configuration getConfiguration(Context context);
+
+    /**
+     * get the configuration from system (JVM).
+     *
+     * @return the configuration
+     */
+    Configuration getConfiguration();
+
+    /**
+     * Build a configuration from a table containing multiple configurations.
+     *
+     * @param datasource  the datasource to connect to the database
+     * @param table       the name of the table containing the configurations
+     * @param nameColumn  the column containing the name of the configuration
+     * @param keyColumn   the column containing the keys of the configuration
+     * @param valueColumn the column containing the values of the configuration
+     * @param name        the name of the configuration
+     */
+    Configuration getConfiguration(DataSource datasource, String table, String nameColumn,
+                                   String keyColumn, String valueColumn, String name);
 }

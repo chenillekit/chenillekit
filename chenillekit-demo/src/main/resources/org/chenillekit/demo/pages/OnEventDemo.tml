@@ -61,6 +61,7 @@ public JSONObject onChangeEvent(String value)
                 <div class="yui-u first">
 
                     <form t:type="Form">
+                        <label style="padding-right:4px;">choose color</label>
                         <select size="1" t:id="select1"/>
                     </form>
 
