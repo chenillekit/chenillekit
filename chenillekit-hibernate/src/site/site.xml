@@ -41,7 +41,10 @@
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
 
-        <menu ref="parent"/>
+        <menu>
+            <item name="Project Home" href="../index.html"/>
+            <item name="Module Home" href="./index.html"/>
+        </menu>
 
         <menu name="Samples">
             <item name="integrate DAOs" href="doa_sample.html"/>

@@ -36,7 +36,10 @@
             <item name="Tapestry" href="http://tapestry.apache.org/"/>
         </links>
 
-        <menu ref="parent"/>
+        <menu>
+            <item name="Project Home" href="../index.html"/>
+            <item name="Module Home" href="./index.html"/>
+        </menu>
 
         <menu name="HowTo">
             <item name="FreeMarker" href="howto_freemarkerservice.html"/>
