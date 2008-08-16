@@ -22,7 +22,6 @@ import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
-import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -57,7 +56,6 @@ public class Pager
     /**
      * The current page number (indexed from 1).
      */
-    @Persist("flash")
     @Parameter
     private int _currentPage;
 
