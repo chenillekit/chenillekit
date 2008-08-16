@@ -40,5 +40,19 @@ Ck.AjaxCheckbox.prototype = {
                     eval(this.onCompleteCallback + "('" + t.responseText + "')");
             }.bind(this)
         });
+    },
+    reBuildURL:function(url, checkboxValue)
+    {
+        var newUrl = "";
+        var result = url.split(/[\?;&%]/);
+        for (var i = 0; i < result.length; i++)
+        {
+            if (i == 0)
+                newUrl = result[i] + "/" + (checkboxValue == null ? "false" : "true");
+            else
+                newUrl += "?" + result[i];
+        }
+
+        return newUrl;
     }
 }

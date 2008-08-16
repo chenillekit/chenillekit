@@ -63,6 +63,24 @@ Ck.OnEvent.prototype = {
                     eval(this.onCompleteCallback + "('" + t.responseText + "')");
             }.bind(this)
         });
+    },
+    reBuildURL:function(url, fieldValue)
+    {
+        var newUrl = "";
+        var result = url.split(/[\?;&%]/);
+        for (var i = 0; i < result.length; i++)
+        {
+            if (i == 0)
+            {
+                newUrl = result[i];
+                if (typeof fieldValue != 'undefined')
+                    newUrl += "/" + fieldValue;
+            }
+            else
+                newUrl += "?" + result[i];
+        }
+
+        return newUrl;
     }
 }
 
