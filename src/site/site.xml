@@ -67,6 +67,9 @@
 
         <menu name="Developer Info">
             <item name="Release Checklist" href="release_checklist.html"/>
+            <item name="Versioning" href="versioning.html"/>
+            <item name="Source" href="source_conventions.html"/>
+            <item name="Javascript" href="javascript_namespace.html"/>
         </menu>
 
     </body>
