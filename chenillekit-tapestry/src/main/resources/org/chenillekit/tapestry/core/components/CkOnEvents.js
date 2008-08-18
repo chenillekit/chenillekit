@@ -55,7 +55,7 @@ Ck.OnEvent.prototype = {
             },
             onException: function(t, exception)
             {
-                alert('Error communication with the server: ' + exception.stripTags());
+                alert('Error communication with the server: ' + exception.message);
             },
             onSuccess: function(t)
             {
