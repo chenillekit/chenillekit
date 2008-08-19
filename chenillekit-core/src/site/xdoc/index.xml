@@ -29,6 +29,28 @@
 
         <section name="ChenilleKit Core">
 
+            <subsection name="service overview">
+
+                <table>
+                    <tr>
+                        <th>service</th>
+                        <th>description</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="configuration.html">Configuration</a>
+                        </td>
+                        <td>This service based on
+                            <a href="http://commons.apache.org/configuration/">Apache's Commons Configuration</a>
+                            and gives you access to nearly all features of the
+                            <a href="http://commons.apache.org/configuration/">Apache's Commons Configuration</a>
+                            library.
+                        </td>
+                    </tr>
+                </table>
+
+            </subsection>
+
         </section>
 
     </body>

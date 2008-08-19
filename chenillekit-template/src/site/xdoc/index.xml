@@ -29,6 +29,40 @@
 
         <section name="ChenilleKit Template">
 
+            <subsection name="service overview">
+
+                <table>
+                    <tr>
+                        <th>service</th>
+                        <th>description</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="howto_freemarkerservice.html">FreeMarker</a>
+                        </td>
+                        <td>This service let you use the great template mechanism
+                            <a href="http://freemarker.sourceforge.net/">FreeMarker</a>
+                            as injectable service in your
+                            <a href="http://tapestry.apache.org/tapestry5/">Tapestry5</a>
+                            application.
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="howto_velocityservice.html">Velocity</a>
+                        </td>
+                        <td>This service let you use the great template mechanism
+                            <a href="http://velocity.apache.org/">Apache's Velocity</a>
+                            as injectable service in your
+                            <a href="http://tapestry.apache.org/tapestry5/">Tapestry5</a>
+                            application.
+                        </td>
+                    </tr>
+                </table>
+
+            </subsection>
+
         </section>
 
     </body>

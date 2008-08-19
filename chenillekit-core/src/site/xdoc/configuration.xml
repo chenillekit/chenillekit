@@ -32,7 +32,7 @@
             <p>
                 This service based on
                 <a href="http://commons.apache.org/configuration/">Commons Configuration</a>
-                and gives you access to all features of the
+                and gives you access to nearly all features of the
                 <a href="http://commons.apache.org/configuration/">Commons Configuration</a>
                 library with one extension: The ConfigurationService resolves the kind of the needed configuration
                 interface by the extension of your file/resource.

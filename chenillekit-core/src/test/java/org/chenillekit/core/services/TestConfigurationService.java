@@ -81,10 +81,13 @@ public class TestConfigurationService extends AbstractTestSuite
         service.getConfiguration(configResource);
     }
 
-    @Test(expectedExceptions = {RuntimeException.class})
+    @Test(expectedExceptions = {RuntimeException.class}, enabled = false)
     public void test4()
     {
         Resource configResource = new ClasspathResource("test.ini");
-        service.getConfiguration(configResource);
+        Configuration configuration = service.getConfiguration(configResource);
+        Configuration subConfiguration = configuration.subset("Mail");
+
+        assertEquals(subConfiguration.getInt("MAPI"), 1);
     }
 }

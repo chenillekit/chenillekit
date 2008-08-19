@@ -40,14 +40,13 @@
         </menu>
 
         <menu name="Modules">
-            <item name="Test" href="chenillekit-test/index.html"/>
             <item name="Core" href="chenillekit-core/index.html"/>
             <item name="Quartz" href="chenillekit-quartz/index.html"/>
             <item name="Hivemind" href="chenillekit-hivemind/index.html"/>
             <item name="Hibernate" href="chenillekit-hibernate/index.html"/>
             <item name="Tapestry" href="chenillekit-tapestry/index.html"/>
             <item name="Lucene" href="chenillekit-lucene/index.html"/>
-            <item name="Access" href="chenillekit-access/index.html"/>
+            <!--<item name="Access" href="chenillekit-access/index.html"/>-->
             <item name="Reports" href="chenillekit-reports/index.html"/>
             <item name="Template" href="chenillekit-template/index.html"/>
             <item name="Image" href="chenillekit-image/index.html"/>
@@ -58,12 +57,6 @@
         </menu>
 
         <menu ref="reports"/>
-
-        <menu name="Repository Reports">
-            <item name="changelog" href="changelog.html"/>
-            <item name="file activity" href="file-activity.html"/>
-            <item name="dev activity" href="dev-activity.html"/>
-        </menu>
 
         <menu name="Developer Info">
             <item name="Release Checklist" href="release_checklist.html"/>
