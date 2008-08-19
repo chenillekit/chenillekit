@@ -44,7 +44,7 @@ Ck.InPlaceCheckbox.prototype = {
     reBuildURL:function(url, checkboxValue)
     {
         var newUrl = "";
-        var result = url.split(/[\?;&%]/);
+        var result = url.split(/\?/);
         for (var i = 0; i < result.length; i++)
         {
             if (i == 0)

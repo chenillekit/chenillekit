@@ -51,26 +51,26 @@ public class Button implements ClientElement
      * possible value are "button", "submit" and "cancel".
      */
     @Parameter(defaultPrefix = BindingConstants.LITERAL, value = BUTTON_TYPE)
-    private String _type;
+    private String type;
 
     /**
      * wich event should your application receiving.
      */
     @Parameter(defaultPrefix = BindingConstants.LITERAL, value = CLICKED_EVENT)
-    private String _event;
+    private String event;
 
     /**
      * dis-/enable the button.
      */
     @Parameter(value = "false")
-    private boolean _disabled;
+    private boolean disabled;
 
     /**
      * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
      * times, a suffix will be appended to the to id to ensure uniqueness.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * The context for the link (optional parameter). This list of values will be converted into strings and included in
@@ -78,36 +78,36 @@ public class Button implements ClientElement
      * methods.
      */
     @Parameter
-    private List<?> _context;
+    private List<?> context;
 
     @Environmental
-    private RenderSupport _renderSupport;
+    private RenderSupport renderSupport;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
-    private String _assignedClientId;
+    private String assignedClientId;
 
-    private Object[] _contextArray;
+    private Object[] contextArray;
 
     void setupRender()
     {
-        _assignedClientId = _renderSupport.allocateClientId(_clientId);
-        _contextArray = _context == null ? new Object[0] : _context.toArray();
+        assignedClientId = renderSupport.allocateClientId(clientId);
+        contextArray = context == null ? new Object[0] : context.toArray();
     }
 
     void beginRender(MarkupWriter writer)
     {
-        writer.element("button", "type", _type, "id", getClientId());
-        _resources.renderInformalParameters(writer);
+        writer.element("button", "type", type, "id", getClientId());
+        resources.renderInformalParameters(writer);
     }
 
     void afterRender(MarkupWriter writer)
     {
-        if (!_disabled && _type.equalsIgnoreCase(BUTTON_TYPE))
+        if (!disabled && type.equalsIgnoreCase(BUTTON_TYPE))
         {
-            Link link = _resources.createActionLink(_event, false, _contextArray);
-            _renderSupport.addScript("new Ck.ButtonEvent('%s', '%s');", getClientId(), link.toAbsoluteURI());
+            Link link = resources.createEventLink(event, contextArray);
+            renderSupport.addScript("new Ck.ButtonEvent('%s', '%s');", getClientId(), link.toAbsoluteURI());
         }
 
         // Close the button tag
@@ -121,6 +121,6 @@ public class Button implements ClientElement
      */
     public String getClientId()
     {
-        return _assignedClientId;
+        return assignedClientId;
     }
 }

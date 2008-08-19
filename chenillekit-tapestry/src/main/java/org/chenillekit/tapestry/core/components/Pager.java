@@ -203,7 +203,7 @@ public class Pager
             return;
         }
 
-        Link link = _resources.createActionLink(EventConstants.ACTION, false, pageIndex);
+        Link link = _resources.createEventLink(EventConstants.ACTION, pageIndex);
 
         writer.element("a", "href", link, "title", _messages.format("goto-page", pageIndex));
 

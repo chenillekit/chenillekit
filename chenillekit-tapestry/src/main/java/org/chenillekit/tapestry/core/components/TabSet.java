@@ -85,7 +85,7 @@ public class TabSet implements ClientElement
 
         for (String blockId : _panelIds)
         {
-            Link link = _resources.createActionLink(blockId, false);
+            Link link = _resources.createEventLink(blockId);
 
             writer.element("div", "id", "panel_" + blockId,
                            "class", "ck_tab-set-panel" + (_activePanelId.equalsIgnoreCase(blockId) ? " activated" : ""));
@@ -98,7 +98,7 @@ public class TabSet implements ClientElement
 
     void afterRender(MarkupWriter writer)
     {
-        Link link = _resources.createActionLink("action", false);
+        Link link = _resources.createEventLink("action");
         writer.end(); // TabContent
         writer.end(); // TabGroup
         _pageRenderSupport.addScript("new TabSet('%s', '%s', '%s','%s')", getClientId(),

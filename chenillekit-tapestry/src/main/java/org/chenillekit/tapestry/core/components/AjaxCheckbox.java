@@ -59,7 +59,7 @@ public class AjaxCheckbox extends Checkbox
      */
     void afterRender(MarkupWriter writer)
     {
-        Link link = _resources.createActionLink(EVENT_NAME, true);
+        Link link = _resources.createEventLink(EVENT_NAME);
         String ajaxString = "new Ck.AjaxCheckbox('%s', '%s'";
 
         if (_onCompleteCallback != null)

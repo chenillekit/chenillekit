@@ -34,18 +34,11 @@ Ck.OnEvent.prototype = {
 
         if(this.stop) Event.stop(myEvent);
 
-        var sessionPos = url.toLowerCase().lastIndexOf(";jsessionid");
-
         if (typeof formElement != 'undefined')
             fieldValue = $F(this.element);
 
         if (typeof fieldValue != 'undefined')
-        {
-            if (sessionPos == -1)
-                url += "/" + fieldValue;
-            else
-              url = url.substring(0, sessionPos) + "/" + fieldValue + url.substring(sessionPos);
-        }
+            url = this.reBuildURL(url, fieldValue)
 
         new Ajax.Request(url, {
             method: 'post',
@@ -59,7 +52,7 @@ Ck.OnEvent.prototype = {
             },
             onSuccess: function(t)
             {
-                if (this.onCompleteCallback != "undefined")
+                if (this.onCompleteCallback != null)
                     eval(this.onCompleteCallback + "('" + t.responseText + "')");
             }.bind(this)
         });
@@ -67,7 +60,7 @@ Ck.OnEvent.prototype = {
     reBuildURL:function(url, fieldValue)
     {
         var newUrl = "";
-        var result = url.split(/[\?;&%]/);
+        var result = url.split(/\?/);
         for (var i = 0; i < result.length; i++)
         {
             if (i == 0)

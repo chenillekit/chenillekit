@@ -85,18 +85,13 @@ abstract public class AbstractEventMixin implements EventMixin
 
     void afterRender(MarkupWriter writer)
     {
-        Link link = resources.createActionLink(getEventName().toLowerCase(), true, contextArray);
+        Link link = resources.createEventLink(getEventName().toLowerCase(), contextArray);
         String id = clientElement.getClientId();
 
-        String ajaxString = "new Ck.OnEvent('%s', '%s', %b, '%s'";
-
-        if (resources.isBound("onCompleteCallback"))
-            ajaxString += ",'" + onCompleteCallback + "'";
-
-        ajaxString += ");";
-
+        String callback = resources.isBound("onCompleteCallback") ? "'" + onCompleteCallback + "'" : null;
         boolean doStop = resources.isBound("stop") && stop;
 
-        pageRenderSupport.addScript(ajaxString, getEventName(), id, doStop, link.toAbsoluteURI());
+        pageRenderSupport.addScript("new Ck.OnEvent('%s', '%s', %b, '%s', %s);",
+                                    getEventName(), id, doStop, link.toAbsoluteURI(), callback);
     }
 }

@@ -130,7 +130,7 @@ public class InPlaceCheckbox extends AbstractAjaxField
 
     public String getActionLink()
     {
-        Link link = resources.createActionLink(EventConstants.ACTION, false, contextArray);
+        Link link = resources.createEventLink(EventConstants.ACTION, contextArray);
         return link.toAbsoluteURI();
     }
 

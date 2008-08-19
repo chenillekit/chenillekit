@@ -53,34 +53,34 @@ public class InPlaceEditor extends AbstractAjaxField
      * the unbound value parameter.
      */
     @Parameter(required = true, principal = true)
-    private String _value;
+    private String value;
 
     /**
      * Size of the input text tag.
      */
     @Parameter(value = "20", required = false, defaultPrefix = BindingConstants.LITERAL)
-    private String _size;
+    private String size;
 
     /**
      * The context for the link (optional parameter). This list of values will be converted into strings and included in
      * the URI.
      */
     @Parameter(required = false)
-    private List _context;
+    private List<?> context;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     @Inject
-    private Messages _messages;
+    private Messages messages;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private RenderSupport pageRenderSupport;
 
     @Inject
-    private Request _request;
+    private Request request;
 
-    private Object[] _contextArray;
+    private Object[] contextArray;
 
     Binding defaultValue()
     {
@@ -89,48 +89,48 @@ public class InPlaceEditor extends AbstractAjaxField
 
     void setupRender()
     {
-        _contextArray = _context == null ? new Object[0] : _context.toArray();
+        contextArray = context == null ? new Object[0] : context.toArray();
     }
 
     void beginRender(MarkupWriter writer)
     {
         writer.element("span", "id", getClientId());
 
-        if (_value != null && _value.length() > 0)
-            writer.write(_value);
+        if (value != null && value.length() > 0)
+            writer.write(value);
         else
-            writer.writeRaw(_messages.get("empty"));
+            writer.writeRaw(messages.get("empty"));
     }
 
     void afterRender(MarkupWriter writer)
     {
         writer.end();
-        _pageRenderSupport.addScript("new Ajax.InPlaceEditor('%s', '%s', {cancelControl: 'button', cancelText: '%s', " +
+        pageRenderSupport.addScript("new Ajax.InPlaceEditor('%s', '%s', {cancelControl: 'button', cancelText: '%s', " +
                 "clickToEditText: '%s', savingText: '%s', okText: '%s', htmlResponse: true, size: %s, stripLoadedTextTags: true});",
                                      getClientId(), getActionLink(),
-                                     _messages.get("cancelbutton"),
-                                     _messages.get("title"),
-                                     _messages.get("saving"),
-                                     _messages.get("savebutton"),
-                                     _size);
+                                     messages.get("cancelbutton"),
+                                     messages.get("title"),
+                                     messages.get("saving"),
+                                     messages.get("savebutton"),
+                                     size);
     }
 
     public String getActionLink()
     {
-        Link link = _resources.createActionLink(EventConstants.ACTION, true, _contextArray);
+        Link link = resources.createEventLink(EventConstants.ACTION, contextArray);
         return link.toAbsoluteURI();
     }
 
     StreamResponse onAction(String value)
     {
-        String valueText = _request.getParameter("value");
+        String valueText = request.getParameter("value");
         if (valueText == null)
             valueText = "";
 
-        _resources.triggerEvent(SAVE_EVENT, new Object[]{value, valueText}, null);
+        resources.triggerEvent(SAVE_EVENT, new Object[]{value, valueText}, null);
 
         if (valueText.length() == 0)
-            valueText = _messages.get("empty");
+            valueText = messages.get("empty");
 
         return new TextStreamResponse("text/html", valueText);
     }
