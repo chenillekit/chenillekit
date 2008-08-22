@@ -41,9 +41,16 @@
             <item name="Module Home" href="./index.html"/>
         </menu>
 
-        <menu>
+        <menu name="Components">
             <item name="Demo" href="http://www.chenillekit.org/demo"/>
-            <item name="Components" href="ref/index.html"/>
+            <item name="Reference" href="ref/index.html"/>
+        </menu>
+
+        <menu name="Bindings">
+            <item name="Loop" href="loopbinding.html"/>
+            <item name="List" href="listbinding.html"/>
+            <item name="Ognl" href="ognlbinding.html"/>
+            <item name="Messages" href="messageformatbinding.html"/>
         </menu>
 
         <menu ref="reports"/>
