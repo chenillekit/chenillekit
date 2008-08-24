@@ -15,6 +15,7 @@
 package org.chenillekit.google.utils;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 /**
  * simple class to hold a location for geocoding.
@@ -22,20 +23,34 @@ import java.io.Serializable;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class GMapLocation implements Serializable
+public class GeoCodeLocation implements Serializable
 {
+    private Locale locale;
     private String street;
     private String country;
     private String state;
     private String zipCode;
     private String city;
 
-    public GMapLocation()
+    public GeoCodeLocation()
     {
+        this.locale = Locale.getDefault();
     }
 
-    public GMapLocation(final String street, final String country, final String state, final String zipCode, final String city)
+    public GeoCodeLocation(String street, String country, String state, String zipCode, String city)
     {
+        this.locale = Locale.getDefault();
+        this.street = street;
+        this.country = country;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.city = city;
+    }
+
+    public GeoCodeLocation(final Locale locale, final String street, final String country, final String state,
+                           final String zipCode, final String city)
+    {
+        this.locale = locale;
         this.street = street;
         this.country = country;
         this.state = state;
@@ -91,5 +106,15 @@ public class GMapLocation implements Serializable
     public void setCity(String city)
     {
         this.city = city;
+    }
+
+    public Locale getLocale()
+    {
+        return locale;
+    }
+
+    public void setLocale(Locale locale)
+    {
+        this.locale = locale;
     }
 }

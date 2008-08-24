@@ -14,12 +14,14 @@
 
 package org.chenillekit.google.services;
 
+import java.util.Locale;
+
 import org.chenillekit.google.ChenilleKitGoogleTestModule;
-import org.chenillekit.google.utils.GMapLocation;
-import org.chenillekit.google.utils.GeoCodeResult;
-import org.chenillekit.google.utils.GeoCodeResultList;
+import org.chenillekit.google.utils.GeoCodeLocation;
+import org.chenillekit.google.utils.geocode.GeoCodeResult;
 import org.chenillekit.test.AbstractTestSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
@@ -28,62 +30,99 @@ import org.testng.annotations.Test;
  */
 public class TestGeoCoding extends AbstractTestSuite
 {
-    private GoogleMapService googleMapService;
+    private GoogleGeoCoder googleGeoCoder;
 
-    @BeforeSuite
+    @DataProvider(name = "location_exists")
+    public Object[][] location_exists()
+    {
+        return new Object[][]{
+                {new GeoCodeLocation("Neue Wollkämmereistrasse 2", "DE", "", "21107", "Hamburg")},
+        };
+    }
+
+    @DataProvider(name = "location_not_exists")
+    public Object[][] location_not_exists()
+    {
+        return new Object[][]{
+                {new GeoCodeLocation("Neue Wollstrasse 2", "DE", "", "21107", "Hamburg")},
+        };
+    }
+
+    @DataProvider(name = "country_city")
+    public Object[][] country_city()
+    {
+        return new Object[][]{
+                {new GeoCodeLocation("", "DE", "", "", "Hamburg")},
+        };
+    }
+
+    @DataProvider(name = "city")
+    public Object[][] city()
+    {
+        return new Object[][]{
+                {new GeoCodeLocation(Locale.ENGLISH, "", "", "", "", "Hanover")},
+        };
+    }
+
+    @DataProvider(name = "localeIsNull")
+    public Object[][] localeIsNull()
+    {
+        return new Object[][]{
+                {new GeoCodeLocation(null, "Neue Wollkämmereistrasse 2", "DE", "", "21107", "Hamburg")},
+        };
+    }
+
+    @BeforeClass
     public final void setup_registry()
     {
         super.setup_registry(ChenilleKitGoogleTestModule.class);
-        googleMapService = registry.getService(GoogleMapService.class);
+        googleGeoCoder = registry.getService(GoogleGeoCoder.class);
     }
 
-    @Test
-    public void test_geocoding_exist()
+    @Test(dataProvider = "location_exists")
+    public void test_location_exist(GeoCodeLocation geo1)
     {
-        GeoCodeResultList geoCodes = new GeoCodeResultList();
-        geoCodes.setMinAccuracyForGoodMatch(6);
-        googleMapService.getGeoCode(geoCodes, "Neue Wollkämmereistrasse 2", "DE", "", "21220", "Hamburg");
-
-        for (GeoCodeResult geoCode : geoCodes)
-        {
-            if (geoCode.getHttpResult() == GeoCodeResult.G_GEO_SUCCESS)
-                System.err.println(String.format("Latitude/Longitude: %s/%s", geoCode.getLatitude(),
-                                                 geoCode.getLongitude()));
-        }
-
-        assertTrue(geoCodes.size() > 0);
+        GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
+        assertTrue(result.getStatus().getCode() == GeoCodeResult.G_GEO_SUCCESS);
     }
 
-    @Test
-    public void test_geocoding_holder_exist()
+    @Test(dataProvider = "country_city")
+    public void test_city_exist(GeoCodeLocation geo1)
     {
-        GeoCodeResultList geoCodes = new GeoCodeResultList();
-        GMapLocation location = new GMapLocation("Neue Wollkämmereistrasse 2", "DE", "", "21220", "Hamburg");
-        googleMapService.getGeoCode(geoCodes, location);
-
-        for (GeoCodeResult geoCode : geoCodes)
-        {
-            if (geoCode.getHttpResult() == GeoCodeResult.G_GEO_SUCCESS)
-                System.err.println(String.format("Latitude/Longitude: %s/%s", geoCode.getLatitude(),
-                                                 geoCode.getLongitude()));
-        }
-
-        assertTrue(geoCodes.size() > 0);
+        GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
+        assertTrue(result.getStatus().getCode() == GeoCodeResult.G_GEO_SUCCESS &&
+                result.getPlacemarks().get(0).getAddressDetails().getAccuracy() == 4);
     }
 
-    @Test
-    public void test_geocoding_notexist()
+    @Test(dataProvider = "city")
+    public void test_2city_exist(GeoCodeLocation geo1)
     {
-        GeoCodeResultList geoCodes = new GeoCodeResultList();
-        googleMapService.getGeoCode(geoCodes, "Neue Wollstrasse 2", "DE", "", "21220", "Hamburg");
-
-        for (GeoCodeResult geoCode : geoCodes)
-        {
-            if (geoCode.getHttpResult() == GeoCodeResult.G_GEO_SUCCESS)
-                System.err.println(String.format("Latitude/Longitude: %s/%s", geoCode.getLatitude(),
-                                                 geoCode.getLongitude()));
-        }
-
-        assertTrue(geoCodes.goodMatches() == 0);
+        GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
+        assertTrue(result.getStatus().getCode() == GeoCodeResult.G_GEO_SUCCESS &&
+                result.getPlacemarks().get(0).getAddressDetails().getAccuracy() == 4);
     }
+
+    @Test(dataProvider = "location_not_exists")
+    public void test_location_notexist(GeoCodeLocation geo1)
+    {
+        GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
+        assertTrue(result.getStatus().getCode() == GeoCodeResult.G_GEO_UNKNOWN_ADDRESS);
+    }
+
+    @Test(dataProvider = "location_exists")
+    public void test_latlng(GeoCodeLocation geo1)
+    {
+        GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.507243);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 9.975591);
+    }
+
+    @Test(dataProvider = "localeIsNull")
+    public void test_localeIsNull(GeoCodeLocation geo1)
+    {
+        GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.507243);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 9.975591);
+    }
+
 }

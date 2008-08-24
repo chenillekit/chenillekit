@@ -20,7 +20,7 @@ import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
-import org.chenillekit.google.services.GoogleMapService;
+import org.chenillekit.google.services.GoogleGeoCoder;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
@@ -29,9 +29,9 @@ import org.chenillekit.google.services.GoogleMapService;
 @SubModule(value = {ChenilleKitGoogleModule.class})
 public class ChenilleKitGoogleTestModule
 {
-    public static void contributeGoogleMapService(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
+    public static void contributeGoogleGeoCoder(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
     {
-        Resource resource = new ClasspathResource(classFactory.getClassLoader(), "gmap.properties");
-        configuration.add(GoogleMapService.CONFIG_KEY, resource);
+        Resource resource = new ClasspathResource(classFactory.getClassLoader(), "google.geocoder.properties");
+        configuration.add(GoogleGeoCoder.CONFIG_KEY_PROPERTIES, resource);
     }
 }

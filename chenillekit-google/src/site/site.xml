@@ -27,6 +27,11 @@
         <version>1.1</version>
     </skin>
 
+    <poweredBy>
+        <logo name="Maven" href="http://maven.apache.org/"
+              img="http://maven.apache.org/images/logos/maven-feather.png"/>
+    </poweredBy>
+
     <publishDate format="yyyy-MM-dd HH:mm:SS"/>
 
     <body>
@@ -39,6 +44,10 @@
         <menu>
             <item name="Project Home" href="../index.html"/>
             <item name="Module Home" href="./index.html"/>
+        </menu>
+
+        <menu name="Samples">
+            <item name="GeoCoder" href="geocoder.html"/>
         </menu>
 
         <menu ref="reports"/>

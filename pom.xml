@@ -249,12 +249,6 @@
             </dependency>
 
             <dependency>
-                <groupId>commons-httpclient</groupId>
-                <artifactId>commons-httpclient</artifactId>
-                <version>3.1</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-email</artifactId>
                 <version>1.1</version>
@@ -369,12 +363,6 @@
             +++++++++++++++++++++++++++++++++++++++++++++++++++++++
             -->
             <dependency>
-                <groupId>net.sf.opencsv</groupId>
-                <artifactId>opencsv</artifactId>
-                <version>1.8</version>
-            </dependency>
-
-            <dependency>
                 <groupId>dumbster</groupId>
                 <artifactId>dumbster</artifactId>
                 <version>1.6</version>
@@ -384,6 +372,12 @@
                 <groupId>bsf</groupId>
                 <artifactId>bsf</artifactId>
                 <version>2.4.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sdicons.jsontools</groupId>
+                <artifactId>jsontools-core</artifactId>
+                <version>1.5</version>
             </dependency>
 
             <dependency>
@@ -480,12 +474,6 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>taglist-maven-plugin</artifactId>
                     <version>2.2</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-changelog-plugin</artifactId>
-                    <version>2.1</version>
                 </plugin>
 
                 <plugin>
@@ -735,20 +723,6 @@
                 </plugins>
             </build>
 
-            <reporting>
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-changelog-plugin</artifactId>
-                        <configuration>
-                            <type>range</type>
-                            <range>30</range>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </reporting>
         </profile>
 
     </profiles>

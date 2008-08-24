@@ -47,7 +47,7 @@
         </menu>
 
         <menu name="Samples">
-            <item name="integrate DAOs" href="doa_sample.html"/>
+            <item name="integrate DAOs" href="dao_sample.html"/>
         </menu>
 
         <menu ref="reports"/>

@@ -84,23 +84,13 @@
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         -->
         <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
         </dependency>
 
-        <!--
-        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        ++ Others
-        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        -->
         <dependency>
-            <groupId>net.sf.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
+            <groupId>com.sdicons.jsontools</groupId>
+            <artifactId>jsontools-core</artifactId>
         </dependency>
 
     </dependencies>

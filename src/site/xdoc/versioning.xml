@@ -21,11 +21,6 @@
 
 <document>
 
-    <properties>
-        <title>ChenilleKit.org</title>
-        <author email="homburgs@gmail.com"/>
-    </properties>
-
     <body>
 
         <section name="How chenille kit releases are versioned">

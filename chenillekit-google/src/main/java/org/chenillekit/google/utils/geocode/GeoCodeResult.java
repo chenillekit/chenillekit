@@ -12,7 +12,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.google.utils;
+package org.chenillekit.google.utils.geocode;
+
+import java.util.List;
+
+import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
+
+import org.chenillekit.google.utils.JSONArray;
+import org.chenillekit.google.utils.JSONException;
+import org.chenillekit.google.utils.JSONObject;
 
 /**
  * hold the result codes from gmap.
@@ -56,76 +64,47 @@ public class GeoCodeResult
 
     public static int G_GEO_TOO_MANY_QUERIES = 620;
 
-    private int httpResult;
+    private String name;
+    private Status status;
+    private List<Placemark> placemarks = CollectionFactory.newList();
 
-    /**
-     * <ul>
-     * <li>0 - Unknown location. (Since 2.59)</li>
-     * <li>1 - Country level accuracy. (Since 2.59)</li>
-     * <li>2 - Region (state, province, prefecture, etc.) level accuracy. (Since 2.59)</li>
-     * <li>3 - Sub-region (county, municipality, etc.) level accuracy. (Since 2.59)</li>
-     * <li>4 - Town (city, village) level accuracy. (Since 2.59)</li>
-     * <li>5 - Post code (zip code) level accuracy. (Since 2.59)</li>
-     * <li>6 - Street level accuracy. (Since 2.59)</li>
-     * <li>7 - Intersection level accuracy. (Since 2.59)</li>
-     * <li>8 - Address level accuracy. (Since 2.59)</li>
-     * <li>9 - Premise (building name, property name, shopping center, etc.) level accuracy. (Since 2.105)</li>
-     * </ul>
-     */
-    private int accuracy;
-
-    private float latitude;
-    private float longitude;
-
-    public GeoCodeResult()
+    public GeoCodeResult(JSONObject geoCodeResult)
     {
+        buildFromJSON(geoCodeResult);
     }
 
-    public GeoCodeResult(int httpResult, int accuracy, float latitude, float longitude)
+    private void buildFromJSON(JSONObject json)
     {
-        this.httpResult = httpResult;
-        this.accuracy = accuracy;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        try
+        {
+            name = json.getString("name");
+            status = new Status(json.getJSONObject("Status"));
+
+            if (json.has("Placemark"))
+            {
+                JSONArray jsonArray = json.getJSONArray("Placemark");
+                for (int i = 0; i < jsonArray.length(); i++)
+                    placemarks.add(new Placemark(jsonArray.getJSONObject(i)));
+            }
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
-    public int getHttpResult()
+    public String getName()
     {
-        return httpResult;
+        return name;
     }
 
-    public void setHttpResult(int httpResult)
+    public Status getStatus()
     {
-        this.httpResult = httpResult;
+        return status;
     }
 
-    public int getAccuracy()
+    public List<Placemark> getPlacemarks()
     {
-        return accuracy;
-    }
-
-    public void setAccuracy(int accuracy)
-    {
-        this.accuracy = accuracy;
-    }
-
-    public float getLatitude()
-    {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude)
-    {
-        this.latitude = latitude;
-    }
-
-    public float getLongitude()
-    {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude)
-    {
-        this.longitude = longitude;
+        return placemarks;
     }
 }

@@ -24,11 +24,7 @@
         </layout>
     </appender>
 
-    <category name="org.chenillekit.template.ChenilleKitTemplateModule.VelocityService">
-        <priority value="trace"/>
-    </category>
-
-    <category name="org.chenillekit.template.ChenilleKitTemplateModule.FreeMarkerService">
+    <category name="org.chenillekit.google.ChenilleKitGoogleModule.GoogleGeoCoder">
         <priority value="trace"/>
     </category>
 

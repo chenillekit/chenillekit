@@ -18,8 +18,8 @@ import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;
 
-import org.chenillekit.google.services.GoogleMapService;
-import org.chenillekit.google.services.impl.GoogleMapServiceImpl;
+import org.chenillekit.google.services.GoogleGeoCoder;
+import org.chenillekit.google.services.impl.GoogleGeoCoderImpl;
 import org.slf4j.Logger;
 
 /**
@@ -36,10 +36,10 @@ public class ChenilleKitGoogleModule
      *
      * @return
      */
-    public static GoogleMapService buildGoogleMapService(Logger syslog, Map<String, Object> configuration)
+    public static GoogleGeoCoder buildGoogleGeoCoder(Logger syslog, Map<String, Object> configuration)
     {
-        Resource configResource = (Resource) configuration.get(GoogleMapService.CONFIG_KEY);
-        return new GoogleMapServiceImpl(syslog, configResource);
+        Resource configResource = (Resource) configuration.get(GoogleGeoCoder.CONFIG_KEY_PROPERTIES);
+        return new GoogleGeoCoderImpl(syslog, configResource);
     }
 
 }
