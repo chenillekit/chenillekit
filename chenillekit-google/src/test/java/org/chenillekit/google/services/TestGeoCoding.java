@@ -36,7 +36,7 @@ public class TestGeoCoding extends AbstractTestSuite
     public Object[][] location_exists()
     {
         return new Object[][]{
-                {new GeoCodeLocation("Neue Wollkämmereistrasse 2", "DE", "", "21107", "Hamburg")},
+                {new GeoCodeLocation("Ohlendorfer Stieg", "DE", "", "21220", "Seevetal")},
         };
     }
 
@@ -44,7 +44,7 @@ public class TestGeoCoding extends AbstractTestSuite
     public Object[][] location_not_exists()
     {
         return new Object[][]{
-                {new GeoCodeLocation("Neue Wollstrasse 2", "DE", "", "21107", "Hamburg")},
+                {new GeoCodeLocation("Ohxxxxxrfer Stieg", "DE", "", "21220", "Seevetal")},
         };
     }
 
@@ -68,7 +68,7 @@ public class TestGeoCoding extends AbstractTestSuite
     public Object[][] localeIsNull()
     {
         return new Object[][]{
-                {new GeoCodeLocation(null, "Neue Wollkämmereistrasse 2", "DE", "", "21107", "Hamburg")},
+                {new GeoCodeLocation(null, "Ohlendorfer Stieg", "DE", "", "21220", "Seevetal")},
         };
     }
 
@@ -113,16 +113,16 @@ public class TestGeoCoding extends AbstractTestSuite
     public void test_latlng(GeoCodeLocation geo1)
     {
         GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
-        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.507243);
-        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 9.975591);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.367727);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 10.030812);
     }
 
     @Test(dataProvider = "localeIsNull")
     public void test_localeIsNull(GeoCodeLocation geo1)
     {
         GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
-        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.507243);
-        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 9.975591);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.367727);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 10.030812);
     }
 
 }

@@ -14,12 +14,14 @@
 
 package org.chenillekit.hibernate.factories;
 
+import org.hibernate.Session;
+
 import org.chenillekit.hibernate.daos.AddressDAO;
 import org.chenillekit.hibernate.daos.AddressDAOHibernate;
 import org.chenillekit.hibernate.daos.UserDAO;
 import org.chenillekit.hibernate.daos.UserDAOHibernate;
-import org.hibernate.Session;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is a factory for the test DAOs.
@@ -27,11 +29,13 @@ import org.slf4j.Logger;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class LibraryTestDAOFactory extends AbstractHibernateDAOFactory
+public class TestDAOFactory extends AbstractHibernateDAOFactory
 {
-    public LibraryTestDAOFactory(Logger serviceLog, Session session)
+    private static Logger logger = LoggerFactory.getLogger(TestDAOFactory.class);
+
+    public TestDAOFactory(Session session)
     {
-        super(serviceLog, session);
+        super(logger, session);
     }
 
     public UserDAO getUserDAO()

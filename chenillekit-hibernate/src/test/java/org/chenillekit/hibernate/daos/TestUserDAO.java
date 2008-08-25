@@ -17,20 +17,11 @@ package org.chenillekit.hibernate.daos;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.tapestry5.hibernate.HibernateModule;
-import org.apache.tapestry5.hibernate.HibernateSessionManager;
-import org.apache.tapestry5.ioc.Registry;
-import org.apache.tapestry5.ioc.RegistryBuilder;
-import org.apache.tapestry5.services.TapestryModule;
-
-import org.hibernate.SQLQuery;
-
-import org.chenillekit.hibernate.LibraryTestModule;
+import org.chenillekit.hibernate.AbstractHibernateTest;
 import org.chenillekit.hibernate.entities.Address;
 import org.chenillekit.hibernate.entities.User;
-import org.chenillekit.hibernate.factories.GenericDAOFactory;
+import org.chenillekit.hibernate.factories.TestDAOFactory;
 import org.chenillekit.hibernate.utils.QueryParameter;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -39,24 +30,21 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class TestUserDAO extends Assert
+public class TestUserDAO extends AbstractHibernateTest
 {
-    private Registry _registry;
+    protected TestDAOFactory daoFactory;
 
     @BeforeTest
-    public void beforeTest()
+    public void setup()
     {
-        RegistryBuilder builder = new RegistryBuilder();
-        builder.add(TapestryModule.class, HibernateModule.class, LibraryTestModule.class);
-        _registry = builder.build();
-        _registry.performRegistryStartup();
+        super.setup();
+        daoFactory = new TestDAOFactory(sessionFactory.openSession());
     }
 
     @Test
     public void persist_user_entity()
     {
-        GenericDAOFactory daoFactory = _registry.getService(GenericDAOFactory.class);
-        UserDAO userDAO = (UserDAO) daoFactory.getDAO(User.class);
+        UserDAO userDAO = (UserDAO) daoFactory.getUserDAO();
 
         User user = new User("homburgs", "password");
         user.setLastLogin(new Date());
@@ -78,12 +66,10 @@ public class TestUserDAO extends Assert
     @Test(dependsOnMethods = {"persist_user_entity"})
     public void find_user_entity()
     {
-        GenericDAOFactory daoFactory = _registry.getService(GenericDAOFactory.class);
-        UserDAO userDAO = (UserDAO) daoFactory.getDAO(User.class);
+        UserDAO userDAO = (UserDAO) daoFactory.getUserDAO();
 
         List entityList = userDAO.findByQuery("FROM User WHERE loginName = :loginName",
                                               QueryParameter.newInstance("loginName", "homburgs"));
-
 
         assertEquals(entityList.size(), 1);
     }
@@ -91,8 +77,7 @@ public class TestUserDAO extends Assert
     @Test(dependsOnMethods = {"persist_user_entity"})
     public void group_by_loginname()
     {
-        GenericDAOFactory daoFactory = _registry.getService(GenericDAOFactory.class);
-        UserDAO userDAO = (UserDAO) daoFactory.getDAO(User.class);
+        UserDAO userDAO = (UserDAO) daoFactory.getUserDAO();
 
         String result = (String) userDAO.aggregateOrGroup("SELECT loginName FROM User GROUP BY loginName");
 
@@ -102,8 +87,7 @@ public class TestUserDAO extends Assert
     @Test(dependsOnMethods = {"persist_user_entity"})
     public void max_id()
     {
-        GenericDAOFactory daoFactory = _registry.getService(GenericDAOFactory.class);
-        UserDAO userDAO = (UserDAO) daoFactory.getDAO(User.class);
+        UserDAO userDAO = (UserDAO) daoFactory.getUserDAO();
 
         long result = (Long) userDAO.aggregateOrGroup("SELECT MAX(id) FROM User");
 
@@ -113,9 +97,6 @@ public class TestUserDAO extends Assert
     @AfterTest
     public void afterTest()
     {
-        _registry.cleanupThread();
-        HibernateSessionManager manager = _registry.getService(HibernateSessionManager.class);
-        SQLQuery query = manager.getSession().createSQLQuery("SHUTDOWN");
-        query.executeUpdate();
+        sessionFactory.close();
     }
 }
