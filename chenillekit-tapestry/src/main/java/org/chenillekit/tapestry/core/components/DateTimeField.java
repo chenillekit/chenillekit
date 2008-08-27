@@ -40,6 +40,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.internal.util.InternalUtils;
 import org.apache.tapestry5.services.FieldValidatorDefaultSource;
 import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.json.JSONObject;
 
 /**
@@ -64,9 +65,9 @@ public class DateTimeField extends AbstractField
      * The object that will perform input validation (which occurs after translation). The translate binding prefix is
      * generally used to provide this object in a declarative fashion.
      */
-    @Parameter(defaultPrefix = "validate")
+    @Parameter(defaultPrefix = BindingConstants.VALIDATE)
     @SuppressWarnings("unchecked")
-    private FieldValidator<Object> validate = NOOP_VALIDATOR;
+    private FieldValidator<Object> validate;
 
     @Parameter(defaultPrefix = BindingConstants.ASSET, value = "datetimefield/calendar.png")
     private Asset icon;
@@ -113,6 +114,9 @@ public class DateTimeField extends AbstractField
     @Inject
     private FieldValidationSupport fieldValidationSupport;
 
+    @Inject
+    private ComponentDefaultProvider defaultProvider;
+
     /**
      * For output, format nicely and unambiguously as four digits.
      */
@@ -134,15 +138,11 @@ public class DateTimeField extends AbstractField
     }
 
     /**
-     * Computes a default value for the "validate" parameter using {@link org.apache.tapestry.services.FieldValidatorDefaultSource}.
+     * Computes a default value for the "validate" parameter using {@link org.apache.tapestry5.services.ComponentDefaultProvider}.
      */
     final FieldValidator defaultValidate()
     {
-
-        return fieldValidatorDefaultSource.createDefaultValidator(this, resources.getId(),
-                                                                  resources.getContainerMessages(), locale,
-                                                                  Date.class,
-                                                                  resources.getAnnotationProvider("value"));
+        return defaultProvider.defaultValidator("value", resources);
     }
 
     /**

@@ -29,6 +29,7 @@
     <br/>
     Hidden Float Value: <input type="hidden" t:id="hidden3"/>
     <br/>
+    <input type="submit"/>
 </form>
 
 <p>

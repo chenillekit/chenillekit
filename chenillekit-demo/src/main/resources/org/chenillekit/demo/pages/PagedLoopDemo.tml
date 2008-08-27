@@ -14,6 +14,23 @@
 
 <span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
+    <style type="text/css">
+        span.field1 {
+            width: 200px;
+            float: left;
+        }
+
+        span.field2 {
+            width: 200px;
+            float: left;
+        }
+
+        span.field3 {
+            float: none;
+            clear: both;
+        }
+    </style>
+
     <div class="yui-g">
 
         <div class="yui-u first menu">
@@ -45,8 +62,31 @@ private PagedLoop pagedLoop;
             <fieldset class="sample">
                 <legend>sample</legend>
                 <ul>
+                    <li>
+                        <div class="yui-gb" style="width:100%;">
+                            <div class="yui-u first">
+                                <strong>Album</strong>
+                            </div>
+                            <div class="yui-u">
+                                <strong>Artist</strong>
+                            </div>
+                            <div class="yui-u">
+                                <strong>Title</strong>
+                            </div>
+                        </div>
+                    </li>
                     <li t:id="pagedLoop">
-                        ${track.album} - ${track.artist} - ${track.title}
+                        <div class="yui-gb" style="width:100%;">
+                            <div class="yui-u first">
+                                <span t:type="ck/TrimmedString" maxLength="40" value="track.album"/>
+                            </div>
+                            <div class="yui-u">
+                                <span t:type="ck/TrimmedString" value="track.artist"/>
+                            </div>
+                            <div class="yui-u">
+                                <span t:type="ck/TrimmedString" maxLength="40" value="track.title"/>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </fieldset>

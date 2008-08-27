@@ -36,7 +36,7 @@ import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.internal.util.TapestryException;
-import org.apache.tapestry5.services.FieldValidatorDefaultSource;
+import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.ValueEncoderSource;
 import org.apache.tapestry5.util.EnumSelectModel;
@@ -60,7 +60,7 @@ public class MultipleSelect extends AbstractField
     {
         public Renderer(MarkupWriter writer)
         {
-            super(writer, _encoder);
+            super(writer, encoder);
         }
 
         @Override
@@ -69,11 +69,11 @@ public class MultipleSelect extends AbstractField
             boolean hit = false;
             Object testValue = optionModel.getValue();
 
-            if (_value != null)
+            if (value != null)
             {
-                for (Object value : _value)
+                for (Object singleValue : value)
                 {
-                    hit = testValue == value || (testValue != null && testValue.equals(value));
+                    hit = testValue == singleValue || (testValue != null && testValue.equals(singleValue));
                     if (hit)
                         break;
                 }
@@ -88,21 +88,14 @@ public class MultipleSelect extends AbstractField
      * This is used to create client-side string values for the different options.
      */
     @Parameter
-    private MultipleValueEncoder _encoder;
+    private MultipleValueEncoder encoder;
 
     /**
      * The model used to identify the option groups and options to be presented to the user.
      * This can be generated automatically for Enum types.
      */
     @Parameter(required = true)
-    private SelectModel _model;
-
-    /**
-     * Performs input validation on the value supplied by the user in the form submission.
-     */
-    @Parameter(defaultPrefix = BindingConstants.VALIDATE)
-    @SuppressWarnings("unchecked")
-    private FieldValidator<Object> _validate = NOOP_VALIDATOR;
+    private SelectModel model;
 
     /**
      * should the component multi select able.
@@ -111,49 +104,53 @@ public class MultipleSelect extends AbstractField
     @SuppressWarnings("unchecked")
     private boolean multiple;
 
+    @Parameter(defaultPrefix = BindingConstants.VALIDATE)
+    @SuppressWarnings("unchecked")
+    private FieldValidator<Object> validate;
+
     /**
      * The list of value to read or update.
      */
     @Parameter(required = true, principal = true)
-    private List _value;
+    private List value;
 
     @Inject
-    private FieldValidatorDefaultSource _fieldValidatorDefaultSource;
+    private Locale locale;
 
     @Inject
-    private Locale _locale;
+    private Request request;
 
     @Inject
-    private Request _request;
-
-    @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     @Environmental
-    private ValidationTracker _tracker;
+    private ValidationTracker tracker;
 
     @Inject
-    private ValueEncoderSource _valueEncoderSource;
+    private ValueEncoderSource valueEncoderSource;
+
+    @Inject
+    private ComponentDefaultProvider defaultProvider;
 
     @Override
     protected void processSubmission(String elementName)
     {
-        String[] primaryKeys = _request.getParameters(elementName);
-        List selectedValues = primaryKeys != null ? _encoder.toValue(primaryKeys) : CollectionFactory.newList();
+        String[] primaryKeys = request.getParameters(elementName);
+        List selectedValues = primaryKeys != null ? encoder.toValue(primaryKeys) : CollectionFactory.newList();
 
         try
         {
             for (Object selectedValue : selectedValues)
-                _validate.validate(selectedValue);
+                validate.validate(selectedValue);
 
-            if (_validate.isRequired() && selectedValues.size() == 0)
+            if (validate.isRequired() && selectedValues.size() == 0)
                 throw new ValidationException("at least one selection is required");
 
-            _value = selectedValues;
+            value = selectedValues;
         }
         catch (ValidationException ex)
         {
-            _tracker.recordError(this, ex.getMessage());
+            tracker.recordError(this, ex.getMessage());
         }
     }
 
@@ -169,38 +166,32 @@ public class MultipleSelect extends AbstractField
         if (multiple)
             element.attribute("multiple", "multiple");
 
-        _resources.renderInformalParameters(writer);
+        resources.renderInformalParameters(writer);
     }
 
     @SuppressWarnings("unchecked")
     ValueEncoder defaultEncoder()
     {
         // TODO must check for new one
-        return _valueEncoderSource.getValueEncoder(String.class);
+        return valueEncoderSource.getValueEncoder(String.class);
     }
 
     @SuppressWarnings("unchecked")
     SelectModel defaultModel()
     {
-        Class valueType = _resources.getBoundType("value");
+        Class valueType = resources.getBoundType("value");
 
         if (valueType == null) return null;
 
         if (Enum.class.isAssignableFrom(valueType))
-            return new EnumSelectModel(valueType, _resources.getContainerMessages());
+            return new EnumSelectModel(valueType, resources.getContainerMessages());
 
         return null;
     }
 
     FieldValidator defaultValidate()
     {
-        Class type = _resources.getBoundType("value");
-
-        if (type == null)
-            return null;
-
-        return _fieldValidatorDefaultSource.createDefaultValidator(this, getClientId(), _resources.getContainerMessages(),
-                                                                   _locale, type, _resources.getAnnotationProvider("value"));
+        return defaultProvider.defaultValidator("value", resources);
     }
 
     Binding defaultValue()
@@ -212,10 +203,10 @@ public class MultipleSelect extends AbstractField
     void options(MarkupWriter writer)
     {
         SelectModelVisitor renderer = new Renderer(writer);
-        if (_model == null)
+        if (model == null)
             throw new TapestryException("select model cannot be null", this, null);
 
-        _model.visit(renderer);
+        model.visit(renderer);
     }
 
     /**
@@ -225,7 +216,7 @@ public class MultipleSelect extends AbstractField
      */
     public void setModel(SelectModel model)
     {
-        _model = model;
+        this.model = model;
     }
 
     /**
@@ -235,7 +226,7 @@ public class MultipleSelect extends AbstractField
      */
     public void setValue(List value)
     {
-        _value = value;
+        this.value = value;
     }
 
     /**
@@ -245,6 +236,6 @@ public class MultipleSelect extends AbstractField
      */
     public void setValueEncoder(MultipleValueEncoder encoder)
     {
-        _encoder = encoder;
+        this.encoder = encoder;
     }
 }

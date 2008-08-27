@@ -55,6 +55,6 @@ public class DateTimeFieldDemo
     @Component(parameters = {"value=actualDate2"})
     private DateTimeField _dateTimeField2;
 
-    @Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=dd-MM-yyyy HH:mm"})
+    @Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=MM/dd/yyyy HH:mm"})
     private DateTimeField _dateTimeField3;
 }
