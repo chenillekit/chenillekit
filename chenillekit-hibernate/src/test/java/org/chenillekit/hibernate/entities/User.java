@@ -16,6 +16,10 @@ package org.chenillekit.hibernate.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -26,6 +30,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.tapestry5.beaneditor.Validate;
@@ -47,6 +52,7 @@ public class User implements Serializable, Auditable
     private Date _lastLogin;
     private byte[] _properties;
     private Address _address;
+    private List<Pseudonym> pseudonyms = new ArrayList<Pseudonym>();
     private Audit _audit;
 
     public User(String loginName, String password)
@@ -143,6 +149,18 @@ public class User implements Serializable, Auditable
     public void setAddress(Address address)
     {
         _address = address;
+    }
+
+    @OneToMany(mappedBy = "user")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    public List<Pseudonym> getPseudonyms()
+    {
+        return pseudonyms;
+    }
+
+    public void setPseudonyms(List<Pseudonym> pseudonyms)
+    {
+        this.pseudonyms = pseudonyms;
     }
 
     @Embedded

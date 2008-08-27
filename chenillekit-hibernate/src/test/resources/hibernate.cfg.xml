@@ -41,6 +41,7 @@
         <!-- mapping files -->
         <mapping class="org.chenillekit.hibernate.entities.User"/>
         <mapping class="org.chenillekit.hibernate.entities.Address"/>
+        <mapping class="org.chenillekit.hibernate.entities.Pseudonym"/>
 
     </session-factory>
 

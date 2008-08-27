@@ -17,9 +17,13 @@ package org.chenillekit.hibernate.daos;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import org.chenillekit.hibernate.AbstractHibernateTest;
 import org.chenillekit.hibernate.entities.Address;
 import org.chenillekit.hibernate.entities.User;
+import org.chenillekit.hibernate.entities.Pseudonym;
 import org.chenillekit.hibernate.factories.TestDAOFactory;
 import org.chenillekit.hibernate.utils.QueryParameter;
 import org.testng.annotations.AfterTest;
@@ -33,17 +37,20 @@ import org.testng.annotations.Test;
 public class TestUserDAO extends AbstractHibernateTest
 {
     protected TestDAOFactory daoFactory;
+    protected Session session;
 
     @BeforeTest
     public void setup()
     {
         super.setup();
-        daoFactory = new TestDAOFactory(sessionFactory.openSession());
+        session = sessionFactory.openSession();
+        daoFactory = new TestDAOFactory(session);
     }
 
     @Test
     public void persist_user_entity()
     {
+        Transaction transaction = session.beginTransaction();
         UserDAO userDAO = (UserDAO) daoFactory.getUserDAO();
 
         User user = new User("homburgs", "password");
@@ -59,14 +66,18 @@ public class TestUserDAO extends AbstractHibernateTest
         address.setEmail("homburgs@gmail.com");
 
         user.setAddress(address);
+        user.getPseudonyms().add(new Pseudonym(user, "jolli"));
+        user.getPseudonyms().add(new Pseudonym(user, "trugoy"));
+        user.getPseudonyms().add(new Pseudonym(user, "hombi"));
 
         userDAO.doSave(user);
+        transaction.commit();
     }
 
     @Test(dependsOnMethods = {"persist_user_entity"})
     public void find_user_entity()
     {
-        UserDAO userDAO = (UserDAO) daoFactory.getUserDAO();
+        UserDAO userDAO = daoFactory.getUserDAO();
 
         List entityList = userDAO.findByQuery("FROM User WHERE loginName = :loginName",
                                               QueryParameter.newInstance("loginName", "homburgs"));
@@ -75,9 +86,32 @@ public class TestUserDAO extends AbstractHibernateTest
     }
 
     @Test(dependsOnMethods = {"persist_user_entity"})
+    public void remove_pseudonym_entity()
+    {
+        Transaction transaction = session.beginTransaction();
+        UserDAO userDAO = daoFactory.getUserDAO();
+
+        List<User> entityList = userDAO.findByQuery("FROM User WHERE loginName = :loginName",
+                                              QueryParameter.newInstance("loginName", "homburgs"));
+
+        for (User user : entityList)
+        {
+            for (Pseudonym pseudonym : user.getPseudonyms())
+            {
+                user.getPseudonyms().remove(pseudonym);
+                break;
+            }
+            userDAO.doSave(user);
+            assertEquals(user.getPseudonyms().size(), 2);
+        }
+
+        transaction.commit();
+    }
+
+    @Test(dependsOnMethods = {"persist_user_entity"})
     public void group_by_loginname()
     {
-        UserDAO userDAO = (UserDAO) daoFactory.getUserDAO();
+        UserDAO userDAO = daoFactory.getUserDAO();
 
         String result = (String) userDAO.aggregateOrGroup("SELECT loginName FROM User GROUP BY loginName");
 
@@ -87,7 +121,7 @@ public class TestUserDAO extends AbstractHibernateTest
     @Test(dependsOnMethods = {"persist_user_entity"})
     public void max_id()
     {
-        UserDAO userDAO = (UserDAO) daoFactory.getUserDAO();
+        UserDAO userDAO = daoFactory.getUserDAO();
 
         long result = (Long) userDAO.aggregateOrGroup("SELECT MAX(id) FROM User");
 
