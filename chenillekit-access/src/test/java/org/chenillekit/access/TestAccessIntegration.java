@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
- * @version $Id: TestComponentIntegration.java 54 2008-05-25 21:42:29Z homburgs@gmail.com $
+ * @version $Id$
  */
 public class TestAccessIntegration extends Assert
 {

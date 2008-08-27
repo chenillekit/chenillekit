@@ -22,7 +22,7 @@ package org.chenillekit.access;
  * some constants for chenillekit secure module.
  *
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
- * @version $Id: ChenilleKitSecureConstants.java 88 2008-06-16 16:43:40Z homburgs $
+ * @version $Id$
  */
 public class ChenilleKitAccessConstants
 {

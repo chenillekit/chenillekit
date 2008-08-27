@@ -17,7 +17,7 @@ package org.chenillekit.access.pages;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
- * @version $Id: EditorDemo.java 39 2008-05-23 13:13:28Z homburgs $
+ * @version $Id$
  */
 public class UnRestrictedPage
 {

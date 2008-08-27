@@ -25,7 +25,7 @@ import org.chenillekit.access.utils.RootUser;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
- * @version $Id: Start.java 54 2008-05-25 21:42:29Z homburgs@gmail.com $
+ * @version $Id$
  */
 public class Start
 {
