@@ -13,6 +13,8 @@
  */
 package org.chenillekit.access.services.impl;
 
+import java.lang.reflect.Field;
+
 import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
@@ -68,7 +70,22 @@ public class AccessValidatorImpl implements AccessValidator
 
         Component page = getPage(pageName);
         if (page != null)
+        {
             hasAccess = checkForPageAccess(page);
+            if (hasAccess)
+            {
+                Field[] fields = page.getClass().getDeclaredFields();
+                for (Field field : fields)
+                {
+                    if (field.isAnnotationPresent(Restricted.class) &&
+                            field.isAnnotationPresent(org.apache.tapestry5.annotations.Component.class))
+                    {
+                        if (logger.isInfoEnabled())
+                            logger.info("found restricted component '{}' in page '{}'", field.getName(), pageName);
+                    }
+                }
+            }
+        }
 
         return hasAccess;
     }

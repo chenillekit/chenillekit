@@ -70,4 +70,18 @@ public class TestAccessIntegration extends Assert
         Element element = doc.getElementById("login_message");
         assertEquals(element.getChildMarkup(), "Login Page");
     }
+
+    @Test
+    public void test_restrictedTextField()
+    {
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("RestrictedTextField");
+
+        doc = pageTester.clickLink(link);
+        Element element1 = doc.getElementById("simpleTextField1");
+        assertNotNull(element1);
+
+        Element element2 = doc.getElementById("simpleTextField2");
+        assertNotNull(element2);
+    }
 }
