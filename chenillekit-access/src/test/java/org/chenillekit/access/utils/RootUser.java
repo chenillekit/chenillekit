@@ -39,7 +39,7 @@ public class RootUser implements WebSessionUser
     {
         this.userId = 1;
         this.name = "root";
-        this.roles = new int[]{1,2,3};
+        this.roles = new int[]{1,2};
         this.groups = new String[]{"superuser"};
     }
 

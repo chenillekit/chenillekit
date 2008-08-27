@@ -15,13 +15,10 @@
 
 package org.chenillekit.access.pages;
 
-import org.chenillekit.access.annotations.Restricted;
-
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id: EditorDemo.java 39 2008-05-23 13:13:28Z homburgs $
  */
-@Restricted(roles = {1, 2})
-public class RestrictedPage
+public class UnRestrictedPage
 {
 }

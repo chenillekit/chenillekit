@@ -19,7 +19,6 @@ import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.MetaDataLocator;
 
-import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.utils.WebSessionUser;
@@ -45,6 +44,7 @@ public class AccessValidatorImpl implements AccessValidator
                                Class<? extends WebSessionUser> webSessionUserImplmentation)
     {
         Defense.notNull(webSessionUserImplmentation, "webSessionUserImplmentation");
+
         this.asm = stateManager;
         this.componentSource = componentSource;
         this.locator = locator;
@@ -53,19 +53,70 @@ public class AccessValidatorImpl implements AccessValidator
     }
 
 
-    /* (non-Javadoc)
-      * @see org.chenillekit.access.services.AccessValidator#hasAccess(java.lang.String, java.lang.String, java.lang.String)
-      */
+    /**
+     * (non-Javadoc)
+     *
+     * @see org.chenillekit.access.services.AccessValidator#hasAccess(java.lang.String, java.lang.String, java.lang.String)
+     */
     public boolean hasAccess(String pageName, String componentId, String eventType)
     {
-        boolean canAccess = true;
+        boolean hasAccess = true;
 
         if (logger.isDebugEnabled())
             logger.debug("check access for pageName/componentId/eventType: {}/{}/{}",
                          new Object[]{pageName, componentId, eventType});
 
-        /* Is the requested page private ? */
-        Component page = null;
+        Component page = getPage(pageName);
+        if (page != null)
+            hasAccess = checkForPageAccess(page);
+
+        return hasAccess;
+    }
+
+    /**
+     * check for page restriction, and if page restricted we check for users access rights.
+     *
+     * @param page the page(component) object
+     *
+     * @return true if user has access or the page is not restricted
+     */
+    private boolean checkForPageAccess(Component page)
+    {
+        boolean hasAccess = true;
+
+        Restricted pagePrivate = page.getClass().getAnnotation(Restricted.class);
+        if (pagePrivate != null)
+        {
+            WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
+            if (webSessionUser == null)
+                return false;
+
+            boolean hasRole = hasUserRequiredRole(webSessionUser.getRoles(), pagePrivate.roles());
+            boolean hasGroup = hasUserRequiredGroup(webSessionUser.getGroups(), pagePrivate.groups());
+
+            if (logger.isInfoEnabled())
+            {
+                logger.info("Page '{}' - hasRole = {} / hasGroup = {}",
+                            new Object[]{page.getComponentResources().getPageName(), hasRole, hasGroup});
+            }
+
+            // Let's see if it can access it
+            hasAccess = hasGroup && hasRole;
+        }
+
+        return hasAccess;
+    }
+
+    /**
+     * get the page component.
+     *
+     * @param pageName the name of page
+     *
+     * @return may be null if not found
+     */
+    private Component getPage(String pageName)
+    {
+        Component component = null;
 
         // This should be unnecessary...
         boolean found = false;
@@ -73,7 +124,7 @@ public class AccessValidatorImpl implements AccessValidator
         {
             try
             {
-                page = componentSource.getPage(pageName);
+                component = componentSource.getPage(pageName);
                 found = true;
             }
             catch (IllegalArgumentException iae)
@@ -82,7 +133,7 @@ public class AccessValidatorImpl implements AccessValidator
                 {
                     pageName = pageName.substring(0, pageName.lastIndexOf('/'));
                     if (logger.isTraceEnabled())
-                        logger.trace("New pagename: " + pageName);
+                        logger.trace("New pagename: {}", pageName);
                 }
                 else
                 {
@@ -91,52 +142,78 @@ public class AccessValidatorImpl implements AccessValidator
             }
         }
 
-        Restricted pagePrivate = page.getClass().getAnnotation(Restricted.class);
-
-        if (pagePrivate != null)
-        {
-            WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
-            if (webSessionUser != null)
-            {
-                int role = Integer.parseInt(page.getComponentResources()
-                        .getComponentModel()
-                        .getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE));
-                String group = page.getComponentResources()
-                        .getComponentModel()
-                        .getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP);
-
-                boolean hasRole = false;
-                boolean hasGroup = false;
-                // We will see if this will need a changes...
-                for (int i = 0; i < webSessionUser.getRoles().length; i++)
-                {
-                    int userRole = webSessionUser.getRoles()[i];
-                    if (userRole >= role)
-                    {
-                        hasRole = true;
-                        break;
-                    }
-                }
-                for (int i = 0; i < webSessionUser.getGroups().length; i++)
-                {
-                    String userGroup = webSessionUser.getGroups()[i];
-                    if (userGroup.equals(group))
-                    {
-                        hasGroup = true;
-                        break;
-                    }
-                }
-
-                logger.info("hasRole = " + hasRole);
-                logger.info("hasGroup = " + hasGroup);
-
-                // Let's see if it can access it
-                canAccess = hasGroup && hasRole;
-            }
-
-        }
-
-        return canAccess;
+        return component;
     }
 
+    /**
+     * check if user has required role to access page/component/event.
+     *
+     * @param userRoles     roles the user have
+     * @param requiredRoles roles required for page/component/event access
+     *
+     * @return true if user has the required role
+     */
+    private boolean hasUserRequiredRole(int[] userRoles, int[] requiredRoles)
+    {
+        boolean hasRole = false;
+
+        /**
+         * if no group required
+         */
+        if (requiredRoles.length == 0)
+            return true;
+
+        for (int requiredRole : requiredRoles)
+        {
+            for (int userRole : userRoles)
+            {
+                if (userRole >= requiredRole)
+                {
+                    hasRole = true;
+                    break;
+                }
+            }
+
+            if (hasRole)
+                break;
+        }
+
+        return hasRole;
+    }
+
+    /**
+     * check if user has required group to access page/component/event.
+     *
+     * @param userGroups     groups the user have
+     * @param requiredGroups groups required for page/component/event access
+     *
+     * @return true if user has the required group
+     */
+    private boolean hasUserRequiredGroup(String[] userGroups, String[] requiredGroups)
+    {
+        boolean hasGroup = false;
+
+        /**
+         * if no group required
+         */
+        if (requiredGroups.length == 0)
+            return true;
+
+        for (String requiredGroup : requiredGroups)
+        {
+            for (String userGroup : userGroups)
+            {
+                if (userGroup.equalsIgnoreCase(requiredGroup))
+                {
+                    hasGroup = true;
+                    break;
+                }
+            }
+
+            if (hasGroup)
+                break;
+        }
+
+        return hasGroup;
+    }
 }

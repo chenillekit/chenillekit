@@ -14,41 +14,60 @@
 
 package org.chenillekit.access;
 
-import org.apache.tapestry5.test.AbstractIntegrationTestSuite;
+import org.apache.tapestry5.dom.Document;
+import org.apache.tapestry5.dom.Element;
+import org.apache.tapestry5.test.PageTester;
 
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id: TestComponentIntegration.java 54 2008-05-25 21:42:29Z homburgs@gmail.com $
  */
-public class TestAccessIntegration extends AbstractIntegrationTestSuite
+public class TestAccessIntegration extends Assert
 {
-    /**
-     * Initializes the suite using {@link #DEFAULT_WEB_APP_ROOT}.
-     */
-    public TestAccessIntegration()
+    private PageTester pageTester;
+
+    @BeforeTest
+    public void initializeTests()
     {
-        super("src/test/webapp");
+        String appPackage = "org.chenillekit.access";
+        String appName = "TestAppWithRoot";
+        pageTester = new PageTester(appPackage, appName, "src/test/webapp");
     }
 
     @Test
     public void test_restricted()
     {
-        open(BASE_URL);
-        start("Restricted");
-        waitForPageToLoad("5000");
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("Restricted");
 
-        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
+        doc = pageTester.clickLink(link);
+        Element element = doc.getElementById("has_access");
+        assertEquals(element.getChildMarkup(), "Has Access");
     }
 
     @Test
-    public void test_not_enough_rights()
+    public void test_unRestricted()
     {
-        open(BASE_URL);
-        start("NotEnoughRights");
-        waitForPageToLoad("5000");
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("UnRestricted");
 
-        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
+        doc = pageTester.clickLink(link);
+        Element element = doc.getElementById("has_access");
+        assertEquals(element.getChildMarkup(), "everybody has access");
+    }
+
+    @Test
+    public void test_notEnoughRights()
+    {
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("NotEnoughRights");
+
+        doc = pageTester.clickLink(link);
+        Element element = doc.getElementById("login_message");
+        assertEquals(element.getChildMarkup(), "Login Page");
     }
 }

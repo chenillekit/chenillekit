@@ -28,7 +28,7 @@ import org.chenillekit.access.utils.RootUser;
  * @version $Id$
  */
 @SubModule(ChenilleKitAccessModule.class)
-public class TestAppModule
+public class TestAppWithRootModule
 {
     public static void contributeASOs(MappedConfiguration<Class, ApplicationStateContribution> configuration)
     {

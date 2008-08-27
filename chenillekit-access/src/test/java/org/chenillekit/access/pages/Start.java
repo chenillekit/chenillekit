@@ -69,6 +69,7 @@ public class Start
 
     private static final List<Item> ITEMS = CollectionFactory.newList(
             new Item("RestrictedPage", "Restricted", "tests Restricted page"),
+            new Item("UnRestrictedPage", "UnRestricted", "tests UnRestricted page"),
             new Item("NotEnoughRights", "NotEnoughRights", "test Restricted page without rights to access")
     );
 
