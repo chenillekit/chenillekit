@@ -95,6 +95,8 @@ public class AccessValidatorImpl implements AccessValidator
 
         if (pagePrivate != null)
         {
+        	canAccess = false;
+        	
             WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
             if (webSessionUser != null)
             {

@@ -24,4 +24,10 @@ import org.chenillekit.access.annotations.Restricted;
 @Restricted(roles = 100)
 public class NotEnoughRights
 {
+	
+	
+	void onActionFromNoway()
+	{
+		throw new RuntimeException("CANNOT CALL THIS METHOD!");
+	}
 }

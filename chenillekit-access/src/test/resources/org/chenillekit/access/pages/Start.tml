@@ -33,6 +33,8 @@
     </li>
 </ul>
 
+<t:actionlink t:id="invalidate">Invalidate</t:actionlink>]
+
 <span id="no_access">no access</span>
 
 </body>

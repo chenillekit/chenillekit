@@ -35,7 +35,6 @@ public class TestAccessIntegration extends AbstractIntegrationTestSuite
     @Test
     public void test_restricted()
     {
-        open(BASE_URL);
         start("Restricted");
         waitForPageToLoad("5000");
 
@@ -45,8 +44,26 @@ public class TestAccessIntegration extends AbstractIntegrationTestSuite
     @Test
     public void test_not_enough_rights()
     {
-        open(BASE_URL);
         start("NotEnoughRights");
+        waitForPageToLoad("5000");
+
+        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
+    }
+    
+    @Test
+    public void test_not_enough_rights_action_link()
+    {
+        start("NotEnoughRights.noway");
+        waitForPageToLoad("5000");
+
+        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
+//        assertEquals(getText("xpath=//span[@id='has_access']"), "Don't have access");
+    }
+    
+    @Test
+    public void test_invalidate_session_user_rights()
+    {
+        start("Invalidate", "Restricted");
         waitForPageToLoad("5000");
 
         assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
