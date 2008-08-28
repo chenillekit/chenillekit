@@ -56,7 +56,10 @@ public class AccessValidatorImpl implements AccessValidator
 
 
     /**
-     * (non-Javadoc)
+     * we check for page/component and event type access rights.
+     * <p/>
+     * first we check the access rights for the requested page,
+     * if access granted, we step down to the next level, the components.
      *
      * @see org.chenillekit.access.services.AccessValidator#hasAccess(java.lang.String, java.lang.String, java.lang.String)
      */
@@ -82,6 +85,9 @@ public class AccessValidatorImpl implements AccessValidator
                     {
                         if (logger.isInfoEnabled())
                             logger.info("found restricted component '{}' in page '{}'", field.getName(), pageName);
+
+                        Component pageComponent = page.getComponentResources().getEmbeddedComponent(field.getName());
+                        System.err.println("pageComponent: " + pageComponent.getComponentResources().getCompleteId());
                     }
                 }
             }
