@@ -66,11 +66,11 @@ public class TestAppWithRootModule
     /**
      * @param configuration
      */
-    public static void contributeAuthService(MappedConfiguration<String, PasswordEncoder> configuration)
+    public static void contributePasswordEncoder(MappedConfiguration<String, Class> configuration)
     {
-//        configuration.add("chenillekit-access-passwordencoder", new PlaintextPasswordEncoder());
-//        configuration.add("chenillekit-access-passwordencoder", new Md5PasswordEncoder());
-        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, new ShaPasswordEncoder());
+//        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, PlaintextPasswordEncoder.class);
+//        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, Md5PasswordEncoder.class);
+        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, ShaPasswordEncoder.class);
     }
 
 }

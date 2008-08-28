@@ -40,5 +40,8 @@ public class ChenilleKitAccessConstants
     public static final String PRIVATE_PAGE_ROLE = "chenillekit.access-private-page-role";
     public static final String PRIVATE_PAGE_GROUP = "chenillekit.access-private-page-group";
 
+    /**
+     * contribution key for password encoder.
+     */
     public static final String PASSWORD_ENCODER = "chenillekit.access-passwordencoder";
 }

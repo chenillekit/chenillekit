@@ -23,6 +23,7 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Marker;
+import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentEventRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
@@ -51,9 +52,45 @@ public class ChenilleKitAccessModule
         binder.bind(PageRenderRequestFilter.class, PageRenderAccessController.class).withMarker(ChenilleKitAccess.class);
     }
 
-    public static AuthService buildAuthService(Logger logger, Map<String, PasswordEncoder> contribution)
+    /**
+     * @param configuration
+     */
+    /**
+     * instantiate the contributed password encoder.
+     *
+     * @param contribution
+     *
+     * @return password encoder
+     */
+    public static PasswordEncoder buildPasswordEncoder(Map<String, Class> contribution)
     {
-        PasswordEncoder passwordEncoder = contribution.get(ChenilleKitAccessConstants.PASSWORD_ENCODER);
+        try
+        {
+            Class encoderClass = contribution.get(ChenilleKitAccessConstants.PASSWORD_ENCODER);
+            Defense.notNull(encoderClass, ChenilleKitAccessConstants.PASSWORD_ENCODER);
+
+            return (PasswordEncoder) contribution.get(ChenilleKitAccessConstants.PASSWORD_ENCODER).newInstance();
+        }
+        catch (InstantiationException e)
+        {
+            throw new RuntimeException(e);
+        }
+        catch (IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * build the authentificate service.
+     *
+     * @param logger          system logger
+     * @param passwordEncoder the password encoder
+     *
+     * @return
+     */
+    public static AuthService buildAuthService(Logger logger, PasswordEncoder passwordEncoder)
+    {
         return new AuthServiceImpl(logger, passwordEncoder);
     }
 
