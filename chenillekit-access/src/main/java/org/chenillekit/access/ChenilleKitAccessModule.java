@@ -31,10 +31,12 @@ import org.apache.tapestry5.services.PageRenderRequestFilter;
 
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.services.AccessValidator;
+import org.chenillekit.access.services.AuthService;
+import org.chenillekit.access.services.PasswordEncoder;
 import org.chenillekit.access.services.impl.AccessValidatorImpl;
+import org.chenillekit.access.services.impl.AuthServiceImpl;
 import org.chenillekit.access.services.impl.ComponentEventAccessController;
 import org.chenillekit.access.services.impl.PageRenderAccessController;
-import org.chenillekit.access.utils.WebSessionUser;
 import org.slf4j.Logger;
 
 /**
@@ -47,7 +49,12 @@ public class ChenilleKitAccessModule
     {
         binder.bind(ComponentEventRequestFilter.class, ComponentEventAccessController.class).withMarker(ChenilleKitAccess.class);
         binder.bind(PageRenderRequestFilter.class, PageRenderAccessController.class).withMarker(ChenilleKitAccess.class);
+    }
 
+    public static AuthService buildAuthService(Logger logger, Map<String, PasswordEncoder> contribution)
+    {
+        PasswordEncoder passwordEncoder = contribution.get("chenillekit-access-passwordencoder");
+        return new AuthServiceImpl(logger, passwordEncoder);
     }
 
     @Marker(ChenilleKitAccess.class)

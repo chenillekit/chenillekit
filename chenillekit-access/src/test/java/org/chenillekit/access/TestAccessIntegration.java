@@ -14,6 +14,9 @@
 
 package org.chenillekit.access;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.test.PageTester;
@@ -83,5 +86,20 @@ public class TestAccessIntegration extends Assert
 
         Element element2 = doc.getElementById("simpleTextField2");
         assertNotNull(element2);
+    }
+
+    @Test
+    public void test_login()
+    {
+        Document doc = pageTester.renderPage("NotEnoughRights");
+
+        Element element = doc.getElementById("login_message");
+        assertEquals(element.getChildMarkup(), "Login Page");
+
+        Element form = doc.getElementById("form");
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("inputUserName", "homburgs");
+        fieldValues.put("inputPassword", "banane");
+        doc = pageTester.submitForm(form, fieldValues);
     }
 }
