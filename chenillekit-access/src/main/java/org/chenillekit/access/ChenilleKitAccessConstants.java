@@ -27,7 +27,7 @@ package org.chenillekit.access;
 public class ChenilleKitAccessConstants
 {
 	public static final String WEB_USER_IMPLEMENTATION = "webuser.implementation";
-	
+
     /**
      * The logical name of the login page
      */
@@ -40,4 +40,5 @@ public class ChenilleKitAccessConstants
     public static final String PRIVATE_PAGE_ROLE = "chenillekit.access-private-page-role";
     public static final String PRIVATE_PAGE_GROUP = "chenillekit.access-private-page-group";
 
+    public static final String PASSWORD_ENCODER = "chenillekit.access-passwordencoder";
 }

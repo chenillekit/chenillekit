@@ -53,7 +53,7 @@ public class ChenilleKitAccessModule
 
     public static AuthService buildAuthService(Logger logger, Map<String, PasswordEncoder> contribution)
     {
-        PasswordEncoder passwordEncoder = contribution.get("chenillekit-access-passwordencoder");
+        PasswordEncoder passwordEncoder = contribution.get(ChenilleKitAccessConstants.PASSWORD_ENCODER);
         return new AuthServiceImpl(logger, passwordEncoder);
     }
 

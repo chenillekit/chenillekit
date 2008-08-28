@@ -70,7 +70,7 @@ public class TestAppWithRootModule
     {
 //        configuration.add("chenillekit-access-passwordencoder", new PlaintextPasswordEncoder());
 //        configuration.add("chenillekit-access-passwordencoder", new Md5PasswordEncoder());
-        configuration.add("chenillekit-access-passwordencoder", new ShaPasswordEncoder());
+        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, new ShaPasswordEncoder());
     }
 
 }
