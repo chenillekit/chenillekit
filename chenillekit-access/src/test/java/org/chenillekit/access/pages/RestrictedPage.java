@@ -15,6 +15,10 @@
 
 package org.chenillekit.access.pages;
 
+import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.ioc.annotations.Inject;
+
+import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 
 /**
@@ -24,4 +28,11 @@ import org.chenillekit.access.annotations.Restricted;
 @Restricted(roles = {1, 2})
 public class RestrictedPage
 {
+    @Inject
+    private ComponentResources resources;
+
+    public String getRoleMetaValue()
+    {
+        return resources.getComponentModel().getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE);
+    }
 }

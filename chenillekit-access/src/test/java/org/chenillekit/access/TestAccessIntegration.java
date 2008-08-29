@@ -49,7 +49,20 @@ public class TestAccessIntegration extends Assert
 
         doc = pageTester.clickLink(link);
         Element element = doc.getElementById("has_access");
+
         assertEquals(element.getChildMarkup(), "Has Access");
+    }
+
+    @Test
+    public void test_restricted_rolevalue()
+    {
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("Restricted");
+
+        doc = pageTester.clickLink(link);
+        Element element = doc.getElementById("role_meta_value");
+
+        assertEquals(element.getChildMarkup(), "1,2");
     }
 
     @Test
