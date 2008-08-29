@@ -25,7 +25,6 @@
 
 <span id="has_access">Don't have access</span>
 
-<t:actionlink t:id="noway">CannotClick</t:actionlink>
 
 </body>
 </html>

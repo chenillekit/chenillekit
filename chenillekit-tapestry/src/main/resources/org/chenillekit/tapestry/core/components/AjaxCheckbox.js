@@ -24,7 +24,7 @@ Ck.AjaxCheckbox.prototype = {
     },
     _click: function(theEvent)
     {
-        new Ajax.Request(this.reBuildURL(this.requestUrl, $(this.elementId).checked), {
+        new Ajax.Request(this.requestUrl + "/" + ($(this.elementId).getValue() == null ? "false" : "true"), {
             method: 'post',
             onFailure: function(t)
             {
@@ -41,14 +41,14 @@ Ck.AjaxCheckbox.prototype = {
             }.bind(this)
         });
     },
-    reBuildURL:function(url, checked)
+    reBuildURL:function(url, checkboxValue)
     {
         var newUrl = "";
         var result = url.split(/[\?;&%]/);
         for (var i = 0; i < result.length; i++)
         {
             if (i == 0)
-                newUrl = result[i] + "/" + checked;
+                newUrl = result[i] + "/" + (checkboxValue == null ? "false" : "true");
             else
                 newUrl += "?" + result[i];
         }

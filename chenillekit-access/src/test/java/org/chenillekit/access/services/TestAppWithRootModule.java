@@ -1,15 +1,15 @@
 /*
- * Apache License
- * Version 2.0, January 2004
- * http://www.apache.org/licenses/
+ *  Apache License
+ *  Version 2.0, January 2004
+ *  http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ *  Copyright 2008 by chenillekit.org
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  */
 
 package org.chenillekit.access.services;
@@ -21,6 +21,7 @@ import org.apache.tapestry5.services.ApplicationStateCreator;
 
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
+import org.chenillekit.access.services.impl.ShaPasswordEncoder;
 import org.chenillekit.access.utils.RootUser;
 
 /**
@@ -28,7 +29,7 @@ import org.chenillekit.access.utils.RootUser;
  * @version $Id$
  */
 @SubModule(ChenilleKitAccessModule.class)
-public class TestAppModule
+public class TestAppWithRootModule
 {
     public static void contributeASOs(MappedConfiguration<Class, ApplicationStateContribution> configuration)
     {
@@ -61,4 +62,15 @@ public class TestAppModule
     {
         configuration.add(ChenilleKitAccessConstants.LOGIN_PAGE, "login");
     }
+
+    /**
+     * @param configuration
+     */
+    public static void contributePasswordEncoder(MappedConfiguration<String, Class> configuration)
+    {
+//        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, PlaintextPasswordEncoder.class);
+//        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, Md5PasswordEncoder.class);
+        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, ShaPasswordEncoder.class);
+    }
+
 }

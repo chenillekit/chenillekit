@@ -10,31 +10,21 @@
   ~ You may obtain a copy of the License at
   ~
   ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
   -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 <head>
-    <title>Login Page</title>
+    <title>UnRestricted Page</title>
 </head>
 
 <body>
 
-<span id="login_message">Login Page</span>
+<span id="has_access">everybody has access</span>
 
-<t:form action="#">
-    <t:errors/>
-    <br/>
-    <label>Username</label>
-    <input t:id="inputUserName" type="text"/>
-    <br/>
-    <label>Password</label>
-    <input t:id="inputPassword" type="password"/>
-    <br/>
-    <input type="submit"/>
-</t:form>
 
 </body>
 </html>

@@ -23,7 +23,7 @@ package org.chenillekit.access.utils;
  * in. Typically the final user want to extend this one.
  *
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
- * @version $Id: WebUser.java 88 2008-06-16 16:43:40Z homburgs $
+ * @version $Id$
  */
 
 public class RootUser implements WebSessionUser
@@ -39,7 +39,7 @@ public class RootUser implements WebSessionUser
     {
         this.userId = 1;
         this.name = "root";
-        this.roles = new int[]{1,2,3};
+        this.roles = new int[]{1,2};
         this.groups = new String[]{"superuser"};
     }
 

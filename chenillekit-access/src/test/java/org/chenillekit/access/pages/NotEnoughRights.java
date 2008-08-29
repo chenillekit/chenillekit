@@ -21,13 +21,7 @@ import org.chenillekit.access.annotations.Restricted;
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-@Restricted(roles = 100)
+@Restricted(roles = {3})
 public class NotEnoughRights
 {
-	
-	
-	void onActionFromNoway()
-	{
-		throw new RuntimeException("CANNOT CALL THIS METHOD!");
-	}
 }

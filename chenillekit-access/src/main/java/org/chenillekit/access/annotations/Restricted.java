@@ -27,12 +27,12 @@ import java.lang.annotation.Target;
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Restricted
 {
-    int[] roles() default 1;
+    int[] roles();
 
-    String[] groups() default "N/A";
+    String[] groups() default {};
 }

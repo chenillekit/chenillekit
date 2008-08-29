@@ -19,24 +19,19 @@ import java.util.List;
 
 import org.apache.tapestry5.annotations.ApplicationState;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.Session;
+
 import org.chenillekit.access.utils.RootUser;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
- * @version $Id: Start.java 54 2008-05-25 21:42:29Z homburgs@gmail.com $
+ * @version $Id$
  */
 public class Start
 {
     @ApplicationState
     @Property
     private RootUser rootUser;
-    
-    @Inject
-    private Request request;
 
     public static class Item implements Comparable<Item>
     {
@@ -74,6 +69,8 @@ public class Start
 
     private static final List<Item> ITEMS = CollectionFactory.newList(
             new Item("RestrictedPage", "Restricted", "tests Restricted page"),
+            new Item("UnRestrictedPage", "UnRestricted", "tests UnRestricted page"),
+            new Item("RestrictedTextField", "RestrictedTextField", "tests RestrictedTextField page"),
             new Item("NotEnoughRights", "NotEnoughRights", "test Restricted page without rights to access")
     );
 
@@ -83,16 +80,6 @@ public class Start
     }
 
     private Item _item;
-    
-    void onActionFromInvalidate()
-    {
-    	Session session = request.getSession(false);
-    	if (session != null)
-    	{
-    		session.invalidate();
-    	}
-    }
-    
 
     public List<Item> getItems()
     {

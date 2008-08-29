@@ -24,7 +24,19 @@
         </layout>
     </appender>
 
-    <category name="org.chenillekit.access.services.impl.AccessController">
+    <category name="org.chenillekit.access.ChenilleKitAccessModule.AccessValidator">
+        <priority value="debug"/>
+    </category>
+
+    <category name="org.chenillekit.access.services.TestAppWithRootModule">
+        <priority value="debug"/>
+    </category>
+
+    <category name="org.chenillekit.access.pages.Login">
+        <priority value="info"/>
+    </category>
+
+    <category name="org.chenillekit.access.ChenilleKitAccessModule.AuthService">
         <priority value="trace"/>
     </category>
 

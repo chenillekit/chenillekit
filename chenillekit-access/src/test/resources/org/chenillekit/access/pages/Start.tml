@@ -28,12 +28,10 @@
 
 <ul>
     <li t:type="loop" source="items" value="item">
-        <t:pagelink page="prop:item.pageName">${item.label}</t:pagelink>
+        <t:pagelink id="${item.label}" page="prop:item.pageName">${item.label}</t:pagelink>
         -- ${item.description}
     </li>
 </ul>
-
-<t:actionlink t:id="invalidate">Invalidate</t:actionlink>]
 
 <span id="no_access">no access</span>
 

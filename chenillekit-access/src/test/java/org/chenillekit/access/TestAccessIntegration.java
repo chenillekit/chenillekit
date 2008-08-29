@@ -14,58 +14,92 @@
 
 package org.chenillekit.access;
 
-import org.apache.tapestry5.test.AbstractIntegrationTestSuite;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.tapestry5.dom.Document;
+import org.apache.tapestry5.dom.Element;
+import org.apache.tapestry5.test.PageTester;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
- * @version $Id: TestComponentIntegration.java 54 2008-05-25 21:42:29Z homburgs@gmail.com $
+ * @version $Id$
  */
-public class TestAccessIntegration extends AbstractIntegrationTestSuite
+public class TestAccessIntegration extends Assert
 {
-    /**
-     * Initializes the suite using {@link #DEFAULT_WEB_APP_ROOT}.
-     */
-    public TestAccessIntegration()
+    private PageTester pageTester;
+
+    @BeforeTest
+    public void initializeTests()
     {
-        super("src/test/webapp");
+        String appPackage = "org.chenillekit.access";
+        String appName = "TestAppWithRoot";
+        pageTester = new PageTester(appPackage, appName, "src/test/webapp");
     }
 
     @Test
     public void test_restricted()
     {
-        start("Restricted");
-        waitForPageToLoad("5000");
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("Restricted");
 
-        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
+        doc = pageTester.clickLink(link);
+        Element element = doc.getElementById("has_access");
+        assertEquals(element.getChildMarkup(), "Has Access");
     }
 
     @Test
-    public void test_not_enough_rights()
+    public void test_unRestricted()
     {
-        start("NotEnoughRights");
-        waitForPageToLoad("5000");
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("UnRestricted");
 
-        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
+        doc = pageTester.clickLink(link);
+        Element element = doc.getElementById("has_access");
+        assertEquals(element.getChildMarkup(), "everybody has access");
     }
-    
-    @Test
-    public void test_not_enough_rights_action_link()
-    {
-        start("NotEnoughRights.noway");
-        waitForPageToLoad("5000");
 
-        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
-//        assertEquals(getText("xpath=//span[@id='has_access']"), "Don't have access");
+    @Test
+    public void test_notEnoughRights()
+    {
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("NotEnoughRights");
+
+        doc = pageTester.clickLink(link);
+        Element element = doc.getElementById("login_message");
+        assertEquals(element.getChildMarkup(), "Login Page");
     }
-    
-    @Test
-    public void test_invalidate_session_user_rights()
-    {
-        start("Invalidate", "Restricted");
-        waitForPageToLoad("5000");
 
-        assertEquals(getText("xpath=//span[@id='login_message']"), "Login Page");
+    @Test
+    public void test_restrictedTextField()
+    {
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("RestrictedTextField");
+
+        doc = pageTester.clickLink(link);
+        Element element1 = doc.getElementById("simpleTextField1");
+        assertNotNull(element1);
+
+        Element element2 = doc.getElementById("simpleTextField2");
+        assertNotNull(element2);
+    }
+
+    @Test
+    public void test_login()
+    {
+        Document doc = pageTester.renderPage("NotEnoughRights");
+
+        Element element = doc.getElementById("login_message");
+        assertEquals(element.getChildMarkup(), "Login Page");
+
+        Element form = doc.getElementById("form");
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("inputUserName", "homburgs");
+        fieldValues.put("inputPassword", "banane");
+        doc = pageTester.submitForm(form, fieldValues);
     }
 }

@@ -10,14 +10,15 @@
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
+ *
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.pages;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
+ * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-public class ChenilleKitAccessTestModule
+public class UnRestrictedPage
 {
 }
