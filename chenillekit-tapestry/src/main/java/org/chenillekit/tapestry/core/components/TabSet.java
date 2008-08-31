@@ -38,57 +38,57 @@ import org.apache.tapestry5.ioc.internal.util.InternalUtils;
  * if not found the panel id inserted instead.
  *
  * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: TabSet.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"TabSet.js"})
+@IncludeJavaScriptLibrary({"../Chenillekit.js", "TabSet.js"})
 @IncludeStylesheet(value = {"TabSet.css"})
 public class TabSet implements ClientElement
 {
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     /**
      * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
      * times, a suffix will be appended to the to id to ensure uniqueness.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * list of div id's (for each panel).
      */
     @Parameter(required = true, defaultPrefix = "list")
-    private List<String> _panelIds;
+    private List<String> panelIds;
 
     /**
      * set the panel with given id as activated.
      */
     @Parameter
-    private String _activePanelId;
+    private String activePanelId;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private RenderSupport renderSupport;
 
-    private String _assignedClientId;
+    private String assignedClientId;
 
     void setupRender()
     {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        assignedClientId = renderSupport.allocateClientId(clientId);
 
-        if (_activePanelId == null)
-            _activePanelId = _panelIds.get(0);
+        if (activePanelId == null)
+            activePanelId = panelIds.get(0);
     }
 
     void beginRender(MarkupWriter writer)
     {
         writer.element("div", "id", getClientId(), "class", "ck_tab-set");
 
-        for (String blockId : _panelIds)
+        for (String blockId : panelIds)
         {
-            Link link = _resources.createEventLink(blockId);
+            Link link = resources.createEventLink(blockId);
 
             writer.element("div", "id", "panel_" + blockId,
-                           "class", "ck_tab-set-panel" + (_activePanelId.equalsIgnoreCase(blockId) ? " activated" : ""));
+                           "class", "ck_tab-set-panel" + (activePanelId.equalsIgnoreCase(blockId) ? " activated" : ""));
             writer.write(getPanelTitle(blockId));
             writer.end();
         }
@@ -98,19 +98,19 @@ public class TabSet implements ClientElement
 
     void afterRender(MarkupWriter writer)
     {
-        Link link = _resources.createEventLink("action");
+        Link link = resources.createEventLink("action");
         writer.end(); // TabContent
         writer.end(); // TabGroup
-        _pageRenderSupport.addScript("new TabSet('%s', '%s', '%s','%s')", getClientId(),
-                                     InternalUtils.join(_panelIds, ","),
-                                     _activePanelId, link.toAbsoluteURI());
+        renderSupport.addScript("new Ck.TabSet('%s', '%s', '%s','%s')", getClientId(),
+                                     InternalUtils.join(panelIds, ","),
+                                     activePanelId, link.toAbsoluteURI());
     }
 
     private String getPanelTitle(String blockId)
     {
         String panelTitle = blockId;
-        if (_resources.getContainerResources().getMessages().contains("label-" + blockId))
-            panelTitle = _resources.getContainerResources().getMessages().get("label-" + blockId);
+        if (resources.getContainerResources().getMessages().contains("label-" + blockId))
+            panelTitle = resources.getContainerResources().getMessages().get("label-" + blockId);
 
         return panelTitle;
     }
@@ -122,6 +122,6 @@ public class TabSet implements ClientElement
      */
     public String getClientId()
     {
-        return _assignedClientId;
+        return assignedClientId;
     }
 }
