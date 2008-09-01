@@ -1,5 +1,5 @@
 Created-By: Apache Maven
 Manifest-Version: 1.0
 Tapestry-Module-Classes: org.chenillekit.tapestry.core.ChenilleKitCore
- Module
+ Module,org.chenillekit.image.ChenilleKitImageModule
 

@@ -23,7 +23,9 @@ import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.internal.services.ContextResource;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
+import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
+import org.apache.tapestry5.services.AssetFactory;
 import org.apache.tapestry5.services.Context;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
@@ -31,6 +33,9 @@ import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 
 import org.chenillekit.demo.data.Track;
+import org.chenillekit.tapestry.core.services.ThumbNailService;
+import org.chenillekit.tapestry.core.services.impl.ThumbNailServiceImpl;
+import org.chenillekit.image.services.ImageService;
 import org.slf4j.Logger;
 
 /**
@@ -161,4 +166,11 @@ public class DemoModule
         configuration.add("Timing", filter);
     }
 
+    public static ThumbNailService buildThumbnailService(Logger logger,
+                                                         ImageService imageService,
+                                                         Context context,
+                                                         @InjectService("ContextAssetFactory")AssetFactory assetFactory)
+    {
+        return new ThumbNailServiceImpl(logger, imageService, context, assetFactory);
+    }
 }
