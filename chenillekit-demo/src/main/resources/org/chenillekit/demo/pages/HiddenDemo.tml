@@ -31,8 +31,22 @@
                         <legend>code snippet</legend>
                         <pre>
                             <![CDATA[
-@Component(parameters = {"subjects=subjects", "details=details"})
-private Accordion accordion1;
+@Property
+@Persist
+private Track hiddenValue;
+
+
+@Component(parameters = {"value=hiddenValue", "translate=prop:trackTranslator"})
+private Hidden hiddenField;
+
+public FieldTranslator getTrackTranslator()
+{
+    return new FieldTranslator<Track>()
+    {
+        ...
+    };
+}
+
 ]]>
                         </pre>
                     </fieldset>
@@ -56,21 +70,6 @@ private Accordion accordion1;
                 </div>
                 <div class="yui-u">
 
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"subjects=subjects", "details=details",
-                         "duration=literal:1.0"})
-private Accordion accordion2;
-]]>
-                        </pre>
-                    </fieldset>
-
-                    <!--<fieldset class="sample">-->
-                        <!--<legend>sample</legend>-->
-                        <!--<div t:id="accordion2" style="width: 350px;"/>-->
-                    <!--</fieldset>-->
                 </div>
             </div>
 
