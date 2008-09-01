@@ -34,6 +34,13 @@
                             <![CDATA[
 @Component(parameters = {"type=button"})
 private Button button1;
+
+
+@OnEvent(component = "button1", value = "clicked")
+void onButton1Clicked()
+{
+    lastEventMessage = "Button1 has been clicked!";
+}
 ]]>
                         </pre>
                     </fieldset>
