@@ -217,4 +217,15 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertTrue(this.isVisible("xpath=//div[@id='stuff2']"));
         assertFalse(this.isVisible("xpath=//div[@id='stuff1']"));
     }
+
+    @Test
+    public void test_slideshow()
+    {
+        open(BASE_URL);
+
+        start("SlideShow");
+        waitForPageToLoad("5000");
+
+        assertTrue(this.isVisible("xpath=//img[@class='ck-slide']"));
+    }
 }

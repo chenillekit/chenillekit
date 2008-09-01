@@ -1,0 +1,28 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd" class="ck-slideshow" id="${clientId}">
+    <div class="ck-slideshow-slides">
+        <t:body/>
+    </div>
+    <!--
+        TODO display conditionally
+        TODO control IDs can't be static
+    -->
+    <div class="ck-slideshow-ctls" style="display: none;">
+        <a href="#" class="ss-ctl-prev"> &lt; prev </a>
+        <a href="#" class="ss-ctl-play_pause"> || play/pause </a>
+        <a href="#" class="ss-ctl-next"> &gt; next </a>
+    </div>
+</div>

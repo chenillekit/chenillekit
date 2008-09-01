@@ -70,8 +70,8 @@ Ck.SlideShow.Txs.Grow.prototype = {
 
 /* Prebuilt transitions for easy use. */
 Ck.SlideShow.Tx = {};
-Ck.SlideShow.Tx.Crossfade = new SlideShow.Txs.Crossfade({ duration: 1 });
-Ck.SlideShow.Tx.Grow = new SlideShow.Txs.Grow({ duration: 1 });
+Ck.SlideShow.Tx.Crossfade = new Ck.SlideShow.Txs.Crossfade({ duration: 1 });
+Ck.SlideShow.Tx.Grow = new Ck.SlideShow.Txs.Grow({ duration: 1 });
 Ck.SlideShow.Tx.Abrupt = {
     transition: function(from, to)
     {
@@ -106,7 +106,7 @@ Ck.SlideShow.prototype = {
         this.slides = $(e).firstDescendant().childElements();
         this.slides.each(function(_slide)
         {
-            _slide.hide().addClassName('gc-slide');
+            _slide.hide().addClassName('ck-slide');
         });
         this.slideIndex = 0;
         this.loop = options.loop;
@@ -197,7 +197,7 @@ Ck.SlideShowControls.prototype = {
         this.player = e;
 
 		//TODO resolve the control element in a saner way (based on SS id?)
-        var ctlE = $$('.gc-slideshow-ctls')[0];
+        var ctlE = $$('.ck-slideshow-ctls')[0];
         Event.observe($(e.element), 'mouseover', function()
         {
             ctlE.show()
