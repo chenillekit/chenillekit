@@ -204,17 +204,17 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertEquals(getText("xpath=//div[@id='result1']"), "GREEN");
     }
 
-//    @Test
-//    public void test_tabset()
-//    {
-//        open(BASE_URL);
-//
-//        start("TabSet");
-//        waitForPageToLoad("5000");
-//
-//        click("xpath=//div[@id='panel_stuff2']");
-//
-//        assertTrue(this.isVisible("xpath=//div[@id='stuff2']"));
-//        assertFalse(this.isVisible("xpath=//div[@id='stuff1']"));
-//    }
+    @Test
+    public void test_tabset()
+    {
+        open(BASE_URL);
+
+        start("TabSet");
+        waitForPageToLoad("5000");
+
+        click("xpath=//div[@id='panel_stuff2']");
+
+        assertTrue(this.isVisible("xpath=//div[@id='stuff2']"));
+        assertFalse(this.isVisible("xpath=//div[@id='stuff1']"));
+    }
 }
