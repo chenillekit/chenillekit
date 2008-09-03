@@ -22,9 +22,9 @@
 
 <body>
 
-in place checkbox <input t:id="inPlaceCheckbox" type="checkbox"/>
+in place checkbox <span t:id="inPlaceCheckbox"/>
 <br/>
-in place edit <input t:id="inPlaceEditor" type="text"/>
+<!--in place edit <input t:id="inPlaceEditor" type="text"/>-->
 <br/>
 
 <p>
@@ -34,7 +34,7 @@ in place edit <input t:id="inPlaceEditor" type="text"/>
 <script type="text/javascript">
     function onCheckboxClicked(response)
     {
-        if (response.evalJSON().value == "true")
+        if (response.evalJSON().value)
             $('inPlaceCheckboxValue').update("checked");
         else
             $('inPlaceCheckboxValue').update("un-checked");

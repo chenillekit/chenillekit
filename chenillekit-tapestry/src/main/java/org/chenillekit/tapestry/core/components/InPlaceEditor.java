@@ -14,10 +14,11 @@
 
 package org.chenillekit.tapestry.core.components;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import org.apache.tapestry5.Binding;
 import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.Link;
@@ -27,12 +28,11 @@ import org.apache.tapestry5.StreamResponse;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.util.TextStreamResponse;
-
-import org.chenillekit.tapestry.core.base.AbstractAjaxField;
 
 
 /**
@@ -41,10 +41,20 @@ import org.chenillekit.tapestry.core.base.AbstractAjaxField;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
+@SupportsInformalParameters
 @IncludeJavaScriptLibrary(value = {"${tapestry.scriptaculous}/controls.js"})
-public class InPlaceEditor extends AbstractAjaxField
+public class InPlaceEditor implements ClientElement
 {
     public final static String SAVE_EVENT = "save";
+
+    /**
+     * The id used to generate a page-unique client-side identifier for the component. If a
+     * component renders multiple times, a suffix will be appended to the to id to ensure
+     * uniqueness. The uniqued value may be accessed via the
+     * {@link #getClientId() clientId property}.
+     */
+    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+    private String clientId;
 
     /**
      * The value to be read and updated. This is not necessarily a string, a translator may be provided to convert
@@ -75,20 +85,18 @@ public class InPlaceEditor extends AbstractAjaxField
     private Messages messages;
 
     @Environmental
-    private RenderSupport pageRenderSupport;
+    private RenderSupport renderSupport;
 
     @Inject
     private Request request;
 
-    private Object[] contextArray;
+    private String assignedClientId;
 
-    Binding defaultValue()
-    {
-        return createDefaultParameterBinding("value");
-    }
+    private Object[] contextArray;
 
     void setupRender()
     {
+        assignedClientId = renderSupport.allocateClientId(clientId);
         contextArray = context == null ? new Object[0] : context.toArray();
     }
 
@@ -105,34 +113,37 @@ public class InPlaceEditor extends AbstractAjaxField
     void afterRender(MarkupWriter writer)
     {
         writer.end();
-        pageRenderSupport.addScript("new Ajax.InPlaceEditor('%s', '%s', {cancelControl: 'button', cancelText: '%s', " +
-                "clickToEditText: '%s', savingText: '%s', okText: '%s', htmlResponse: true, size: %s, stripLoadedTextTags: true});",
-                                     getClientId(), getActionLink(),
-                                     messages.get("cancelbutton"),
-                                     messages.get("title"),
-                                     messages.get("saving"),
-                                     messages.get("savebutton"),
-                                     size);
-    }
 
-    public String getActionLink()
-    {
         Link link = resources.createEventLink(EventConstants.ACTION, contextArray);
-        return link.toAbsoluteURI();
+        renderSupport.addScript("new Ajax.InPlaceEditor('%s', '%s', {cancelControl: 'button', cancelText: '%s', " +
+                "clickToEditText: '%s', savingText: '%s', okText: '%s', htmlResponse: true, size: %s, stripLoadedTextTags: true});",
+                                getClientId(), link.toAbsoluteURI(),
+                                messages.get("cancelbutton"),
+                                messages.get("title"),
+                                messages.get("saving"),
+                                messages.get("savebutton"),
+                                size);
     }
 
-    StreamResponse onAction(String value)
+    StreamResponse onAction(String value) throws UnsupportedEncodingException
     {
         String valueText = request.getParameter("value");
-        if (valueText == null)
-            valueText = "";
 
         resources.triggerEvent(SAVE_EVENT, new Object[]{value, valueText}, null);
 
         if (valueText.length() == 0)
             valueText = messages.get("empty");
 
-        return new TextStreamResponse("text/html", valueText);
+        return new TextStreamResponse("text/html", new String(valueText.getBytes("UTF8")));
     }
 
+    /**
+     * Returns a unique id for the element. This value will be unique for any given rendering of a page. This value is
+     * intended for use as the id attribute of the client-side element, and will be used with any DHTML/Ajax related
+     * JavaScript.
+     */
+    public String getClientId()
+    {
+        return assignedClientId;
+    }
 }

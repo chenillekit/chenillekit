@@ -16,20 +16,21 @@ package org.chenillekit.tapestry.core.components;
 
 import java.util.List;
 
-import org.apache.tapestry5.Binding;
 import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.Mixin;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.SupportsInformalParameters;
+import org.apache.tapestry5.corelib.mixins.DiscardBody;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.Request;
-
-import org.chenillekit.tapestry.core.base.AbstractAjaxField;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * a "just in place" checkbox component that dont must emmbedded in a form.
@@ -38,18 +39,33 @@ import org.chenillekit.tapestry.core.base.AbstractAjaxField;
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
+@SupportsInformalParameters
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "InPlaceCheckbox.js"})
-public class InPlaceCheckbox extends AbstractAjaxField
+public class InPlaceCheckbox implements ClientElement
 {
-    public static final String EVENT_NAME = "checkboxclicked";
+    public static final String EVENT_NAME = "clicked";
 
-    @Inject
-    private Request request;
+    /**
+     * If true, then the field will render out with a disabled attribute (to turn off client-side
+     * behavior). Further, a disabled field ignores any value in the request when the form is
+     * submitted.
+     */
+    @Parameter(value = "false", defaultPrefix = BindingConstants.PROP)
+    private boolean disabled;
+
+    /**
+     * The id used to generate a page-unique client-side identifier for the component. If a
+     * component renders multiple times, a suffix will be appended to the to id to ensure
+     * uniqueness. The uniqued value may be accessed via the
+     * {@link #getClientId() clientId property}.
+     */
+    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+    private String clientId;
 
     /**
      * The value to read or update.
      */
-    @Parameter(required = true)
+    @Parameter(required = true, defaultPrefix = BindingConstants.PROP, allowNull = false)
     private boolean value;
 
     /**
@@ -60,11 +76,14 @@ public class InPlaceCheckbox extends AbstractAjaxField
     private String onCompleteCallback;
 
     /**
-     * The context for the link (optional parameter). This list of values will be converted into strings and included in
-     * the URI.
+     * the javascript callback function (optional).
+     * function has one parameter: the response text
      */
-    @Parameter(required = false)
-    private List context;
+    @Parameter(required = false, defaultPrefix = BindingConstants.PROP)
+    private List<?> context;
+
+    @Mixin
+    private DiscardBody discardBody;
 
     /**
      * For blocks, messages, crete actionlink, trigger event.
@@ -72,23 +91,19 @@ public class InPlaceCheckbox extends AbstractAjaxField
     @Inject
     private ComponentResources resources;
 
-
     /**
      * RenderSupport to get unique client side id.
      */
     @Inject
     private RenderSupport renderSupport;
 
+    private String assignedClientId;
 
     private Object[] contextArray;
 
-    Binding defaultValue()
-    {
-        return createDefaultParameterBinding("value");
-    }
-
     void setupRender()
     {
+        assignedClientId = renderSupport.allocateClientId(clientId);
         contextArray = context == null ? new Object[0] : context.toArray();
     }
 
@@ -102,7 +117,6 @@ public class InPlaceCheckbox extends AbstractAjaxField
     {
         writer.element("input",
                        "type", "checkbox",
-                       "name", getControlName(),
                        "id", getClientId(),
                        "checked", value ? "checked" : null);
 
@@ -118,6 +132,7 @@ public class InPlaceCheckbox extends AbstractAjaxField
     {
         writer.end(); // input
 
+        Link link = resources.createEventLink(EventConstants.ACTION);
         String ajaxString = "new Ck.InPlaceCheckbox('%s', '%s'";
 
         if (onCompleteCallback != null)
@@ -125,18 +140,23 @@ public class InPlaceCheckbox extends AbstractAjaxField
 
         ajaxString += ");";
 
-        renderSupport.addScript(ajaxString, getClientId(), getActionLink());
+        renderSupport.addScript(ajaxString, getClientId(), link.toAbsoluteURI());
     }
 
-    public String getActionLink()
+    JSONObject onAction(boolean value)
     {
-        Link link = resources.createEventLink(EventConstants.ACTION, contextArray);
-        return link.toAbsoluteURI();
+        Object[] eventContextArray = ArrayUtils.add(contextArray, value);
+        resources.triggerEvent(EVENT_NAME, eventContextArray, null);
+        return new JSONObject().put("value", value);
     }
 
-    JSONObject onAction(Object[] values)
+    /**
+     * Returns a unique id for the element. This value will be unique for any given rendering of a page. This value is
+     * intended for use as the id attribute of the client-side element, and will be used with any DHTML/Ajax related
+     * JavaScript.
+     */
+    public String getClientId()
     {
-        resources.triggerEvent(EVENT_NAME, values, null);
-        return new JSONObject().put("value", values[values.length - 1]);
+        return assignedClientId;
     }
 }

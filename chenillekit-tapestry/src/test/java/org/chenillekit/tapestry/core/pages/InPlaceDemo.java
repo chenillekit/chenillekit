@@ -18,7 +18,6 @@ import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
 
 import org.chenillekit.tapestry.core.components.InPlaceCheckbox;
-import org.chenillekit.tapestry.core.components.InPlaceEditor;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
@@ -32,9 +31,9 @@ public class InPlaceDemo
     @Component(parameters = {"value=inPlaceCheckboxValue", "onCompleteCallback=onCheckboxClicked"})
     private InPlaceCheckbox inPlaceCheckbox;
 
-    @Property
-    private String inPlaceEditorValue;
-
-    @Component(parameters = {"value=inPlaceEditorValue"})
-    private InPlaceEditor inPlaceEditor;
+//    @Property
+//    private String inPlaceEditorValue;
+//
+//    @Component(parameters = {"value=inPlaceEditorValue"})
+//    private InPlaceEditor inPlaceEditor;
 }
