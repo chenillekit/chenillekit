@@ -41,6 +41,9 @@ public class ButtonDemo
     @Component(parameters = {"type=button"})
     private Button button2;
 
+    @Component(parameters = {"type=page", "pageName=EditorDemo"})
+    private Button button3;
+
     @OnEvent(component = "button1", value = "clicked")
     void onButton1Clicked()
     {

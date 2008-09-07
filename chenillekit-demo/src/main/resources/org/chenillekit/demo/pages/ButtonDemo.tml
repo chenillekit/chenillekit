@@ -35,6 +35,8 @@
 @Component(parameters = {"type=button"})
 private Button button1;
 
+@Component(parameters = {"type=page", "pageName=EditorDemo"})
+private Button button3;
 
 @OnEvent(component = "button1", value = "clicked")
 void onButton1Clicked()
@@ -54,6 +56,10 @@ void onButton1Clicked()
                         <br/>
                         <button t:id="button2">
                             <img style="vertical-align:middle;" src="${asset:../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 2
+                        </button>
+                        <br/>
+                        <button t:id="button3">
+                            <img style="vertical-align:middle;" src="${asset:../assets/images/warning.gif}" alt="Image inside a button"/> This is a pagelink button
                         </button>
 
                         <p style="margin-top:30px;">

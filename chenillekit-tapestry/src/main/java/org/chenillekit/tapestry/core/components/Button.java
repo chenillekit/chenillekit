@@ -32,6 +32,9 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * Render a button tag element and bind to it's "click" event an event on the server side.
  * The event name is customizable and it defaults to "CLICKED".
+ * <p/>
+ * If button is typed as "page", you must fill the parameter "pageName" with an existing
+ * logical page name.
  *
  * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id: Button.java 682 2008-05-20 22:00:02Z homburgs $
@@ -45,6 +48,7 @@ public class Button implements ClientElement
     static final String BUTTON_TYPE = "button";
     static final String SUBMIT_TYPE = "submit";
     static final String CANCEL_TYPE = "cancel";
+    static final String PAGE_TYPE = "page";
 
     /**
      * type of button.
@@ -58,6 +62,12 @@ public class Button implements ClientElement
      */
     @Parameter(defaultPrefix = BindingConstants.LITERAL, value = CLICKED_EVENT)
     private String event;
+
+    /**
+     * The logical name of the page to link to.
+     */
+    @Parameter(defaultPrefix = BindingConstants.LITERAL, required = false)
+    private String pageName;
 
     /**
      * dis-/enable the button.
@@ -104,10 +114,21 @@ public class Button implements ClientElement
 
     void afterRender(MarkupWriter writer)
     {
-        if (!disabled && type.equalsIgnoreCase(BUTTON_TYPE))
+        if (!disabled && (type.equalsIgnoreCase(BUTTON_TYPE) || type.equalsIgnoreCase(PAGE_TYPE)))
         {
-            Link link = resources.createEventLink(event, contextArray);
-            renderSupport.addScript("new Ck.ButtonEvent('%s', '%s');", getClientId(), link.toAbsoluteURI());
+            Link link;
+
+            if (!type.equalsIgnoreCase(PAGE_TYPE))
+                link = resources.createEventLink(event, contextArray);
+            else
+            {
+                if (pageName == null)
+                    throw new RuntimeException("parameter 'pageName' can not be null for button typed page link");
+
+                link = resources.createPageLink(pageName, resources.isBound("context"), contextArray);
+            }
+            renderSupport.addScript("new Ck.ButtonEvent('%s', '%s');",
+                                    getClientId(), link.toAbsoluteURI());
         }
 
         // Close the button tag
