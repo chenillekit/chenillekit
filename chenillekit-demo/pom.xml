@@ -85,6 +85,17 @@
             <artifactId>groovy-all</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+
+        <dependency>
+          <groupId>xmlrpc</groupId>
+          <artifactId>xmlrpc-client</artifactId>
+          <version>3.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -160,7 +160,51 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- Logging. -->
+            <!--
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            ++ WE DONT NEED THIS (dependencies from other artifacts)
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>99.0-does-not-exist</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>avalon-framework</groupId>
+                <artifactId>avalon-framework</artifactId>
+                <version>99.0-does-not-exist</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>javassist</artifactId>
+                <version>99.0-does-not-exist</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>99.0-does-not-exist</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant-launcher</artifactId>
+                <version>99.0-does-not-exist</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!--
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            ++ Logging
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -179,7 +223,11 @@
                 <version>1.5.2</version>
             </dependency>
 
-            <!-- Testing. -->
+            <!--
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            ++ Testing
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
@@ -214,12 +262,6 @@
             </dependency>
 
             <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.1</version>
-            </dependency>
-
-            <dependency>
                 <groupId>hivemind</groupId>
                 <artifactId>hivemind</artifactId>
                 <version>1.1.1</version>
@@ -231,11 +273,11 @@
                 <version>2.0.8</version>
             </dependency>
 
-            <dependency>
-                <groupId>antlr</groupId>
-                <artifactId>antlr</artifactId>
-                <version>2.7.7</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>antlr</groupId>-->
+                <!--<artifactId>antlr</artifactId>-->
+                <!--<version>2.7.7</version>-->
+            <!--</dependency>-->
 
             <!--
             +++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -266,24 +308,6 @@
             +++++++++++++++++++++++++++++++++++++++++++++++++++++++
             -->
             <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate</artifactId>
-                <version>3.2.6.ga</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-annotations</artifactId>
-                <version>3.3.1.GA</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-commons-annotations</artifactId>
-                <version>3.3.0.ga</version>
-            </dependency>
-
-            <dependency>
                 <groupId>geronimo-spec</groupId>
                 <artifactId>geronimo-spec-jta</artifactId>
                 <version>1.0-M1</version>
@@ -295,6 +319,11 @@
                 <version>1.8.0.7</version>
             </dependency>
 
+            <!--
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            ++ OpenSymphony Quartz
+            +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
             <dependency>
                 <groupId>opensymphony</groupId>
                 <artifactId>quartz-all</artifactId>

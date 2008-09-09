@@ -32,7 +32,7 @@
                 </select>
                 <br/>
 
-                <div style="padding: 5px; margin-top:15px;border: 1px solid black;width: 30%; background-color: orange;">
+                <div style="padding: 5px; margin-top:15px;border: 1px solid black;width: 60%; background-color: orange;">
                     <pre id="scriptText">
                         <div t:id="outputScriptSource">jsdfjskla</div>
                     </pre>

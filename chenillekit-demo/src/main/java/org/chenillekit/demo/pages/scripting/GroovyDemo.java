@@ -18,12 +18,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.services.Context;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Mixins;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.annotations.Mixins;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.If;
 import org.apache.tapestry5.corelib.components.OutputRaw;
@@ -31,6 +33,7 @@ import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.corelib.components.Submit;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.util.EnumSelectModel;
 
@@ -46,6 +49,9 @@ public class GroovyDemo
 {
     @Inject
     private ScriptingService scriptingService;
+
+    @Inject
+    private Context context;
 
     @Inject
     private Messages messages;
@@ -88,10 +94,12 @@ public class GroovyDemo
      */
     public void onSuccess()
     {
+        Map<String, Object> scriptParameters = CollectionFactory.newMap();
+        scriptParameters.put("web_context", context);
         try
         {
             if (selectedScript != null)
-                scriptResult = scriptingService.eval("groovy", getScriptString(selectedScript.getName(), false));
+                scriptResult = scriptingService.eval("groovy", getScriptString(selectedScript.getName(), false), scriptParameters);
         }
         catch (RuntimeException ex)
         {

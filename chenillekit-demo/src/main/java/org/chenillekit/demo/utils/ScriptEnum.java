@@ -24,7 +24,8 @@ import java.util.Map;
  */
 public enum ScriptEnum
 {
-    GROOVY_FILELIST("filelist.groovy.txt");
+    GROOVY_FILELIST("filelist.groovy"),
+    GROOVY_READFILE("readfile.groovy");
 
     private static final Map<String, ScriptEnum> lookup = new HashMap<String, ScriptEnum>();
 
