@@ -13,42 +13,48 @@
  *
  */
 
-package org.chenillekit.demo.pages;
+package org.chenillekit.demo.pages.tapcomp;
+
+import java.util.Date;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.corelib.components.Form;
-import org.apache.tapestry5.json.JSONObject;
 
+import org.chenillekit.tapestry.core.components.DateTimeField;
 import org.chenillekit.demo.components.LeftSideMenu;
-import org.chenillekit.tapestry.core.components.AjaxCheckbox;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-public class AjaxCheckboxDemo
+public class DateTimeFieldDemo
 {
     @Persist
     @Property
-    private boolean selected = false;
+    private Date _actualDate1;
+
+    @Persist
+    @Property
+    private Date _actualDate2;
+
+    @Persist
+    @Property
+    private Date _actualDate3;
 
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
 
     @Component
-    private Form form;
+    private Form _form;
 
-    @Component(parameters = {"value=selected", "onCompleteCallback=completeCallback"})
-    private AjaxCheckbox ajaxCheckbox;
+    @Component(parameters = {"value=actualDate1", "datePattern=dd-MM-yyyy HH:mm"})
+    private DateTimeField _dateTimeField1;
 
-    @OnEvent(component = "ajaxCheckbox", value = "checkboxclicked")
-    public JSONObject onChangeEvent(boolean value)
-    {
-        JSONObject json = new JSONObject();
-        json.put("result", value);
-        return json;
-    }
+    @Component(parameters = {"value=actualDate2"})
+    private DateTimeField _dateTimeField2;
+
+    @Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=MM/dd/yyyy HH:mm"})
+    private DateTimeField _dateTimeField3;
 }

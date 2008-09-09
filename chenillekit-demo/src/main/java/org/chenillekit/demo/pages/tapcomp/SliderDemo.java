@@ -10,51 +10,41 @@
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  */
 
-package org.chenillekit.demo.pages;
-
-import java.util.Date;
+package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Form;
 
-import org.chenillekit.tapestry.core.components.DateTimeField;
 import org.chenillekit.demo.components.LeftSideMenu;
+import org.chenillekit.tapestry.core.components.Slider;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-public class DateTimeFieldDemo
+public class SliderDemo
 {
-    @Persist
-    @Property
-    private Date _actualDate1;
-
-    @Persist
-    @Property
-    private Date _actualDate2;
-
-    @Persist
-    @Property
-    private Date _actualDate3;
-
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
 
+    @Persist
+    @Property
+    private int slider1Value = 10;
+
+    @Persist
+    @Property
+    private float slider2Value = 12.4f;
+
     @Component
-    private Form _form;
+    private Form form1;
 
-    @Component(parameters = {"value=actualDate1", "datePattern=dd-MM-yyyy HH:mm"})
-    private DateTimeField _dateTimeField1;
+    @Component(parameters = {"value=slider1Value"})
+    private Slider slider1;
 
-    @Component(parameters = {"value=actualDate2"})
-    private DateTimeField _dateTimeField2;
-
-    @Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=MM/dd/yyyy HH:mm"})
-    private DateTimeField _dateTimeField3;
+    @Component(parameters = {"value=slider2Value"})
+    private Slider slider2;
 }

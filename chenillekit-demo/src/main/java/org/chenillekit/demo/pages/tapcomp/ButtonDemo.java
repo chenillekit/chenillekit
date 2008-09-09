@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.demo.pages;
+package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.OnEvent;
@@ -41,7 +41,7 @@ public class ButtonDemo
     @Component(parameters = {"type=button"})
     private Button button2;
 
-    @Component(parameters = {"type=page", "pageName=EditorDemo"})
+    @Component(parameters = {"type=page", "pageName=tapcomp/EditorDemo"})
     private Button button3;
 
     @OnEvent(component = "button1", value = "clicked")

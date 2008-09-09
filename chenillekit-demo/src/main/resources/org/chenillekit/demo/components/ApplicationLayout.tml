@@ -25,7 +25,7 @@
 <body>
 
 <div id="doc3">
-    <div id="hd">
+    <div id="hd" style="height:auto;">
         <div class="yui-g" style="width:100%">
             <div class="yui-u first">
                 <img style="float:left;" src="${asset:../assets/images/chenillekit-logo.png}"/>
@@ -34,6 +34,10 @@
             <div class="yui-u">
                 <h2 style="padding-top:45px">ChenilleKit Demo V{demoVersion}</h2>
             </div>
+        </div>
+
+        <div class="yui-b" style="width:100%">
+            <span t:id="horizontalMenu"/>
         </div>
     </div>
     <div id="bd">

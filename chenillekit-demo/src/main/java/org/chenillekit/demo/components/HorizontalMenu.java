@@ -15,20 +15,17 @@
 package org.chenillekit.demo.components;
 
 import org.apache.tapestry5.annotations.Component;
-
-import org.chenillekit.demo.DemoConstants;
+import org.apache.tapestry5.annotations.Mixins;
+import org.apache.tapestry5.corelib.components.PageLink;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
+ * @author <a href="mailto:shomburg@depot120.dpd.de">S.Homburg</a>
  * @version $Id$
  */
-public class ApplicationLayout
+public class HorizontalMenu extends LeftSideMenu
 {
-    @Component(parameters = {"menuName=base"})
-    private HorizontalMenu horizontalMenu;
-
-    public String getDemoVersion()
-    {
-        return DemoConstants.VERSION;
-    }
+    @Component(parameters = {"page=prop:menuItem.pageName", "style=menuItem.styles",
+            "context=menuItem.contextParameters", "color=orange"})
+    @Mixins({"OvalButton"})
+    private PageLink pageLink;
 }

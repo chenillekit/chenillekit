@@ -10,41 +10,45 @@
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
+ *
  */
 
-package org.chenillekit.demo.pages;
+package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Mixins;
-import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.components.Select;
+import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.json.JSONObject;
 
 import org.chenillekit.demo.components.LeftSideMenu;
+import org.chenillekit.tapestry.core.components.AjaxCheckbox;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-public class OnEventDemo
+public class AjaxCheckboxDemo
 {
+    @Persist
+    @Property
+    private boolean selected = false;
+
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
 
-    @Property
-    private String selected1;
+    @Component
+    private Form form;
 
-    @Component(parameters = {"value=selected1", "model=literal:silver, orange, yellow, green, blue, black", "event=change",
-            "onCompleteCallback=literal:onCompleteFunction"})
-    @Mixins({"ck/OnEvent"})
-    private Select select1;
+    @Component(parameters = {"value=selected", "onCompleteCallback=completeCallback"})
+    private AjaxCheckbox ajaxCheckbox;
 
-    @OnEvent(component = "select1", value = "change")
-    public JSONObject onChangeEvent(String value)
+    @OnEvent(component = "ajaxCheckbox", value = "checkboxclicked")
+    public JSONObject onChangeEvent(boolean value)
     {
         JSONObject json = new JSONObject();
-        json.put("color", value);
+        json.put("result", value);
         return json;
     }
 }

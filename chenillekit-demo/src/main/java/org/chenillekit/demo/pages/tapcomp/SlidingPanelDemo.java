@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.demo.pages;
+package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
 
@@ -27,7 +27,7 @@ public class SlidingPanelDemo
 {
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
-    
+
     @Component(parameters = {"subject=Panel 1"})
     private SlidingPanel panel1;
 

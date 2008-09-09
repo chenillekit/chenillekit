@@ -36,9 +36,9 @@ private SlideShow slideShow;
 
 
 <div t:id="slideshow">
-    <img src="${asset:../assets/images/at-the-drive-in.jpg}"/>
-    <img src="${asset:../assets/images/good-riddance.jpg}"/>
-    <img src="${asset:../assets/images/radiohead.jpg}"/>
+    <img src="${asset:../../assets/images/at-the-drive-in.jpg}"/>
+    <img src="${asset:../../assets/images/good-riddance.jpg}"/>
+    <img src="${asset:../../assets/images/radiohead.jpg}"/>
 </div>
 ]]>
                         </pre>
@@ -48,9 +48,9 @@ private SlideShow slideShow;
                         <legend>sample</legend>
 
                         <div t:id="slideshow">
-                            <img src="${asset:../assets/images/at-the-drive-in.jpg}"/>
-                            <img src="${asset:../assets/images/good-riddance.jpg}"/>
-                            <img src="${asset:../assets/images/radiohead.jpg}"/>
+                            <img src="${asset:../../assets/images/at-the-drive-in.jpg}"/>
+                            <img src="${asset:../../assets/images/good-riddance.jpg}"/>
+                            <img src="${asset:../../assets/images/radiohead.jpg}"/>
                         </div>
 
 

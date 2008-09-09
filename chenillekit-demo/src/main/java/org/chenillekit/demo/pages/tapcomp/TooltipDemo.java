@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.demo.pages;
+package org.chenillekit.demo.pages.tapcomp;
 
 import java.util.List;
 
@@ -27,29 +27,22 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.components.LineChart;
 import org.chenillekit.tapestry.core.components.Chart;
 import org.chenillekit.tapestry.core.components.Editor;
+import org.chenillekit.tapestry.core.components.Tooltip;
 import org.chenillekit.tapestry.core.utils.XYDataItem;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class EditorDemo
+public class TooltipDemo
 {
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
 
-    @Persist
-    @Property
-    private String editor1Value;
+    @Component(parameters = {"title=Info", "value=... and here comes the info text ...", "effect=blind"})
+    private Tooltip tooltip1;
 
-    @Persist
-    @Property
-    private String editor2Value;
-
-    @Component(parameters = {"value=editor1Value"})
-    private Editor editor1;
-
-    @Component(parameters = {"value=editor2Value", "customConfiguration=asset:../assets/js/myEditorConfig.js", "toolbarSet=MyToolbar"})
-    private Editor editor2;
+    @Component(parameters = {"title=Info", "value=... and here comes the info text ...", "effect=slide"})
+    private Tooltip tooltip2;
 
 }

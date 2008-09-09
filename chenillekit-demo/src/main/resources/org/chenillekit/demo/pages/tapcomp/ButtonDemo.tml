@@ -51,15 +51,15 @@ void onButton1Clicked()
                         <legend>sample</legend>
 
                         <button t:id="button1">
-                            <img style="vertical-align:middle;" src="${asset:../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 1
+                            <img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 1
                         </button>
                         <br/>
                         <button t:id="button2">
-                            <img style="vertical-align:middle;" src="${asset:../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 2
+                            <img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 2
                         </button>
                         <br/>
                         <button t:id="button3">
-                            <img style="vertical-align:middle;" src="${asset:../assets/images/warning.gif}" alt="Image inside a button"/> This is a pagelink button
+                            <img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a pagelink button
                         </button>
 
                         <p style="margin-top:30px;">

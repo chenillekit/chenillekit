@@ -12,39 +12,22 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.demo.pages;
+package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.components.Form;
 
 import org.chenillekit.demo.components.LeftSideMenu;
-import org.chenillekit.tapestry.core.components.Slider;
+import org.chenillekit.tapestry.core.components.SlideShow;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-public class SliderDemo
+public class SlideShowDemo
 {
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
 
-    @Persist
-    @Property
-    private int slider1Value = 10;
-
-    @Persist
-    @Property
-    private float slider2Value = 12.4f;
-
-    @Component
-    private Form form1;
-
-    @Component(parameters = {"value=slider1Value"})
-    private Slider slider1;
-
-    @Component(parameters = {"value=slider2Value"})
-    private Slider slider2;
+    @Component(parameters = {"interval=3", "loop=true", "controls=false"})
+    private SlideShow slideShow;
 }

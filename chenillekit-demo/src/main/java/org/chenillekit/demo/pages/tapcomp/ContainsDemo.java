@@ -13,7 +13,7 @@
  *
  */
 
-package org.chenillekit.demo.pages;
+package org.chenillekit.demo.pages.tapcomp;
 
 import java.util.List;
 

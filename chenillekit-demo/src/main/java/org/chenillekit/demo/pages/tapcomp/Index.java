@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.demo.pages;
+package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
 
@@ -21,6 +21,8 @@ import org.chenillekit.demo.components.LeftSideMenu;
 /**
  * ChenilleKit demo application start page.
  */
-public class Start
+public class Index
 {
+    @Component(parameters = {"menuName=demo"})
+    private LeftSideMenu menu;
 }
