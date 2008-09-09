@@ -218,7 +218,7 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertFalse(this.isVisible("xpath=//div[@id='stuff1']"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void test_slideshow()
     {
         open(BASE_URL);

@@ -81,6 +81,23 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-hibernate</artifactId>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!--
+                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    + we use geronimo-spec jta for testing
+                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    -->
+                    <groupId>javax.transaction</groupId>
+                    <artifactId>jta</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
             <groupId>ognl</groupId>
             <artifactId>ognl</artifactId>
         </dependency>
