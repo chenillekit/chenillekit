@@ -1,0 +1,24 @@
+dir = new File("/var/tmp");
+if (!dir.isDirectory())
+{
+    return "dir: " + dir + " is not Directory";
+}
+
+String[] s = dir.list();
+outputString = "";
+for (i = 0; i < s.length; i++)
+{
+    outputString += s[i];
+    file = new File(s[i]);
+    outputString += file.length();
+    date_f = new Date(file.lastModified());
+    outputString += date_f.Year+1900;
+    outputString += date_f.Month+1;
+    outputString += date_f.Day;
+    outputString += date_f.getHours();
+    outputString += date_f.getMinutes();
+    outputString += date_f.getSeconds();
+    outputString += "<br/>";
+}
+
+return outputString;

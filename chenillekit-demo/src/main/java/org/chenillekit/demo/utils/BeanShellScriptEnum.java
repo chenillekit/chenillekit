@@ -22,22 +22,22 @@ import java.util.Map;
  * @author <a href="mailto:shomburg@depot120.dpd.de">S.Homburg</a>
  * @version $Id$
  */
-public enum ScriptEnum
+public enum BeanShellScriptEnum
 {
-    GROOVY_FILELIST("filelist.groovy"),
-    GROOVY_READFILE("readfile.groovy");
+    BSH_FILELIST("ls.bsh"),
+    BSH_READFILE("readfile.bsh");
 
-    private static final Map<String, ScriptEnum> lookup = new HashMap<String, ScriptEnum>();
+    private static final Map<String, BeanShellScriptEnum> lookup = new HashMap<String, BeanShellScriptEnum>();
 
     static
     {
-        for (ScriptEnum s : EnumSet.allOf(ScriptEnum.class))
+        for (BeanShellScriptEnum s : EnumSet.allOf(BeanShellScriptEnum.class))
             lookup.put(s.getName(), s);
     }
 
     private String _name;
 
-    private ScriptEnum(String name)
+    private BeanShellScriptEnum(String name)
     {
         _name = name;
     }
@@ -52,7 +52,7 @@ public enum ScriptEnum
         return _name;
     }
 
-    public static ScriptEnum get(String name)
+    public static BeanShellScriptEnum get(String name)
     {
         return lookup.get(name);
     }

@@ -38,14 +38,14 @@ import org.apache.tapestry5.services.Context;
 import org.apache.tapestry5.util.EnumSelectModel;
 
 import org.chenillekit.demo.components.LeftSideMenu;
-import org.chenillekit.demo.utils.GroovyScriptEnum;
+import org.chenillekit.demo.utils.BeanShellScriptEnum;
 import org.chenillekit.scripting.services.ScriptingService;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-public class GroovyDemo
+public class BeanShellDemo
 {
     @Inject
     private ScriptingService scriptingService;
@@ -58,7 +58,7 @@ public class GroovyDemo
 
     @Property
     @Persist
-    private GroovyScriptEnum selectedScript;
+    private BeanShellScriptEnum selectedScript;
 
     @Persist("flash")
     @Property
@@ -81,9 +81,6 @@ public class GroovyDemo
     @Component(parameters = {"test=ognl:scriptResult != null"})
     private If ifScriptResult;
 
-    @Component(parameters = {"value=scriptResult"})
-    private OutputRaw outputRaw;
-
     @Component(parameters = {"value=scriptString"})
     private OutputRaw outputScriptSource;
 
@@ -100,7 +97,7 @@ public class GroovyDemo
         try
         {
             if (selectedScript != null)
-                scriptResult = scriptingService.eval("groovy", getScriptString(selectedScript.getName(), false), scriptParameters);
+                scriptResult = scriptingService.eval("beanshell", getScriptString(selectedScript.getName(), false), scriptParameters);
         }
         catch (RuntimeException ex)
         {
@@ -117,13 +114,13 @@ public class GroovyDemo
      */
     public SelectModel getScriptSelectModel()
     {
-        return new EnumSelectModel(GroovyScriptEnum.class, messages);
+        return new EnumSelectModel(BeanShellScriptEnum.class, messages);
     }
 
     /**
      * send the renderable script source to screen.
      */
-    JSONObject onChangeFromSelectScript(GroovyScriptEnum script) throws IOException
+    JSONObject onChangeFromSelectScript(BeanShellScriptEnum script) throws IOException
     {
         JSONObject json = new JSONObject();
 

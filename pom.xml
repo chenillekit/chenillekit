@@ -165,31 +165,39 @@
             ++ WE DONT NEED THIS (dependencies from other artifacts)
             +++++++++++++++++++++++++++++++++++++++++++++++++++++++
             -->
+            <!--
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
-                <version>99.0-does-not-exist</version>
-                <scope>compile</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>avalon-framework</groupId>
-                <artifactId>avalon-framework</artifactId>
-                <version>99.0-does-not-exist</version>
+                <version>1.1</version>
                 <scope>compile</scope>
             </dependency>
 
             <dependency>
                 <groupId>jboss</groupId>
                 <artifactId>javassist</artifactId>
-                <version>99.0-does-not-exist</version>
+                <version>3.7.ga</version>
                 <scope>compile</scope>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.ant</groupId>
                 <artifactId>ant</artifactId>
-                <version>99.0-does-not-exist</version>
+                <version>1.7.0</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant-launcher</artifactId>
+                <version>1.7.0</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>avalon-framework</groupId>
+                <artifactId>avalon-framework</artifactId>
+                <version></version>
                 <scope>compile</scope>
             </dependency>
 
@@ -199,6 +207,7 @@
                 <version>99.0-does-not-exist</version>
                 <scope>compile</scope>
             </dependency>
+-->
 
             <!--
             +++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -272,12 +281,6 @@
                 <artifactId>oro</artifactId>
                 <version>2.0.8</version>
             </dependency>
-
-            <!--<dependency>-->
-                <!--<groupId>antlr</groupId>-->
-                <!--<artifactId>antlr</artifactId>-->
-                <!--<version>2.7.7</version>-->
-            <!--</dependency>-->
 
             <!--
             +++++++++++++++++++++++++++++++++++++++++++++++++++++++
