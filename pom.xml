@@ -71,13 +71,13 @@
             <timezone>+1</timezone>
         </developer>
         <developer>
-            <id>florianbw</id>
-            <name>Florian Breitwieser</name>
-            <email>florian.bw@gmail.com</email>
+            <id>thobson</id>
+            <name>Toby Hobson</name>
+            <email>Toby.Hobson@gmail.com</email>
             <roles>
                 <role>committer</role>
             </roles>
-            <timezone>-5</timezone>
+            <timezone>0</timezone>
         </developer>
         <developer>
             <id>clewis</id>
