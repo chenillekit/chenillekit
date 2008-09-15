@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <properties>
-        <tapestry-release-version>5.0.15-SNAPSHOT</tapestry-release-version>
+        <tapestry-release-version>5.0.16-SNAPSHOT</tapestry-release-version>
         <update-release-info>false</update-release-info>
     </properties>
 
