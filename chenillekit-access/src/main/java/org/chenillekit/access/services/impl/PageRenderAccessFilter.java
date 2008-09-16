@@ -16,9 +16,7 @@ package org.chenillekit.access.services.impl;
 import java.io.IOException;
 
 import org.apache.tapestry5.internal.EmptyEventContext;
-import org.apache.tapestry5.internal.services.RequestPageCache;
 import org.apache.tapestry5.ioc.services.SymbolSource;
-import org.apache.tapestry5.services.MetaDataLocator;
 import org.apache.tapestry5.services.PageRenderRequestFilter;
 import org.apache.tapestry5.services.PageRenderRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
@@ -30,13 +28,13 @@ import org.slf4j.Logger;
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
-public class PageRenderAccessController implements PageRenderRequestFilter
+public class PageRenderAccessFilter implements PageRenderRequestFilter
 {
 	private final Logger logger;
 	private final AccessValidator accessValidator;
 	private final String loginPage;
 	
-	public PageRenderAccessController(AccessValidator accessValidator,
+	public PageRenderAccessFilter(AccessValidator accessValidator,
 								SymbolSource symbols, Logger logger)
 	{
 		this.logger = logger;

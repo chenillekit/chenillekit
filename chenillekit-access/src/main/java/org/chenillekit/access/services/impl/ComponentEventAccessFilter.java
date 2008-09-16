@@ -28,12 +28,12 @@ import org.chenillekit.access.services.AccessValidator;
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
-public class ComponentEventAccessController implements ComponentEventRequestFilter
+public class ComponentEventAccessFilter implements ComponentEventRequestFilter
 {
 	private final AccessValidator accessValidator;
 	private final String loginPage;
 	
-	public ComponentEventAccessController(AccessValidator accessValidator, SymbolSource symbols)
+	public ComponentEventAccessFilter(AccessValidator accessValidator, SymbolSource symbols)
 	{
 		this.accessValidator = accessValidator;
 		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE); 

@@ -37,8 +37,8 @@ import org.chenillekit.access.services.AuthService;
 import org.chenillekit.access.services.PasswordEncoder;
 import org.chenillekit.access.services.impl.AccessValidatorImpl;
 import org.chenillekit.access.services.impl.AuthServiceImpl;
-import org.chenillekit.access.services.impl.ComponentEventAccessController;
-import org.chenillekit.access.services.impl.PageRenderAccessController;
+import org.chenillekit.access.services.impl.ComponentEventAccessFilter;
+import org.chenillekit.access.services.impl.PageRenderAccessFilter;
 import org.chenillekit.access.services.impl.RestrictedWorker;
 import org.slf4j.Logger;
 
@@ -50,8 +50,8 @@ public class ChenilleKitAccessModule
 {
     public static void bind(ServiceBinder binder)
     {
-        binder.bind(ComponentEventRequestFilter.class, ComponentEventAccessController.class).withMarker(ChenilleKitAccess.class);
-        binder.bind(PageRenderRequestFilter.class, PageRenderAccessController.class).withMarker(ChenilleKitAccess.class);
+        binder.bind(ComponentEventRequestFilter.class, ComponentEventAccessFilter.class).withMarker(ChenilleKitAccess.class);
+        binder.bind(PageRenderRequestFilter.class, PageRenderAccessFilter.class).withMarker(ChenilleKitAccess.class);
     }
 
     /**
