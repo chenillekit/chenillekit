@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Restricted
 {
-    int[] roles();
+    int[] roles() default {};
 
     String[] groups() default {};
 }

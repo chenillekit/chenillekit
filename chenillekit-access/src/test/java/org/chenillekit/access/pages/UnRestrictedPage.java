@@ -15,10 +15,18 @@
 
 package org.chenillekit.access.pages;
 
+import org.chenillekit.access.annotations.Restricted;
+
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class UnRestrictedPage
 {
+	
+	@Restricted(groups = { "ADMINS" })
+	void onActionFromTest()
+	{
+		throw new RuntimeException("This should never be reached!");
+	}
 }

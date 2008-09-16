@@ -39,11 +39,10 @@ public class RestrictedWorker implements ComponentClassTransformWorker
     {
         // inject all values from @Restricted into page metas.
         injectMetasIntoPageClass(transformation, model);
-
-        for (TransformMethodSignature method : transformation.findMethodsWithAnnotation(Restricted.class))
-        {
-
-        }
+        
+        injectMethodsMetas(transformation, model);
+        
+        injectPageComponentsMetas(transformation, model);
     }
 
     /**
@@ -68,6 +67,35 @@ public class RestrictedWorker implements ComponentClassTransformWorker
             if (groupString.length() > 0)
                 model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP, getStringArrayAsString(pageRestricted.groups()));
         }
+    }
+    
+    /**
+     * inject meta datas about annotated methods
+     *
+     * @param transformation Contains class-specific information used when transforming a raw component class
+     *                       into an executable component class.
+     * @param model          Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
+     *                       the transformation phase.
+     */
+    private void injectMethodsMetas(ClassTransformation transformation, MutableComponentModel model)
+    {
+    	for (TransformMethodSignature method : transformation.findMethodsWithAnnotation(Restricted.class))
+        {
+
+        }
+    }
+    
+    /**
+     * inject meta datas about annotated methods
+     *
+     * @param transformation Contains class-specific information used when transforming a raw component class
+     *                       into an executable component class.
+     * @param model          Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
+     *                       the transformation phase.
+     */
+    private void injectPageComponentsMetas(ClassTransformation transformation, MutableComponentModel model)
+    {
+    	
     }
 
     /**

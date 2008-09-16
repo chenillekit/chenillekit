@@ -15,6 +15,7 @@ package org.chenillekit.access.services.impl;
 
 import java.lang.reflect.Field;
 
+import org.apache.tapestry5.internal.services.RequestPageCache;
 import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
@@ -72,6 +73,11 @@ public class AccessValidatorImpl implements AccessValidator
                          new Object[]{pageName, componentId, eventType});
 
         Component page = getPage(pageName);
+        
+        // Con component qui prendere le meta attraverso il locator
+        
+        // Con i meta dati controllare l'accessibilita`
+        
         if (page != null)
         {
             hasAccess = checkForPageAccess(page);

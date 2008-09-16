@@ -16,7 +16,9 @@ package org.chenillekit.access.services.impl;
 import java.io.IOException;
 
 import org.apache.tapestry5.internal.EmptyEventContext;
+import org.apache.tapestry5.internal.services.RequestPageCache;
 import org.apache.tapestry5.ioc.services.SymbolSource;
+import org.apache.tapestry5.services.MetaDataLocator;
 import org.apache.tapestry5.services.PageRenderRequestFilter;
 import org.apache.tapestry5.services.PageRenderRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
@@ -40,7 +42,6 @@ public class PageRenderAccessController implements PageRenderRequestFilter
 		this.logger = logger;
 		this.accessValidator = accessValidator;
 		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
-		
 	}
 
 	/*
