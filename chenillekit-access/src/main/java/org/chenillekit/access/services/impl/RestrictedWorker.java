@@ -89,13 +89,13 @@ public class RestrictedWorker implements ComponentClassTransformWorker
     	for (TransformMethodSignature method : transformation.findMethodsWithAnnotation(Restricted.class))
         {
     		String methodName = method.getMethodName();
-    		if (methodName.startsWith("on"))
+    		if (methodName.startsWith("on") || transformation.getMethodAnnotation(method, OnEvent.class) != null)
     		{
     			methodName = methodName.substring(2);
+    			int fromSeparator = methodName.indexOf("From");
     		}
     		else
     		{
-    			// FIXME Here we should deal with OnEvent annotation as well
     			this.logger.warn(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS,
     					"Restrict annotation on a non event handler method: " + methodName);
     		}
