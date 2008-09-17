@@ -32,14 +32,14 @@ public class DummyUser implements WebSessionUser
     private String name;
 
     // Both used for security constraints
-    private int[] roles;
+    private int roles;
     private String[] groups;
 
     public DummyUser()
     {
         this.userId = 2;
         this.name = "dummy";
-        this.roles = new int[]{};
+        this.roles = 0;
         this.groups = new String[]{"dau"};
     }
 
@@ -58,7 +58,7 @@ public class DummyUser implements WebSessionUser
      *
      * @return role ids
      */
-    public int[] getRoles()
+    public int getRoleWeigh()
     {
         return roles;
     }

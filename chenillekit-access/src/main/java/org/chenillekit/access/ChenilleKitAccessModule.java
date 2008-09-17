@@ -86,9 +86,11 @@ public class ChenilleKitAccessModule
     /**
      * @param configuration
      */
-    public static void contributeComponentClassTransformWorker(OrderedConfiguration<ComponentClassTransformWorker> configuration)
+    public static void contributeComponentClassTransformWorker(
+    			OrderedConfiguration<ComponentClassTransformWorker> configuration,
+    			Logger logger)
     {
-        configuration.add("Restricted", new RestrictedWorker(), "after:Secure");
+        configuration.add("Restricted", new RestrictedWorker(logger), "after:Secure");
     }
 
     /**
@@ -104,6 +106,15 @@ public class ChenilleKitAccessModule
         return new AuthServiceImpl(logger, passwordEncoder);
     }
 
+    /**
+     * 
+     * @param stateManager
+     * @param componentSource
+     * @param locator
+     * @param logger
+     * @param contribution
+     * @return
+     */
     @Marker(ChenilleKitAccess.class)
     public static AccessValidator buildAccessValidator(ApplicationStateManager stateManager,
                                                        ComponentSource componentSource,

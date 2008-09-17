@@ -32,14 +32,14 @@ public class RootUser implements WebSessionUser
     private String name;
 
     // Both used for security constraints
-    private int[] roles;
+    private int roles;
     private String[] groups;
 
     public RootUser()
     {
         this.userId = 1;
         this.name = "root";
-        this.roles = new int[]{1,2};
+        this.roles = 2;
         this.groups = new String[]{"superuser"};
     }
 
@@ -58,7 +58,7 @@ public class RootUser implements WebSessionUser
      *
      * @return role ids
      */
-    public int[] getRoles()
+    public int getRoleWeigh()
     {
         return roles;
     }

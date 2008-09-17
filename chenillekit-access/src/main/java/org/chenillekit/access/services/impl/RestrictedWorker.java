@@ -25,6 +25,7 @@ import org.apache.tapestry5.services.TransformMethodSignature;
 
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
+import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
@@ -32,37 +33,42 @@ import org.chenillekit.access.annotations.Restricted;
  */
 public class RestrictedWorker implements ComponentClassTransformWorker
 {
+	private final Logger logger;
+	
+	public RestrictedWorker(Logger logger)
+	{
+		this.logger = logger;
+	}
+	
     /* (non-Javadoc)
       * @see org.apache.tapestry5.services.ComponentClassTransformWorker#transform(org.apache.tapestry5.services.ClassTransformation, org.apache.tapestry5.model.MutableComponentModel)
       */
     public void transform(ClassTransformation transformation, MutableComponentModel model)
     {
-        // inject all values from @Restricted into page metas.
-        injectMetasIntoPageClass(transformation, model);
+        processPageRestriction(transformation, model);
         
-        injectMethodsMetas(transformation, model);
+        processEventHandlerRestrictions(transformation, model);
         
-        injectPageComponentsMetas(transformation, model);
+        processComponentsRestrictions(transformation, model);
     }
 
     /**
-     * inject all values from @Restricted into page metas.
+     * Read and process restriction on page classes annotated with {@link Restricted} annotation
      *
      * @param transformation Contains class-specific information used when transforming a raw component class
      *                       into an executable component class.
      * @param model          Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
      *                       the transformation phase.
      */
-    private void injectMetasIntoPageClass(ClassTransformation transformation, MutableComponentModel model)
+    private void processPageRestriction(ClassTransformation transformation, MutableComponentModel model)
     {
         Restricted pageRestricted = transformation.getAnnotation(Restricted.class);
         if (pageRestricted != null)
         {
-            String roleString = getIntArrayAsString(pageRestricted.roles());
+            String roleWeigh = Integer.toString(pageRestricted.roles());
             String groupString = getStringArrayAsString(pageRestricted.groups());
 
-            if (roleString.length() > 0)
-                model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE, roleString);
+            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE, roleWeigh);
 
             if (groupString.length() > 0)
                 model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP, getStringArrayAsString(pageRestricted.groups()));
@@ -77,11 +83,20 @@ public class RestrictedWorker implements ComponentClassTransformWorker
      * @param model          Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
      *                       the transformation phase.
      */
-    private void injectMethodsMetas(ClassTransformation transformation, MutableComponentModel model)
+    private void processEventHandlerRestrictions(ClassTransformation transformation, MutableComponentModel model)
     {
     	for (TransformMethodSignature method : transformation.findMethodsWithAnnotation(Restricted.class))
         {
-
+    		String methodName = method.getMethodName();
+    		if (methodName.startsWith("on"))
+    		{
+    			methodName = methodName.substring(2);
+    		}
+    		else
+    		{
+    			this.logger.warn(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS,
+    					"Restrict annotation on a non event handler method: " + methodName);
+    		}
         }
     }
     
@@ -93,29 +108,9 @@ public class RestrictedWorker implements ComponentClassTransformWorker
      * @param model          Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
      *                       the transformation phase.
      */
-    private void injectPageComponentsMetas(ClassTransformation transformation, MutableComponentModel model)
+    private void processComponentsRestrictions(ClassTransformation transformation, MutableComponentModel model)
     {
     	
-    }
-
-    /**
-     * build an CSV string from role array.
-     *
-     * @return CSV string
-     */
-    private String getIntArrayAsString(int[] roles)
-    {
-        String csvString = "";
-
-        for (int i = 0; i < roles.length; i++)
-        {
-            if (i == 0)
-                csvString += String.valueOf(roles[i]);
-            else
-                csvString += "," + String.valueOf(roles[i]);
-        }
-
-        return csvString;
     }
 
     /**

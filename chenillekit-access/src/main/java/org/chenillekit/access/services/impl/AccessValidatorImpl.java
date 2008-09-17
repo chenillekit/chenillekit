@@ -57,7 +57,7 @@ public class AccessValidatorImpl implements AccessValidator
 
 
     /**
-     * we check for page/component and event type access rights.
+     * We check for page/component and event type access rights.
      * <p/>
      * first we check the access rights for the requested page,
      * if access granted, we step down to the next level, the components.
@@ -120,7 +120,7 @@ public class AccessValidatorImpl implements AccessValidator
             if (webSessionUser == null)
                 return false;
 
-            boolean hasRole = hasUserRequiredRole(webSessionUser.getRoles(), pagePrivate.roles());
+            boolean hasRole = hasUserRequiredRole(webSessionUser.getRoleWeigh(), pagePrivate.roles());
             boolean hasGroup = hasUserRequiredGroup(webSessionUser.getGroups(), pagePrivate.groups());
 
             if (logger.isInfoEnabled())
@@ -177,37 +177,14 @@ public class AccessValidatorImpl implements AccessValidator
     /**
      * check if user has required role to access page/component/event.
      *
-     * @param userRoles     roles the user have
-     * @param requiredRoles roles required for page/component/event access
+     * @param userRoles     role weigh the user have
+     * @param requiredRoles role weigh required for page/component/event access
      *
-     * @return true if user has the required role
+     * @return true if user fulfill the required role
      */
-    private boolean hasUserRequiredRole(int[] userRoles, int[] requiredRoles)
+    private boolean hasUserRequiredRole(int userRoleWeigh, int requiredRoleWeigh)
     {
-        boolean hasRole = false;
-
-        /**
-         * if no group required
-         */
-        if (requiredRoles.length == 0)
-            return true;
-
-        for (int requiredRole : requiredRoles)
-        {
-            for (int userRole : userRoles)
-            {
-                if (userRole >= requiredRole)
-                {
-                    hasRole = true;
-                    break;
-                }
-            }
-
-            if (hasRole)
-                break;
-        }
-
-        return hasRole;
+        return userRoleWeigh >= requiredRoleWeigh ? true : false;
     }
 
     /**

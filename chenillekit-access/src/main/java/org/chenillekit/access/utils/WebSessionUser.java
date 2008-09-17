@@ -25,7 +25,7 @@ public interface WebSessionUser
      *
      * @return role ids
      */
-    int[] getRoles();
+    int getRoleWeigh();
 
     /**
      * get the group names.

@@ -18,6 +18,9 @@
 
 package org.chenillekit.access;
 
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
+
 /**
  * some constants for chenillekit secure module.
  *
@@ -44,4 +47,9 @@ public class ChenilleKitAccessConstants
      * contribution key for password encoder.
      */
     public static final String PASSWORD_ENCODER = "chenillekit.access-passwordencoder";
+    
+    /**
+     * A root marker for all things Tapestry related. The remaining markers are children of the TAPESTRY marker.
+     */
+    public static final Marker CHENILLEKIT_ACCESS = MarkerFactory.getMarker("CHENILLEKIT-ACCESS");
 }
