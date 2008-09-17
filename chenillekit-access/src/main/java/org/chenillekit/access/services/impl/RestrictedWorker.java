@@ -18,6 +18,7 @@
 
 package org.chenillekit.access.services.impl;
 
+import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
@@ -94,6 +95,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker
     		}
     		else
     		{
+    			// FIXME Here we should deal with OnEvent annotation as well
     			this.logger.warn(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS,
     					"Restrict annotation on a non event handler method: " + methodName);
     		}
