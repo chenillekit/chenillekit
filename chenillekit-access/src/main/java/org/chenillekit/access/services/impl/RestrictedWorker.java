@@ -23,10 +23,9 @@ import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethodSignature;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
-import org.slf4j.Logger;
+import org.chenillekit.access.utils.ChenillekitAccessInternalUtils;
 
 /**
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
@@ -34,11 +33,11 @@ import org.slf4j.Logger;
  */
 public class RestrictedWorker implements ComponentClassTransformWorker
 {
-	private final Logger logger;
+//	private final Logger logger;
 	
-	public RestrictedWorker(Logger logger)
+	public RestrictedWorker()
 	{
-		this.logger = logger;
+//		this.logger = logger;
 	}
 	
     /* (non-Javadoc)
@@ -67,12 +66,12 @@ public class RestrictedWorker implements ComponentClassTransformWorker
         if (pageRestricted != null)
         {
             String roleWeigh = Integer.toString(pageRestricted.roles());
-            String groupString = getStringArrayAsString(pageRestricted.groups());
+            String groupString = ChenillekitAccessInternalUtils.getStringArrayAsString(pageRestricted.groups());
 
-            model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE, roleWeigh);
+            model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE, roleWeigh);
 
             if (groupString.length() > 0)
-                model.setMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_GROUP, getStringArrayAsString(pageRestricted.groups()));
+                model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP, ChenillekitAccessInternalUtils.getStringArrayAsString(pageRestricted.groups()));
         }
     }
     
@@ -89,15 +88,26 @@ public class RestrictedWorker implements ComponentClassTransformWorker
     	for (TransformMethodSignature method : transformation.findMethodsWithAnnotation(Restricted.class))
         {
     		String methodName = method.getMethodName();
-    		if (methodName.startsWith("on") || transformation.getMethodAnnotation(method, OnEvent.class) != null)
+    		Restricted restricted = transformation.getMethodAnnotation(method, Restricted.class);
+    		OnEvent event = transformation.getMethodAnnotation(method, OnEvent.class);
+    		if (methodName.startsWith("on") || event != null)
     		{
-    			methodName = methodName.substring(2);
-    			int fromSeparator = methodName.indexOf("From");
+    			String componentId = ChenillekitAccessInternalUtils.extractComponentId(method, event);
+    			String eventType = ChenillekitAccessInternalUtils.extractEventType(method, event);
+    			
+    			model.setMeta(ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
+    								eventType,
+    								ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX),
+    								ChenillekitAccessInternalUtils.getStringArrayAsString(restricted.groups()));
+    			model.setMeta(ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
+    								eventType,
+    								ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX),
+    								Integer.toString(restricted.roles()));
     		}
     		else
     		{
-    			this.logger.warn(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS,
-    					"Restrict annotation on a non event handler method: " + methodName);
+//    			this.logger.warn(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS,
+//    					"Restrict annotation on a non event handler method: " + methodName + ", IGNORED");
     		}
         }
     }
@@ -113,25 +123,5 @@ public class RestrictedWorker implements ComponentClassTransformWorker
     private void processComponentsRestrictions(ClassTransformation transformation, MutableComponentModel model)
     {
     	
-    }
-
-    /**
-     * build an CSV string from group array.
-     *
-     * @return CSV string
-     */
-    private String getStringArrayAsString(String[] groups)
-    {
-        String csvString = "";
-
-        for (int i = 0; i < groups.length; i++)
-        {
-            if (i == 0)
-                csvString += groups[i];
-            else
-                csvString += "," + groups[i];
-        }
-
-        return csvString;
     }
 }

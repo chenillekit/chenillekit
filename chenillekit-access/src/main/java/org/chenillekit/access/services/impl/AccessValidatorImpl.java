@@ -22,8 +22,10 @@ import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.MetaDataLocator;
 
+import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.services.AccessValidator;
+import org.chenillekit.access.utils.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.utils.WebSessionUser;
 import org.slf4j.Logger;
 
@@ -69,7 +71,7 @@ public class AccessValidatorImpl implements AccessValidator
         boolean hasAccess = true;
 
         if (logger.isDebugEnabled())
-            logger.debug("check access for pageName/componentId/eventType: {}/{}/{}",
+            logger.debug(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS, "check access for pageName/componentId/eventType: {}/{}/{}",
                          new Object[]{pageName, componentId, eventType});
 
         Component page = getPage(pageName);
@@ -112,25 +114,41 @@ public class AccessValidatorImpl implements AccessValidator
     private boolean checkForPageAccess(Component page)
     {
         boolean hasAccess = true;
-
-        Restricted pagePrivate = page.getClass().getAnnotation(Restricted.class);
-        if (pagePrivate != null)
+        
+        String groups = locator.findMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP, page.getComponentResources(), String.class);
+        Integer role = locator.findMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE, page.getComponentResources(), Integer.class);
+        
+        if (logger.isDebugEnabled())
         {
-            WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
-            if (webSessionUser == null)
-                return false;
-
-            boolean hasRole = hasUserRequiredRole(webSessionUser.getRoleWeigh(), pagePrivate.roles());
-            boolean hasGroup = hasUserRequiredGroup(webSessionUser.getGroups(), pagePrivate.groups());
-
-            if (logger.isInfoEnabled())
-            {
-                logger.info("Page '{}' - hasRole = {} / hasGroup = {}",
-                            new Object[]{page.getComponentResources().getPageName(), hasRole, hasGroup});
-            }
-
-            // Let's see if it can access it
-            hasAccess = hasGroup && hasRole;
+        	logger.debug("Page  : " + page.getComponentResources().getPageName());
+        	logger.debug("Groups: " + groups);
+        	logger.debug("Role  : " + role);
+        }
+        
+        if (groups.equals(ChenilleKitAccessConstants.NO_RESTRICTION) && role.equals(Integer.valueOf(0)))
+        	return hasAccess;
+        
+        if (groups != null || role != null)
+        {
+        	WebSessionUser webSessionUser = asm.getIfExists(webSessionUserImplmentation);
+        	if (webSessionUser == null)
+              return false;
+        	
+        	boolean hasGroup = true;
+        	if (groups != null)
+        		hasGroup = ChenillekitAccessInternalUtils.hasUserRequiredGroup(webSessionUser.getGroups(), ChenillekitAccessInternalUtils.getStringAsStringArray(groups));
+        	
+        	boolean hasRole = true;
+        	if (role != null)
+        		hasRole = ChenillekitAccessInternalUtils.hasUserRequiredRole(webSessionUser.getRoleWeigh(), role.intValue());
+        	
+        	hasAccess = hasGroup && hasRole;
+        	
+        	if (logger.isInfoEnabled())
+        	{
+        		logger.info("Page '{}' - hasRole = {} / hasGroup = {}",
+        				new Object[]{page.getComponentResources().getPageName(), hasRole, hasGroup});
+        	}
         }
 
         return hasAccess;
@@ -162,7 +180,7 @@ public class AccessValidatorImpl implements AccessValidator
                 {
                     pageName = pageName.substring(0, pageName.lastIndexOf('/'));
                     if (logger.isTraceEnabled())
-                        logger.trace("New pagename: {}", pageName);
+                        logger.trace(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS, "New pagename: {}", pageName);
                 }
                 else
                 {
@@ -174,52 +192,4 @@ public class AccessValidatorImpl implements AccessValidator
         return component;
     }
 
-    /**
-     * check if user has required role to access page/component/event.
-     *
-     * @param userRoles     role weigh the user have
-     * @param requiredRoles role weigh required for page/component/event access
-     *
-     * @return true if user fulfill the required role
-     */
-    private boolean hasUserRequiredRole(int userRoleWeigh, int requiredRoleWeigh)
-    {
-        return userRoleWeigh >= requiredRoleWeigh ? true : false;
-    }
-
-    /**
-     * check if user has required group to access page/component/event.
-     *
-     * @param userGroups     groups the user have
-     * @param requiredGroups groups required for page/component/event access
-     *
-     * @return true if user has the required group
-     */
-    private boolean hasUserRequiredGroup(String[] userGroups, String[] requiredGroups)
-    {
-        boolean hasGroup = false;
-
-        /**
-         * if no group required
-         */
-        if (requiredGroups.length == 0)
-            return true;
-
-        for (String requiredGroup : requiredGroups)
-        {
-            for (String userGroup : userGroups)
-            {
-                if (userGroup.equalsIgnoreCase(requiredGroup))
-                {
-                    hasGroup = true;
-                    break;
-                }
-            }
-
-            if (hasGroup)
-                break;
-        }
-
-        return hasGroup;
-    }
 }

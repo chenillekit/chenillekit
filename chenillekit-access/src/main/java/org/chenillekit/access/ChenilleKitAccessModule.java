@@ -87,10 +87,9 @@ public class ChenilleKitAccessModule
      * @param configuration
      */
     public static void contributeComponentClassTransformWorker(
-    			OrderedConfiguration<ComponentClassTransformWorker> configuration,
-    			Logger logger)
+    			OrderedConfiguration<ComponentClassTransformWorker> configuration)
     {
-        configuration.add("Restricted", new RestrictedWorker(logger), "after:Secure");
+        configuration.add("Restricted", new RestrictedWorker(), "after:Secure");
     }
 
     /**
@@ -148,7 +147,7 @@ public class ChenilleKitAccessModule
     /**
      * @param configuration
      */
-    public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
+    public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration)
     {
         Properties prop = new Properties();
         try

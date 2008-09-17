@@ -27,7 +27,7 @@ import org.slf4j.MarkerFactory;
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
-public class ChenilleKitAccessConstants
+public final class ChenilleKitAccessConstants
 {
 	public static final String WEB_USER_IMPLEMENTATION = "webuser.implementation";
 
@@ -39,9 +39,13 @@ public class ChenilleKitAccessConstants
     /**
      * Meta data key applied to pages that may only be accessed after a succesfull login.
      */
-    public static final String PRIVATE_PAGE = "chenillekit.access-private-page";
-    public static final String PRIVATE_PAGE_ROLE = "chenillekit.access-private-page-role";
-    public static final String PRIVATE_PAGE_GROUP = "chenillekit.access-private-page-group";
+    public static final String RESTRICTED_PAGE_ROLE = "chenillekit.access-restricted-page-role"; // are these too verbose?
+    public static final String RESTRICTED_PAGE_GROUP = "chenillekit.access-restricted-page-group";
+    public static final String RESTRICTED_EVENT_HANDLER_PREFIX = "chenillekit.access-restricted-handler";
+    public static final String RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX = "role";
+    public static final String RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX = "groups";
+    
+    public static final String NO_RESTRICTION = "NONE";
 
     /**
      * contribution key for password encoder.

@@ -33,6 +33,6 @@ public class RestrictedPage
 
     public String getRoleMetaValue()
     {
-        return resources.getComponentModel().getMeta(ChenilleKitAccessConstants.PRIVATE_PAGE_ROLE);
+        return resources.getComponentModel().getMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE);
     }
 }
