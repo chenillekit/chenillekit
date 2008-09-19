@@ -74,7 +74,8 @@ public class ChenillekitAccessInternalUtils
 	 */
 	public static final String buildMetaForHandlerMethod(String componentId, String eventType, String suffix)
     {
-    	return ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_PREFIX + componentId + eventType;
+    	return ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_PREFIX
+    				+ "-" + componentId + "-" + eventType + "-" + suffix;
     	
     }
 	
