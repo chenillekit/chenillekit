@@ -17,6 +17,8 @@ package org.chenillekit.core.services.impl;
 import javax.naming.Context;
 import javax.sql.DataSource;
 
+import org.apache.commons.configuration.AbstractConfiguration;
+import org.apache.commons.configuration.CombinedConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.DatabaseConfiguration;
@@ -39,12 +41,27 @@ public class ConfigurationServiceImpl implements ConfigurationService
 {
     /**
      * get the configuration from the named resource.
+     * <p/>
+     * the system properties merged auto. into the returned configuration
      *
      * @param configurationResource the configuration resource
      *
      * @return the configuration
      */
     public Configuration getConfiguration(Resource configurationResource)
+    {
+        return getConfiguration(configurationResource, true);
+    }
+
+    /**
+     * get the configuration from the named resource.
+     *
+     * @param configurationResource the configuration resource
+     * @param mergeWithSysProps     merge the configuration resource with system properties
+     *
+     * @return the configuration
+     */
+    public Configuration getConfiguration(Resource configurationResource, boolean mergeWithSysProps)
     {
         Configuration configuration;
 
@@ -67,6 +84,15 @@ public class ConfigurationServiceImpl implements ConfigurationService
                 configuration = new INIConfiguration(configurationResource.toURL());
             else
                 throw new RuntimeException(String.format("cant resolve configuration type of resource '%s'", configurationResource.toString()));
+
+            if (mergeWithSysProps)
+            {
+                CombinedConfiguration mergedConfiguration = new CombinedConfiguration();
+                mergedConfiguration.addConfiguration((AbstractConfiguration) configuration);
+                mergedConfiguration.addConfiguration((AbstractConfiguration) getConfiguration());
+
+                configuration = mergedConfiguration;
+            }
         }
         catch (ConfigurationException e)
         {

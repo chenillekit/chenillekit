@@ -50,6 +50,7 @@ public class TestConfigurationService extends AbstractTestSuite
         assertEquals(testConfiguration.getString("test.value1"), "test1");
         assertEquals(testConfiguration.getInt("test.value2"), 3);
         assertEquals(testConfiguration.getStringArray("test.value3"), new String[]{"test1", "test2", "test3", "test4"});
+        assertEquals(testConfiguration.getString("test.value4"), System.getProperty("java.vendor"));
     }
 
     @Test
