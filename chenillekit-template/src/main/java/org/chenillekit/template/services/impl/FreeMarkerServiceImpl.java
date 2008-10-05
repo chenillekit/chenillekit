@@ -14,10 +14,11 @@
 
 package org.chenillekit.template.services.impl;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 
@@ -158,6 +159,35 @@ public class FreeMarkerServiceImpl implements TemplateService
      */
     public void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap, Object[] elements)
     {
-        throw new RuntimeException("not implemented yet!");
+        try
+        {
+            if (_configuration == null)
+            {
+                _configuration = new Configuration();
+
+                // Specify how templates will see the data model. This is an advanced topic...
+                // but just use this:
+                _configuration.setObjectWrapper(new DefaultObjectWrapper());
+                _configuration.setClassForTemplateLoading(Resource.class, "/");
+            }
+
+            //noinspection unchecked
+            parameterMap.put("elementList", elements);
+
+            if (_serviceLog.isInfoEnabled())
+                _serviceLog.info("processing template stream");
+
+            Template freeMarkerTemplate = new Template("doedel", new InputStreamReader(templateStream), _configuration);
+            Writer out = new OutputStreamWriter(outputStream);
+            freeMarkerTemplate.process(parameterMap, out);
+            out.flush();
+
+            if (_serviceLog.isInfoEnabled())
+                _serviceLog.info("processing template finished");
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
     }
 }
