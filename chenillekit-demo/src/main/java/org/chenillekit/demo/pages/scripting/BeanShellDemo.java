@@ -81,6 +81,9 @@ public class BeanShellDemo
     @Component(parameters = {"test=ognl:scriptResult != null"})
     private If ifScriptResult;
 
+    @Component(parameters = {"value=scriptResult"})
+    private OutputRaw outputRaw;
+
     @Component(parameters = {"value=scriptString"})
     private OutputRaw outputScriptSource;
 

@@ -47,9 +47,9 @@
 
             <span t:id="ifScriptResult">
                 <div t:type="chenillekit/RoundCornerContainer" fgcolor="lightgray" style="background-color:lightgray;margin-top:10px;">
-                <pre style="padding:5px;">
-                    ${scriptResult}
-                </pre>
+                    <pre style="padding:5px;">
+                        <span t:id="outputRaw"/>
+                    </pre>
                 </div>
             </span>
 

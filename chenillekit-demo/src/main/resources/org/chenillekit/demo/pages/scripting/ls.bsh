@@ -1,24 +1,28 @@
-dir = new File("/var/tmp");
+dir = new File("/tmp");
 if (!dir.isDirectory())
 {
     return "dir: " + dir + " is not Directory";
 }
 
 String[] s = dir.list();
-outputString = "";
+outputString = "<table>";
+outputString += "<tr>";
+outputString += "<th>file name</th>";
+outputString += "<th>size</th>";
+outputString += "<th>l. mod. date</th>";
+outputString += "</tr>";
 for (i = 0; i < s.length; i++)
 {
-    outputString += s[i];
-    file = new File(s[i]);
-    outputString += file.length();
+    outputString += "<tr>";
+    outputString += "<td>" + s[i] + "</td>";
+
+    file = new File("/tmp/" + s[i]);
+    outputString += "<td>" + file.length() + "</td>";
+
     date_f = new Date(file.lastModified());
-    outputString += date_f.Year+1900;
-    outputString += date_f.Month+1;
-    outputString += date_f.Day;
-    outputString += date_f.getHours();
-    outputString += date_f.getMinutes();
-    outputString += date_f.getSeconds();
-    outputString += "<br/>";
+    outputString += "<td>" + (date_f.Year+1900) + "/" + date_f.Day + "/" + (date_f.Month+1) + "</td>";
+    outputString += "</tr>";
 }
+outputString += "</table>";
 
 return outputString;
