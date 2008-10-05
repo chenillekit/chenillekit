@@ -23,7 +23,9 @@ import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.internal.services.ContextResource;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
+import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.InjectService;
+import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.services.AssetFactory;
 import org.apache.tapestry5.services.Context;
@@ -32,10 +34,13 @@ import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 
+import freemarker.template.Configuration;
 import org.chenillekit.demo.data.Track;
+import org.chenillekit.image.services.ImageService;
 import org.chenillekit.tapestry.core.services.ThumbNailService;
 import org.chenillekit.tapestry.core.services.impl.ThumbNailServiceImpl;
-import org.chenillekit.image.services.ImageService;
+import org.chenillekit.template.services.impl.FreeMarkerServiceImpl;
+import org.chenillekit.template.services.impl.VelocityServiceImpl;
 import org.slf4j.Logger;
 
 /**
@@ -172,5 +177,22 @@ public class DemoModule
                                                          @InjectService("ContextAssetFactory")AssetFactory assetFactory)
     {
         return new ThumbNailServiceImpl(logger, imageService, context, assetFactory);
+    }
+
+    /**
+     * contribute configuration to velocity template service.
+     */
+    public static void contributeVelocityService(MappedConfiguration<String, Resource> configuration)
+    {
+        configuration.add(VelocityServiceImpl.CONFIG_RESOURCE_KEY, new ClasspathResource("velocity.properties"));
+    }
+
+    /**
+     * contribute configuration to freemarker template service.
+     */
+    public static void contributeFreeMarkerService(MappedConfiguration<String, Configuration> configuration)
+    {
+        freemarker.template.Configuration config = new freemarker.template.Configuration();
+        configuration.add(FreeMarkerServiceImpl.CONFIG_RESOURCE_KEY, config);
     }
 }
