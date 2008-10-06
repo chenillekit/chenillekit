@@ -318,6 +318,10 @@
                         <groupId>jfree</groupId>
                         <artifactId>jfreechart</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>commons-digester</groupId>
+                        <artifactId>commons-digester</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
