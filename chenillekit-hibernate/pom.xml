@@ -169,4 +169,17 @@
         </profile>
     </profiles>
 
+    <!--
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    + get fresh hibernate jars directly from jboss repo
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    -->
+    <repositories>
+        <repository>
+            <id>jboss</id>
+            <name>JBoss</name>
+            <url>http://repository.jboss.org/maven2</url>
+        </repository>
+    </repositories>
+
 </project>
