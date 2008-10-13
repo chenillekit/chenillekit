@@ -38,10 +38,10 @@ import org.apache.tapestry5.corelib.base.AbstractField;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.internal.util.InternalUtils;
+import org.apache.tapestry5.json.JSONObject;
+import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.services.FieldValidatorDefaultSource;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.ComponentDefaultProvider;
-import org.apache.tapestry5.json.JSONObject;
 
 /**
  * A component used to collect a provided date/time from the user using a client-side JavaScript calendar. Non-JavaScript
@@ -89,6 +89,14 @@ public class DateTimeField extends AbstractField
      */
     @Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
     private boolean timePickerAdjacent;
+
+    /**
+     * a named javascript function, that executed after the date selected by the picker.
+     * there should one function parameter that holds the input dom element.
+     * This funtion should returns true or false.
+     */
+    @Parameter(defaultPrefix = BindingConstants.LITERAL, required = false)
+    private String afterUpdateElement;
 
     @Environmental
     private RenderSupport support;
@@ -193,6 +201,10 @@ public class DateTimeField extends AbstractField
         setup.put("timePicker", timePicker);
         setup.put("timePickerAdjacent", timePickerAdjacent);
         setup.put("locale", request.getLocale().toString());
+
+        if (afterUpdateElement != null)
+            setup.put("afterUpdateElement", afterUpdateElement);
+
         if (timePicker)
             setup.put("dateTimeFormat", datePattern);
         else

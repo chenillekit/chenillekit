@@ -74,6 +74,14 @@ Control.DatePicker.prototype = {
     datePicked: function(date)
     {
         this.element.value = DateFormat.format(date, this.options.currentFormat);
+
+        if (this.options.afterUpdateElement)
+        {
+            var evalRC = eval(this.options.afterUpdateElement + "(this.element)");
+            if (!evalRC)
+                return;
+        }
+
         this.element.focus();
         this.hide();
     },
