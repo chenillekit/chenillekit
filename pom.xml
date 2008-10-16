@@ -124,14 +124,14 @@
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
-                <version>2.4</version>
+                <version>2.5</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
-                <version>1.4</version>
+                <version>1.4.1</version>
             </dependency>
 
             <!-- Tapestry artifacts -->
@@ -295,13 +295,13 @@
             <dependency>
                 <groupId>org.apache.lucene</groupId>
                 <artifactId>lucene-core</artifactId>
-                <version>2.3.2</version>
+                <version>2.4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.lucene</groupId>
                 <artifactId>lucene-analyzers</artifactId>
-                <version>2.3.2</version>
+                <version>2.4.0</version>
             </dependency>
 
             <!--
@@ -312,7 +312,7 @@
             <dependency>
                 <groupId>jasperreports</groupId>
                 <artifactId>jasperreports</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>jfree</groupId>
@@ -333,7 +333,7 @@
             <dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
-                <version>2.3.13</version>
+                <version>2.3.14</version>
             </dependency>
 
             <!--
@@ -373,7 +373,7 @@
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
-                <version>1.5.6</version>
+                <version>1.5.7</version>
             </dependency>
 
             <dependency>
