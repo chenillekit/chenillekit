@@ -17,7 +17,6 @@ package org.chenillekit.quartz;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.EagerLoad;
@@ -48,22 +47,24 @@ public class ChenilleKitQuartzModule
      *
      * @return scheduler factory
      */
-    public static SchedulerFactory buildSchedulerFactory(Logger logger, Map<String, Resource> configuration,
+    public static SchedulerFactory buildSchedulerFactory(Logger logger,
+                                                         Map<String, Resource> configuration,
                                                          RegistryShutdownHub shutdownHub)
     {
-        final SchedulerFactory factory;
+        if (logger.isInfoEnabled())
+            logger.info("initialize scheduler factory");
+
+        final SchedulerFactory factory = new StdSchedulerFactory();
 
         if (configuration.containsKey("quartz.properties"))
         {
             try
             {
-                Properties properties = new Properties();
-                properties.load(configuration.get("quartz.properties").openStream());
-
+                Resource configResource = configuration.get("quartz.properties");
                 if (logger.isInfoEnabled())
-                    logger.info("initialize configured scheduler factory");
+                    logger.info("configure scheduler factory from '{}'", configResource.toString());
 
-                factory = new StdSchedulerFactory(properties);
+                ((StdSchedulerFactory) factory).initialize(configResource.openStream());
             }
             catch (IOException e)
             {
@@ -73,13 +74,6 @@ public class ChenilleKitQuartzModule
             {
                 throw new RuntimeException(e);
             }
-        }
-        else
-        {
-            if (logger.isInfoEnabled())
-                logger.info("initialize un-configured scheduler factory");
-
-            factory = new StdSchedulerFactory();
         }
 
         shutdownHub.addRegistryShutdownListener(new RegistryShutdownListener()
