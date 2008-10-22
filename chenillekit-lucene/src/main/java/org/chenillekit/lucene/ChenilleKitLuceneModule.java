@@ -14,16 +14,18 @@
 
 package org.chenillekit.lucene;
 
+import static org.apache.tapestry5.ioc.IOCConstants.PERTHREAD_SCOPE;
+
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;
-import static org.apache.tapestry5.ioc.IOCConstants.PERTHREAD_SCOPE;
 import org.apache.tapestry5.ioc.annotations.Scope;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
-
+import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.IndexerService;
 import org.chenillekit.lucene.services.SearcherService;
+import org.chenillekit.lucene.services.impl.IndexSourceImpl;
 import org.chenillekit.lucene.services.impl.IndexerServiceImpl;
 import org.chenillekit.lucene.services.impl.SearcherServiceImpl;
 import org.slf4j.Logger;
@@ -34,20 +36,34 @@ import org.slf4j.Logger;
  */
 public class ChenilleKitLuceneModule
 {
+	/**
+	 * @param binder
+	 */
+	public static IndexSource buildIndexSource(Logger logger, Map<String, Resource> configurationMap,
+						RegistryShutdownHub shutdownHub)
+	{
+		Resource config = configurationMap.get(ChenilleKitLuceneConstants.CONFIG_KEY_PROPERTIES);
+		IndexSourceImpl service = new IndexSourceImpl(logger, config);
+		
+		shutdownHub.addRegistryShutdownListener(service);
+		
+		return service;
+	}
+	
     /**
      * bind the <a href="http://lucene.apache.org/java/docs/index.html">lucene</a> based indexer service.
      *
      * @param logger        system logger
-     * @param configuration IOC configuration map
+     * @param soruce {@link IndexSource} service
      * @param threadManager the thread manager
      *
      * @return indexer engine
      */
     @Scope(PERTHREAD_SCOPE)
-    public static IndexerService buildIndexerService(Logger logger, Map<String, Resource> configuration,
-                                                     PerthreadManager threadManager)
+    public static IndexerService buildIndexerService(Logger logger, IndexSource source,
+    						PerthreadManager threadManager)
     {
-        IndexerServiceImpl service = new IndexerServiceImpl(logger, configuration.get(IndexerService.CONFIG_KEY_PROPERTIES));
+        IndexerServiceImpl service = new IndexerServiceImpl(logger, source);
         threadManager.addThreadCleanupListener(service);
         return service;
     }
@@ -57,15 +73,17 @@ public class ChenilleKitLuceneModule
      *
      * @param logger        system logger
      * @param configuration IOC configuration map
-     * @param shutdownHub   the shutdown hub
+     * @param threadManager	Manager services to clean up resources
      *
      * @return searcher engine
      */
-    public static SearcherService buildSearcherService(Logger logger, Map<String, Resource> configuration,
-                                                       RegistryShutdownHub shutdownHub)
+    public static SearcherService buildSearcherService(Logger logger, IndexSource source,
+                                                       PerthreadManager threadManager)
     {
-        SearcherServiceImpl service = new SearcherServiceImpl(logger, configuration.get(IndexerService.CONFIG_KEY_PROPERTIES));
-        shutdownHub.addRegistryShutdownListener(service);
+        SearcherServiceImpl service = new SearcherServiceImpl(logger, source);
+        
+        threadManager.addThreadCleanupListener(service);
+        
         return service;
     }
 }

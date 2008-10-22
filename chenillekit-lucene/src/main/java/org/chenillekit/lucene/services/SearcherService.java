@@ -14,17 +14,17 @@
 
 package org.chenillekit.lucene.services;
 
+import java.util.List;
+
+import org.apache.lucene.document.Document;
+
 /**
  * implements seacher based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public interface SearcherService<T>
+public interface SearcherService
 {
-    public final String CONFIG_KEY_PROPERTIES = "lucene.properties";
-    public final String PROPERTIES_KEY_IF = "search.index.folder";
-    public final String PROPERTIES_KEY_ACN = "search.analyzer.class.name";
-
-    <T> T search(String fieldName, String queryString);
+    List<Document> search(String fieldName, String queryString, Integer howMany);
 }

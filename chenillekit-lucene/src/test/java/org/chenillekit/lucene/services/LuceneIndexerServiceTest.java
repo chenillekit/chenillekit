@@ -21,12 +21,12 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-
 import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeClass;
@@ -78,6 +78,8 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
     {
         IndexerService service = registry.getService(IndexerService.class);
         assertEquals(service.getDocCount(), repeating * docAmount);
+        
+        service.commit();
     }
 
     @Test(dependsOnMethods = {"indexed_records"})
@@ -85,8 +87,9 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
     {
         IndexerService service = registry.getService(IndexerService.class);
         service.delDocuments("id", "consp.txt_1");
-        service.optimizeIndex();
-        assertEquals(service.getDocCount(), (repeating * docAmount) - 1);
+        assertEquals(service.getDocCount(), (repeating * docAmount));
+        service.commit();
+        
     }
 
     private String readFile(URL file)
