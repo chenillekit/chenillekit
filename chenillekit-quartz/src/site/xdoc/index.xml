@@ -48,16 +48,11 @@
 
         <section name="HowTo">
 
-            <subsection name="configure">
+            <subsection name="Configure">
 
                 <p>
-                    to configure the scheduler factory, copy the quartz properties file at your favourite location
-                    (in the sample the application classpath)
-                </p>
-
-                <p>
-                    for further information about the properties meaning visit
-                    <a href="http://www.opensymphony.com/quartz/wikidocs/Configuration.html">this page</a>.
+                    To configure the scheduler factory create a configuration file named <em>quartz.properties</em>
+                    in the root of your classpath.
                 </p>
 
                 <source>
@@ -87,33 +82,25 @@ org.quartz.jobStore.class = org.quartz.simpl.RAMJobStore
 org.quartz.plugin.triggHistory.class = org.quartz.plugins.history.LoggingJobHistoryPlugin
 ]]>
                 </source>
-
+                
                 <p>
-                    ... than contribute the scheduler factory in your application module like this:
+                    For further information about the properties meaning visit
+                    <a href="http://www.opensymphony.com/quartz/wikidocs/Configuration.html">this page</a>.
                 </p>
-
-                <source>
-                    <![CDATA[
-public static void contributeSchedulerFactory(MappedConfiguration<String, Resource> configuration)
-{
-    Resource configResource = new ClasspathResource("scheduler.properties");
-    configuration.add("quartz.properties", configResource);
-}
-]]>
-                </source>
 
             </subsection>
 
-            <subsection name="add jobs to the scheduler">
+            <subsection name="Add jobs to the scheduler">
 
                 <p>
-                    To add a job to the scheduler lets play with a real world sample.
-                    This job reads emails from an IMAP folder and indexes some fields via Lucene serach and index
-                    engine.
+                    To add a jobs to the scheduler implements the JobSchedulingBundle interface and contribute
+                    it to the QuartzSchedulerManager service.
+                    Let's see a real world example, this job reads emails from an IMAP folder and indexes some
+                    fields via Lucene serach and index engine.
                 </p>
 
                 <p>
-                    create a class ImportEmailToArchiveBundle like this:
+                    Create a class ImportEmailToArchiveBundle like this:
                 </p>
 
                 <source>
@@ -169,8 +156,8 @@ public class ImportEmailToArchiveBundle implements JobSchedulingBundle
                 </source>
 
                 <p>
-                    now let the scheduler now, that he should controll the above job and write the next contribution
-                    also to your application module.
+                    Now let the scheduler know that he should control the above job writing a contibution to the
+                    QuartzSchedulerManager.
                 </p>
 
                 <source>
@@ -185,7 +172,7 @@ public static void contributeQuartzSchedulerManager(EmailArchiveImporter importe
                 </source>
 
                 <p>
-                    now re-/start your application and the scheduler starts the job every 30 minutes
+                    Now re-/start your application and the scheduler starts the job every 30 minutes
                 </p>
 
             </subsection>

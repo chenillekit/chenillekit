@@ -14,12 +14,8 @@
 
 package org.chenillekit.quartz;
 
-import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
-import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.chenillekit.quartz.services.impl.SimpleJobSchedulingBundleImpl;
 import org.quartz.JobDetail;
@@ -33,16 +29,9 @@ import org.quartz.TriggerUtils;
 @SubModule(value = {ChenilleKitQuartzModule.class})
 public class ChenilleKitQuartzTestModule
 {
-    /**
-     * contribute the <a href="http://www.opensymphony.com/quartz/">job scheduling system</a>.
-     *
-     * @param configuration configuration map
-     */
-    public static void contributeSchedulerFactory(MappedConfiguration<String, Resource> configuration)
-    {
-        configuration.add("quartz.properties", new ClasspathResource("scheduler.properties"));
-    }
-
+	/**
+	 * @param configuration
+	 */
     public static void contributeQuartzSchedulerManager(OrderedConfiguration<JobSchedulingBundle> configuration)
     {
         JobDetail myTestDetail = new JobDetail("MyTestJob", "MyTestGroup", MyTestJob.class);
