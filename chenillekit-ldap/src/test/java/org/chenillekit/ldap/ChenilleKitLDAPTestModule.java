@@ -34,6 +34,6 @@ public class ChenilleKitLDAPTestModule
                                                            MappedConfiguration<String, Resource> configuration)
     {
         Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "ldap.properties");
-        configuration.add(SearcherService.CONFIG_KEY, cpResource);
+        configuration.add(ChenilleKitLDAPConstants.CONFIG_KEY, cpResource);
     }
 }

@@ -29,6 +29,8 @@ import netscape.ldap.LDAPException;
 import netscape.ldap.LDAPSearchResults;
 import netscape.ldap.LDAPv2;
 import netscape.ldap.LDAPv3;
+
+import org.chenillekit.ldap.ChenilleKitLDAPConstants;
 import org.chenillekit.ldap.services.SearcherService;
 import org.slf4j.Logger;
 
@@ -60,14 +62,14 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
      */
     private void initService(Configuration configuration)
     {
-        ldapHostName = configuration.getString(SearcherService.PROPKEY_HOSTNAME);
-        ldapAuthDN = configuration.getString(SearcherService.PROPKEY_AUTHDN);
-        ldapPwd = configuration.getString(SearcherService.PROPKEY_AUTHPWD);
-        ldapPort = configuration.getInt(SearcherService.PROPKEY_HOSTPORT, 389);
-        ldapVersion = configuration.getInt(SearcherService.PROPKEY_VERSION, 3);
+        ldapHostName = configuration.getString(ChenilleKitLDAPConstants.PROPKEY_HOSTNAME);
+        ldapAuthDN = configuration.getString(ChenilleKitLDAPConstants.PROPKEY_AUTHDN);
+        ldapPwd = configuration.getString(ChenilleKitLDAPConstants.PROPKEY_AUTHPWD);
+        ldapPort = configuration.getInt(ChenilleKitLDAPConstants.PROPKEY_HOSTPORT, 389);
+        ldapVersion = configuration.getInt(ChenilleKitLDAPConstants.PROPKEY_VERSION, 3);
 
         if (StringUtils.isEmpty(ldapHostName))
-            throw new RuntimeException("property '" + SearcherService.PROPKEY_HOSTNAME + "' cant be empty!");
+            throw new RuntimeException("property '" + ChenilleKitLDAPConstants.PROPKEY_HOSTNAME + "' cant be empty!");
 
         ldapConnection = new LDAPConnection();
     }

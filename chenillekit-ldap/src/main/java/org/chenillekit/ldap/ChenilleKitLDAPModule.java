@@ -37,7 +37,7 @@ public class ChenilleKitLDAPModule
     {
         SimpleSearcherServiceImpl service =
                 new SimpleSearcherServiceImpl(logger,
-                                              configurationService.getConfiguration(configuration.get(SearcherService.CONFIG_KEY)));
+                                              configurationService.getConfiguration(configuration.get(ChenilleKitLDAPConstants.CONFIG_KEY)));
         shutdownHub.addRegistryShutdownListener(service);
         return service;
     }

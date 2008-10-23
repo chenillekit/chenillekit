@@ -23,13 +23,6 @@ import netscape.ldap.LDAPEntry;
  */
 public interface SearcherService
 {
-    public static String CONFIG_KEY = "ldap.properties";
-    public static String PROPKEY_VERSION = "ldap.version";
-    public static String PROPKEY_HOSTNAME = "ldap.hostname";
-    public static String PROPKEY_HOSTPORT = "ldap.hostport";
-    public static String PROPKEY_AUTHDN = "ldap.authdn";
-    public static String PROPKEY_AUTHPWD = "ldap.authpwd";
-
     /**
      * get the result object of an attribute based on baseDN and filter.
      *
