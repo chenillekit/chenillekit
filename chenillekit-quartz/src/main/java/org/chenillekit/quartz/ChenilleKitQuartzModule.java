@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.EagerLoad;
+import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
@@ -43,6 +44,9 @@ public class ChenilleKitQuartzModule
 {
     /**
      * bind the <a href="http://www.opensymphony.com/quartz/">Quartz</a> scheduler factory.
+     * <p/>
+     * first we look for configuration contribution. if not exists (is null) we try to access
+     * the quartz.properties in classpath.
      *
      * @param shutdownHub the shutdown hub
      *
@@ -59,11 +63,10 @@ public class ChenilleKitQuartzModule
         {
             Resource resource = contributions.get(ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY);
             if (resource == null)
-                throw new RuntimeException(String.format("Quartz properties resource '%s' not set!",
-                                                         ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY));
+                resource = new ClasspathResource("/" + ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY);
 
             if (!resource.exists())
-                throw new RuntimeException(String.format("resource '%s' doesnt exists!", resource));
+                throw new RuntimeException(String.format("Quartz properties resource '%s' doesnt exists!", resource));
 
             InputStream in = resource.openStream();
             Properties prop = new Properties();
