@@ -14,19 +14,18 @@
 
 package org.chenillekit.quartz;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.EagerLoad;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
+
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.chenillekit.quartz.services.QuartzSchedulerManager;
 import org.chenillekit.quartz.services.impl.QuartzSchedulerManagerImpl;
@@ -45,25 +44,34 @@ public class ChenilleKitQuartzModule
     /**
      * bind the <a href="http://www.opensymphony.com/quartz/">Quartz</a> scheduler factory.
      *
-     * @param shutdownHub   the shutdown hub
+     * @param shutdownHub the shutdown hub
      *
      * @return scheduler factory
      */
     public static SchedulerFactory buildSchedulerFactory(Logger logger,
-                                                         RegistryShutdownHub shutdownHub)
+                                                         RegistryShutdownHub shutdownHub,
+                                                         Map<String, Resource> contributions)
     {
         if (logger.isInfoEnabled())
             logger.info("initialize scheduler factory");
 
         try
         {
-        	InputStream in = ChenilleKitQuartzModule.class.getResourceAsStream(ChenilleKitQuartsConstants.PROPERTY_RESOURCE);
-        	Properties prop = new Properties();
-        	prop.load(in);
-        	
-        	final SchedulerFactory factory = new StdSchedulerFactory(prop);
-        	
-        	shutdownHub.addRegistryShutdownListener(new RegistryShutdownListener()
+            Resource resource = contributions.get(ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY);
+            if (resource == null)
+                throw new RuntimeException(String.format("quarts properties resource '%s' not set!",
+                                                         ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY));
+
+            if (!resource.exists())
+                throw new RuntimeException(String.format("resource '%s' doesnt exists!", resource));
+
+            InputStream in = resource.openStream();
+            Properties prop = new Properties();
+            prop.load(in);
+
+            final SchedulerFactory factory = new StdSchedulerFactory(prop);
+
+            shutdownHub.addRegistryShutdownListener(new RegistryShutdownListener()
             {
                 /**
                  * Invoked when the registry shuts down, giving services a chance to perform any final operations. Service
@@ -89,11 +97,11 @@ public class ChenilleKitQuartzModule
         }
         catch (IOException ioe)
         {
-        	throw new RuntimeException(ioe);
+            throw new RuntimeException(ioe);
         }
         catch (SchedulerException se)
         {
-        	throw new RuntimeException(se);
+            throw new RuntimeException(se);
         }
     }
 

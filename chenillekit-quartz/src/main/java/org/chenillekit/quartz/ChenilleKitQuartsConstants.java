@@ -20,6 +20,6 @@ package org.chenillekit.quartz;
  */
 public class ChenilleKitQuartsConstants
 {
-	public static final String PROPERTY_RESOURCE = "/quartz.properties";
+	public static final String CONFIG_RESOURCE_KEY = "quartz.properties";
 
 }
