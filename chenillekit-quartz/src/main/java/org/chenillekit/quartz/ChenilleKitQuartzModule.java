@@ -59,7 +59,7 @@ public class ChenilleKitQuartzModule
         {
             Resource resource = contributions.get(ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY);
             if (resource == null)
-                throw new RuntimeException(String.format("quarts properties resource '%s' not set!",
+                throw new RuntimeException(String.format("Quartz properties resource '%s' not set!",
                                                          ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY));
 
             if (!resource.exists())
