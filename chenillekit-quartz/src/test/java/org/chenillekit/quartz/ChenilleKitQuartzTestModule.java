@@ -69,7 +69,7 @@ public class ChenilleKitQuartzTestModule
     public static void contributeSchedulerFactory(MappedConfiguration<String, Resource> configuration)
     {
         Resource configResource = new ClasspathResource("quartz.properties");
-        configuration.add(ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY, configResource);
+        configuration.add(ChenilleKitQuartzConstants.CONFIG_RESOURCE_KEY, configResource);
     }
 
 

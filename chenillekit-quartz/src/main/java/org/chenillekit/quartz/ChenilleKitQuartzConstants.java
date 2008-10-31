@@ -18,7 +18,7 @@ package org.chenillekit.quartz;
  * Constants holding class
  * @version $Id$
  */
-public class ChenilleKitQuartsConstants
+public class ChenilleKitQuartzConstants
 {
 	public static final String CONFIG_RESOURCE_KEY = "quartz.properties";
 

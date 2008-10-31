@@ -61,9 +61,9 @@ public class ChenilleKitQuartzModule
 
         try
         {
-            Resource resource = contributions.get(ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY);
+            Resource resource = contributions.get(ChenilleKitQuartzConstants.CONFIG_RESOURCE_KEY);
             if (resource == null)
-                resource = new ClasspathResource("/" + ChenilleKitQuartsConstants.CONFIG_RESOURCE_KEY);
+                resource = new ClasspathResource("/" + ChenilleKitQuartzConstants.CONFIG_RESOURCE_KEY);
 
             if (!resource.exists())
                 throw new RuntimeException(String.format("Quartz properties resource '%s' doesnt exists!", resource));
