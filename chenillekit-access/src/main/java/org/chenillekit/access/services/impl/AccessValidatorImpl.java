@@ -15,13 +15,11 @@ package org.chenillekit.access.services.impl;
 
 import java.lang.reflect.Field;
 
-import org.apache.tapestry5.internal.services.RequestPageCache;
 import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.MetaDataLocator;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.services.AccessValidator;
