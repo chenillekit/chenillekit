@@ -25,7 +25,7 @@ import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethodSignature;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
-import org.chenillekit.access.utils.ChenillekitAccessInternalUtils;
+import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 
 /**
  * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>

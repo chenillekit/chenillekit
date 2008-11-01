@@ -18,6 +18,8 @@
 
 package org.chenillekit.access.utils;
 
+import org.chenillekit.access.WebSessionUser;
+
 /**
  * JavaBean used to store infos about the user currently logged
  * in. Typically the final user want to extend this one.

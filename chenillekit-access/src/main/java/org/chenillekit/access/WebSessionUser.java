@@ -12,19 +12,25 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access.services;
+package org.chenillekit.access;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
+ * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
-public interface AuthService<T>
+public interface WebSessionUser
 {
     /**
-     * User authentication.
+     * get the role ids.
      *
-     * @param userName name of the user
-     * @param password users password
+     * @return role ids
      */
-    T doAuthenticate(String userName, String password);
+    int getRoleWeigh();
+
+    /**
+     * get the group names.
+     *
+     * @return group names
+     */
+    String[] getGroups();
 }

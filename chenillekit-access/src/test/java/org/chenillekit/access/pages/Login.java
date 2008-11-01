@@ -15,15 +15,13 @@
 package org.chenillekit.access.pages;
 
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.corelib.components.PasswordField;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
-
 import org.slf4j.Logger;
-import org.chenillekit.access.services.AuthService;
 
 
 /**
@@ -33,9 +31,6 @@ public class Login
 {
     @Inject
     private Logger logger;
-
-    @Inject
-    private AuthService authService;
 
     @Persist
     @Property
@@ -53,6 +48,6 @@ public class Login
     @Log
     void onSuccess()
     {
-        authService.doAuthenticate(userName, password);
+//        authService.doAuthenticate(userName, password);
     }
 }

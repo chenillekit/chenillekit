@@ -18,10 +18,8 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.services.ApplicationStateContribution;
 import org.apache.tapestry5.services.ApplicationStateCreator;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
-import org.chenillekit.access.services.impl.ShaPasswordEncoder;
 import org.chenillekit.access.utils.RootUser;
 
 /**
@@ -62,15 +60,4 @@ public class TestAppWithRootModule
     {
         configuration.add(ChenilleKitAccessConstants.LOGIN_PAGE, "login");
     }
-
-    /**
-     * @param configuration
-     */
-    public static void contributePasswordEncoder(MappedConfiguration<String, Class> configuration)
-    {
-//        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, PlaintextPasswordEncoder.class);
-//        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, Md5PasswordEncoder.class);
-        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, ShaPasswordEncoder.class);
-    }
-
 }

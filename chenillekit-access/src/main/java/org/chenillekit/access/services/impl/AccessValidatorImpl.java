@@ -21,10 +21,10 @@ import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.MetaDataLocator;
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.annotations.Restricted;
+import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.AccessValidator;
-import org.chenillekit.access.utils.ChenillekitAccessInternalUtils;
-import org.chenillekit.access.utils.WebSessionUser;
 import org.slf4j.Logger;
 
 /**

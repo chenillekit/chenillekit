@@ -32,10 +32,8 @@ import org.apache.tapestry5.services.MetaDataLocator;
 import org.apache.tapestry5.services.PageRenderRequestFilter;
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.services.AccessValidator;
-import org.chenillekit.access.services.AuthService;
 import org.chenillekit.access.services.PasswordEncoder;
 import org.chenillekit.access.services.impl.AccessValidatorImpl;
-import org.chenillekit.access.services.impl.AuthServiceImpl;
 import org.chenillekit.access.services.impl.ComponentEventAccessFilter;
 import org.chenillekit.access.services.impl.PageRenderAccessFilter;
 import org.chenillekit.access.services.impl.RestrictedWorker;
@@ -89,19 +87,6 @@ public class ChenilleKitAccessModule
     			OrderedConfiguration<ComponentClassTransformWorker> configuration)
     {
         configuration.add("Restricted", new RestrictedWorker(), "after:Secure");
-    }
-
-    /**
-     * build the authentificate service.
-     *
-     * @param logger          system logger
-     * @param passwordEncoder the password encoder
-     *
-     * @return
-     */
-    public static AuthService buildAuthService(Logger logger, PasswordEncoder passwordEncoder)
-    {
-        return new AuthServiceImpl(logger, passwordEncoder);
     }
 
     /**

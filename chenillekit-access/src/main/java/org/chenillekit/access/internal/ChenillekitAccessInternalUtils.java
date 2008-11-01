@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.chenillekit.access.utils;
+package org.chenillekit.access.internal;
 
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.services.TransformMethodSignature;
