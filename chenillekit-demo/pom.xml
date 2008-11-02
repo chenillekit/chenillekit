@@ -97,9 +97,9 @@
         </dependency>
 
         <dependency>
-          <groupId>xmlrpc</groupId>
-          <artifactId>xmlrpc-client</artifactId>
-          <version>3.0</version>
+            <groupId>xmlrpc</groupId>
+            <artifactId>xmlrpc-client</artifactId>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
@@ -217,6 +217,19 @@
                             </Implementation-Version>
                         </manifestEntries>
                     </archive>
+                </configuration>
+            </plugin>
+
+            <!--
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            + dont deploy this package
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
 
