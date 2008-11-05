@@ -33,18 +33,6 @@
     -->
     <dependencies>
 
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>tapestry-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Tapestry artifacts -->
         <dependency>
             <groupId>org.apache.tapestry</groupId>
@@ -83,12 +71,25 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
+            <version>1.5.7</version>
         </dependency>
 
         <dependency>
             <groupId>org.beanshell</groupId>
             <artifactId>bsh</artifactId>
             <version>2.0b4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.14</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.5</version>
         </dependency>
 
         <dependency>
@@ -100,41 +101,6 @@
             <groupId>xmlrpc</groupId>
             <artifactId>xmlrpc-client</artifactId>
             <version>3.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.ant</groupId>
-            <artifactId>ant</artifactId>
-            <version>1.7.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.ant</groupId>
-            <artifactId>ant-launcher</artifactId>
-            <version>1.7.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>jboss</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.7.ga</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.2</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -230,6 +196,33 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!--
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            + build the war archive
+            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1-alpha-2</version>
+                <configuration>
+
+                    <archiveClasses>true</archiveClasses>
+
+                    <packagingExcludes>
+                        WEB-INF/lib/ant-*.jar,
+                        WEB-INF/lib/commons-beanutils-core-*.jar,
+                        WEB-INF/lib/commons-logging-*.jar,
+                        WEB-INF/lib/javassist-3.7.ga.jar,
+                        WEB-INF/lib/jdtcore-*.jar,
+                        WEB-INF/lib/jta-*.jar,
+                        WEB-INF/lib/javacc-*.jar,
+                        WEB-INF/lib/junit-*.jar
+                    </packagingExcludes>
+
                 </configuration>
             </plugin>
 

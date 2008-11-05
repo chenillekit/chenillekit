@@ -32,16 +32,7 @@
     -->
     <dependencies>
 
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>tapestry-ioc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>hivemind</groupId>
-            <artifactId>hivemind</artifactId>
-        </dependency>
-
+        <!-- testing libs -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -60,10 +51,23 @@
             <artifactId>jcl-over-slf4j</artifactId>
             <scope>test</scope>
         </dependency>
-        
+        <!-- testing libs -->
+
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-ioc</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>oro</groupId>
             <artifactId>oro</artifactId>
+            <version>2.0.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>hivemind</groupId>
+            <artifactId>hivemind</artifactId>
+            <version>1.1.1</version>
         </dependency>
 
     </dependencies>

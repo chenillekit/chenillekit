@@ -40,29 +40,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!--
-        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        ++ Tapestry IOC
-        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        -->
-        <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-ioc</artifactId>
         </dependency>
 
-        <!--
-        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        ++ Jasperreports
-        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        -->
         <dependency>
             <groupId>jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
+            <version>3.1.0</version>
         </dependency>
 
     </dependencies>
