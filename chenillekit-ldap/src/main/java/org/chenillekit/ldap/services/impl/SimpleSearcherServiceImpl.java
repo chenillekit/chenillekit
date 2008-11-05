@@ -16,11 +16,11 @@ package org.chenillekit.ldap.services.impl;
 
 import java.util.List;
 
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
 
 import netscape.ldap.LDAPConnection;
@@ -29,7 +29,6 @@ import netscape.ldap.LDAPException;
 import netscape.ldap.LDAPSearchResults;
 import netscape.ldap.LDAPv2;
 import netscape.ldap.LDAPv3;
-
 import org.chenillekit.ldap.ChenilleKitLDAPConstants;
 import org.chenillekit.ldap.services.SearcherService;
 import org.slf4j.Logger;
@@ -42,34 +41,51 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
 {
     private Logger logger;
     private LDAPConnection ldapConnection;
-    private String ldapHostName;
-    private String ldapAuthDN;
-    private String ldapPwd;
-    private int ldapPort;
-    private int ldapVersion;
+    private final String ldapHostName;
+    private final String ldapAuthDN;
+    private final String ldapPwd;
+    private final int ldapPort;
+    private final int ldapVersion;
 
-    public SimpleSearcherServiceImpl(Logger logger, Configuration configuration)
+    public SimpleSearcherServiceImpl(Logger logger,
+
+                                     @Inject
+                                     @Symbol(ChenilleKitLDAPConstants.LDAP_VERSION)
+                                     int ldapVersion,
+
+                                     @Inject
+                                     @Symbol(ChenilleKitLDAPConstants.LDAP_HOSTNAME)
+                                     String ldapHostName,
+
+                                     @Inject
+                                     @Symbol(ChenilleKitLDAPConstants.LDAP_HOSTPORT)
+                                     int ldapPort,
+
+                                     @Inject
+                                     @Symbol(ChenilleKitLDAPConstants.LDAP_AUTHDN)
+                                     String ldapAuthDN,
+
+                                     @Inject
+                                     @Symbol(ChenilleKitLDAPConstants.LDAP_AUTHPWD)
+                                     String ldapPwd)
     {
-        Defense.notNull(configuration, "configuration");
-
         this.logger = logger;
+        this.ldapVersion = ldapVersion;
+        this.ldapHostName = ldapHostName;
+        this.ldapPort = ldapPort;
+        this.ldapAuthDN = ldapAuthDN;
+        this.ldapPwd = ldapPwd;
 
-        initService(configuration);
+        initService();
     }
 
     /**
      * read and check all service parameters.
      */
-    private void initService(Configuration configuration)
+    private void initService()
     {
-        ldapHostName = configuration.getString(ChenilleKitLDAPConstants.PROPKEY_HOSTNAME);
-        ldapAuthDN = configuration.getString(ChenilleKitLDAPConstants.PROPKEY_AUTHDN);
-        ldapPwd = configuration.getString(ChenilleKitLDAPConstants.PROPKEY_AUTHPWD);
-        ldapPort = configuration.getInt(ChenilleKitLDAPConstants.PROPKEY_HOSTPORT, 389);
-        ldapVersion = configuration.getInt(ChenilleKitLDAPConstants.PROPKEY_VERSION, 3);
-
         if (StringUtils.isEmpty(ldapHostName))
-            throw new RuntimeException("property '" + ChenilleKitLDAPConstants.PROPKEY_HOSTNAME + "' cant be empty!");
+            throw new RuntimeException("property '" + ChenilleKitLDAPConstants.LDAP_HOSTNAME + "' cant be empty!");
 
         ldapConnection = new LDAPConnection();
     }

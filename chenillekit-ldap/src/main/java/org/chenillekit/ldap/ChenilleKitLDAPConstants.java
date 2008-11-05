@@ -16,16 +16,14 @@ package org.chenillekit.ldap;
 
 /**
  * Constants definition class
- * 
+ *
  * @version $Id$
  */
 public class ChenilleKitLDAPConstants
 {
-	public static final String CONFIG_KEY = "ldap.properties";
-    public static final String PROPKEY_VERSION = "ldap.version";
-    public static final String PROPKEY_HOSTNAME = "ldap.hostname";
-    public static final String PROPKEY_HOSTPORT = "ldap.hostport";
-    public static final String PROPKEY_AUTHDN = "ldap.authdn";
-    public static final String PROPKEY_AUTHPWD = "ldap.authpwd";
-
+    public static final String LDAP_VERSION = "ck.ldap.version";
+    public static final String LDAP_HOSTNAME = "ck.ldap.hostname";
+    public static final String LDAP_HOSTPORT = "ck.ldap.hostport";
+    public static final String LDAP_AUTHDN = "ck.ldap.authdn";
+    public static final String LDAP_AUTHPWD = "ck.ldap.authpwd";
 }

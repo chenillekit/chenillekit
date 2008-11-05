@@ -14,15 +14,12 @@
 
 package org.chenillekit.ldap;
 
-import java.util.Map;
-
-import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.ServiceResources;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 
-import org.chenillekit.core.services.ConfigurationService;
 import org.chenillekit.ldap.services.SearcherService;
 import org.chenillekit.ldap.services.impl.SimpleSearcherServiceImpl;
-import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
@@ -30,15 +27,23 @@ import org.slf4j.Logger;
  */
 public class ChenilleKitLDAPModule
 {
-    public static SearcherService buildSimpleLdapSearcherService(Logger logger,
-                                                                 ConfigurationService configurationService,
-                                                                 Map<String, Resource> configuration,
+    public static SearcherService buildSimpleLdapSearcherService(ServiceResources resources,
                                                                  RegistryShutdownHub shutdownHub)
     {
-        SimpleSearcherServiceImpl service =
-                new SimpleSearcherServiceImpl(logger,
-                                              configurationService.getConfiguration(configuration.get(ChenilleKitLDAPConstants.CONFIG_KEY)));
+        SimpleSearcherServiceImpl service = resources.autobuild(SimpleSearcherServiceImpl.class);
         shutdownHub.addRegistryShutdownListener(service);
         return service;
+    }
+
+    /**
+     * Contributes factory defaults that may be overridden.
+     */
+    public static void contributeFactoryDefaults(MappedConfiguration<String, String> contribution)
+    {
+        contribution.add(ChenilleKitLDAPConstants.LDAP_VERSION, "3");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_HOSTNAME, "");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_HOSTPORT, "389");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_AUTHDN, "");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_AUTHPWD, "");
     }
 }
