@@ -14,21 +14,10 @@
 
 package org.chenillekit.demo.pages.tapcomp;
 
-import java.util.List;
-
-import org.apache.tapestry5.annotations.Cached;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 
-import org.chenillekit.demo.components.BarChart;
 import org.chenillekit.demo.components.LeftSideMenu;
-import org.chenillekit.demo.components.LineChart;
-import org.chenillekit.tapestry.core.components.Chart;
-import org.chenillekit.tapestry.core.components.Editor;
 import org.chenillekit.tapestry.core.components.Tooltip;
-import org.chenillekit.tapestry.core.utils.XYDataItem;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
@@ -44,5 +33,4 @@ public class TooltipDemo
 
     @Component(parameters = {"title=Info", "value=... and here comes the info text ...", "effect=slide"})
     private Tooltip tooltip2;
-
 }

@@ -15,15 +15,16 @@
 package org.chenillekit.quartz;
 
 import org.chenillekit.quartz.services.QuartzSchedulerManager;
+import org.chenillekit.test.AbstractTestSuite;
+import org.quartz.SchedulerException;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import org.quartz.SchedulerException;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
-public class TestSimpleJob extends AbstractIOCTest
+public class TestSimpleJob extends AbstractTestSuite
 {
     @BeforeSuite
     public final void setup_registry()
@@ -34,7 +35,7 @@ public class TestSimpleJob extends AbstractIOCTest
     @Test
     public void test_simple_job() throws InterruptedException
     {
-        QuartzSchedulerManager manager = getService(QuartzSchedulerManager.class);
+        QuartzSchedulerManager manager = registry.getService(QuartzSchedulerManager.class);
 
         Thread.sleep(2000);
 

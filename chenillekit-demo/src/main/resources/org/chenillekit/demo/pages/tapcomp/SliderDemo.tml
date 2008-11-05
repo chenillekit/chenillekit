@@ -43,7 +43,7 @@ private Slider slider1;
                         <form t:id="form1">
                             <t:errors/>
                             <br/>
-                            <div t:type="slider1"/>
+                            <div t:id="slider1"/>
                             <br/>
                             <input type="submit"/>
                         </form>
@@ -69,7 +69,7 @@ private Slider slider2;
                         <t:form>
                             <t:errors/>
                             <br/>
-                            <div t:type="slider2"/>
+                            <div t:id="slider2"/>
                             <br/>
                             <input type="submit"/>
                         </t:form>

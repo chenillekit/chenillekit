@@ -75,7 +75,7 @@ private Tooltip tooltip2;
 
 
 only one
-<span t:type="tooltip2">word</span>
+<span t:id="tooltip2">word</span>
 has attached a tooltip
 ]]>
                         </pre>
@@ -85,7 +85,7 @@ has attached a tooltip
                         <legend>sample</legend>
 
                         only one
-                        <span t:type="tooltip2">
+                        <span t:id="tooltip2">
                         <strong>word</strong>
                         </span>
                         has attached a tooltip
