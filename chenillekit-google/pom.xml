@@ -91,6 +91,7 @@
         <dependency>
             <groupId>com.sdicons.jsontools</groupId>
             <artifactId>jsontools-core</artifactId>
+            <version>1.5</version>
         </dependency>
 
     </dependencies>

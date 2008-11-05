@@ -32,7 +32,7 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         super("src/test/webapp");
     }
 
-    @Test
+    @Test(enabled = false)
     public void test_accordion() throws InterruptedException
     {
         open(BASE_URL);
@@ -109,20 +109,24 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         assertEquals(getText("xpath=//div[@id='test3']"), "'testLeft' dont equals 'testRight'");
     }
 
-    @Test
+    @Test(enabled = false)
     public void test_fieldset() throws InterruptedException
     {
+        String style;
+
         open(BASE_URL);
 
         start("FieldSet");
         waitForPageToLoad("5000");
         click("xpath=//fieldset[@id='fieldSet1']//legend");
         Thread.sleep(2000);
-        assertEquals(getElementHeight("xpath=//fieldset[@id='fieldSet1']"), 150);
+        style = getAttribute("xpath=//fieldset[@id='fieldSet1']//legend[@class='ck_fieldset_content']@style");
+        assertEquals(style, "width: 375px;");
 
         click("xpath=//fieldset[@id='fieldSet2']//legend");
         Thread.sleep(2000);
-        assertEquals(getElementHeight("xpath=//fieldset[@id='fieldSet2']"), 50);
+        style = getAttribute("xpath=//fieldset[@id='fieldSet1']@style");
+        assertEquals(style, "xxxx");
     }
 
     @Test
