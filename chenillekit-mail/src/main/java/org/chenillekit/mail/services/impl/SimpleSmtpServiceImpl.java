@@ -11,16 +11,15 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package org.chenillekit.mail.services.impl;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
-import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.internal.util.Defense;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 
+import org.chenillekit.mail.ChenilleKitMailConstants;
 import org.chenillekit.mail.services.SmtpService;
 import org.slf4j.Logger;
 
@@ -33,53 +32,53 @@ import org.slf4j.Logger;
 public class SimpleSmtpServiceImpl implements SmtpService<Email>
 {
     private final Logger logger;
-    private final Resource configResource;
-    private String smtpServer;
-    private int smtpPort;
-    private int smtpSSLPort;
-    private String smtpUser;
-    private String smtpPassword;
-    private boolean smtpDebug;
-    private boolean smtpSSL;
-    private boolean smtpTLS;
+    private final String smtpServer;
+    private final int smtpPort;
+    private final String smtpUser;
+    private final String smtpPassword;
+    private final boolean smtpDebug;
+    private final boolean smtpSSL;
+    private final boolean smtpTLS;
+    private final int smtpSslPort;
 
-    public SimpleSmtpServiceImpl(Logger logger, Resource configResource)
+    public SimpleSmtpServiceImpl(Logger logger,
+
+                                 @Inject
+                                 @Symbol(ChenilleKitMailConstants.SMTP_SERVER)
+                                 String smtpServer,
+
+                                 @Symbol(ChenilleKitMailConstants.SMTP_PORT)
+                                 int smtpPort,
+
+                                 @Inject
+                                 @Symbol(ChenilleKitMailConstants.SMTP_USER)
+                                 String smtpUser,
+
+                                 @Inject
+                                 @Symbol(ChenilleKitMailConstants.SMTP_PASSWORD)
+                                 String smtpPassword,
+
+                                 @Symbol(ChenilleKitMailConstants.SMTP_DEBUG)
+                                 boolean smtpDebug,
+
+                                 @Symbol(ChenilleKitMailConstants.SMTP_SSL)
+                                 boolean smtpSSL,
+
+                                 @Symbol(ChenilleKitMailConstants.SMTP_TLS)
+                                 boolean smtpTLS,
+
+                                 @Symbol(ChenilleKitMailConstants.SMTP_SSLPORT)
+                                 int smtpSslPort)
     {
-        Defense.notNull(configResource, "configResource");
-
         this.logger = logger;
-        this.configResource = configResource;
-
-        if (!this.configResource.exists())
-            throw new RuntimeException(String.format("config resource '%s' not found!", this.configResource.toString()));
-
-        initService(configResource);
-    }
-
-    /**
-     * read and check all service parameters.
-     */
-    private void initService(Resource configResource)
-    {
-        try
-        {
-            Configuration configuration = new PropertiesConfiguration(configResource.toURL());
-            smtpServer = configuration.getString(PK_SMTP_SERVER);
-            smtpPort = configuration.getInt(PK_SMTP_PORT, 25);
-            smtpUser = configuration.getString(PK_SMTP_USER);
-            smtpPassword = configuration.getString(PK_SMTP_PASSWORD);
-            smtpDebug = configuration.getBoolean(PK_SMTP_DEBUG, false);
-            smtpSSL = configuration.getBoolean(PK_SMTP_SSL, false);
-            smtpTLS = configuration.getBoolean(PK_SMTP_TLS, false);
-            smtpSSLPort = configuration.getInt(PK_SMTP_SSLPORT, 465);
-
-            if (smtpServer == null || smtpServer.length() == 0)
-                throw new RuntimeException(String.format("key %s has no value", PK_SMTP_SERVER));
-        }
-        catch (ConfigurationException e)
-        {
-            throw new RuntimeException(e);
-        }
+        this.smtpServer = smtpServer;
+        this.smtpPort = smtpPort;
+        this.smtpUser = smtpUser;
+        this.smtpPassword = smtpPassword;
+        this.smtpDebug = smtpDebug;
+        this.smtpSSL = smtpSSL;
+        this.smtpTLS = smtpTLS;
+        this.smtpSslPort = smtpSslPort;
     }
 
     /**
@@ -96,7 +95,7 @@ public class SimpleSmtpServiceImpl implements SmtpService<Email>
             email.setDebug(smtpDebug);
             email.setSmtpPort(smtpPort);
             email.setSSL(smtpSSL);
-            email.setSslSmtpPort(String.valueOf(smtpSSLPort));
+            email.setSslSmtpPort(String.valueOf(smtpSslPort));
             email.setTLS(smtpTLS);
             email.setTLS(smtpTLS);
             email.send();

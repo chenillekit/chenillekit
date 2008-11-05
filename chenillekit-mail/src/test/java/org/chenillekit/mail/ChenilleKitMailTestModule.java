@@ -15,12 +15,7 @@
 package org.chenillekit.mail;
 
 import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-import org.apache.tapestry5.ioc.services.ClassFactory;
-
-import org.chenillekit.mail.services.SmtpService;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
@@ -29,9 +24,9 @@ import org.chenillekit.mail.services.SmtpService;
 @SubModule(value = {ChenilleKitMailModule.class})
 public class ChenilleKitMailTestModule
 {
-    public static void contributeSmtpService(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
+    public static void contributeApplicationDefaults(MappedConfiguration<String, String> contribution)
     {
-        Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "smtp.properties");
-        configuration.add(SmtpService.CONFIG_KEY, cpResource);
+        contribution.add(ChenilleKitMailConstants.SMTP_PORT, "9999");
+        contribution.add(ChenilleKitMailConstants.SMTP_DEBUG, "true");
     }
 }

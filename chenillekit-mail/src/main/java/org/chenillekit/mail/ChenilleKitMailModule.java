@@ -14,13 +14,10 @@
 
 package org.chenillekit.mail;
 
-import java.util.Map;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.ServiceBinder;
 
-import org.apache.tapestry5.ioc.Resource;
-
-import org.chenillekit.mail.services.SmtpService;
 import org.chenillekit.mail.services.impl.SimpleSmtpServiceImpl;
-import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
@@ -28,8 +25,23 @@ import org.slf4j.Logger;
  */
 public class ChenilleKitMailModule
 {
-    public static SmtpService buildSmtpService(Logger logger, Map<String, Resource> configuration)
+    public static void bind(ServiceBinder binder)
     {
-        return new SimpleSmtpServiceImpl(logger, configuration.get(SmtpService.CONFIG_KEY));
+        binder.bind(SimpleSmtpServiceImpl.class);
+    }
+
+    /**
+     * Contributes factory defaults that may be overridden.
+     */
+    public static void contributeFactoryDefaults(MappedConfiguration<String, String> contribution)
+    {
+        contribution.add(ChenilleKitMailConstants.SMTP_SERVER, "localhost");
+        contribution.add(ChenilleKitMailConstants.SMTP_PORT, "25");
+        contribution.add(ChenilleKitMailConstants.SMTP_USER, "");
+        contribution.add(ChenilleKitMailConstants.SMTP_PASSWORD, "");
+        contribution.add(ChenilleKitMailConstants.SMTP_DEBUG, "false");
+        contribution.add(ChenilleKitMailConstants.SMTP_SSL, "false");
+        contribution.add(ChenilleKitMailConstants.SMTP_TLS, "false");
+        contribution.add(ChenilleKitMailConstants.SMTP_SSLPORT, "465");
     }
 }

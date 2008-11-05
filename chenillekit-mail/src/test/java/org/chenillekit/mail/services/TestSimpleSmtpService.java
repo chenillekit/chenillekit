@@ -42,7 +42,8 @@ public class TestSimpleSmtpService extends AbstractTestSuite
     public final void setup_registry()
     {
         super.setup_registry(ChenilleKitMailTestModule.class);
-        smtpServer = SimpleSmtpServer.start(25);
+        // test on port 9999 because linux workstations may blocking port 25
+        smtpServer = SimpleSmtpServer.start(9999);
     }
 
     @Test
