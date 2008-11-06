@@ -138,8 +138,8 @@ public class Slider implements ClientElement
         if (_disabled)
             jsCommand += ",disabled:true";
 
-        jsCommand += ", onChange:function(value){new Ajax.Request('%s/' + value,{method:'get', onFailure: function(){ alert('%s')}})}});";
-        jsCommand = String.format(Locale.US, jsCommand, getActionLink(), "Something went wrong...");
+        jsCommand += ", onChange:function(value){$('%s').innerHTML = value; new Ajax.Request('%s/' + value,{method:'get', onFailure: function(){ alert('%s')}})}});";
+        jsCommand = String.format(Locale.US, jsCommand, _ouputId, getActionLink(), "Something went wrong...");
 
         _pageRenderSupport.addScript(jsCommand);
     }
