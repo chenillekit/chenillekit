@@ -71,75 +71,75 @@ public class RatingField<T> extends AbstractField
      * {@link #getClientId() clientId property}.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * The value to read or update.
      */
     @Parameter(required = true)
     @Property
-    private T _value;
+    private T value;
 
     /**
      * the rateable value list.
      */
     @Parameter(required = true)
     @Property
-    private List<T> _source;
+    private List<T> source;
 
     /**
      * Encoder used to translate between server-side objects
      * and client-side strings.
      */
     @Parameter
-    private ValueEncoder _encoder;
+    private ValueEncoder encoder;
 
     /**
      * the optional Selected-Image
      */
     @Parameter(required = false)
-    private Asset _selectedImage;
+    private Asset selectedImage;
 
     /**
      * the optional UnSelected-Image
      */
     @Parameter(required = false)
-    private Asset _unselectedImage;
+    private Asset unselectedImage;
 
     @Inject
     @Path("rating_default_selected.gif")
-    private Asset _defaultSelectedImage;
+    private Asset defaultSelectedImage;
 
     @Inject
     @Path("rating_default_unselected.gif")
-    private Asset _defaultUnselectedImage;
+    private Asset defaultUnselectedImage;
 
     @Inject
-    private Environment _environment;
+    private Environment environment;
 
     @Inject
-    private RenderSupport _pageRenderSupport;
+    private RenderSupport renderSupport;
 
     @Inject
-    private ComponentResources _componentResources;
+    private ComponentResources componentResources;
 
     @Inject
-    private PropertyAccess _propertyAccess;
+    private PropertyAccess propertyAccess;
 
     @Component(parameters = {"value=prop:value", "encoder=encoder"})
-    private RadioGroup _radioGroup;
+    private RadioGroup radioGroup;
 
     @Component(parameters = {"source=prop:source", "value=loopValue"})
-    private Loop _loop;
+    private Loop loop;
 
     @Property
-    private T _loopValue;
+    private T loopValue;
 
     @Component(parameters = {"value=loopValue", "label=prop:radioLabel"})
-    private Radio _radio;
+    private Radio radio;
 
     @Component(parameters = {"for=radio"})
-    private Label _label;
+    private Label label;
 
     /**
      * Returns the image representing an unselected value.
@@ -148,7 +148,7 @@ public class RatingField<T> extends AbstractField
      */
     public Asset getUnselectedImage()
     {
-        return (_unselectedImage == null) ? _defaultUnselectedImage : _unselectedImage;
+        return (unselectedImage == null) ? defaultUnselectedImage : unselectedImage;
     }
 
     /**
@@ -158,7 +158,7 @@ public class RatingField<T> extends AbstractField
      */
     public Asset getSelectedImage()
     {
-        return _selectedImage == null ? _defaultSelectedImage : _selectedImage;
+        return selectedImage == null ? defaultSelectedImage : selectedImage;
     }
 
     /**
@@ -170,10 +170,10 @@ public class RatingField<T> extends AbstractField
     @SuppressWarnings("unchecked")
     public ValueEncoder getEncoder()
     {
-        if (_encoder == null)
-            _encoder = new GenericValueEncoder(_source);
+        if (encoder == null)
+            encoder = new GenericValueEncoder(source);
 
-        return _encoder;
+        return encoder;
     }
 
     /**
@@ -185,7 +185,7 @@ public class RatingField<T> extends AbstractField
      */
     public String getRadioLabel()
     {
-        return _loopValue.toString();
+        return loopValue.toString();
     }
 
     /**
@@ -201,7 +201,7 @@ public class RatingField<T> extends AbstractField
 
     public void afterRender(MarkupWriter writer)
     {
-        _pageRenderSupport.addScript("new RatingField('%s', '%s', '%s');", _clientId,
+        renderSupport.addScript("new RatingField('%s', '%s', '%s');", clientId,
                                      getSelectedImage().toClientURL(), getUnselectedImage().toClientURL());
     }
 }

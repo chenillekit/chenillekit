@@ -1,0 +1,77 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <div class="yui-g">
+
+        <div class="yui-u first menu">
+
+            <span t:id="menu">the menu</span>
+
+        </div>
+
+        <div class="yui-u content">
+
+            <div class="yui-u" style="width:100%">
+
+                <fieldset class="snippet">
+                    <legend>code snippet</legend>
+                        <pre>
+                            <![CDATA[
+<div t:type="ck/RatingField" t:id="ratingField1" source="list:1,2,3,4,5,6,7,8,9,10" value="ratingValue1"/>
+<div t:type="ck/RatingField" t:id="ratingField2" source="list:1,2,3,4,5" value="ratingValue2"/>
+<div t:type="ck/RatingField" t:id="ratingField3" source="list:'bad','nice','good','excelent'" value="ratingValue3"/>
+]]>
+                        </pre>
+                </fieldset>
+
+                <t:form>
+                    <fieldset class="sample">
+                        <legend>sample</legend>
+
+                        <label style="padding-right:5px;">Rating 1</label>
+
+                        <div t:type="ck/RatingField" t:id="ratingField1" source="list:1,2,3,4,5,6,7,8,9,10" value="ratingValue1"/>
+                        <br/>
+                        <label style="padding-right:5px;">Rating 2</label>
+
+                        <div t:type="ck/RatingField" t:id="ratingField2" source="list:1,2,3,4,5" value="ratingValue2"/>
+                        <br/>
+                        <label style="padding-right:5px;">Rating 3</label>
+
+                        <div t:type="ck/RatingField" t:id="ratingField3" source="list:'bad','nice','good','excelent'" value="ratingValue3"/>
+                        <br/>
+                        <input type="submit" style="margin-top:10px;"/>
+
+                    </fieldset>
+                </t:form>
+
+                <fieldset class="sample">
+                    <legend>result</legend>
+
+                    choice for rating 1 was: <span style="font-weight:bold;">${ratingValue1}</span>
+                    <br/>
+                    choice for rating 2 was: <span style="font-weight:bold;">${ratingValue2}</span>
+                    <br/>
+                    choice for rating 3 was: <span style="font-weight:bold;">${ratingValue3}</span>
+
+                </fieldset>
+
+            </div>
+
+        </div>
+    </div>
+
+</span>
