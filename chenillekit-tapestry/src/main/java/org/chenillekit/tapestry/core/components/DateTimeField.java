@@ -246,7 +246,7 @@ public class DateTimeField extends AbstractField
         }
         catch (ParseException ex)
         {
-            tracker.recordError(this, "Date value is not parseable.");
+            tracker.recordError(this, messages.format("date.not.parseable", value));
             return;
         }
 

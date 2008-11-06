@@ -44,6 +44,8 @@ private DateTimeField _dateTimeField3;
             <fieldset class="sample">
                 <legend>sample</legend>
                 <form t:id="form">
+                    <t:errors/>
+                    <br/>
                     <label style="float:left; width:250px;">date format dd-MM-yyyy HH:mm</label>
                     <input t:id="dateTimeField1"/>
                     <br/>
