@@ -18,7 +18,8 @@
     <formats>
         <format>tar.gz</format>
     </formats>
-    <includeSiteDirectory>true</includeSiteDirectory>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <includeSiteDirectory>false</includeSiteDirectory>
     <fileSets>
         <fileSet>
             <directory>target</directory>

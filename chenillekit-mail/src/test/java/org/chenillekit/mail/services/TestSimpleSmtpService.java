@@ -80,8 +80,8 @@ public class TestSimpleSmtpService extends AbstractTestSuite
         email.addPart(mmp);
 
         EmailAttachment attachment = new EmailAttachment();
-        attachment.setDescription("smtp.properties");
-        attachment.setURL(new ClasspathResource("smtp.properties").toURL());
+        attachment.setDescription("dummy.txt");
+        attachment.setURL(new ClasspathResource("dummy.txt").toURL());
         email.attach(attachment);
 
         SmtpService service = registry.getService(SmtpService.class);

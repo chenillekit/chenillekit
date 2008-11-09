@@ -1,5 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+#macro ( assetPath $relativeUrl )
+	#set($path = "")
+    #if ( $project.parent ) #set($path = "../") #end
+    $path$relativeUrl
+#end
+
 #macro ( link $href $name )
   #if ( ( $href.toLowerCase().startsWith("http") || $href.toLowerCase().startsWith("https") ) )
     <a href="$href" class="externalLink">$name</a>
@@ -19,7 +25,7 @@
     #if( $banner.src )
         #set ( $src = $banner.src )
         #if ( ! ( $src.toLowerCase().startsWith("http") || $src.toLowerCase().startsWith("https") ) )
-            #set ( $src = $PathTool.calculateLink( $src, $relativePath ) )
+            #set ( $src = $PathTool.calculateLink( $src, "/" ) )
             #set ( $src = $src.replaceAll( "\\", "/" ) )
         #end
         #if ( $banner.alt )
@@ -44,7 +50,7 @@
   #set ( $counter = 0 )
   #foreach( $item in $links )
     #set ( $counter = $counter + 1 )
-    #set ( $currentItemHref = $PathTool.calculateLink( $item.href, $relativePath ) )
+    #set ( $currentItemHref = $PathTool.calculateLink( $item.href, "/" ) )
     #set ( $currentItemHref = $currentItemHref.replaceAll( "\\", "/" ) )
     #link( $currentItemHref $item.name )
     #if ( $links.size() > $counter )
@@ -57,7 +63,7 @@
   #set ( $counter = 0 )
   #foreach( $item in $breadcrumbs )
     #set ( $counter = $counter + 1 )
-    #set ( $currentItemHref = $PathTool.calculateLink( $item.href, $relativePath ) )
+    #set ( $currentItemHref = $PathTool.calculateLink( $item.href, "/" ) )
     #set ( $currentItemHref = $currentItemHref.replaceAll( "\\", "/" ) )
 
     #if ( $currentItemHref == $alignedFileName || $currentItemHref == "" )
@@ -74,7 +80,7 @@
 #macro ( displayTree $display $item )
   #if ( $item && $item.items && $item.items.size() > 0 )
     #foreach( $subitem in $item.items )
-      #set ( $subitemHref = $PathTool.calculateLink( $subitem.href, $relativePath ) )
+      #set ( $subitemHref = $PathTool.calculateLink( $subitem.href, "/" ) )
       #set ( $subitemHref = $subitemHref.replaceAll( "\\", "/" ) )
 
       #if ( $alignedFileName == $subitemHref )
@@ -88,7 +94,7 @@
 
 #macro ( menuItem $item )
   #set ( $collapse = "none" )
-  #set ( $currentItemHref = $PathTool.calculateLink( $item.href, $relativePath ) )
+  #set ( $currentItemHref = $PathTool.calculateLink( $item.href, "/" ) )
   #set ( $currentItemHref = $currentItemHref.replaceAll( "\\", "/" ) )
 
   #if ( $item && $item.items && $item.items.size() > 0 )
@@ -109,7 +115,7 @@
   <li class="$collapse">
     #if ( $item.img )
       #if ( ! ( $item.img.toLowerCase().startsWith("http") || $item.img.toLowerCase().startsWith("https") ) )
-        #set ( $src = $PathTool.calculateLink( $item.img, $relativePath ) )
+        #set ( $src = $PathTool.calculateLink( $item.img, "/" ) )
         #set ( $src = $src.replaceAll( "\\", "/" ) )
         <img src="$src"/>
       #else
@@ -250,7 +256,7 @@
     #if( $poweredBy )
         #foreach ($item in $poweredBy)
             #if( $item.href )
-                #set ( $href = $PathTool.calculateLink( $item.href, $relativePath ) )
+                #set ( $href = $PathTool.calculateLink( $item.href, "/" ) )
                 #set ( $href = $href.replaceAll( "\\", "/" ) )
             #else
                 #set ( $href="http://maven.apache.org/" )
@@ -270,19 +276,19 @@
             #end
 
             <a href="$href" title="$name" class="poweredBy">
-              #set ( $img = $PathTool.calculateLink( $img, $relativePath ) )
+              #set ( $img = $PathTool.calculateLink( $img, "/" ) )
               #set ( $img = $img.replaceAll( "\\", "/" ) )
               <img alt="$name" src="$img" />
             </a>
         #end
         #if( $poweredBy.isEmpty() )
           <a href="http://maven.apache.org/" title="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" class="poweredBy">
-            <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="$relativePath/images/logos/maven-feather.png"></img>
+            <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="/images/logos/maven-feather.png"></img>
           </a>
         #end
     #else
         <a href="http://maven.apache.org/" title="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" class="poweredBy">
-          <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="$relativePath/images/logos/maven-feather.png"></img>
+          <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="/images/logos/maven-feather.png"></img>
         </a>
     #end
 #end
@@ -290,12 +296,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>$title</title>
-    <style type="text/css" media="all">
-      @import url("$relativePath/css/maven-base.css");
-      @import url("$relativePath/css/maven-theme.css");
-      @import url("$relativePath/css/site.css");
-    </style>
-    <link rel="stylesheet" href="$relativePath/css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset/reset-min.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset/base-min.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset/fonts-min.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset/grids-min.css">
     #foreach( $author in $authors )
       <meta name="author" content="$author" />
     #end
@@ -315,8 +319,9 @@
       #end
     #end
   </head>
-  <body class="composite">
-    <div id="banner">
+  <body>
+  <div id="doc3">
+    <div id="hd">
       #banner( $decoration.bannerLeft "bannerLeft" )
       #banner( $decoration.bannerRight "bannerRight" )
       <div class="clear">
@@ -360,5 +365,6 @@
             var pageTracker = _gat._getTracker("UA-2876614-8");
             pageTracker._trackPageview();
         </script>
+  <div>
   </body>
 </html>

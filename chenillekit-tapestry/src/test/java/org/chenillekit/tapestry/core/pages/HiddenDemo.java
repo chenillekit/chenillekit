@@ -28,15 +28,15 @@ public class HiddenDemo
 {
     @Persist
     @Property
-    private String hiddenValue1 = "Blub";
+    private String hiddenValue1;
 
     @Persist
     @Property
-    private Long hiddenValue2 = 200l;
+    private Long hiddenValue2;
 
     @Persist
     @Property
-    private Float hiddenValue3 = 123.456f;
+    private Float hiddenValue3;
 
     @Component(parameters = {"value=hiddenValue1"})
     private Hidden hidden1;
@@ -46,4 +46,20 @@ public class HiddenDemo
 
     @Component(parameters = {"value=hiddenValue3"})
     private Hidden hidden3;
+
+	/**
+	 * Tapestry render phase method.
+	 * Initialize temporary instance variables here.
+	 */
+	void setupRender()
+	{
+		if (hiddenValue1 == null)
+			hiddenValue1 = "Blub";
+
+		if (hiddenValue2 == null)
+			hiddenValue2 = 200l;
+
+		if (hiddenValue3 == null)
+			hiddenValue3 = 123.456f;
+	}
 }

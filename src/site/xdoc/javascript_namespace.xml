@@ -21,6 +21,11 @@
 
 <document>
 
+    <properties>
+        <title>Javascript Namespace</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+    
     <body>
 
         <section name="overview of source conventions">
