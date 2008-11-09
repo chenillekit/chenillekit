@@ -31,13 +31,13 @@ public class RatingFieldDemo
 
     @Persist
     @Property
-    private String ratingValue1 = "3";
+    private String ratingValue1;
 
     @Persist
     @Property
-    private int ratingValue2 = 2;
+    private int ratingValue2;
 
     @Persist
     @Property
-    private String ratingValue3 = "nice";
+    private String ratingValue3;
 }

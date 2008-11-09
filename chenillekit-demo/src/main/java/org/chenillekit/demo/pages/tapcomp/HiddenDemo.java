@@ -36,11 +36,11 @@ public class HiddenDemo
 {
     @Persist
     @Property
-    private long hiddenValue1 = 1l;
+    private long hiddenValue1;
 
     @Persist
     @Property
-    private String hiddenValue2 = "TestString";
+    private String hiddenValue2;
 
     @Property
     @Inject

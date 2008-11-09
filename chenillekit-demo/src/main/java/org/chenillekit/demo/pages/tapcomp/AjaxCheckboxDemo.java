@@ -33,7 +33,7 @@ public class AjaxCheckboxDemo
 {
     @Persist
     @Property
-    private boolean selected = false;
+    private boolean selected;
 
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;

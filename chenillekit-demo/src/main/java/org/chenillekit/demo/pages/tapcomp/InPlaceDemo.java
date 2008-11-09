@@ -17,23 +17,21 @@ package org.chenillekit.demo.pages.tapcomp;
 import java.util.List;
 
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Retain;
-import org.apache.tapestry5.services.BeanModelSource;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.beaneditor.BeanModel;
 import org.apache.tapestry5.corelib.components.Grid;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.EncoderException;
+import org.apache.tapestry5.ioc.Messages;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.BeanModelSource;
 
-import org.chenillekit.tapestry.core.components.InPlaceCheckbox;
-import org.chenillekit.tapestry.core.components.InPlaceEditor;
 import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.data.Track;
 import org.chenillekit.demo.services.MusicLibrary;
+import org.chenillekit.tapestry.core.components.InPlaceCheckbox;
+import org.chenillekit.tapestry.core.components.InPlaceEditor;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
@@ -41,70 +39,70 @@ import org.chenillekit.demo.services.MusicLibrary;
  */
 public class InPlaceDemo
 {
-    @Component(parameters = {"menuName=demo"})
-    private LeftSideMenu menu;
+	@Component(parameters = {"menuName=demo"})
+	private LeftSideMenu menu;
 
-    @Property
-    private boolean inPlaceCheckboxValue;
+	@Property
+	private boolean inPlaceCheckboxValue;
 
-    @Component(parameters = {"value=inPlaceCheckboxValue", "onCompleteCallback=onCheckboxClicked"})
-    private InPlaceCheckbox inPlaceCheckbox;
+	@Component(parameters = {"value=inPlaceCheckboxValue", "onCompleteCallback=onCheckboxClicked"})
+	private InPlaceCheckbox inPlaceCheckbox;
 
-    @Inject
-    private MusicLibrary musicLibrary;
+	@Inject
+	private MusicLibrary musicLibrary;
 
-    @Inject
-    private Messages messages;
+	@Inject
+	private Messages messages;
 
-    @Property
-    private Track track;
+	@Property
+	private Track track;
 
-    @Component(parameters = {"value=track.title", "context=track.id", "size=30"})
-    private InPlaceEditor inPlaceEditor;
+	@Component(parameters = {"value=track.title", "context=track.id", "size=30"})
+	private InPlaceEditor inPlaceEditor;
 
-    @Component(parameters = {"source=trackList", "row=track", "model=beanModel", "rowsPerPage=10"})
-    private Grid grid;
+	@Component(parameters = {"source=trackList", "row=track", "model=beanModel", "rowsPerPage=10"})
+	private Grid grid;
 
-    @Inject
-    private BeanModelSource beanModelSource;
+	@Inject
+	private BeanModelSource beanModelSource;
 
-    @Retain
-    @Property(write = false)
-    private BeanModel beanModel;
+	@Retain
+	@Property(write = false)
+	private BeanModel beanModel;
 
-    @Persist
-    @Property(write = false)
-    private List<Track> trackList;
+	@Retain
+	@Property(read = false)
+	private List<Track> trackList;
 
-    /**
-     * Tapestry page lifecycle method.
-     * Called when the page is instantiated and added to the page pool.
-     * Initialize components, and resources that are not request specific.
-     */
-    void pageLoaded()
-    {
-        beanModel = beanModelSource.create(Track.class, false, messages);
-        beanModel.exclude("genre", "playCount", "rating", "album");
-        trackList = musicLibrary.getTracks();
-    }
+	/**
+	 * Tapestry page lifecycle method.
+	 * Called when the page is instantiated and added to the page pool.
+	 * Initialize components, and resources that are not request specific.
+	 */
+	void pageLoaded()
+	{
+		beanModel = beanModelSource.create(Track.class, false, messages);
+		beanModel.exclude("genre", "playCount", "rating", "album");
+		trackList = musicLibrary.getTracks();
+	}
 
-    public List<Track> getTrackList()
-    {
-        return trackList;
-    }
+	public List<Track> getTrackList()
+	{
+		return trackList;
+	}
 
-    @OnEvent(component = "inPlaceCheckbox", value = "clicked")
-    void onClickedFromPlaceCheckbox(boolean value)
-    {
-        inPlaceCheckboxValue = value;
-        System.err.println("inPlaceCheckbox value is: " + value);
-    }
+	@OnEvent(component = "inPlaceCheckbox", value = "clicked")
+	void onClickedFromPlaceCheckbox(boolean value)
+	{
+		inPlaceCheckboxValue = value;
+		System.err.println("inPlaceCheckbox value is: " + value);
+	}
 
-    @OnEvent(component = "inPlaceEditor", value = InPlaceEditor.SAVE_EVENT)
-    void actionFromEditor(Long id, String value)
-    {
-        Track track = musicLibrary.getById(id);
-        track.setTitle(value);
-        System.err.println("Track #" + id + " changed to '" + value + "'");
-    }
+	@OnEvent(component = "inPlaceEditor", value = InPlaceEditor.SAVE_EVENT)
+	void actionFromEditor(Long id, String value)
+	{
+		Track track = musicLibrary.getById(id);
+		track.setTitle(value);
+		System.err.println("Track #" + id + " changed to '" + value + "'");
+	}
 }

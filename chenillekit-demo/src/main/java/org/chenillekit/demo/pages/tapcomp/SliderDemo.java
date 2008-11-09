@@ -33,11 +33,11 @@ public class SliderDemo
 
     @Persist
     @Property
-    private int slider1Value = 10;
+    private int slider1Value;
 
     @Persist
     @Property
-    private float slider2Value = 12.4f;
+    private float slider2Value;
 
     @Component
     private Form form1;
