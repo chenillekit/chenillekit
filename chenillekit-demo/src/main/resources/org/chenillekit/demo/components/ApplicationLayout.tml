@@ -32,7 +32,7 @@
             </div>
 
             <div class="yui-u">
-                <h2 style="padding-top:45px">ChenilleKit Demo V{demoVersion}</h2>
+                <h2 style="padding-top:45px">ChenilleKit Demo V${demoVersion}</h2>
             </div>
         </div>
 
