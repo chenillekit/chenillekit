@@ -114,4 +114,20 @@
 
 	</dependencies>
 
+	<reporting>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.tapestry</groupId>
+				<artifactId>tapestry-component-report</artifactId>
+				<version>${tapestry-release-version}</version>
+				<configuration>
+					<rootPackage>org.chenillekit.tapestry.core</rootPackage>
+					<!--<apidocs>../apidocs</apidocs>-->
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
 </project>

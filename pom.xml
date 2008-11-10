@@ -386,12 +386,6 @@
 				</plugin>
 
 				<plugin>
-					<groupId>org.apache.tapestry</groupId>
-					<artifactId>tapestry-component-report</artifactId>
-					<version>${tapestry-release-version}</version>
-				</plugin>
-
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.2-beta-2</version>
@@ -437,10 +431,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<configuration>
-					<templateFile>${project.basedir}/src/site/maven-site.vm</templateFile>
-					<stagingDirectory>${project.basedir}/target/staging</stagingDirectory>
-				</configuration>
 			</plugin>
 
 			<!--
@@ -472,51 +462,6 @@
 				</configuration>
 			</plugin>
 
-			<!--
-			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			+ generate and attach all javadoc
-			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<linksource>true</linksource>
-					<links>
-						<link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-						<link>http://java.sun.com/j2ee/1.4/docs/api/</link>
-						<link>http://jakarta.apache.org/commons/logging/apidocs/</link>
-						<link>http://tapestry.apache.org/tapestry5/apidocs/</link>
-					</links>
-					<!--
-					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-					+ extra css config, because maven forgett it, if not used the "default-site.vm"
-					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-					-->
-					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/maven-base.css
-					</stylesheetfile>
-					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css
-					</stylesheetfile>
-					<aggregate>true</aggregate>
-					<configuration>
-						<reportSets>
-							<reportSet>
-								<reports>
-									<report>javadoc</report>
-								</reports>
-							</reportSet>
-						</reportSets>
-					</configuration>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 		</plugins>
 	</build>
 
@@ -546,6 +491,42 @@
 				</reportSets>
 			</plugin>
 
+			<!--
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			+ generate and attach all javadoc
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<linksource>true</linksource>
+					<links>
+						<link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+						<link>http://java.sun.com/j2ee/1.4/docs/api/</link>
+						<link>http://jakarta.apache.org/commons/logging/apidocs/</link>
+						<link>http://tapestry.apache.org/tapestry5/apidocs/</link>
+					</links>
+					<!--
+					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					+ extra css config, because maven forgett it, if not used the "default-site.vm"
+					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					-->
+					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css
+					</stylesheetfile>
+					<aggregate>false</aggregate>
+					<configuration>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>javadoc</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</configuration>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</reporting>
 
@@ -561,6 +542,24 @@
 
 			<build>
 				<plugins>
+
+					<!--
+					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					+ attach all javadocs
+					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					-->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 
 					<!--
 					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -635,6 +634,16 @@
 								</reports>
 							</reportSet>
 						</reportSets>
+					</plugin>
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>cobertura-maven-plugin</artifactId>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jxr-plugin</artifactId>
 					</plugin>
 
 				</plugins>
