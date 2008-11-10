@@ -67,8 +67,8 @@
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		-->
 		<dependency>
-			<groupId>geronimo-spec</groupId>
-			<artifactId>geronimo-spec-jta</artifactId>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
 			<scope>test</scope>
 		</dependency>
 
