@@ -89,23 +89,4 @@
 
 	</dependencies>
 
-	<build>
-		<plugins>
-			<!--
-			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			+ build the module site
-			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<configuration>
-					<templateFile>${project.parent.basedir}/src/site/maven-site.vm</templateFile>
-					<stagingDirectory>${project.parent.basedir}/target/staging</stagingDirectory>
-				</configuration>
-			</plugin>
-
-		</plugins>
-	</build>
-	
 </project>

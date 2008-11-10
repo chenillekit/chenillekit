@@ -437,10 +437,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<configuration>
-					<templateFile>${project.basedir}/src/site/maven-site.vm</templateFile>
-					<stagingDirectory>${project.basedir}/target/staging</stagingDirectory>
-				</configuration>
 			</plugin>
 
 			<!--
