@@ -484,15 +484,7 @@
 						<link>http://jakarta.apache.org/commons/logging/apidocs/</link>
 						<link>http://tapestry.apache.org/tapestry5/apidocs/</link>
 					</links>
-					<!--
-					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-					+ extra css config, because maven forgett it, if not used the "default-site.vm"
-					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-					-->
-					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/maven-base.css
-					</stylesheetfile>
-					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css
-					</stylesheetfile>
+					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css</stylesheetfile>
 					<aggregate>true</aggregate>
 					<configuration>
 						<reportSets>
