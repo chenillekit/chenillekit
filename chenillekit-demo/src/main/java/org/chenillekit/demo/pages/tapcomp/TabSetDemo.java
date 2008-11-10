@@ -62,7 +62,7 @@ public class TabSetDemo
     }
 
     @OnEvent(component = "tabset1", value = "action")
-    public StreamResponse onChange(String choosenPanelId)
+    public StreamResponse onActionFromTabSet1(String choosenPanelId)
     {
         return new TextStreamResponse("text/html", "<b>Doedel</b>");
     }
