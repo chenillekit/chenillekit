@@ -175,6 +175,10 @@
 				<version>2.1-alpha-2</version>
 				<configuration>
 
+					<manifestEntries>
+						<Demo-Version>${project.version}</Demo-Version>
+					</manifestEntries>
+
 					<archiveClasses>true</archiveClasses>
 
 					<packagingExcludes>

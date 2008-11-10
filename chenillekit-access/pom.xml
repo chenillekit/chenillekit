@@ -15,69 +15,100 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.chenillekit</groupId>
-    <artifactId>chenillekit-access</artifactId>
-    <packaging>jar</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.chenillekit</groupId>
+	<artifactId>chenillekit-access</artifactId>
+	<packaging>jar</packaging>
 
-    <parent>
-        <groupId>org.chenillekit</groupId>
-        <artifactId>chenillekit-project</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.chenillekit</groupId>
+		<artifactId>chenillekit-project</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
-    <name>Chenillekit Access</name>
+	<name>Chenillekit Access</name>
 	<version>${project.parent.version}</version>
-    <description>
-        A library to make your pages accessible to authenticated users
-    </description>
+	<description>
+		A library to make your pages accessible to authenticated users
+	</description>
 
-    <scm>
-        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-access</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-access</developerConnection>
+	<scm>
+		<connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-access</connection>
+		<developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-access
+		</developerConnection>
 		<tag>HEAD</tag>
 		<url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-access</url>
-    </scm>
+	</scm>
 
-    <!--
-    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    + dependencies for this module
-    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    -->
-    <dependencies>
+	<!--
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		+ dependencies for this module
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		-->
+	<dependencies>
 
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<classifier>jdk15</classifier>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>tapestry-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>tapestry-ioc</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-ioc</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>tapestry-core</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-core</artifactId>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<!--
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			+ pack the jar archive
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<compress>true</compress>
+						<index>true</index>
+						<manifestEntries>
+							<Tapestry-Module-Classes>
+								org.chenillekit.access.ChenilleKitAccessModule
+							</Tapestry-Module-Classes>
+							<Implementation-Version>
+								${project.version}
+							</Implementation-Version>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
 
 </project>
