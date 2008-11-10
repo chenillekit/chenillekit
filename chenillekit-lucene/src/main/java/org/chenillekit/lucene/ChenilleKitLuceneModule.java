@@ -19,6 +19,7 @@ import static org.apache.tapestry5.ioc.IOCConstants.PERTHREAD_SCOPE;
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.annotations.Scope;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
@@ -37,7 +38,11 @@ import org.slf4j.Logger;
 public class ChenilleKitLuceneModule
 {
 	/**
-	 * @param binder
+	 * 
+	 * @param logger
+	 * @param configurationMap
+	 * @param shutdownHub
+	 * @return
 	 */
 	public static IndexSource buildIndexSource(Logger logger, Map<String, Resource> configurationMap,
 						RegistryShutdownHub shutdownHub)
@@ -59,7 +64,7 @@ public class ChenilleKitLuceneModule
      *
      * @return indexer engine
      */
-    @Scope(PERTHREAD_SCOPE)
+    @Scope(ScopeConstants.PERTHREAD)
     public static IndexerService buildIndexerService(Logger logger, IndexSource source,
     						PerthreadManager threadManager)
     {
