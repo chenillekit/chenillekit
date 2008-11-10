@@ -81,20 +81,20 @@
 		<site>
 			<id>chenillekit-site</id>
 			<name>ChenilleKit Site Host</name>
-			<url>scp://www.chenillekit.org:66/home/chenillekit/webapps/chenillekit</url>
+			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/chenillekit</url>
 		</site>
 
 		<repository>
 			<id>chenillekit-site</id>
 			<name>Release Repository</name>
-			<url>scp://www.chenillekit.org:66/home/chenillekit/webapps/maven-repository/release</url>
+			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/maven-repository/release</url>
 			<uniqueVersion>false</uniqueVersion>
 		</repository>
 
 		<snapshotRepository>
 			<id>chenillekit-site</id>
 			<name>SnapShot Repository</name>
-			<url>scp://www.chenillekit.org:66/home/chenillekit/webapps/maven-repository/snapshot</url>
+			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/maven-repository/snapshot</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 
@@ -437,6 +437,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+					<templateFile>${project.basedir}/src/site/maven-site.vm</templateFile>
+					<stagingDirectory>${project.basedir}/target/staging</stagingDirectory>
+				</configuration>
 			</plugin>
 
 			<!--
@@ -484,7 +488,15 @@
 						<link>http://jakarta.apache.org/commons/logging/apidocs/</link>
 						<link>http://tapestry.apache.org/tapestry5/apidocs/</link>
 					</links>
-					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css</stylesheetfile>
+					<!--
+					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					+ extra css config, because maven forgett it, if not used the "default-site.vm"
+					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					-->
+					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/maven-base.css
+					</stylesheetfile>
+					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css
+					</stylesheetfile>
 					<aggregate>true</aggregate>
 					<configuration>
 						<reportSets>
