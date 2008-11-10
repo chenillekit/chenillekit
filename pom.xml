@@ -76,6 +76,19 @@
 		</repository>
 	</repositories>
 
+	<!-- we need this entry, to get the right components report library -->
+	<pluginRepositories>
+
+		<pluginRepository>
+			<id>tapestry-snapshot</id>
+			<url>http://tapestry.formos.com/maven-snapshot-repository</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+
+	</pluginRepositories>
+
 	<distributionManagement>
 
 		<site>
