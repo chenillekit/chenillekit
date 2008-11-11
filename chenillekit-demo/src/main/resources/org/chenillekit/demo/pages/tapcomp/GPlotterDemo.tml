@@ -1,0 +1,80 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <div class="yui-g">
+
+		<div class="yui-u first menu">
+
+			<span t:id="menu">the menu</span>
+
+		</div>
+
+		<div class="yui-u content">
+
+			<fieldset class="snippet">
+				<legend>code snippet</legend>
+                        <pre>
+                            <![CDATA[
+@Component(parameters = {"street=literal:myStreet", "country=literal:myCountry", "zipCode=literal:myZipCode",
+	"city=literal:myCity", "errorCallbackFunction=GMapErrorHandler"})
+private GPlotter gPlotter;
+]]>
+                        </pre>
+			</fieldset>
+
+			<div class="yui-g" style="width:100%">
+				<div class="yui-u first">
+
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+
+						<ul>
+							<li t:type="Loop" source="addressList" value="address">
+								<a href="#" t:id="plotLink" context="address.name">plot</a> -> ${address.city} / ${address.country} (home town of ${address.name})
+							</li>
+						</ul>
+
+					</fieldset>
+
+				</div>
+				<div class="yui-u">
+
+					<fieldset class="sample">
+						<legend>result</legend>
+						<span t:type="If" test="ognl:selectedAddress != null">
+							<div t:id="gplotter" style="width: 500px; height: 300px"/>
+							<div id="plotterError" style="display:none;">
+								here should the error resists.
+							</div>
+						</span>
+					</fieldset>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		function GMapErrorHandler(plotterId)
+		{
+			$(plotterId).hide();
+			$('plotterError').innerHTML = "<strong>address for '${selectedAddress.name}' not found</strong>";
+			$('plotterError').show();
+		}
+	</script>
+
+</span>
