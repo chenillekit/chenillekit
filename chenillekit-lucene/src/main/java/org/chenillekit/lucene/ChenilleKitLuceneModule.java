@@ -14,8 +14,6 @@
 
 package org.chenillekit.lucene;
 
-import static org.apache.tapestry5.ioc.IOCConstants.PERTHREAD_SCOPE;
-
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;

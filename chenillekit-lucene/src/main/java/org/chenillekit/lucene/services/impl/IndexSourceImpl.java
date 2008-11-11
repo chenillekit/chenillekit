@@ -16,14 +16,11 @@ package org.chenillekit.lucene.services.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
@@ -64,21 +61,23 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
         this.logger = logger;
 
         if (!configResource.exists())
-            throw new RuntimeException(String.format("config resource '%s' not found!", configResource.toURL().toString()));
+            throw new ChenilleKitLuceneRuntimeException(String.format("config resource '%s' not found!", configResource.toURL().toString()));
         
         try
         {
-            Configuration configuration = new PropertiesConfiguration(configResource.toURL());
+        	Properties prop = new Properties();
+        	
+        	prop.load(configResource.toURL().openStream());
             
-            File indexFolderFile = new File(configuration.getString(ChenilleKitLuceneConstants.PROPERTIES_KEY_IF));
+            File indexFolderFile = new File(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_IF));
             
-            boolean createFolder = configuration.getBoolean(ChenilleKitLuceneConstants.PROPERTIES_KEY_OIF, false);
+            boolean createFolder = Boolean.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_OIF, "false"));
             
-            boolean enableLuceneOutput = configuration.getBoolean(ChenilleKitLuceneConstants.PROPERTIES_KEY_ELO, false);
+            boolean enableLuceneOutput = Boolean.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_ELO, "false"));
             
-            String analyzerClassName = configuration.getString(ChenilleKitLuceneConstants.PROPERTIES_KEY_ACN, StandardAnalyzer.class.getName());
+            String analyzerClassName = prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_ACN, StandardAnalyzer.class.getName());
             
-            int maxFieldLength = configuration.getInt(ChenilleKitLuceneConstants.PROPERTIES_KEY_MFL, 250000);
+            int maxFieldLength = Integer.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_MFL, "250000"));
  
             this.directory = FSDirectory.getDirectory(indexFolderFile);
             
@@ -108,10 +107,6 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
         catch (ClassNotFoundException cnfe)
         {
         	throw new ChenilleKitLuceneRuntimeException(cnfe);
-        }
-        catch (ConfigurationException ce)
-        {
-        	throw new ChenilleKitLuceneRuntimeException(ce);
         }
 	}
 	
