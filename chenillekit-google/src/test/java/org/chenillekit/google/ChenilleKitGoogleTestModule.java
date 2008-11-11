@@ -14,13 +14,8 @@
 
 package org.chenillekit.google;
 
-import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.services.ClassFactory;
-import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-
-import org.chenillekit.google.services.GoogleGeoCoder;
+import org.apache.tapestry5.ioc.annotations.SubModule;
 
 /**
  * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
@@ -29,9 +24,9 @@ import org.chenillekit.google.services.GoogleGeoCoder;
 @SubModule(value = {ChenilleKitGoogleModule.class})
 public class ChenilleKitGoogleTestModule
 {
-    public static void contributeGoogleGeoCoder(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
-    {
-        Resource resource = new ClasspathResource(classFactory.getClassLoader(), "google.geocoder.properties");
-        configuration.add(GoogleGeoCoder.CONFIG_KEY_PROPERTIES, resource);
-    }
+	public static void contributeApplicationDefaults(MappedConfiguration<String, String> contribution)
+	{
+		contribution.add(ChenilleKitGoogleConstants.GOOGLE_KEY, "ABQIAAAAi_YFwIW0ZYz1tm9NA5dpjxQgrEgu6vWt7HL-5aFrx0YLtTRf-hQe7xlPB5qe4SL3L7K1LcW221_now");
+//		contribution.add(ChenilleKitGoogleConstants.GOOGLE_PROXY, "http://proxy.depot120.dpd.de:3128");
+	}
 }

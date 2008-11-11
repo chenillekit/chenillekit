@@ -70,24 +70,8 @@
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>chenillekit-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-ioc</artifactId>
-        </dependency>
-
-        <!--
-        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        ++ Apache Commons
-        +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        -->
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
         </dependency>
 
         <dependency>
