@@ -46,8 +46,12 @@ public class AddressDetails
             administrativeAreaName = json.getJSONObject("Country").getJSONObject("AdministrativeArea").getString("AdministrativeAreaName");
             countryNameCode = json.getJSONObject("Country").getString("CountryNameCode");
 
-            JSONObject subAdministrativeArea = json.getJSONObject("Country").getJSONObject("AdministrativeArea").getJSONObject("SubAdministrativeArea");
-            JSONObject locality = subAdministrativeArea.getJSONObject("Locality");
+			boolean hasSubAdministrativeArea = json.getJSONObject("Country").getJSONObject("AdministrativeArea").has("SubAdministrativeArea");
+			if (!hasSubAdministrativeArea)
+				return;
+
+			JSONObject subAdministrativeArea = json.getJSONObject("Country").getJSONObject("AdministrativeArea").getJSONObject("SubAdministrativeArea");
+			JSONObject locality = subAdministrativeArea.getJSONObject("Locality");
 
             if (locality.has("DependentLocality"))
             {
@@ -56,7 +60,7 @@ public class AddressDetails
                 postalCodeNumber = dependentLocality.getJSONObject("PostalCode").getString("PostalCodeNumber");
                 thoroughfareName = dependentLocality.getJSONObject("Thoroughfare").getString("ThoroughfareName");
             }
-            
+
             localityName = locality.getString("LocalityName");
             subAdministrativeAreaName = subAdministrativeArea.getString("SubAdministrativeAreaName");
         }
