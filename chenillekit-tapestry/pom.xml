@@ -74,7 +74,7 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>chenillekit-google</artifactId>
 			<version>${project.version}</version>
-			<optional>true</optional>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
