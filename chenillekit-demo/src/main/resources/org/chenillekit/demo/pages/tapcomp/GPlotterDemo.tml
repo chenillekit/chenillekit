@@ -68,6 +68,7 @@ private GPlotter gPlotter;
 		</div>
 	</div>
 
+	<span t:type="If" test="ognl:selectedAddress != null">
 	<script type="text/javascript">
 		function GMapErrorHandler(plotterId)
 		{
@@ -76,5 +77,6 @@ private GPlotter gPlotter;
 			$('plotterError').show();
 		}
 	</script>
+	</span>
 
 </span>
