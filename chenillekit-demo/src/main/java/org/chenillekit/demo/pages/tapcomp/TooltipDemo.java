@@ -20,17 +20,16 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.Tooltip;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class TooltipDemo
 {
-    @Component(parameters = {"menuName=demo"})
-    private LeftSideMenu menu;
+	@Component(parameters = {"menuName=demo"})
+	private LeftSideMenu menu;
 
-    @Component(parameters = {"title=Info", "value=... and here comes the info text ...", "effect=blind"})
-    private Tooltip tooltip1;
+	@Component(parameters = {"title=Info", "value=... and here comes the info text ...", "effect=blind"})
+	private Tooltip tooltip1;
 
-    @Component(parameters = {"title=Info", "value=... and here comes the info text ...", "effect=slide"})
-    private Tooltip tooltip2;
+	@Component(parameters = {"title=Info", "value=... and here comes the info text ...", "effect=slide"})
+	private Tooltip tooltip2;
 }
