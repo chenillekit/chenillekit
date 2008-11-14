@@ -50,10 +50,7 @@ public class ChenilleKitAccessModule
         binder.bind(ComponentEventRequestFilter.class, ComponentEventAccessFilter.class).withMarker(ChenilleKitAccess.class);
         binder.bind(PageRenderRequestFilter.class, PageRenderAccessFilter.class).withMarker(ChenilleKitAccess.class);
     }
-
-    /**
-     * @param configuration
-     */
+    
     /**
      * instantiate the contributed password encoder.
      *

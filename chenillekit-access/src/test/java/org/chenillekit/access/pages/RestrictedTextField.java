@@ -42,7 +42,7 @@ public class RestrictedTextField
     private Form simpleForm;
 
     @Component(parameters = {"value=simpleText1"})
-    @Restricted(roles = 1)
+    @Restricted(role = 1)
     private TextField simpleTextField1;
 
     @Component(parameters = {"value=simpleText2"})

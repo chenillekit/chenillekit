@@ -21,7 +21,7 @@ import org.chenillekit.access.annotations.Restricted;
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-@Restricted(roles = 3)
+@Restricted(role = 3)
 public class NotEnoughRights
 {
 }

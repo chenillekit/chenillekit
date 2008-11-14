@@ -25,7 +25,7 @@ import org.chenillekit.access.annotations.Restricted;
  * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
-@Restricted(roles = 2)
+@Restricted(role = 2)
 public class RestrictedPage
 {
     @Inject

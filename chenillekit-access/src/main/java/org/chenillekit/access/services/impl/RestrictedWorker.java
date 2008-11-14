@@ -24,6 +24,7 @@ import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethodSignature;
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.ChenilleKitAccessException;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 
@@ -33,12 +34,9 @@ import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
  */
 public class RestrictedWorker implements ComponentClassTransformWorker
 {
-//	private final Logger logger;
+	// FIXME How do we get the Logger from the IoC?
+	// private final Logger logger;
 	
-	public RestrictedWorker()
-	{
-//		this.logger = logger;
-	}
 	
     /* (non-Javadoc)
       * @see org.apache.tapestry5.services.ComponentClassTransformWorker#transform(org.apache.tapestry5.services.ClassTransformation, org.apache.tapestry5.model.MutableComponentModel)
@@ -65,13 +63,14 @@ public class RestrictedWorker implements ComponentClassTransformWorker
         Restricted pageRestricted = transformation.getAnnotation(Restricted.class);
         if (pageRestricted != null)
         {
-            String roleWeigh = Integer.toString(pageRestricted.roles());
-            String groupString = ChenillekitAccessInternalUtils.getStringArrayAsString(pageRestricted.groups());
+            String roleWeigh = Integer.toString(pageRestricted.role());
+            String[] groups = pageRestricted.groups();
 
             model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE, roleWeigh);
 
-            if (groupString.length() > 0)
-                model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP, ChenillekitAccessInternalUtils.getStringArrayAsString(pageRestricted.groups()));
+            if (groups.length > 0)
+                model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP,
+                		ChenillekitAccessInternalUtils.getStringArrayAsString(groups));
         }
     }
     
@@ -102,12 +101,11 @@ public class RestrictedWorker implements ComponentClassTransformWorker
     			model.setMeta(ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
     								eventType,
     								ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX),
-    								Integer.toString(restricted.roles()));
+    								Integer.toString(restricted.role()));
     		}
     		else
     		{
-//    			this.logger.warn(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS,
-//    					"Restrict annotation on a non event handler method: " + methodName + ", IGNORED");
+    			throw new ChenilleKitAccessException("Cannot put Restricted annotation on a non event handler method");
     		}
         }
     }

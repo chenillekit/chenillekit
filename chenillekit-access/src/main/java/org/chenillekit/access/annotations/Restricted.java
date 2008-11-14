@@ -35,7 +35,7 @@ public @interface Restricted
 	/**
 	 * @return the <em>minimum</em> role weight a user should own
 	 */
-    int roles() default 0;
+    int role() default 0;
 
     /**
      * @return the groups names (or ids if you like) a user should be listed in
