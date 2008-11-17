@@ -41,6 +41,10 @@
             <item name="Module Home" href="./index.html"/>
         </menu>
 
+        <menu>
+            <item name="SmtpService" href="./SmtpService.html"/>
+        </menu>
+
         <menu ref="reports"/>
 
     </body>

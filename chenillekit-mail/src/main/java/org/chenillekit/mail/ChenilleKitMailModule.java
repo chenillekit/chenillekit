@@ -35,7 +35,7 @@ public class ChenilleKitMailModule
      */
     public static void contributeFactoryDefaults(MappedConfiguration<String, String> contribution)
     {
-        contribution.add(ChenilleKitMailConstants.SMTP_SERVER, "localhost");
+        contribution.add(ChenilleKitMailConstants.SMTP_HOST, "localhost");
         contribution.add(ChenilleKitMailConstants.SMTP_PORT, "25");
         contribution.add(ChenilleKitMailConstants.SMTP_USER, "");
         contribution.add(ChenilleKitMailConstants.SMTP_PASSWORD, "");

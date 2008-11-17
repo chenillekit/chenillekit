@@ -44,7 +44,7 @@ public class SimpleSmtpServiceImpl implements SmtpService<Email>
     public SimpleSmtpServiceImpl(Logger logger,
 
                                  @Inject
-                                 @Symbol(ChenilleKitMailConstants.SMTP_SERVER)
+                                 @Symbol(ChenilleKitMailConstants.SMTP_HOST)
                                  String smtpServer,
 
                                  @Symbol(ChenilleKitMailConstants.SMTP_PORT)
@@ -96,7 +96,6 @@ public class SimpleSmtpServiceImpl implements SmtpService<Email>
             email.setSmtpPort(smtpPort);
             email.setSSL(smtpSSL);
             email.setSslSmtpPort(String.valueOf(smtpSslPort));
-            email.setTLS(smtpTLS);
             email.setTLS(smtpTLS);
             email.send();
         }
