@@ -29,7 +29,11 @@
 
         <div class="yui-b">
 
-            content
+            <t:form>
+				<input t:id="facebookList" type="text"/>
+				<br/>
+				<input type="submit"/>
+			</t:form>
 
         </div>
 
