@@ -79,6 +79,8 @@ public class Window extends AbstractWindow
         options.put("className", getClassName());
         options.put("width", getWidth());
         options.put("height", getHeight());
+        options.put("id", getClientId());
+        options.put("title", getTitle());
 
         //
         // Let subclasses do more.
@@ -89,8 +91,6 @@ public class Window extends AbstractWindow
 
         if (hasBody)
             renderSupport.addScript("%s.setContent('%sContent');", getClientId(), getClientId());
-
-        renderSupport.addScript("%s.setTitle('%s');", getClientId(), getTitle());
 
         if (isShow())
             renderSupport.addScript("%s.show%s(%s);", getClientId(), isCenter() ? "Center" : "", isModal());
