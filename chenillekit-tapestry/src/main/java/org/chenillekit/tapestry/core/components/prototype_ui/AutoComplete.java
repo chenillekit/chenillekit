@@ -17,15 +17,12 @@ package org.chenillekit.tapestry.core.components.prototype_ui;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.tapestry5.Binding;
+import org.apache.commons.lang.StringUtils;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentEventCallback;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.FieldTranslator;
-import org.apache.tapestry5.FieldValidationSupport;
-import org.apache.tapestry5.FieldValidator;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.NullFieldStrategy;
 import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.ValidationException;
 import org.apache.tapestry5.ValidationTracker;
@@ -34,7 +31,6 @@ import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.base.AbstractField;
-import org.apache.tapestry5.internal.services.LinkFactory;
 import org.apache.tapestry5.internal.util.Holder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import static org.apache.tapestry5.ioc.internal.util.CollectionFactory.newList;
@@ -42,8 +38,6 @@ import org.apache.tapestry5.ioc.services.PropertyAccess;
 import org.apache.tapestry5.ioc.services.TypeCoercer;
 import org.apache.tapestry5.json.JSONArray;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.ComponentDefaultProvider;
-import org.apache.tapestry5.services.MarkupWriterFactory;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.ResponseRenderer;
 
@@ -51,7 +45,8 @@ import org.apache.tapestry5.services.ResponseRenderer;
  * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"prototype-ui.js", "AutoComplete.js"})
-@IncludeStylesheet(value = {"themes/auto_complete/default.css", "themes/shadow/drop_shadow.css", "themes/shadow/auto_complete.css"})
+@IncludeStylesheet(value = {"themes/auto_complete/default.css", "themes/shadow/drop_shadow.css",
+		"themes/shadow/auto_complete.css"})
 public class AutoComplete extends AbstractField
 {
 	static final String EVENT_NAME = "autocomplete";
@@ -71,17 +66,9 @@ public class AutoComplete extends AbstractField
 	@Parameter(required = true, allowNull = false, defaultPrefix = BindingConstants.TRANSLATE)
 	private FieldTranslator<Object> translate;
 
-	/**
-	 * Defines how nulls on the server side, or sent from the client side, are treated. The selected strategy may
-	 * replace the nulls with some other value. The default strategy leaves nulls alone.  Another built-in strategy,
-	 * zero, replaces nulls with the value 0.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.NULLFIELDSTRATEGY, value = "default")
-	private NullFieldStrategy nulls;
+	@Parameter(required = true, allowNull = false, defaultPrefix = BindingConstants.LITERAL, name = "label")
+	private String labelPropertyName;
 
-	/**
-	 * Request object for information on current request.
-	 */
 	@Inject
 	private Request request;
 
@@ -89,26 +76,11 @@ public class AutoComplete extends AbstractField
 	private ResponseRenderer responseRenderer;
 
 	@Inject
-	private MarkupWriterFactory factory;
-
-	@Inject
-	private ComponentDefaultProvider defaultProvider;
-
-	@Inject
 	private TypeCoercer coercer;
 
-	/**
-	 * For blocks, messages, crete actionlink, trigger event.
-	 */
 	@Inject
 	private ComponentResources resources;
 
-	@Inject
-	private LinkFactory linkFactory;
-
-	/**
-	 * RenderSupport to get unique client side id.
-	 */
 	@Inject
 	private RenderSupport renderSupport;
 
@@ -118,45 +90,10 @@ public class AutoComplete extends AbstractField
 	@Environmental
 	private ValidationTracker tracker;
 
-	/**
-	 * Performs input validation on the value supplied by the user in the form submission.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.VALIDATE)
-	@SuppressWarnings("unchecked")
-	private FieldValidator<Object> validate;
-
-	@Inject
-	private FieldValidationSupport fieldValidationSupport;
-
-	/**
-	 * Computes a default value for the "validate" parameter using {@link org.apache.tapestry5.services.FieldValidatorDefaultSource}.
-	 */
-	Binding defaultValidate()
-	{
-		return defaultProvider.defaultValidatorBinding("selected", resources);
-	}
-
-	/**
-	 * Computes a default value for the "translate" parameter using {@link org.apache.tapestry5.services.ComponentDefaultProvider#defaultTranslator(String,
-	 * org.apache.tapestry5.ComponentResources)}.
-	 */
-	final Binding defaultTranslate()
-	{
-		return defaultProvider.defaultTranslatorBinding("selected", resources);
-	}
-
 	void beginRender(MarkupWriter writer)
 	{
-		JSONArray selectedValues = new JSONArray();
-		for (Object object : selected)
-		{
-			Object id = translate.toClient(object);
-			selectedValues.put(id);
-		}
-
 		writer.element("input",
 					   "type", "hidden",
-					   "value", selectedValues,
 					   "name", getControlName(),
 					   "id", getClientId() + "-internal");
 		writer.end();
@@ -165,29 +102,33 @@ public class AutoComplete extends AbstractField
 					   "type", "text",
 					   "id", getClientId());
 
-		validate.render(writer);
 	}
 
 	void afterRender(MarkupWriter writer)
 	{
-		JSONArray selectedValues = new JSONArray();
-		for (Object object : selected)
-		{
-			Object value = propertyAccess.get(object, "title");
-			selectedValues.put(value);
-		}
-
 		writer.end();
 
 		JSONObject config = new JSONObject();
 		config.put("url", resources.createEventLink(EVENT_NAME).toAbsoluteURI());
-		if (selectedValues.length() > 0)
-		{
-//			selectedValues.
-//			config.put("tokens", "[KEY_COMA, " + selectedValues + "]");
-		}
-		config.put("shadow", "drop_shadow");
+		config.put("preSelected", generateResponseMarkup(selected));
+
+		configure(config);
+
 		renderSupport.addScript("new Ck.AutoComplete('%s', %s);", getClientId(), config);
+	}
+
+	/**
+	 * Invoked to allow subclasses to further configure the parameters passed to this component's javascript
+	 * options. Subclasses may override this method to configure additional features of this component.
+	 * <p/>
+	 * This implementation does nothing. For more information about window options look at
+	 * this <a href="http://prototype-window.xilinus.com/documentation.html#initialize">page</a>.
+	 *
+	 * @param options windows option object
+	 */
+	protected void configure(JSONObject options)
+	{
+
 	}
 
 	JSONArray onAutocomplete()
@@ -235,25 +176,22 @@ public class AutoComplete extends AbstractField
 		if (selected == null) selected = newList();
 		else selected.clear();
 
-		String submittedValue = request.getParameter(elementName);
-		tracker.recordInput(this, submittedValue);
-
 		int count = values.length;
-		for (int i = 0; i < count; i++)
+		try
 		{
-			String value = values[i];
-
-			Object objectValue = null;
-			try
+			for (int i = 0; i < count; i++)
 			{
-				objectValue = translate.parse(value);
-			}
-			catch (ValidationException e)
-			{
-				throw new RuntimeException(e);
-			}
+				String value = StringUtils.trim(values[i]);
 
-			selected.add(objectValue);
+				Object objectValue = translate.parse(value);
+
+				if (objectValue != null)
+					selected.add(objectValue);
+			}
+		}
+		catch (ValidationException ex)
+		{
+			tracker.recordError(this, ex.getMessage());
 		}
 
 		this.selected = selected;
@@ -271,11 +209,11 @@ public class AutoComplete extends AbstractField
 		JSONArray jsonObject = new JSONArray();
 		for (Object o : matches)
 		{
-			Object id = propertyAccess.get(o, "id");
-			Object value = propertyAccess.get(o, "title");
+			Object value = translate.toClient(o);
+			Object label = propertyAccess.get(o, labelPropertyName);
 			JSONObject item = new JSONObject();
-			item.put("text", value);
-			item.put("value", id);
+			item.put("text", label);
+			item.put("value", value);
 			jsonObject.put(item);
 		}
 

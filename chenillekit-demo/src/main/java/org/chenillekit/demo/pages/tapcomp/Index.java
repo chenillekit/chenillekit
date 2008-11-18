@@ -22,6 +22,7 @@ import org.apache.tapestry5.ValidationException;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 
@@ -39,6 +40,9 @@ public class Index
 	@Inject
 	private MusicLibrary musicLibrary;
 
+	@Inject
+	private Messages messages;
+
 	@Property
 	private Track track;
 
@@ -46,10 +50,13 @@ public class Index
 	@Property
 	private List<Track> selectedTracks;
 
+	@Property
+	private Track selectedRow;
+
 	@Component(parameters = {"menuName=demo"})
 	private LeftSideMenu menu;
 
-	@Component(parameters = {"selected=selectedTracks", "translate=prop:translator"})
+	@Component(parameters = {"selected=selectedTracks", "translate=prop:translator", "label=title"})
 	private AutoComplete facebookList;
 
 	/**

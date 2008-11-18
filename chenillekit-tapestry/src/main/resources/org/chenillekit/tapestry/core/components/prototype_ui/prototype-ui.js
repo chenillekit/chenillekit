@@ -627,7 +627,7 @@ UI.Dock = Class.create(UI.Options, {
 /*
   Class: UI.IframeShim
     Handles IE6 bug when <select> elements overlap other elements with higher z-index
-  
+
   Example:
     > // creates iframe and positions it under "contextMenu" element
     > this.iefix = new UI.IframeShim().positionUnder('contextMenu');
@@ -635,7 +635,7 @@ UI.Dock = Class.create(UI.Options, {
     > document.observe('click', function(e) {
     >   if (e.isLeftClick()) {
     >     this.contextMenu.hide();
-    >     
+    >
     >     // hides iframe when left click is fired on a document
     >     this.iefix.hide();
     >   }
@@ -644,14 +644,14 @@ UI.Dock = Class.create(UI.Options, {
 */
 
 // TODO:
-//  
-// Maybe it makes sense to bind iframe to an element 
-// so that it automatically calls positionUnder method 
+//
+// Maybe it makes sense to bind iframe to an element
+// so that it automatically calls positionUnder method
 // when the element it's binded to is moved or resized
 // Not sure how this might affect overall perfomance...
 
 UI.IframeShim = Class.create(UI.Options, {
-  
+
   options: {
     parent: document.body
   },
@@ -659,11 +659,11 @@ UI.IframeShim = Class.create(UI.Options, {
   /*
     Method: initialize
     Constructor
-      
+
       Creates iframe shim and appends it to the body.
       Note that this method does not perform proper positioning and resizing of an iframe.
       To do that use positionUnder method
-      
+
     Returns:
       this
   */
@@ -676,11 +676,11 @@ UI.IframeShim = Class.create(UI.Options, {
     });
     $(this.options.parent || document.body).insert(this.element);
   },
-  
+
   /*
     Method: hide
       Hides iframe shim leaving its position and dimensions intact
-      
+
     Returns:
       this
   */
@@ -688,11 +688,11 @@ UI.IframeShim = Class.create(UI.Options, {
     this.element.hide();
     return this;
   },
-  
+
   /*
     Method: show
       Show iframe shim leaving its position and dimensions intact
-      
+
     Returns:
       this
   */
@@ -700,13 +700,13 @@ UI.IframeShim = Class.create(UI.Options, {
     this.element.show();
     return this;
   },
-  
+
   /*
     Method: positionUnder
-      Positions iframe shim under the specified element 
+      Positions iframe shim under the specified element
       Sets proper dimensions, offset, zIndex and shows it
       Note that the element should have explicitly specified zIndex
-      
+
     Returns:
       this
   */
@@ -714,22 +714,22 @@ UI.IframeShim = Class.create(UI.Options, {
     var element = $(element),
         offset = element.cumulativeOffset(),
         dimensions = element.getDimensions(),
-        style = { 
-          left: offset[0] + 'px', 
+        style = {
+          left: offset[0] + 'px',
           top: offset[1] + 'px',
           width: dimensions.width + 'px',
           height: dimensions.height + 'px',
           zIndex: element.getStyle('zIndex') - 1
         };
     this.element.setStyle(style).show();
-    
+
     return this;
   },
-  
+
   /*
     Method: setBounds
       Sets element's width, height, top and left css properties using 'px' as units
-    
+
     Returns:
       this
   */
@@ -740,24 +740,24 @@ UI.IframeShim = Class.create(UI.Options, {
     this.element.setStyle(bounds);
     return this;
   },
-  
+
   /*
     Method: setSize
       Sets element's width, height
-    
+
     Returns:
       this
   */
-  setSize: function(width, height) {   
+  setSize: function(width, height) {
     this.element.style.width  = parseInt(width) + "px";
-    this.element.style.height = parseInt(height) + "px"; 
+    this.element.style.height = parseInt(height) + "px";
     return this;
   },
-  
+
   /*
     Method: setPosition
-      Sets element's top and left 
-    
+      Sets element's top and left
+
     Returns:
       this
   */
@@ -766,49 +766,49 @@ UI.IframeShim = Class.create(UI.Options, {
     this.element.style.left = parseInt(left) + "px";
     return this;
   },
-  
+
   /*
     Method: destroy
       Completely removes the iframe shim from the document
-      
+
     Returns:
       this
   */
   destroy: function() {
     if (this.element)
       this.element.remove();
-    
+
     return this;
   }
 });
 /*
   Group: Drag
     UI provides Element#enableDrag method that allow elements to fire drag-related events.
-    
+
     Events fired:
       - drag:started : fired when a drag is started (mousedown then mousemove)
       - drag:updated : fired when a drag is updated (mousemove)
       - drag:ended   : fired when a drag is ended (mouseup)
-      
+
     Notice it doesn't actually move anything, drag behavior has to be implemented
     by attaching handlers to drag events.
-    
+
     Drag-related informations:
       event.memo contains useful information about the drag occuring:
-        - dx         : difference between pointer x position when drag started 
+        - dx         : difference between pointer x position when drag started
                        and actual x position
         - dy         : difference between pointer y position when drag started
                        and actual y position
         - mouseEvent : the original mouse event, useful to know pointer absolute position,
                        or if key were pressed.
-    
+
     Example, with event handling for a specific element:
-    
+
     > // Now "resizable" will fire drag-related events
     > $('resizable').enableDrag();
     >
     > // Let's observe them
-    > $('resizable').observe('drag:started', function(event) { 
+    > $('resizable').observe('drag:started', function(event) {
     >   this._dimensions = this.getDimensions();
     > }).observe('drag:updated', function(event) {
     >   var drag = event.memo;
@@ -818,9 +818,9 @@ UI.IframeShim = Class.create(UI.Options, {
     >     height: this._dimensions.height + drag.dy + 'px'
     >   });
     > });
-    
+
     Example, with event delegating on the whole document:
-    
+
     > // All elements in the having the "draggable" class name will fire drag events.
     > $$('.draggable').invoke('enableDrag');
     >
@@ -845,53 +845,53 @@ Element.addMethods({
 
 (function() {
   var initPointer, draggedElement;
-  
+
   document.observe('mousedown', function(event) {
     if (draggedElement = findDraggable(event.element())) {
       // prevent default browser action to avoid selecting text for instance
       event.preventDefault();
       initPointer = event.pointer();
-      
+
       document.observe('mousemove', startDrag);
       document.observe('mouseup',   cancelDrag);
     }
   });
-  
+
   function findDraggable(element) {
     while (element && element !== document) {
       if (element.hasAttribute('draggable')) return element;
       element = $(element.parentNode);
     }
   };
-  
+
   function startDrag(event) {
     document.stopObserving('mousemove', startDrag)
             .stopObserving('mouseup',   cancelDrag)
             .observe('mousemove', drag)
             .observe('mouseup',   endDrag);
-    
+
     fire('drag:started', event);
   };
-  
+
   function cancelDrag(event) {
     document.stopObserving('mousemove', startDrag)
             .stopObserving('mouseup',   cancelDrag);
   };
-  
+
   function drag(event) {
     fire('drag:updated', event);
   };
-  
+
   function endDrag(event) {
     document.stopObserving('mousemove', drag)
             .stopObserving('mouseup',   endDrag);
-    
+
     fire('drag:ended', event);
   };
-  
+
   function fire(eventName, event) {
     var pointer = event.pointer();
-    
+
     draggedElement.fire(eventName, {
       dx: pointer.x - initPointer.x,
       dy: pointer.y - initPointer.y,
@@ -4583,7 +4583,7 @@ UI.AutoComplete = Class.create(UI.Options, {
     this.element = $(element);
 
     this.render();
-    this.updateInputSize();
+	this.updateInputSize();
     this.nbSelected = 0;
     this.list = [];
 
@@ -4601,7 +4601,7 @@ UI.AutoComplete = Class.create(UI.Options, {
 
   init: function(tokens) {
     tokens = tokens || this.options.tokens;
-    var values = this.input.value.split(tokens.first());
+    var values = this.input.value.split(",");
     values.each(function(text) {if (!text.empty()) this.add(text)}.bind(this));
     this.input.clear();
 

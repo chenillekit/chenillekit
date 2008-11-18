@@ -30,7 +30,8 @@ Ck.AutoComplete = Class.create(UI.AutoComplete, {
 		{
 			this.bits.unset(evt.memo.element.readAttribute('pui-autocomplete:value'));
 			$(element + "-internal").value = this.bits.values().join(',');
-			alert($(element + "-internal").value);
 		}.bind(this))
+
+		options.preSelected.each(function(object) {this.add(object.text, object.value)}.bind(this))
 	}
 })
