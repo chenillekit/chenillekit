@@ -37,65 +37,76 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 @IncludeStylesheet(value = {"RoundCornerContainer.css"})
 public class RoundCornerContainer implements ClientElement
 {
-    /**
-     * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
-     * times, a suffix will be appended to the to id to ensure uniqueness.
-     */
-    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+	public final static String RENDER_BOTH = "both";
+	public final static String RENDER_TOP = "top";
+	public final static String RENDER_BOTTOM = "bottom";
 
-    /**
-     * the corners background color.
-     */
-    @Parameter(value = "#FFFFFF", required = false, defaultPrefix = BindingConstants.LITERAL)
-    private String _bgcolor;
+	/**
+	 * parameter let component know, wich part of the container should rendered.
+	 * possible values arr "both" by default, "top" or "bottom".
+	 */
+	@Parameter(value = RENDER_BOTH, required = false, defaultPrefix = BindingConstants.LITERAL)
+	private String renderPart;
 
-    /**
-     * the corners foreground color.
-     */
-    @Parameter(value = "#9BD1FA", required = false, defaultPrefix = BindingConstants.LITERAL)
-    private String _fgcolor;
+	/**
+	 * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
+	 * times, a suffix will be appended to the to id to ensure uniqueness.
+	 */
+	@Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+	private String clientId;
 
-    /**
-     * the corners radius size (maybe "small" or "big")
-     */
-    @Parameter(value = "", required = false, defaultPrefix = BindingConstants.LITERAL)
-    private String _size;
+	/**
+	 * the corners background color.
+	 */
+	@Parameter(value = "#FFFFFF", required = false, defaultPrefix = BindingConstants.LITERAL)
+	private String bgcolor;
 
-    @Inject
-    private ComponentResources _resources;
+	/**
+	 * the corners foreground color.
+	 */
+	@Parameter(value = "#9BD1FA", required = false, defaultPrefix = BindingConstants.LITERAL)
+	private String fgcolor;
 
-    @Environmental
-    private RenderSupport _pageRenderSupport;
+	/**
+	 * the corners radius size (maybe "small" or "big")
+	 */
+	@Parameter(value = "", required = false, defaultPrefix = BindingConstants.LITERAL)
+	private String size;
 
-    private String _assignedClientId;
+	@Inject
+	private ComponentResources resources;
 
-    void setupRender()
-    {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
-    }
+	@Environmental
+	private RenderSupport pageRenderSupport;
 
-    void beginRender(MarkupWriter writer)
-    {
-        writer.element("div", "id", getClientId());
-        _resources.renderInformalParameters(writer);
-    }
+	private String _assignedClientId;
 
-    void afterRender(MarkupWriter writer)
-    {
-        writer.end();
-        _pageRenderSupport.addScript("var %s = new Ck.Rounded('%s', '%s', '%s', '%s');",
-                                     getClientId(), getClientId(), _bgcolor, _fgcolor, _size);
-        _pageRenderSupport.addScript("%s.round();", getClientId());
-    }
+	void setupRender()
+	{
+		_assignedClientId = pageRenderSupport.allocateClientId(clientId);
+	}
 
-    /**
-     * Returns a unique id for the element. This value will be unique for any given rendering of a
-     * page. This value is intended for use as the id attribute of the client-side element, and will
-     * be used with any DHTML/Ajax related JavaScript.
-     */
-    public String getClientId()
-    {
-        return _assignedClientId;
-    }
+	void beginRender(MarkupWriter writer)
+	{
+		writer.element("div", "id", getClientId());
+		resources.renderInformalParameters(writer);
+	}
+
+	void afterRender(MarkupWriter writer)
+	{
+		writer.end();
+		pageRenderSupport.addScript("var %s = new Ck.Rounded('%s', '%s', '%s', '%s', '%s');",
+									getClientId(), getClientId(), bgcolor, fgcolor, size, renderPart);
+		pageRenderSupport.addScript("%s.round();", getClientId());
+	}
+
+	/**
+	 * Returns a unique id for the element. This value will be unique for any given rendering of a
+	 * page. This value is intended for use as the id attribute of the client-side element, and will
+	 * be used with any DHTML/Ajax related JavaScript.
+	 */
+	public String getClientId()
+	{
+		return _assignedClientId;
+	}
 }
