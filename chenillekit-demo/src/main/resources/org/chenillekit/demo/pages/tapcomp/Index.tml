@@ -14,18 +14,6 @@
 
 <body t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd" xmlns="http://www.w3.org/1999/xhtml">
 
-<style type="text/css">
-	table.tracks {
-		width: 100%;
-	}
-
-	table.tracks, th, td, tr {
-		border: 1px solid black;
-		border-collapse: collapse;
-		padding: 3px;
-	}
-</style>
-
 <div class="yui-g">
 
 	<div class="yui-u first menu">
@@ -38,32 +26,6 @@
 
 		<div class="yui-b">
 
-			<t:form>
-				<br/>
-				<input t:id="facebookList" type="text"/>
-				<br/>
-				<input type="submit"/>
-			</t:form>
-
-			<hr/>
-
-			<t:if test="ognl:selectedTracks != null || selectedTracks.size() > 0">
-				<table class="tracks">
-					<caption>
-						selected tracks
-					</caption>
-					<tr>
-						<th>id</th>
-						<th>title</th>
-						<th>artist</th>
-					</tr>
-					<t:loop element="tr" source="selectedTracks" value="selectedRow">
-						<td>${selectedRow.id}</td>
-						<td>${selectedRow.title}</td>
-						<td>${selectedRow.artist}</td>
-					</t:loop>
-				</table>
-			</t:if>
 
 		</div>
 
