@@ -12,25 +12,18 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.services;
+
+import org.chenillekit.access.WebSessionUser;
 
 /**
+ * Service which allows accessing the current WebSessionUser
  *
  * @version $Id$
  */
-public interface WebSessionUser
+public interface WebSessionUserService
 {
-	/**
-	 * get the role ids.
-	 *
-	 * @return role ids
-	 */
-	int getRoleWeight();
+	WebSessionUser getUser();
 
-	/**
-	 * get the group names.
-	 *
-	 * @return group names
-	 */
-	String[] getGroups();
+	void setUser( WebSessionUser user );
 }

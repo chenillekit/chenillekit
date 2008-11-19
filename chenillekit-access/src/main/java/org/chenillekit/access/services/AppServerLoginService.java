@@ -12,25 +12,16 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.services;
+
+import org.chenillekit.access.WebSessionUser;
 
 /**
+ * Service which allows logging into the applicatino server on which the application runs.
  *
  * @version $Id$
  */
-public interface WebSessionUser
+public interface AppServerLoginService
 {
-	/**
-	 * get the role ids.
-	 *
-	 * @return role ids
-	 */
-	int getRoleWeight();
-
-	/**
-	 * get the group names.
-	 *
-	 * @return group names
-	 */
-	String[] getGroups();
+	void appServerLogin( WebSessionUser user );
 }

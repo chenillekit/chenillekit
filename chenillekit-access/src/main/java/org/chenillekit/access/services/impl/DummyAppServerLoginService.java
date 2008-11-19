@@ -12,25 +12,20 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.services.impl;
+
+import org.chenillekit.access.WebSessionUser;
+import org.chenillekit.access.services.AppServerLoginService;
 
 /**
+ * Do-nothing application server login service.
  *
  * @version $Id$
  */
-public interface WebSessionUser
+public class DummyAppServerLoginService implements AppServerLoginService
 {
-	/**
-	 * get the role ids.
-	 *
-	 * @return role ids
-	 */
-	int getRoleWeight();
-
-	/**
-	 * get the group names.
-	 *
-	 * @return group names
-	 */
-	String[] getGroups();
+	public void appServerLogin( WebSessionUser user )
+	{
+		// Dummy impl, does nothing
+	}
 }

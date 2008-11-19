@@ -27,7 +27,7 @@ public class ChenilleKitAccessException extends RuntimeException
 	private static final long serialVersionUID = -6022592655403552535L;
 
 	/**
-	 * Default blank constructor 
+	 * Default blank constructor
 	 */
 	public ChenilleKitAccessException()
 	{

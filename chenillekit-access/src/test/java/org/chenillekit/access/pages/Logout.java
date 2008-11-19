@@ -12,25 +12,24 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.pages;
+
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.chenillekit.access.services.WebSessionUserService;
 
 /**
+ * Page which logs the user out of the application.
  *
  * @version $Id$
  */
-public interface WebSessionUser
+public class Logout
 {
-	/**
-	 * get the role ids.
-	 *
-	 * @return role ids
-	 */
-	int getRoleWeight();
+	@Inject
+	private WebSessionUserService webSessionUserService;
 
-	/**
-	 * get the group names.
-	 *
-	 * @return group names
-	 */
-	String[] getGroups();
+	final public void beginRender()
+	{
+		// logout
+		webSessionUserService.setUser( null );
+	}
 }

@@ -22,10 +22,11 @@ import org.apache.tapestry5.services.PageRenderRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.services.AccessValidator;
+import org.chenillekit.access.services.AuthRedirectService;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
+ *
  * @version $Id$
  */
 public class PageRenderAccessFilter implements PageRenderRequestFilter
@@ -33,13 +34,15 @@ public class PageRenderAccessFilter implements PageRenderRequestFilter
 	private final Logger logger;
 	private final AccessValidator accessValidator;
 	private final String loginPage;
-	
+	private final AuthRedirectService authRedirectService;
+
 	public PageRenderAccessFilter(AccessValidator accessValidator,
-								SymbolSource symbols, Logger logger)
+								SymbolSource symbols, Logger logger, AuthRedirectService authRedirectService )
 	{
 		this.logger = logger;
 		this.accessValidator = accessValidator;
 		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
+		this.authRedirectService = authRedirectService;
 	}
 
 	/*
@@ -51,22 +54,26 @@ public class PageRenderAccessFilter implements PageRenderRequestFilter
 	{
 		if (accessValidator.hasAccess(parameters.getLogicalPageName(), null, null))
 		{
-			logger.info("User has rights to access " + parameters.getLogicalPageName()  + " page");
+			if (logger.isDebugEnabled())
+				logger.debug("User has rights to access " + parameters.getLogicalPageName()  + " page");
 			handler.handle(parameters);
 		}
 		else
 		{
-			logger.info("User hasn't rights to access " + parameters.getLogicalPageName()  + " page");
+			if (logger.isDebugEnabled())
+				logger.debug("User hasn't rights to access " + parameters.getLogicalPageName()  + " page");
+			authRedirectService.setReturnPage( parameters.getLogicalPageName() );
+			if (logger.isDebugEnabled()) logger.debug("set return page to " + parameters.getLogicalPageName());
 			handler.handle(getLoginPageParameters());
 		}
-		
+
 	}
-	
-	
+
+
 	private PageRenderRequestParameters getLoginPageParameters()
 	{
 		PageRenderRequestParameters parameters = new PageRenderRequestParameters(loginPage, new EmptyEventContext());
-		
+
 		return parameters;
 	}
 

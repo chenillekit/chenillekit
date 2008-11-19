@@ -15,18 +15,25 @@
 
 package org.chenillekit.access.pages;
 
+import org.apache.tapestry5.annotations.OnEvent;
 import org.chenillekit.access.annotations.Restricted;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
+ *
  * @version $Id$
  */
 public class UnRestrictedPage
 {
-	
 	@Restricted(groups = { "ADMINS" })
-	void onActionFromTest()
+	void onActionFromTestRights()
 	{
 		throw new RuntimeException("This should never be reached!");
+	}
+
+	@Restricted(groups = { "ADMINS" })
+	@OnEvent(component = "testRightsOnEvent")
+	void thisThrowRuntimeException()
+	{
+		throw new RuntimeException("This one too!");
 	}
 }

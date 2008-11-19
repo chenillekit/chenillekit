@@ -18,36 +18,35 @@ package org.chenillekit.access.pages;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.Submit;
-
+import org.apache.tapestry5.corelib.components.TextField;
 import org.chenillekit.access.annotations.Restricted;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
+ *
  * @version $Id$
  */
 public class RestrictedTextField
 {
-    @Persist
-    @Property
-    private String simpleText1;
+	@Persist
+	@Property
+	private String simpleText1;
 
-    @Persist
-    @Property
-    private String simpleText2;
+	@Persist
+	@Property
+	private String simpleText2;
 
-    @Component
-    private Form simpleForm;
+	@Component
+	private Form simpleForm;
 
-    @Component(parameters = {"value=simpleText1"})
-    @Restricted(role = 1)
-    private TextField simpleTextField1;
+	@Component(parameters = {"value=simpleText1"})
+	@Restricted(role = 1)
+	private TextField simpleTextField1;
 
-    @Component(parameters = {"value=simpleText2"})
-    private TextField simpleTextField2;
+	@Component(parameters = {"value=simpleText2"})
+	private TextField simpleTextField2;
 
-    @Component
-    private Submit simpleSubmit;
+	@Component
+	private Submit simpleSubmit;
 }

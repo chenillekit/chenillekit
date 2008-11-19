@@ -12,25 +12,24 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.services;
 
 /**
  *
  * @version $Id$
  */
-public interface WebSessionUser
+public interface AuthRedirectService extends AuthService<String>
 {
 	/**
-	 * get the role ids.
+	 * User authentication.
 	 *
-	 * @return role ids
+	 * @param userName name of the user
+	 * @param password users password
+	 * @return page to forwar to on successful authentication
 	 */
-	int getRoleWeight();
+	String doAuthenticate(String userName, String password);
 
-	/**
-	 * get the group names.
-	 *
-	 * @return group names
-	 */
-	String[] getGroups();
+	String getReturnPage();
+
+	void setReturnPage( String returnPage );
 }

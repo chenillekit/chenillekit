@@ -17,22 +17,21 @@ package org.chenillekit.access.pages;
 
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.ioc.annotations.Inject;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
+ *
  * @version $Id$
  */
 @Restricted(role = 2)
 public class RestrictedPage
 {
-    @Inject
-    private ComponentResources resources;
+	@Inject
+	private ComponentResources resources;
 
-    public String getRoleMetaValue()
-    {
-        return resources.getComponentModel().getMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE);
-    }
+	public String getRoleMetaValue()
+	{
+		return resources.getComponentModel().getMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE);
+	}
 }

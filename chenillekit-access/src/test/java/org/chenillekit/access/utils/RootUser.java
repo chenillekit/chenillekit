@@ -24,54 +24,53 @@ import org.chenillekit.access.WebSessionUser;
  * JavaBean used to store infos about the user currently logged
  * in. Typically the final user want to extend this one.
  *
- * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
 
 public class RootUser implements WebSessionUser
 {
-    private int userId;
-    private String name;
+	private int userId;
+	private String name;
 
-    // Both used for security constraints
-    private int roles;
-    private String[] groups;
+	// Both used for security constraints
+	private int roles;
+	private String[] groups;
 
-    public RootUser()
-    {
-        this.userId = 1;
-        this.name = "root";
-        this.roles = 2;
-        this.groups = new String[]{"superuser"};
-    }
+	public RootUser()
+	{
+		this.userId = 1;
+		this.name = "root";
+		this.roles = 2;
+		this.groups = new String[]{"superuser"};
+	}
 
-    public int getUserId()
-    {
-        return userId;
-    }
+	public int getUserId()
+	{
+		return userId;
+	}
 
-    public String getName()
-    {
-        return name;
-    }
+	public String getName()
+	{
+		return name;
+	}
 
-    /**
-     * get the role ids.
-     *
-     * @return role ids
-     */
-    public int getRoleWeigh()
-    {
-        return roles;
-    }
+	/**
+	 * get the role ids.
+	 *
+	 * @return role ids
+	 */
+	public int getRoleWeight()
+	{
+		return roles;
+	}
 
-    /**
-     * get the group names.
-     *
-     * @return group names
-     */
-    public String[] getGroups()
-    {
-        return groups;
-    }
+	/**
+	 * get the group names.
+	 *
+	 * @return group names
+	 */
+	public String[] getGroups()
+	{
+		return groups;
+	}
 }

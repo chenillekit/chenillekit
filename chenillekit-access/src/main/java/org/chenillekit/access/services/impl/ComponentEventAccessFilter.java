@@ -25,18 +25,18 @@ import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.services.AccessValidator;
 
 /**
- * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
+ *
  * @version $Id$
  */
 public class ComponentEventAccessFilter implements ComponentEventRequestFilter
 {
 	private final AccessValidator accessValidator;
 	private final String loginPage;
-	
+
 	public ComponentEventAccessFilter(AccessValidator accessValidator, SymbolSource symbols)
 	{
 		this.accessValidator = accessValidator;
-		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE); 
+		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
 	}
 
 	public void handle(ComponentEventRequestParameters parameters,
@@ -46,15 +46,15 @@ public class ComponentEventAccessFilter implements ComponentEventRequestFilter
 			handler.handle(parameters);
 		else
 			handler.handle(getLoginComponentParameters());
-				
+
 	}
-	
+
 	private ComponentEventRequestParameters getLoginComponentParameters()
 	{
 		ComponentEventRequestParameters parameters = new ComponentEventRequestParameters(loginPage, loginPage,
 				"", EventConstants.ACTIVATE, new EmptyEventContext(),new EmptyEventContext());
-		
-		
+
+
 		return parameters;
 	}
 
