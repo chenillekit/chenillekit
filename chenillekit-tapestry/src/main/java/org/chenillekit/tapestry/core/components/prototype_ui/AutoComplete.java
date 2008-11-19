@@ -42,6 +42,9 @@ import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.ResponseRenderer;
 
 /**
+ * This AutoComplete component based on <a href="http://www.prototype-ui.com/">Prototype-UI's</a>
+ * <a href="http://blog.xilinus.com/2008/2/22/new-component-auto_complete-in-prototype-ui">autocomplete</a> widget.
+ *
  * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"prototype-ui.js", "AutoComplete.js"})
@@ -66,6 +69,10 @@ public class AutoComplete extends AbstractField
 	@Parameter(required = true, allowNull = false, defaultPrefix = BindingConstants.TRANSLATE)
 	private FieldTranslator<Object> translate;
 
+	/**
+	 * this parameter contains the name of the object property, that should display to user in the item list and the
+	 * box of selected items.
+	 */
 	@Parameter(required = true, allowNull = false, defaultPrefix = BindingConstants.LITERAL, name = "label")
 	private String labelPropertyName;
 
