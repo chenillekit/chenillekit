@@ -17,7 +17,7 @@ package org.chenillekit.access.services;
 import org.chenillekit.access.WebSessionUser;
 
 /**
- * Service which allows logging into the applicatino server on which the application runs.
+ * Service which allows logging into the application server on which the application runs.
  *
  * @version $Id$
  */
