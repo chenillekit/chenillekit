@@ -59,7 +59,14 @@ public class DemoModule
 		configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
 		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en_en,it_it,de_de");
 		configuration.add(ChenilleKitGoogleConstants.GOOGLE_REFERER, "www.chenillekit.org");
-		configuration.add(ChenilleKitGoogleConstants.GOOGLE_KEY, "ABQIAAAAi_YFwIW0ZYz1tm9NA5dpjxQgrEgu6vWt7HL-5aFrx0YLtTRf-hQe7xlPB5qe4SL3L7K1LcW221_now");
+
+		boolean isProductionMode = Boolean.valueOf(System.getProperty(SymbolConstants.PRODUCTION_MODE, "true"));
+		if (isProductionMode)
+			// Google-API Key "www.chenillekit.org"
+			configuration.add(ChenilleKitGoogleConstants.GOOGLE_KEY, "ABQIAAAAi_YFwIW0ZYz1tm9NA5dpjxQdr9K2fBzQ2nv81qbqohyufO_eixS_5MtSz15QdDu7FnDcaswUkcFzOQ");
+		else
+			// Google-API Key "localhost"
+			configuration.add(ChenilleKitGoogleConstants.GOOGLE_KEY, "ABQIAAAAi_YFwIW0ZYz1tm9NA5dpjxQgrEgu6vWt7HL-5aFrx0YLtTRf-hQe7xlPB5qe4SL3L7K1LcW221_now");
 	}
 
 	public static MusicLibrary buildMusicLibrary(Logger log)
