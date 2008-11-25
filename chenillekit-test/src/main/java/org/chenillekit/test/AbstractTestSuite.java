@@ -21,7 +21,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class AbstractTestSuite extends Assert
