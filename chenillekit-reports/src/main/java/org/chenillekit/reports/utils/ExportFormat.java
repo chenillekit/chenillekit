@@ -15,7 +15,6 @@
 package org.chenillekit.reports.utils;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public enum ExportFormat

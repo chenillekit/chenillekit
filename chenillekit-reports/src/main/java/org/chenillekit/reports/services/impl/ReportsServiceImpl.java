@@ -57,7 +57,6 @@ import org.slf4j.Logger;
  * reporting tool that has the ability to deliver rich content to the screen or printer or into PDF, HTML, XLS, CSV and XML files
  * based <a href="http://jasperforge.org/sf/projects/jasperreports">jasperreports</a>.
  *
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class ReportsServiceImpl implements ReportsService

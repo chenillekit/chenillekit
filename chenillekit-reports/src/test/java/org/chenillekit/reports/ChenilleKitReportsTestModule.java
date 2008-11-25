@@ -22,7 +22,6 @@ import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import org.chenillekit.reports.services.ReportsService;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SubModule(value = {ChenilleKitReportsModule.class})

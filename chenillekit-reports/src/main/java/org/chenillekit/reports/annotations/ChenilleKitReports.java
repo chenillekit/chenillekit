@@ -14,16 +14,15 @@
 
 package org.chenillekit.reports.annotations;
 
-import java.lang.annotation.Target;
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Documented;
+import java.lang.annotation.Target;
 
 /**
  * marker for chenillekit reports module.
  *
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD})
