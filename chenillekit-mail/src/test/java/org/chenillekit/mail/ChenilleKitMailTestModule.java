@@ -18,7 +18,6 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 @SubModule(value = {ChenilleKitMailModule.class})

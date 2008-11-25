@@ -31,7 +31,6 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class TestSimpleSmtpService extends AbstractTestSuite

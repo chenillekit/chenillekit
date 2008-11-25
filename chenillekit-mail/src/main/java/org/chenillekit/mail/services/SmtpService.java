@@ -18,7 +18,6 @@ import org.apache.commons.mail.Email;
 /**
  * SMTP tool for sending emails based on <a href="http://jakarta.apache.org/commons/email">commons-email</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface SmtpService<T extends Email>

@@ -20,7 +20,6 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.chenillekit.mail.services.impl.SimpleSmtpServiceImpl;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class ChenilleKitMailModule
