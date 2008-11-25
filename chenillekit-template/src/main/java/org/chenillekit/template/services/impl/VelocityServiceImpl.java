@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 /**
  * template service based on <a href="http://velocity.apache.org">Velocity</a> framework.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 public class VelocityServiceImpl implements TemplateService

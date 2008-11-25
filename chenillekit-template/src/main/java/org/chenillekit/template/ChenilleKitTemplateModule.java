@@ -19,16 +19,15 @@ import java.util.Map;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.Marker;
 
+import freemarker.template.Configuration;
+import org.chenillekit.template.services.FreeMarker;
 import org.chenillekit.template.services.TemplateService;
 import org.chenillekit.template.services.Velocity;
-import org.chenillekit.template.services.FreeMarker;
-import org.chenillekit.template.services.impl.VelocityServiceImpl;
 import org.chenillekit.template.services.impl.FreeMarkerServiceImpl;
+import org.chenillekit.template.services.impl.VelocityServiceImpl;
 import org.slf4j.Logger;
-import freemarker.template.Configuration;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitTemplateModule

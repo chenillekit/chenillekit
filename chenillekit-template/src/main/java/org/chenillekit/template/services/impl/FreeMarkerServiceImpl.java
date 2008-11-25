@@ -33,7 +33,6 @@ import org.slf4j.Logger;
 /**
  * template service based on <a href="http://freemarker.sourceforge.net">FreeMarker</a> framework.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 public class FreeMarkerServiceImpl implements TemplateService

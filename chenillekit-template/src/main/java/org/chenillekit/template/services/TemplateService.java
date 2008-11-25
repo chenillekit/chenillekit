@@ -25,7 +25,6 @@ import org.apache.tapestry5.ioc.Resource;
 /**
  * interface for template services.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface TemplateService

@@ -24,7 +24,6 @@ import org.chenillekit.template.services.impl.FreeMarkerServiceImpl;
 import org.chenillekit.template.services.impl.VelocityServiceImpl;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SubModule(value = {ChenilleKitTemplateModule.class})
