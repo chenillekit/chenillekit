@@ -14,7 +14,12 @@
 
 package org.chenillekit.image.services.impl;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,7 +34,6 @@ import org.chenillekit.image.services.ImageService;
 /**
  * some image based helpers.
  *
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id: ImageServiceImpl.java 682 2008-05-20 22:00:02Z homburgs $
  */
 public class ImageServiceImpl implements ImageService

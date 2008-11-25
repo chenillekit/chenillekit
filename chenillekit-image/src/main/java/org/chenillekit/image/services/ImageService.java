@@ -22,7 +22,6 @@ import org.apache.tapestry5.ioc.Resource;
 /**
  * some image based helpers.
  *
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id: ImageService.java 682 2008-05-20 22:00:02Z homburgs $
  */
 public interface ImageService

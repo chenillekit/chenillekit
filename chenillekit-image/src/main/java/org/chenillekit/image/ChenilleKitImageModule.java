@@ -19,7 +19,6 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.chenillekit.image.services.impl.ImageServiceImpl;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitImageModule
