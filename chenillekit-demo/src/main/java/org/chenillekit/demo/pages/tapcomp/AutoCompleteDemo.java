@@ -32,7 +32,6 @@ import org.chenillekit.demo.services.MusicLibrary;
 import org.chenillekit.tapestry.core.components.prototype_ui.AutoComplete;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class AutoCompleteDemo

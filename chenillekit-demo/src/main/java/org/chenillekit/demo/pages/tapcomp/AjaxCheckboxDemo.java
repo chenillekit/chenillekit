@@ -16,9 +16,9 @@
 package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.json.JSONObject;
 
@@ -26,7 +26,6 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.AjaxCheckbox;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class AjaxCheckboxDemo

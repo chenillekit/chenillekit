@@ -44,7 +44,6 @@ import org.chenillekit.template.services.impl.VelocityServiceImpl;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class DemoModule

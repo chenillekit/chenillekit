@@ -15,7 +15,6 @@
 package org.chenillekit.demo.utils;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
 public interface TemplateEnum

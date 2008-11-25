@@ -42,7 +42,6 @@ import org.chenillekit.demo.utils.GroovyScriptEnum;
 import org.chenillekit.scripting.services.ScriptingService;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class GroovyDemo

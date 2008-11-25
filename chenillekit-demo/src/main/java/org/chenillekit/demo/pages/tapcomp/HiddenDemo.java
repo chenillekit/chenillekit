@@ -29,7 +29,6 @@ import org.chenillekit.demo.services.MusicLibrary;
 import org.chenillekit.tapestry.core.components.Hidden;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class HiddenDemo

@@ -30,7 +30,6 @@ import org.chenillekit.tapestry.core.components.TabSet;
 /**
  * demonstrates some simple components.
  *
- * @author <a href="mailto:homburgs@gmail.com">homburgs</a>
  * @version $Id$
  */
 public class TabSetDemo

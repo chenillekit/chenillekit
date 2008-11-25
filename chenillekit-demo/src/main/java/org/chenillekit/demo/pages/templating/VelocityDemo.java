@@ -32,7 +32,6 @@ import org.chenillekit.demo.utils.VelocityTemplateEnum;
 import org.chenillekit.template.services.TemplateService;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
 public class VelocityDemo extends AbstractTemplateDemo

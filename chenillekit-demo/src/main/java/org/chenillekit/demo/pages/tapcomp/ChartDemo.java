@@ -27,7 +27,6 @@ import org.chenillekit.tapestry.core.components.Chart;
 import org.chenillekit.tapestry.core.utils.XYDataItem;
 
 /**
- * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id$
  */
 public class ChartDemo

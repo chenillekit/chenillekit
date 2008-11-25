@@ -16,14 +16,13 @@ package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
 
 import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.Button;
 
 /**
- * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id: ButtonPage.java 396 2008-02-07 20:55:40Z homburgs $
  */
 public class ButtonDemo

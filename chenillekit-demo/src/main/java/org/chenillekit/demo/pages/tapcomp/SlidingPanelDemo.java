@@ -16,11 +16,10 @@ package org.chenillekit.demo.pages.tapcomp;
 
 import org.apache.tapestry5.annotations.Component;
 
-import org.chenillekit.tapestry.core.components.SlidingPanel;
 import org.chenillekit.demo.components.LeftSideMenu;
+import org.chenillekit.tapestry.core.components.SlidingPanel;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class SlidingPanelDemo

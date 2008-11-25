@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:shomburg@depot120.dpd.de">S.Homburg</a>
  * @version $Id$
  */
 public enum GroovyScriptEnum

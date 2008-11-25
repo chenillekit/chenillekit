@@ -25,7 +25,6 @@ import org.chenillekit.tapestry.core.components.ClickSubmit;
 import org.chenillekit.tapestry.core.components.LinkSubmit;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class MultiCompDemo

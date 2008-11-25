@@ -37,7 +37,6 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.utils.TemplateEnum;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
 public abstract class AbstractTemplateDemo

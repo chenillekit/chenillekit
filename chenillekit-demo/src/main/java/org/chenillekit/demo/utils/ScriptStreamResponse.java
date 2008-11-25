@@ -22,7 +22,6 @@ import static org.apache.tapestry5.ioc.internal.util.Defense.notNull;
 import org.apache.tapestry5.services.Response;
 
 /**
- * @author <a href="mailto:shomburg@depot120.dpd.de">S.Homburg</a>
  * @version $Id$
  */
 public class ScriptStreamResponse implements StreamResponse

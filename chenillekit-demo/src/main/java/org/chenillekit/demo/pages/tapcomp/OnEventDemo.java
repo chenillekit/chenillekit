@@ -24,7 +24,6 @@ import org.apache.tapestry5.json.JSONObject;
 import org.chenillekit.demo.components.LeftSideMenu;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class OnEventDemo

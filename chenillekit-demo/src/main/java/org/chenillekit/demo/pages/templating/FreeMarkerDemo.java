@@ -31,7 +31,6 @@ import org.chenillekit.demo.utils.FreeMarkerTemplateEnum;
 import org.chenillekit.template.services.TemplateService;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
 public class FreeMarkerDemo extends AbstractTemplateDemo

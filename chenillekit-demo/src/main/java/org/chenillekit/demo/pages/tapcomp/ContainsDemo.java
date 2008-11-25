@@ -25,7 +25,6 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.Contains;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class ContainsDemo

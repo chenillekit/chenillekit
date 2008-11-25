@@ -21,7 +21,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.chenillekit.demo.components.LeftSideMenu;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
 public class RatingFieldDemo

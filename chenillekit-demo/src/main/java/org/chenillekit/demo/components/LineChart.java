@@ -19,7 +19,6 @@ import org.apache.tapestry5.json.JSONObject;
 import org.chenillekit.tapestry.core.components.Chart;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class LineChart extends Chart

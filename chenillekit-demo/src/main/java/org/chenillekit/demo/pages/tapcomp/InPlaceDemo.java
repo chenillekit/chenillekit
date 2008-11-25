@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Retain;
 import org.apache.tapestry5.beaneditor.BeanModel;
@@ -34,7 +33,6 @@ import org.chenillekit.tapestry.core.components.InPlaceCheckbox;
 import org.chenillekit.tapestry.core.components.InPlaceEditor;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class InPlaceDemo

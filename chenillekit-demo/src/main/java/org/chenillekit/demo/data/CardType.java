@@ -15,7 +15,6 @@
 package org.chenillekit.demo.data;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public enum CardType

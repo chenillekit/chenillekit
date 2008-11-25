@@ -25,7 +25,6 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 @IncludeStylesheet(value = {"../assets/styles/OvalButton.css"})

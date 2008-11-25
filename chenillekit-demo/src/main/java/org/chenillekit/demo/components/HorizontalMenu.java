@@ -19,7 +19,6 @@ import org.apache.tapestry5.annotations.Mixins;
 import org.apache.tapestry5.corelib.components.PageLink;
 
 /**
- * @author <a href="mailto:shomburg@depot120.dpd.de">S.Homburg</a>
  * @version $Id$
  */
 public class HorizontalMenu extends LeftSideMenu

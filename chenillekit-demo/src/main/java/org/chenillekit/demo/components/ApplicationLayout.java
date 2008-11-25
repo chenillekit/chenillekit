@@ -25,7 +25,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.internal.util.InternalUtils;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ApplicationLayout
