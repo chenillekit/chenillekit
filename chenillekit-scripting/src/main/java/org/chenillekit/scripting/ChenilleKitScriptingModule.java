@@ -19,7 +19,6 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.chenillekit.scripting.services.impl.BSFServiceImpl;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitScriptingModule

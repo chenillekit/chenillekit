@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 /**
  * Testcase for the BeanShellService.
  *
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
+ * @version $Id$
  */
 public class TestBSFService extends Assert
 {

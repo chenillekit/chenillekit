@@ -21,7 +21,6 @@ import org.apache.tapestry5.ioc.Resource;
 /**
  * service interface for script interpreters like beanshell, groovy, etc.
  *
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id: ScriptingService.java 682 2008-05-20 22:00:02Z homburgs $
  */
 public interface ScriptingService
