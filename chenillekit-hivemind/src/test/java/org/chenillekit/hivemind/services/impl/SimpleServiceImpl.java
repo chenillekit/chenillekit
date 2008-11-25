@@ -12,7 +12,6 @@ package org.chenillekit.hivemind.services.impl;
 import org.chenillekit.hivemind.services.SimpleService;
 
 /**
- * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id$
  */
 public class SimpleServiceImpl implements SimpleService

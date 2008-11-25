@@ -16,7 +16,6 @@ package org.chenillekit.hivemind.services;
 /**
  * A placeholder interface for testing pourpose
  *
- * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id$
  */
 public interface NullService

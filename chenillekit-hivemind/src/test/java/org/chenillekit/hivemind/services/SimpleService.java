@@ -14,7 +14,6 @@
 package org.chenillekit.hivemind.services;
 
 /**
- * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id$
  */
 public interface SimpleService

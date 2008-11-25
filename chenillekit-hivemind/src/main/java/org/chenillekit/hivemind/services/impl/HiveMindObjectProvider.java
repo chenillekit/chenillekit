@@ -27,7 +27,6 @@ import org.slf4j.Logger;
  * HiveMind based {@link ObjectProvider} which will serve HiveMind
  * services through Tapestry5 IoC context.
  *
- * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id$
  */
 public class HiveMindObjectProvider implements ObjectProvider
