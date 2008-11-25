@@ -19,7 +19,6 @@ import org.chenillekit.google.utils.JSONException;
 import org.chenillekit.google.utils.JSONObject;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class AddressDetails

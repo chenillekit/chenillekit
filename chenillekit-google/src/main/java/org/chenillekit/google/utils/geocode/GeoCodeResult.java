@@ -25,7 +25,6 @@ import org.chenillekit.google.utils.JSONObject;
 /**
  * hold the result codes from gmap.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class GeoCodeResult

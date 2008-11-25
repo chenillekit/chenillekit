@@ -25,7 +25,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class TestGeoCoding extends AbstractTestSuite

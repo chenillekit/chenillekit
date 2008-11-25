@@ -15,11 +15,10 @@
 
 package org.chenillekit.google.utils.geocode;
 
-import org.chenillekit.google.utils.JSONObject;
 import org.chenillekit.google.utils.JSONException;
+import org.chenillekit.google.utils.JSONObject;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class Placemark
