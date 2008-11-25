@@ -19,7 +19,6 @@ import org.apache.lucene.document.Document;
 /**
  * implements indexer based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface IndexerService
@@ -45,9 +44,9 @@ public interface IndexerService
      * @return amount of documents
      */
     int getDocCount();
-    
+
     /**
-     * Force a commit of changes to the index 
+     * Force a commit of changes to the index
      */
     void commit();
 }

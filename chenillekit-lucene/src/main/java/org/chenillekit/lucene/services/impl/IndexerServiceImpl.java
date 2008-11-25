@@ -21,6 +21,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
+
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
 import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.IndexerService;
@@ -29,13 +30,12 @@ import org.slf4j.Logger;
 /**
  * implements indexer based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
 {
     private final Logger logger;
-    
+
     private final IndexWriter indexWriter;
 
     public IndexerServiceImpl(final Logger logger, IndexSource indexSource)

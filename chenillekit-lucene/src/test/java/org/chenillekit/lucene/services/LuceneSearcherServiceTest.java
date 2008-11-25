@@ -18,11 +18,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
+
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.Test;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class LuceneSearcherServiceTest extends AbstractTestSuite

@@ -21,7 +21,6 @@ import org.apache.lucene.document.Document;
 /**
  * implements seacher based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface SearcherService

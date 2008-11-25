@@ -21,6 +21,7 @@ import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.annotations.Scope;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
+
 import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.IndexerService;
 import org.chenillekit.lucene.services.SearcherService;
@@ -30,13 +31,12 @@ import org.chenillekit.lucene.services.impl.SearcherServiceImpl;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class ChenilleKitLuceneModule
 {
 	/**
-	 * 
+	 *
 	 * @param logger
 	 * @param configurationMap
 	 * @param shutdownHub
@@ -47,12 +47,12 @@ public class ChenilleKitLuceneModule
 	{
 		Resource config = configurationMap.get(ChenilleKitLuceneConstants.CONFIG_KEY_PROPERTIES);
 		IndexSourceImpl service = new IndexSourceImpl(logger, config);
-		
+
 		shutdownHub.addRegistryShutdownListener(service);
-		
+
 		return service;
 	}
-	
+
     /**
      * bind the <a href="http://lucene.apache.org/java/docs/index.html">lucene</a> based indexer service.
      *
@@ -84,9 +84,9 @@ public class ChenilleKitLuceneModule
                                                        PerthreadManager threadManager)
     {
         SearcherServiceImpl service = new SearcherServiceImpl(logger, source);
-        
+
         threadManager.addThreadCleanupListener(service);
-        
+
         return service;
     }
 }

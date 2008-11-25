@@ -28,6 +28,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TopDocCollector;
 import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
+
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
 import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.SearcherService;
@@ -36,54 +37,53 @@ import org.slf4j.Logger;
 /**
  * implements seacher based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class SearcherServiceImpl implements SearcherService, ThreadCleanupListener
 {
 	private static final int MAX_SCORE_DOC = 100;
-	
+
     private Logger logger;
-    
+
     private final Searcher indexSearcher;
-    
+
     private final Analyzer analyzer;
-    
+
     /**
-     * 
+     *
      * @param logger
      * @param indexSource
      */
     public SearcherServiceImpl(Logger logger, IndexSource indexSource)
     {
     	this.logger = logger;
-    	
+
     	this.analyzer = indexSource.getAnalyzer();
-    	
+
     	this.indexSearcher = indexSource.createIndexSearcher();
     }
 
-    
+
     public List<Document> search(String fieldName, String queryString, Integer howMany)
     {
     	QueryParser parser = new QueryParser(fieldName, this.analyzer);
-    	
+
     	Query query;
 		try
 		{
 			query = parser.parse(queryString);
-			
+
 		}
 		catch (ParseException pe)
 		{
 			this.logger.error(String.format("Unable to parse the query string: '%s'", pe.getMessage()), pe);
 			throw new ChenilleKitLuceneRuntimeException(pe);
 		}
-    	
+
     	ScoreDoc[] scores;
-    	
+
     	int total = howMany != null ? howMany.intValue() : MAX_SCORE_DOC;
-    	
+
     	TopDocCollector collector = new TopDocCollector(total);
 		try
 		{
@@ -95,13 +95,13 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 			this.logger.error(String.format("Unable to access the index for searching: '%s'", ioe.getMessage()), ioe);
 			throw new ChenilleKitLuceneRuntimeException(ioe);
 		}
-    	
+
     	List<Document> docs = new ArrayList<Document>();
-    	
+
     	for (int i = 0; i < scores.length; i++)
     	{
 			int docId = scores[i].doc;
-			
+
 			try
 			{
 				docs.add(this.indexSearcher.doc(docId));
@@ -117,10 +117,10 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 				throw new ChenilleKitLuceneRuntimeException(ioe);
 			}
 		}
-    	
+
 		return docs;
 	}
-    
+
     /*
      * (non-Javadoc)
      * @see org.apache.tapestry5.ioc.services.ThreadCleanupListener#threadDidCleanup()
@@ -136,7 +136,7 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 			this.logger.error("Unable to close the IndexSearcher during thread cleanup: " + ioe.getMessage(), ioe);
 		}
 	}
-    
-    
-    
+
+
+
 }
