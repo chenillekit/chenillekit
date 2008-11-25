@@ -24,7 +24,6 @@ import org.apache.tapestry5.ioc.services.PropertyAccess;
 import org.apache.tapestry5.util.AbstractSelectModel;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id: GenericSelectionModel.java 682 2008-05-20 22:00:02Z homburgs $
  */
 public class GenericSelectionModel<T> extends AbstractSelectModel

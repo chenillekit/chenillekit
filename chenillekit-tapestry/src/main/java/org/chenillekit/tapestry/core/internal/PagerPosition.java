@@ -15,7 +15,6 @@
 package org.chenillekit.tapestry.core.internal;
 
 /**
- * @author Tod Orr
  * @version $Id$
  */
 public enum PagerPosition

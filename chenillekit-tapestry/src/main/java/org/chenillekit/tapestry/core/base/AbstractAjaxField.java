@@ -28,7 +28,6 @@ import org.apache.tapestry5.corelib.mixins.RenderDisabled;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 abstract public class AbstractAjaxField implements ClientElement

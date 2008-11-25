@@ -35,7 +35,6 @@ import org.chenillekit.tapestry.core.internal.PagerPosition;
  * instead of a table by default. The list and its items are configurable via
  * parameters.
  *
- * @author Tod Orr
  * @version $Id$
  */
 public class PagedLoop implements ClientElement

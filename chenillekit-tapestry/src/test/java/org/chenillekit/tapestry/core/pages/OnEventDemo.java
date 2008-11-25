@@ -23,7 +23,6 @@ import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.util.TextStreamResponse;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class OnEventDemo

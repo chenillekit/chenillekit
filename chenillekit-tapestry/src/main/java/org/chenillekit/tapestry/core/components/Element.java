@@ -27,7 +27,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
  * Helper component that will render a variable element type.
  * Similar to the Any component in Tapestry3.
  *
- * @author Tod Orr
  * @version $Id$
  * @deprecated use Any component from tapestry 5
  */

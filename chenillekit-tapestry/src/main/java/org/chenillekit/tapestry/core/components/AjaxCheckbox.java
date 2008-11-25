@@ -27,7 +27,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * A "ajaxed" <a href="http://tapestry.apache.org/t5components/tapestry-core/component-parameters.html#orgapachetapestrycorelibcomponentscheckbox">Checkbox</a> component.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"AjaxCheckbox.js"})

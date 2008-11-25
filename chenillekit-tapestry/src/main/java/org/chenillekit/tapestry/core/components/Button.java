@@ -36,7 +36,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
  * If button is typed as "page", you must fill the parameter "pageName" with an existing
  * logical page name.
  *
- * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id: Button.java 682 2008-05-20 22:00:02Z homburgs $
  */
 @SupportsInformalParameters

@@ -19,7 +19,6 @@ import java.io.Serializable;
 import org.apache.tapestry5.ioc.internal.util.Defense;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class XYDataItem implements Serializable, Comparable

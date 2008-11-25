@@ -41,7 +41,6 @@ import org.chenillekit.tapestry.core.services.impl.URIDispatcher;
 /**
  * module for chenillekit web module.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitCoreModule

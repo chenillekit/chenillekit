@@ -20,7 +20,6 @@ import org.apache.tapestry5.annotations.Parameter;
 /**
  * Conditionally renders its body.
  *
- * @author <a href="mailto:florian.bw@gmail.com">F.Breitwieser</a>
  * @version $Id$
  */
 public class Equals

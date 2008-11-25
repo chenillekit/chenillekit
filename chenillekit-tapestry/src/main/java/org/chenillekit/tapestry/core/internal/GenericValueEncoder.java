@@ -22,7 +22,6 @@ import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.ioc.services.PropertyAccess;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class GenericValueEncoder<T> implements ValueEncoder<T>

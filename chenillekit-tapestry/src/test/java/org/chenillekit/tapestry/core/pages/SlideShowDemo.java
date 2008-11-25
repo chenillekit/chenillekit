@@ -19,7 +19,6 @@ import org.apache.tapestry5.annotations.Component;
 import org.chenillekit.tapestry.core.components.SlideShow;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class SlideShowDemo

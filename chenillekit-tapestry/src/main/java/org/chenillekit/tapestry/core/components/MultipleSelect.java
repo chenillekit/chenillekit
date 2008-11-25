@@ -50,7 +50,6 @@ import org.chenillekit.tapestry.core.renderes.MultipleSelectModelRenderer;
  * <p/>
  * the only diffrence to the original tapestry select component is that the "value" parameter expected a java.util.List object.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id: MultipleSelect.java 703 2008-07-06 13:54:03Z homburgs $
  * @link http://tapestry.apache.org/t5components/tapestry-core/component-parameters.html#orgapachetapestrycorelibcomponentsselect
  */

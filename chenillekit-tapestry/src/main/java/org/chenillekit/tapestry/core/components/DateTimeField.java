@@ -47,7 +47,6 @@ import org.apache.tapestry5.services.Request;
  * A component used to collect a provided date/time from the user using a client-side JavaScript calendar. Non-JavaScript
  * clients can simply type into a text field.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 @IncludeStylesheet("datetimefield/datepicker.css")

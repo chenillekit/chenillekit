@@ -36,9 +36,8 @@ import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
 /**
  * let you make a list of beans selectable.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id: BeanSelect.java 682 2008-05-20 22:00:02Z homburgs $
- * @deprecated 
+ * @deprecated
  */
 // TODO make beans multi-selectable
 @SupportsInformalParameters

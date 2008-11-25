@@ -24,7 +24,6 @@ import org.chenillekit.tapestry.core.bindings.OgnlBinding;
 /**
  * Binding factory where the expression evaluated by OGNL.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id: OgnlBindingFactory.java 682 2008-05-20 22:00:02Z homburgs $
  */
 public class OgnlBindingFactory implements BindingFactory

@@ -8,11 +8,10 @@ import org.apache.tapestry5.ioc.Resource;
 import static org.apache.tapestry5.ioc.internal.util.CollectionFactory.newConcurrentMap;
 import org.apache.tapestry5.services.AssetFactory;
 
-import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 import org.chenillekit.core.resources.URIResource;
+import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id: URIAssetFactory.java 682 2008-05-20 22:00:02Z homburgs $
  */
 public class URIAssetFactory implements AssetFactory

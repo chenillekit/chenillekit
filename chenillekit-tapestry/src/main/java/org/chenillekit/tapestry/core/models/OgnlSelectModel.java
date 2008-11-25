@@ -28,7 +28,6 @@ import ognl.Ognl;
  * If you want to display in the list the value of the name property you should define a
  * <code>labelExpression</code> like <code>address.name</code>
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 public class OgnlSelectModel<T> extends AbstractSelectModel

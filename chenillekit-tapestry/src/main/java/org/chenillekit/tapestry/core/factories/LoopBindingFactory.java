@@ -21,7 +21,6 @@ import org.chenillekit.tapestry.core.bindings.ListBinding;
 /**
  * Binding factory where the expression is a collection type.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id: LoopBindingFactory.java 682 2008-05-20 22:00:02Z homburgs $
  */
 public class LoopBindingFactory implements BindingFactory

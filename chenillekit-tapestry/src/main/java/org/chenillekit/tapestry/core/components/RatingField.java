@@ -58,7 +58,6 @@ import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
  * By default the first value display image will be hidden as this typically
  * will indicate no value.
  *
- * @author Tod Orr
  * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"Rating.js"})

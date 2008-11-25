@@ -37,7 +37,6 @@ import org.apache.tapestry5.ioc.internal.util.InternalUtils;
  * like <em>label-panelid</em> for inserting as panel title.
  * if not found the panel id inserted instead.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 @IncludeJavaScriptLibrary({"../Chenillekit.js", "TabSet.js"})

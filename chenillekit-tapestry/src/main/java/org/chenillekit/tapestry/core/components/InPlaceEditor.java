@@ -38,7 +38,6 @@ import org.apache.tapestry5.util.TextStreamResponse;
 /**
  * a "just in place" edit component that dont must emmbedded in a form.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SupportsInformalParameters

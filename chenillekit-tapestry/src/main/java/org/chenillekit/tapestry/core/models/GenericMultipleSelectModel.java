@@ -29,7 +29,6 @@ import org.apache.tapestry5.util.AbstractSelectModel;
 import org.chenillekit.tapestry.core.encoders.MultipleValueEncoder;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 public class GenericMultipleSelectModel<T> extends AbstractSelectModel implements MultipleValueEncoder<T>

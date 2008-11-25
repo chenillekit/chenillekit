@@ -17,7 +17,6 @@ package org.chenillekit.tapestry.core.encoders;
 import java.util.List;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id: MultipleValueEncoder.java 367 2008-02-06 09:59:36Z homburgs $
  */
 public interface MultipleValueEncoder<V>

@@ -17,7 +17,6 @@ package org.chenillekit.tapestry.core.base;
 import java.util.List;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id: EventMixin.java 499 2008-03-07 18:21:45Z homburgs $
  */
 public interface EventMixin

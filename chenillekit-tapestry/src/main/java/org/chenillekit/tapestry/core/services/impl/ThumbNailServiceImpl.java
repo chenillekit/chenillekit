@@ -35,7 +35,6 @@ import org.chenillekit.tapestry.core.services.ThumbNailService;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id: ThumbNailServiceImpl.java 701 2008-07-01 20:17:47Z homburgs $
  */
 public class ThumbNailServiceImpl implements ThumbNailService

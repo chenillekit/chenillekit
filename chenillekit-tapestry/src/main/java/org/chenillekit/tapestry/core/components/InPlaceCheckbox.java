@@ -16,6 +16,7 @@ package org.chenillekit.tapestry.core.components;
 
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -30,13 +31,11 @@ import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.corelib.mixins.DiscardBody;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.commons.lang.ArrayUtils;
 
 /**
  * a "just in place" checkbox component that dont must emmbedded in a form.
  * sends an event after click named "checkboxclicked".
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SupportsInformalParameters

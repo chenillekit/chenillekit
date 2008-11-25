@@ -19,7 +19,6 @@ import org.apache.tapestry5.test.AbstractIntegrationTestSuite;
 import org.testng.annotations.Test;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class TestComponentIntegration extends AbstractIntegrationTestSuite

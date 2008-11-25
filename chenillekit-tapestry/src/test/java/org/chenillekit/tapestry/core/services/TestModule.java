@@ -25,7 +25,6 @@ import org.chenillekit.tapestry.core.services.impl.ThumbNailServiceImpl;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 @SubModule(value = {ChenilleKitImageModule.class})

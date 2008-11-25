@@ -23,7 +23,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.chenillekit.tapestry.core.components.DateFormat;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class FormaterDemo

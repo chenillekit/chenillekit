@@ -28,7 +28,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * closeable fieldset.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SupportsInformalParameters

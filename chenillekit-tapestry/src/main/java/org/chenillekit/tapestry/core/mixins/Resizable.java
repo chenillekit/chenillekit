@@ -14,16 +14,16 @@
 
 package org.chenillekit.tapestry.core.mixins;
 
+import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.RenderSupport;
-import org.apache.tapestry5.annotations.InjectContainer;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
-import org.apache.tapestry5.annotations.Parameter;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Environmental;
+import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.InjectContainer;
+import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Cookies;
 
@@ -31,7 +31,6 @@ import org.apache.tapestry5.services.Cookies;
  * Helper mixin that will render a variable element type.
  * Similar to the Any component in Tapestry3.
  *
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id: Resizable.java 682 2008-05-20 22:00:02Z homburgs $
  */
 @IncludeJavaScriptLibrary(value = {"../Cookie.js", "${tapestry.scriptaculous}/dragdrop.js",

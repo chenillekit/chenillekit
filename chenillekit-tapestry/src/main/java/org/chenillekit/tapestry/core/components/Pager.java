@@ -32,7 +32,6 @@ import org.chenillekit.tapestry.core.internal.PagedSource;
 /**
  * Blatant copy and paste of {@link org.apache.tapestry5.corelib.components.GridPager} with modifications.
  *
- * @author Tod Orr
  * @version $Id$
  */
 @IncludeStylesheet(value = {"Pager.css"})

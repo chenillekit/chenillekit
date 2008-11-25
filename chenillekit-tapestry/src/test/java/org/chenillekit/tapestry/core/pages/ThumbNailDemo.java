@@ -19,7 +19,6 @@ import org.apache.tapestry5.annotations.Component;
 import org.chenillekit.tapestry.core.components.ThumbNail;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id: ThumbNailDemo.java 682 2008-05-20 22:00:02Z homburgs $
  */
 public class ThumbNailDemo

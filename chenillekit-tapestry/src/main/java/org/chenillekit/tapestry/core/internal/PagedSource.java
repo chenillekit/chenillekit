@@ -22,7 +22,6 @@ import java.util.List;
  * Provides an implementation that will only iterate
  * over the objects within the range provided when prepare() is called.
  *
- * @author Tod Orr
  * @version $Id$
  */
 public class PagedSource<T> implements Iterable<T>

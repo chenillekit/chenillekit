@@ -32,7 +32,6 @@ import org.apache.tapestry5.services.Environment;
 /**
  * accordion component.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 @SupportsInformalParameters

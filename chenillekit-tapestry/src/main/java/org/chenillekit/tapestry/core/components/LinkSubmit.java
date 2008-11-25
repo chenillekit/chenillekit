@@ -28,7 +28,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * LinkSubmit allows arbitrary page (DOM) elements to submit a form.
  *
- * @author Chris Lewis Jan 8, 2008 <chris@thegodcode.net>
  * @version $Id$
  * @since 0.2.0
  */

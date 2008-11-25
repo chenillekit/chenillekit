@@ -32,7 +32,6 @@ import org.chenillekit.tapestry.core.utils.XYDataItem;
 /**
  * chart component based on <a href="http://solutoire.com/flotr/">Flotr javascript library</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SupportsInformalParameters

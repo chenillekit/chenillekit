@@ -29,7 +29,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * displays a colored container with rounded corners without pics or any mozilla-css goodies.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SupportsInformalParameters

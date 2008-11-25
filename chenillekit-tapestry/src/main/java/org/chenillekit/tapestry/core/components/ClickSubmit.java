@@ -30,7 +30,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * ClickSubmit allows arbitrary page (DOM) elements to submit a form.
  *
- * @author Chris Lewis Dec 29, 2007 <chris@thegodcode.net>
  * @version $Id$
  */
 @SupportsInformalParameters
