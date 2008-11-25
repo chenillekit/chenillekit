@@ -18,7 +18,6 @@ import java.util.List;
 import netscape.ldap.LDAPEntry;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">shomburg</a>
  * @version $Id: LdapSearchService.java 167 2008-07-23 22:05:16Z shomburg $
  */
 public interface SearcherService

@@ -22,7 +22,6 @@ import org.chenillekit.ldap.services.SearcherService;
 import org.chenillekit.ldap.services.impl.SimpleSearcherServiceImpl;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id: ChenilleKitMailModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $
  */
 public class ChenilleKitLDAPModule

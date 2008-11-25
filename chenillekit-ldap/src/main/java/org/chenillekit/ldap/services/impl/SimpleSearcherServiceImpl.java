@@ -34,7 +34,6 @@ import org.chenillekit.ldap.services.SearcherService;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">shomburg</a>
  * @version $Id: LdapSearchServiceImpl.java 167 2008-07-23 22:05:16Z shomburg $
  */
 public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutdownListener
