@@ -37,7 +37,6 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class ChenilleKitQuartzModule

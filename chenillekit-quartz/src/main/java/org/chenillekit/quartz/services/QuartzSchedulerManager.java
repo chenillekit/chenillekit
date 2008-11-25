@@ -19,7 +19,6 @@ import org.quartz.Scheduler;
 /**
  * manages the Quartz schedulers.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface QuartzSchedulerManager

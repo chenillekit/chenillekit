@@ -21,12 +21,12 @@ import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.chenillekit.quartz.services.QuartzSchedulerManager;
+import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
-import org.quartz.CronTrigger;
 import org.slf4j.Logger;
 
 /**
@@ -34,7 +34,6 @@ import org.slf4j.Logger;
  * <p/>
  * adding all configured job scheduling bundles to the default or named scheduler.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class QuartzSchedulerManagerImpl implements QuartzSchedulerManager
