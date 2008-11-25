@@ -34,7 +34,6 @@ import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.chenillekit.core.services.ConfigurationService;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ConfigurationServiceImpl implements ConfigurationService

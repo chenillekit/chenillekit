@@ -21,7 +21,6 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.tapestry5.ioc.Resource;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface ConfigurationService

@@ -17,7 +17,6 @@ package org.chenillekit.core;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 @SubModule(ChenilleKitCoreModule.class)

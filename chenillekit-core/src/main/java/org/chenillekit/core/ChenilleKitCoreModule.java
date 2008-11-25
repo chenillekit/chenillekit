@@ -20,7 +20,6 @@ import org.chenillekit.core.services.ConfigurationService;
 import org.chenillekit.core.services.impl.ConfigurationServiceImpl;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitCoreModule

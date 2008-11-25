@@ -26,7 +26,6 @@ import org.apache.tapestry5.ioc.internal.util.AbstractResource;
 /**
  * A resource stored with in any location (local, remote or jar archive).
  *
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id: URIResource.java 367 2008-02-06 09:59:36Z homburgs $
  */
 public class URIResource extends AbstractResource
