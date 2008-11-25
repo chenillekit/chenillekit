@@ -6,7 +6,6 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.testng.Assert;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class AbstractHibernateTest extends Assert

@@ -22,8 +22,8 @@ import org.hibernate.Transaction;
 
 import org.chenillekit.hibernate.AbstractHibernateTest;
 import org.chenillekit.hibernate.entities.Address;
-import org.chenillekit.hibernate.entities.User;
 import org.chenillekit.hibernate.entities.Pseudonym;
+import org.chenillekit.hibernate.entities.User;
 import org.chenillekit.hibernate.factories.TestDAOFactory;
 import org.chenillekit.hibernate.utils.QueryParameter;
 import org.testng.annotations.AfterTest;
@@ -31,7 +31,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class TestUserDAO extends AbstractHibernateTest

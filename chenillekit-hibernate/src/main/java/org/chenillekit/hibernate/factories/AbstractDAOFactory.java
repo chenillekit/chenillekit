@@ -22,7 +22,6 @@ import org.chenillekit.hibernate.daos.GenericDAO;
 /**
  * abstract data access object factory.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public abstract class AbstractDAOFactory implements GenericDAOFactory

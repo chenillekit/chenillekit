@@ -20,7 +20,6 @@ import org.chenillekit.hibernate.entities.Address;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class AddressDAOHibernate extends AbstractHibernateDAO<Address, Long> implements AddressDAO

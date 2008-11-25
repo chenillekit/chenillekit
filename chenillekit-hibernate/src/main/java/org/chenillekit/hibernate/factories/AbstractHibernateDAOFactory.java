@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 /**
  * abstract hibernate based data access object factory.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class AbstractHibernateDAOFactory extends AbstractDAOFactory

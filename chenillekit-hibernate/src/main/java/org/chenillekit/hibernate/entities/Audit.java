@@ -16,14 +16,13 @@ package org.chenillekit.hibernate.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Basic;
 
 /**
  * extension for database entities that should be auditable.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @Embeddable

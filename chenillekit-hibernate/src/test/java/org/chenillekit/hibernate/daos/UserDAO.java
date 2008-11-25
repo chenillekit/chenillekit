@@ -17,7 +17,6 @@ package org.chenillekit.hibernate.daos;
 import org.chenillekit.hibernate.entities.User;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface UserDAO extends GenericDAO<User, Long>

@@ -27,7 +27,6 @@ import org.slf4j.Logger;
 /**
  * inserts audit informations into an entity object that implements @see Auditable.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class AuditInterceptor extends EmptyInterceptor

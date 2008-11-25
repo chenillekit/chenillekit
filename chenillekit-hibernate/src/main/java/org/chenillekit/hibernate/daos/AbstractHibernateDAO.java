@@ -33,7 +33,6 @@ import org.slf4j.Logger;
 /**
  * abstract hibernate based data access object.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public abstract class AbstractHibernateDAO<T, ID extends Serializable> implements GenericDAO<T, ID>

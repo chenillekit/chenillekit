@@ -15,15 +15,14 @@
 package org.chenillekit.hibernate.daos;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 
 import org.chenillekit.hibernate.utils.QueryParameter;
 
 /**
  * a generic data access object.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface GenericDAO<T, ID extends Serializable>
