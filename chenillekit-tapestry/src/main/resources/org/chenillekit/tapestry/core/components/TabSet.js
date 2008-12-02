@@ -15,55 +15,39 @@
 Ck.TabSet = Class.create();
 Ck.TabSet.prototype = {
 
-    lastActivatedPanelId: null,
+	initialize: function(tabPanelId, activeId)
+	{
+		this.tabPanelId = tabPanelId;
+		this.activeId = activeId;
+		this.panelLinks = $(this.tabPanelId).select('a');
 
-    initialize: function(tabSetId, panelArray, activeId, actionLink)
-    {
-        this.tabSetId = tabSetId;
-        this.activeId = activeId;
-        this.panelArray = panelArray.split(",");
-        this.actionLink = actionLink;
+		this.removeActiveStyle();
 
-        this.panelArray.each(function(element)
-        {
-            $('panel_' + element).onclick = this.activate.bindAsEventListener(this);
-            if (this.activeId != element)
-                $(element).hide();
-            else
-            {
-                $(element).show();
-                this.lastActivatedPanelId = 'panel_' + element;
-            }
+		this.panelLinks.each(function (e)
+		{
+			Event.observe(e, 'click', this.__clicked.bind(this))
 
-        }.bind(this));
-    },
-    activate: function(evt)
-    {
-        var clickedPanel = Event.element(evt).id;
-        var clickedPanelContent = clickedPanel.split("_")[1];
+			if (e.up().id == activeId)
+				this.addActiveStyle(e.up());
 
-        this.deactivate(this.lastActivatedPanelId);
+		}.bind(this));
+	},
+	removeActiveStyle: function()
+	{
+		this.panelLinks.each(function (element)
+		{
+			element.up().removeClassName('active');
+		})
+	},
+	addActiveStyle: function(element)
+	{
+		element.addClassName('active');
+	},
+	__clicked:function(event)
+	{
+		this.removeActiveStyle();
 
-        $(clickedPanelContent).show();
-        $(clickedPanel).addClassName("activated");
-        this.lastActivatedPanelId = clickedPanel;
-
-        new Ajax.Request(this.actionLink + "/" + clickedPanelContent, {
-            method: 'post',
-            onFailure: function(t)
-            {
-                alert('Error communication with the server: ' + t.responseText.stripTags());
-            },
-            onException: function(t, exception)
-            {
-                alert('Error communication with the server: ' + exception.message);
-            }
-        });
-    },
-    deactivate: function(panelId)
-    {
-        var panelContent = panelId.split("_")[1];
-        $(panelContent).hide();
-        $(panelId).removeClassName("activated");
-    }
+		var clickedLink = Event.element(event)
+		clickedLink.up().addClassName('active');
+	}
 }

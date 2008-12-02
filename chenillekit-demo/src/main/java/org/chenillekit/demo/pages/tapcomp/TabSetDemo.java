@@ -15,16 +15,18 @@
 package org.chenillekit.demo.pages.tapcomp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.apache.tapestry5.StreamResponse;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.util.TextStreamResponse;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 import org.chenillekit.demo.components.LeftSideMenu;
+import org.chenillekit.demo.data.Track;
+import org.chenillekit.demo.services.MusicLibrary;
+import org.chenillekit.tapestry.core.components.PagedLoop;
 import org.chenillekit.tapestry.core.components.TabSet;
 
 /**
@@ -34,35 +36,44 @@ import org.chenillekit.tapestry.core.components.TabSet;
  */
 public class TabSetDemo
 {
-    @Persist
-    @Property
-    private String activePanel;
+	@Persist
+	@Property
+	private String activePanel;
 
-    @Component(parameters = {"menuName=demo"})
-    private LeftSideMenu menu;
+	@Persist
+	@Property
+	private Date sysDate;
 
-    @Property
-    private List<String> panelIds;
+	@Component(parameters = {"menuName=demo"})
+	private LeftSideMenu menu;
 
-    @Component(parameters = {"panelIds=prop:panelIds", "activePanelId=activePanel"})
-    private TabSet tabSet1;
+	@Property
+	private List<String> panelIds;
 
-    /**
-     * Tapestry page lifecycle method.
-     * Called when the page is instantiated and added to the page pool.
-     * Initialize components, and resources that are not request specific.
-     */
-    void pageLoaded()
-    {
-        panelIds = new ArrayList<String>();
-        panelIds.add("stuff1");
-        panelIds.add("stuff2");
-        panelIds.add("stuff3");
-    }
+	@Component(parameters = {"panelIds=prop:panelIds", "activePanelId=activePanel"})
+	private TabSet tabSetComponent;
 
-    @OnEvent(component = "tabset1", value = "action")
-    public StreamResponse onActionFromTabSet1(String choosenPanelId)
-    {
-        return new TextStreamResponse("text/html", "<b>Doedel</b>");
-    }
+	@Property
+	@Inject
+	private MusicLibrary musicLibrary;
+
+	@Property
+	private Track track;
+
+	@Component(parameters = {"source=musicLibrary.tracks", "value=track"})
+	private PagedLoop pagedLoop;
+
+	/**
+	 * Tapestry page lifecycle method.
+	 * Called when the page is instantiated and added to the page pool.
+	 * Initialize components, and resources that are not request specific.
+	 */
+	void pageLoaded()
+	{
+		panelIds = new ArrayList<String>();
+		panelIds.add("stuff1");
+		panelIds.add("stuff2");
+		panelIds.add("stuff3");
+		panelIds.add("stuff4");
+	}
 }

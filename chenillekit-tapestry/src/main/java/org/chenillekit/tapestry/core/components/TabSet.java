@@ -17,110 +17,142 @@ package org.chenillekit.tapestry.core.components;
 import java.util.List;
 
 import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.Block;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.RenderSupport;
+import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.EventLink;
+import org.apache.tapestry5.corelib.components.Loop;
+import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.internal.services.ClientBehaviorSupport;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.internal.util.InternalUtils;
+import org.apache.tapestry5.services.Request;
 
 /**
  * Simple tab controlled panel component.
  * <p/>
- * Sends on every click at the tab an action event to his container, to inform you, wich tab is activated.
- * this component looks in the container message resource for an entry
- * like <em>label-panelid</em> for inserting as panel title.
- * if not found the panel id inserted instead.
+ * This component looks in the container message resource for an entry like <em>label-panelid</em> for inserting as panel title.
+ * If key not found the panel id inserted instead.
  *
  * @version $Id$
  */
-@IncludeJavaScriptLibrary({"../Chenillekit.js", "TabSet.js"})
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "TabSet.js"})
 @IncludeStylesheet(value = {"TabSet.css"})
 public class TabSet implements ClientElement
 {
-    @Inject
-    private ComponentResources resources;
+	private static String EVENT_NAME = "clicked";
 
-    /**
-     * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
-     * times, a suffix will be appended to the to id to ensure uniqueness.
-     */
-    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String clientId;
+	@Inject
+	private ComponentResources resources;
 
-    /**
-     * list of div id's (for each panel).
-     */
-    @Parameter(required = true, defaultPrefix = "list")
-    private List<String> panelIds;
+	/**
+	 * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
+	 * times, a suffix will be appended to the to id to ensure uniqueness.
+	 */
+	@Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+	private String clientId;
 
-    /**
-     * set the panel with given id as activated.
-     */
-    @Parameter
-    private String activePanelId;
+	/**
+	 * list of div id's (for each panel).
+	 */
+	@Parameter(required = true, defaultPrefix = "list")
+	private List<String> panelIds;
 
-    @Environmental
-    private RenderSupport renderSupport;
+	/**
+	 * set the panel with given id as activated.
+	 */
+	@Parameter
+	private String activePanelId;
 
-    private String assignedClientId;
+	@Environmental
+	private RenderSupport renderSupport;
 
-    void setupRender()
-    {
-        assignedClientId = renderSupport.allocateClientId(clientId);
+	@Environmental
+	private ClientBehaviorSupport clientBehaviorSupport;
 
-        if (activePanelId == null)
-            activePanelId = panelIds.get(0);
-    }
+	@Inject
+	private Request request;
 
-    void beginRender(MarkupWriter writer)
-    {
-        writer.element("div", "id", getClientId(), "class", "ck_tab-set");
+	@Component(parameters = {"source=inherit:panelIds", "value=panelId"})
+	private Loop tabLoop;
 
-        for (String blockId : panelIds)
-        {
-            Link link = resources.createEventLink(blockId);
+	@Component
+	private Zone contentZone;
 
-            writer.element("div", "id", "panel_" + blockId,
-                           "class", "ck_tab-set-panel" + (activePanelId.equalsIgnoreCase(blockId) ? " activated" : ""));
-            writer.write(getPanelTitle(blockId));
-            writer.end();
-        }
+	@Component(parameters = {"event=clicked", "zone=contentZone", "context=panelId"})
+	private EventLink eventLink;
 
-        writer.element("div", "class", "ck_tab-set-content");
-    }
+	@Property
+	private String panelId;
 
-    void afterRender(MarkupWriter writer)
-    {
-        Link link = resources.createEventLink("action");
-        writer.end(); // TabContent
-        writer.end(); // TabGroup
-        renderSupport.addScript("new Ck.TabSet('%s', '%s', '%s','%s')", getClientId(),
-                                     InternalUtils.join(panelIds, ","),
-                                     activePanelId, link.toAbsoluteURI());
-    }
+	private String assignedClientId;
 
-    private String getPanelTitle(String blockId)
-    {
-        String panelTitle = blockId;
-        if (resources.getContainerResources().getMessages().contains("label-" + blockId))
-            panelTitle = resources.getContainerResources().getMessages().get("label-" + blockId);
+	void setupRender()
+	{
+		assignedClientId = renderSupport.allocateClientId(clientId);
 
-        return panelTitle;
-    }
+		if (activePanelId == null)
+			activePanelId = panelIds.get(0);
+	}
 
-    /**
-     * Returns a unique id for the element. This value will be unique for any given rendering of a
-     * page. This value is intended for use as the id attribute of the client-side element, and will
-     * be used with any DHTML/Ajax related JavaScript.
-     */
-    public String getClientId()
-    {
-        return assignedClientId;
-    }
+	/**
+	 * Tapestry render phase method. End a tag here.
+	 *
+	 * @param writer the markup writer
+	 */
+	void afterRender(MarkupWriter writer)
+	{
+		renderSupport.addScript("new Ck.TabSet('%s', '%s');", getClientId() + "_panel", activePanelId);
+	}
+
+
+	public String getPanelTitle()
+	{
+		String panelTitle = panelId;
+
+		if (resources.getContainerResources().getMessages().contains("label-" + panelId))
+			panelTitle = resources.getContainerResources().getMessages().get("label-" + panelId);
+
+		return panelTitle;
+	}
+
+	/**
+	 * activate the named block if page refreshed.
+	 *
+	 * @return corresponding block or an exception if named block not found.
+	 */
+	public Block getInitialActiveBlock()
+	{
+		return resources.getContainer().getComponentResources().getBlock(activePanelId);
+	}
+
+	/**
+	 * method get the clicked panel id and returns the corresponding block.
+	 *
+	 * @param panelId the panel id
+	 *
+	 * @return corresponding block or an exception if named block not found.
+	 */
+	Object onClicked(String panelId)
+	{
+		activePanelId = panelId;
+		return resources.getContainer().getComponentResources().getBlock(panelId);
+	}
+
+	/**
+	 * Returns a unique id for the element. This value will be unique for any given rendering of a
+	 * page. This value is intended for use as the id attribute of the client-side element, and will
+	 * be used with any DHTML/Ajax related JavaScript.
+	 */
+	public String getClientId()
+	{
+		return assignedClientId;
+	}
 }
