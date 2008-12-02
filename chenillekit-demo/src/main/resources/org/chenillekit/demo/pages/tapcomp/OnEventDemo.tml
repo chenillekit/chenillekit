@@ -69,7 +69,7 @@ public JSONObject onChangeEvent(String value)
 
                 <div class="yui-u">
 
-                    <p style="padding-bottom:5px;">
+                    <p id="result2" style="padding-bottom:5px;">
                         displays your choosen color
                     </p>
 
@@ -95,12 +95,16 @@ public JSONObject onChangeEvent(String value)
     <script type="text/javascript">
         function onCompleteFunction(response)
         {
-            var color = response.evalJSON().color;
+            var color = response.color;
             $('result1').style.backgroundColor = color;
             if (color == "black" || color == "blue" || color == "green")
                 $('result1').style.color = "yellow";
             else
                 $('result1').style.color = "black";
-        }
+
+			var myTemplate = new Template(response.template)
+			$('result2').innerHTML = myTemplate.evaluate(response);
+
+		}
     </script>
 </span>

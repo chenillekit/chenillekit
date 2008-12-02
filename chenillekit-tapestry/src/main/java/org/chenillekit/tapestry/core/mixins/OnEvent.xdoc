@@ -40,7 +40,7 @@
         <script type="text/javascript">
         function onTextFieldCompleteFunction(response)
         {
-            $('onTextFieldChangeResult').update("<strong>" + response + "</strong>");
+            $('onTextFieldChangeResult').update("<strong>" + response.translatedValue + "</strong>");
         }
     </body>
 </html>
@@ -52,9 +52,14 @@
                 <source>
                     <![CDATA[
 @OnEvent(component = "textfield", value = 'blur')
-public StreamResponse onBlurEvent(String value)
+public JSONObject onBlurEvent(String value)
 {
-    return new TextStreamResponse("text/html", value);
+	String translatedValue = "Please welcome me before speek!";
+
+	if (value.equalsIgnoreCase("hello")
+		translatedValue = "Hello to you, too!"
+
+    return new JSONObject().put("translatedValue", translatedValue);
 }
 ]]>
                 </source>

@@ -37,12 +37,10 @@ Ck.OnEvent.prototype = {
         if (typeof formElement != 'undefined')
             fieldValue = $F(this.element);
 
-        if (typeof fieldValue != 'undefined')
-            url = this.reBuildURL(url, fieldValue)
-
         new Ajax.Request(url, {
             method: 'post',
-            onFailure: function(t)
+			parameters: {"value": fieldValue},
+			onFailure: function(t)
             {
                 alert('Error communication with the server: ' + t.responseText.stripTags());
             },
@@ -53,27 +51,12 @@ Ck.OnEvent.prototype = {
             onSuccess: function(t)
             {
                 if (this.onCompleteCallback != null)
-                    eval(this.onCompleteCallback + "('" + t.responseText + "')");
-            }.bind(this)
+				{
+					var funcToEval = this.onCompleteCallback + "(" + t.responseText + ")";
+					eval(funcToEval);
+				}
+			}.bind(this)
         });
-    },
-    reBuildURL:function(url, fieldValue)
-    {
-        var newUrl = "";
-        var result = url.split(/\?/);
-        for (var i = 0; i < result.length; i++)
-        {
-            if (i == 0)
-            {
-                newUrl = result[i];
-                if (typeof fieldValue != 'undefined')
-                    newUrl += "/" + fieldValue;
-            }
-            else
-                newUrl += "?" + result[i];
-        }
-
-        return newUrl;
     }
 }
 

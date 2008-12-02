@@ -43,6 +43,7 @@ public class OnEventDemo
     public JSONObject onChangeEvent(String value)
     {
         JSONObject json = new JSONObject();
+        json.put("template", "Your choosen color: #{color}");
         json.put("color", value);
         return json;
     }
