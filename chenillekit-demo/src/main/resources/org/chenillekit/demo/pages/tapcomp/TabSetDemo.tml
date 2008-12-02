@@ -14,23 +14,6 @@
 
 <span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
-<!--<style type="text/css">-->
-	<!--span.field1 {-->
-		<!--width: 200px;-->
-		<!--float: left;-->
-	<!--}-->
-<!---->
-	<!--span.field2 {-->
-		<!--width: 200px;-->
-		<!--float: left;-->
-	<!--}-->
-<!---->
-	<!--span.field3 {-->
-		<!--float: none;-->
-		<!--clear: both;-->
-	<!--}-->
-<!--</style>-->
-
 	<div class="yui-g">
 
 		<div class="yui-u first menu">
@@ -41,7 +24,7 @@
 
 		<div class="yui-u content">
 
-			<t:tabset panelIds="prop:panelIds"  activePanelId="activePanel"/>
+			<div t:type="ck/tabset" panelIds="prop:panelIds"  activePanelId="activePanel"/>
 
 		</div>
 	</div>

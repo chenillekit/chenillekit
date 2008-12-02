@@ -27,7 +27,6 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.data.Track;
 import org.chenillekit.demo.services.MusicLibrary;
 import org.chenillekit.tapestry.core.components.PagedLoop;
-import org.chenillekit.tapestry.core.components.TabSet;
 
 /**
  * demonstrates some simple components.
@@ -49,9 +48,6 @@ public class TabSetDemo
 
 	@Property
 	private List<String> panelIds;
-
-	@Component(parameters = {"panelIds=prop:panelIds", "activePanelId=activePanel"})
-	private TabSet tabSetComponent;
 
 	@Property
 	@Inject
