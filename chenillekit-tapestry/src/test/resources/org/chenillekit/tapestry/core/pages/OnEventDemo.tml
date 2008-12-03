@@ -31,7 +31,7 @@
 <script type="text/javascript">
 function onCompleteFunction(response)
 {
-    $('result1').innerHTML = response;
+    $('result1').innerHTML = response.color;
 }
 </script>
 </body>

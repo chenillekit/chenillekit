@@ -215,10 +215,9 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         start("TabSet");
         waitForPageToLoad("5000");
 
-        click("xpath=//div[@id='panel_stuff2']");
+        click("xpath=//span[@id='stuff2']");
 
-        assertTrue(this.isVisible("xpath=//div[@id='stuff2']"));
-        assertFalse(this.isVisible("xpath=//div[@id='stuff1']"));
+        assertTrue(this.isVisible("xpath=//div[@id='contentZone']"));
     }
 
     @Test(enabled = false)
