@@ -20,7 +20,6 @@ import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentEventCallback;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.Link;
-import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
@@ -29,7 +28,6 @@ import org.apache.tapestry5.annotations.MixinAfter;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.internal.util.Holder;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 
 /**
@@ -93,7 +91,7 @@ abstract public class AbstractEventMixin implements EventMixin
 		contextArray = context == null ? new Object[0] : context.toArray();
 	}
 
-	void afterRender(MarkupWriter writer)
+	void afterRender()
 	{
 		Link link = resources.createEventLink(EVENT_NAME, contextArray);
 		String id = clientElement.getClientId();
@@ -105,15 +103,15 @@ abstract public class AbstractEventMixin implements EventMixin
 		pageRenderSupport.addScript(jsString, getEventName(), id, doStop, link.toAbsoluteURI(), callBackString);
 	}
 
-	JSONObject onInternalEvent()
+	Object onInternalEvent()
 	{
 		String input = request.getParameter(PARAM_NAME);
 
-		final Holder<JSONObject> valueHolder = Holder.create();
+		final Holder<Object> valueHolder = Holder.create();
 
-		ComponentEventCallback callback = new ComponentEventCallback<JSONObject>()
+		ComponentEventCallback callback = new ComponentEventCallback<Object>()
 		{
-			public boolean handleResult(JSONObject result)
+			public boolean handleResult(Object result)
 			{
 				valueHolder.put(result);
 				return true;
