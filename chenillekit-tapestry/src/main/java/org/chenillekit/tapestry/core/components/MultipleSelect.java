@@ -38,7 +38,6 @@ import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.internal.util.TapestryException;
 import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.ValueEncoderSource;
 import org.apache.tapestry5.util.EnumSelectModel;
 
 import org.chenillekit.tapestry.core.encoders.MultipleValueEncoder;
@@ -55,186 +54,182 @@ import org.chenillekit.tapestry.core.renderes.MultipleSelectModelRenderer;
  */
 public class MultipleSelect extends AbstractField
 {
-    private class Renderer extends MultipleSelectModelRenderer
-    {
-        public Renderer(MarkupWriter writer)
-        {
-            super(writer, encoder);
-        }
+	private class Renderer extends MultipleSelectModelRenderer
+	{
+		public Renderer(MarkupWriter writer)
+		{
+			super(writer, encoder);
+		}
 
-        @Override
-        protected boolean isOptionSelected(OptionModel optionModel)
-        {
-            boolean hit = false;
-            Object testValue = optionModel.getValue();
+		@Override
+		protected boolean isOptionSelected(OptionModel optionModel)
+		{
+			boolean hit = false;
+			Object testValue = optionModel.getValue();
 
-            if (value != null)
-            {
-                for (Object singleValue : value)
-                {
-                    hit = testValue == singleValue || (testValue != null && testValue.equals(singleValue));
-                    if (hit)
-                        break;
-                }
-            }
+			if (value != null)
+			{
+				for (Object singleValue : value)
+				{
+					hit = testValue == singleValue || (testValue != null && testValue.equals(singleValue));
+					if (hit)
+						break;
+				}
+			}
 
-            return hit;
-        }
-    }
+			return hit;
+		}
+	}
 
-    /**
-     * Allows a specific implementation of org.apache.tapestry5.ValueEncoder to be supplied.
-     * This is used to create client-side string values for the different options.
-     */
-    @Parameter
-    private MultipleValueEncoder encoder;
+	/**
+	 * Allows a specific implementation of org.apache.tapestry5.ValueEncoder to be supplied.
+	 * This is used to create client-side string values for the different options.
+	 */
+	@Parameter
+	private MultipleValueEncoder encoder;
 
-    /**
-     * The model used to identify the option groups and options to be presented to the user.
-     * This can be generated automatically for Enum types.
-     */
-    @Parameter(required = true)
-    private SelectModel model;
+	/**
+	 * The model used to identify the option groups and options to be presented to the user.
+	 * This can be generated automatically for Enum types.
+	 */
+	@Parameter(required = true)
+	private SelectModel model;
 
-    /**
-     * should the component multi select able.
-     */
-    @Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
-    @SuppressWarnings("unchecked")
-    private boolean multiple;
+	/**
+	 * should the component multi select able.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
+	@SuppressWarnings("unchecked")
+	private boolean multiple;
 
-    @Parameter(defaultPrefix = BindingConstants.VALIDATE)
-    @SuppressWarnings("unchecked")
-    private FieldValidator<Object> validate;
+	@Parameter(defaultPrefix = BindingConstants.VALIDATE)
+	@SuppressWarnings("unchecked")
+	private FieldValidator<Object> validate;
 
-    /**
-     * The list of value to read or update.
-     */
-    @Parameter(required = true, principal = true)
-    private List value;
+	/**
+	 * The list of value to read or update.
+	 */
+	@Parameter(required = true, principal = true)
+	private List value;
 
-    @Inject
-    private Locale locale;
+	@Inject
+	private Locale locale;
 
-    @Inject
-    private Request request;
+	@Inject
+	private Request request;
 
-    @Inject
-    private ComponentResources resources;
+	@Inject
+	private ComponentResources resources;
 
-    @Environmental
-    private ValidationTracker tracker;
+	@Environmental
+	private ValidationTracker tracker;
 
-    @Inject
-    private ValueEncoderSource valueEncoderSource;
+	@Inject
+	private ComponentDefaultProvider defaultProvider;
 
-    @Inject
-    private ComponentDefaultProvider defaultProvider;
+	@Override
+	protected void processSubmission(String elementName)
+	{
+		String[] primaryKeys = request.getParameters(elementName);
+		List selectedValues = primaryKeys != null ? encoder.toValue(primaryKeys) : CollectionFactory.newList();
 
-    @Override
-    protected void processSubmission(String elementName)
-    {
-        String[] primaryKeys = request.getParameters(elementName);
-        List selectedValues = primaryKeys != null ? encoder.toValue(primaryKeys) : CollectionFactory.newList();
+		try
+		{
+			for (Object selectedValue : selectedValues)
+				validate.validate(selectedValue);
 
-        try
-        {
-            for (Object selectedValue : selectedValues)
-                validate.validate(selectedValue);
+			if (validate.isRequired() && selectedValues.size() == 0)
+				throw new ValidationException("at least one selection is required");
 
-            if (validate.isRequired() && selectedValues.size() == 0)
-                throw new ValidationException("at least one selection is required");
+			value = selectedValues;
+		}
+		catch (ValidationException ex)
+		{
+			tracker.recordError(this, ex.getMessage());
+		}
+	}
 
-            value = selectedValues;
-        }
-        catch (ValidationException ex)
-        {
-            tracker.recordError(this, ex.getMessage());
-        }
-    }
+	void afterRender(MarkupWriter writer)
+	{
+		writer.end();
+	}
 
-    void afterRender(MarkupWriter writer)
-    {
-        writer.end();
-    }
+	void beginRender(MarkupWriter writer)
+	{
+		Element element = writer.element("select", "name", getControlName(), "id", getClientId());
 
-    void beginRender(MarkupWriter writer)
-    {
-        Element element = writer.element("select", "name", getControlName(), "id", getClientId());
+		if (multiple)
+			element.attribute("multiple", "multiple");
 
-        if (multiple)
-            element.attribute("multiple", "multiple");
+		resources.renderInformalParameters(writer);
+	}
 
-        resources.renderInformalParameters(writer);
-    }
+	@SuppressWarnings("unchecked")
+	ValueEncoder defaultEncoder()
+	{
+		return defaultProvider.defaultValueEncoder("value", resources);
+	}
 
-    @SuppressWarnings("unchecked")
-    ValueEncoder defaultEncoder()
-    {
-        // TODO must check for new one
-        return valueEncoderSource.getValueEncoder(String.class);
-    }
+	@SuppressWarnings("unchecked")
+	SelectModel defaultModel()
+	{
+		Class valueType = resources.getBoundType("value");
 
-    @SuppressWarnings("unchecked")
-    SelectModel defaultModel()
-    {
-        Class valueType = resources.getBoundType("value");
+		if (valueType == null) return null;
 
-        if (valueType == null) return null;
+		if (Enum.class.isAssignableFrom(valueType))
+			return new EnumSelectModel(valueType, resources.getContainerMessages());
 
-        if (Enum.class.isAssignableFrom(valueType))
-            return new EnumSelectModel(valueType, resources.getContainerMessages());
+		return null;
+	}
 
-        return null;
-    }
+	Binding defaultValidate()
+	{
+		return defaultProvider.defaultValidatorBinding("value", resources);
+	}
 
-    FieldValidator defaultValidate()
-    {
-        return defaultProvider.defaultValidator("value", resources);
-    }
+	Binding defaultValue()
+	{
+		return createDefaultParameterBinding("value");
+	}
 
-    Binding defaultValue()
-    {
-        return createDefaultParameterBinding("value");
-    }
+	@BeforeRenderTemplate
+	void options(MarkupWriter writer)
+	{
+		SelectModelVisitor renderer = new Renderer(writer);
+		if (model == null)
+			throw new TapestryException("select model cannot be null", this, null);
 
-    @BeforeRenderTemplate
-    void options(MarkupWriter writer)
-    {
-        SelectModelVisitor renderer = new Renderer(writer);
-        if (model == null)
-            throw new TapestryException("select model cannot be null", this, null);
+		model.visit(renderer);
+	}
 
-        model.visit(renderer);
-    }
+	/**
+	 * only for testing.
+	 *
+	 * @param model
+	 */
+	public void setModel(SelectModel model)
+	{
+		this.model = model;
+	}
 
-    /**
-     * only for testing.
-     *
-     * @param model
-     */
-    public void setModel(SelectModel model)
-    {
-        this.model = model;
-    }
+	/**
+	 * only for testing.
+	 *
+	 * @param value
+	 */
+	public void setValue(List value)
+	{
+		this.value = value;
+	}
 
-    /**
-     * only for testing.
-     *
-     * @param value
-     */
-    public void setValue(List value)
-    {
-        this.value = value;
-    }
-
-    /**
-     * only for testing.
-     *
-     * @param encoder
-     */
-    public void setValueEncoder(MultipleValueEncoder encoder)
-    {
-        this.encoder = encoder;
-    }
+	/**
+	 * only for testing.
+	 *
+	 * @param encoder
+	 */
+	public void setValueEncoder(MultipleValueEncoder encoder)
+	{
+		this.encoder = encoder;
+	}
 }

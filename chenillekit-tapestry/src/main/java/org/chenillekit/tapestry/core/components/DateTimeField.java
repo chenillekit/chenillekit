@@ -147,9 +147,9 @@ public class DateTimeField extends AbstractField
     /**
      * Computes a default value for the "validate" parameter using {@link org.apache.tapestry5.services.ComponentDefaultProvider}.
      */
-    final FieldValidator defaultValidate()
+    final Binding defaultValidate()
     {
-        return defaultProvider.defaultValidator("value", resources);
+        return defaultProvider.defaultValidatorBinding("value", resources);
     }
 
     /**
