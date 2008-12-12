@@ -19,15 +19,19 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.Marker;
 import org.apache.tapestry5.ioc.internal.util.Defense;
+import org.apache.tapestry5.services.ClassTransformation;
+import org.apache.tapestry5.services.ComponentClassResolver;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.ComponentEventRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
+import org.apache.tapestry5.services.LibraryMapping;
 import org.apache.tapestry5.services.MetaDataLocator;
 import org.apache.tapestry5.services.PageRenderRequestFilter;
 import org.apache.tapestry5.services.Request;
@@ -63,6 +67,8 @@ public class ChenilleKitAccessModule
 	}
 
 	/**
+	 * Contribute our {@link ComponentClassTransformWorker} to transformation pipeline to add our code to
+	 * loaded classes
 	 * @param configuration component class transformer configuration
 	 */
 	public static void contributeComponentClassTransformWorker(
@@ -70,6 +76,17 @@ public class ChenilleKitAccessModule
 	{
 		configuration.add("Restricted", new RestrictedWorker(), "after:Secure");
 	}
+
+	/**
+	 * Contribute our virtual folder to {@link ComponentClassResolver} service
+	 *
+	 * @param configuration configuration for the service where we contribute to
+	 */
+	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration)
+	{
+		configuration.add(new LibraryMapping("ckaccess", "org.chenillekit.access"));
+	}
+
 
 	/**
 	 * build the authentificate service.

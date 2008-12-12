@@ -25,7 +25,7 @@ public interface AuthRedirectService extends AuthService<String>
 	 *
 	 * @param userName name of the user
 	 * @param password users password
-	 * @return page to forwar to on successful authentication
+	 * @return page to forward to on successful authentication
 	 */
 	String doAuthenticate(String userName, String password);
 

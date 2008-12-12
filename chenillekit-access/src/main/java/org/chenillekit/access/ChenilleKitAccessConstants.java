@@ -53,6 +53,9 @@ public final class ChenilleKitAccessConstants
 	 */
 	public static final String PASSWORD_ENCODER = "chenillekit.access-passwordencoder";
 
+	public static final String REQUESTED_PAGENAME_COOKIE = "chenillekit.acccess-requested-pagename";
+	public static final String REQUESTED_EVENTCONTEXT_COOKIE = "chenillekit.acccess-requested-eventcontext";
+
 	/**
 	 * A root marker for all things Tapestry related. The remaining markers are children of the TAPESTRY marker.
 	 */

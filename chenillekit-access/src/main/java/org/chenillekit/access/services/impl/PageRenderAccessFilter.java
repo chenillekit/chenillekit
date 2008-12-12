@@ -15,14 +15,17 @@ package org.chenillekit.access.services.impl;
 
 import java.io.IOException;
 
+import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.internal.EmptyEventContext;
 import org.apache.tapestry5.ioc.services.SymbolSource;
+import org.apache.tapestry5.services.ContextValueEncoder;
+import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestFilter;
 import org.apache.tapestry5.services.PageRenderRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.AccessValidator;
-import org.chenillekit.access.services.AuthRedirectService;
 import org.slf4j.Logger;
 
 /**
@@ -34,15 +37,21 @@ public class PageRenderAccessFilter implements PageRenderRequestFilter
 	private final Logger logger;
 	private final AccessValidator accessValidator;
 	private final String loginPage;
-	private final AuthRedirectService authRedirectService;
+	private final ContextValueEncoder valueEncoder;
+
+	private final Cookies cookies;
 
 	public PageRenderAccessFilter(AccessValidator accessValidator,
-								SymbolSource symbols, Logger logger, AuthRedirectService authRedirectService )
+								SymbolSource symbols, Logger logger,
+								ContextValueEncoder valueEncoder,
+								Cookies cookies)
 	{
 		this.logger = logger;
 		this.accessValidator = accessValidator;
 		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
-		this.authRedirectService = authRedirectService;
+		this.cookies = cookies;
+		this.valueEncoder = valueEncoder;
+
 	}
 
 	/*
@@ -52,23 +61,32 @@ public class PageRenderAccessFilter implements PageRenderRequestFilter
 	public void handle(PageRenderRequestParameters parameters,
 			PageRenderRequestHandler handler) throws IOException
 	{
-		if (accessValidator.hasAccess(parameters.getLogicalPageName(), null, null))
+		PageRenderRequestParameters currentParameters = parameters;
+
+		String previousPage = cookies.readCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE);
+		String previousContext = cookies.readCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE);
+
+		if (previousPage != null)
 		{
-			if (logger.isDebugEnabled())
-				logger.debug("User has rights to access " + parameters.getLogicalPageName()  + " page");
-			handler.handle(parameters);
+			EventContext context = ChenillekitAccessInternalUtils.getContextFromString(valueEncoder, previousContext);
+			currentParameters = new PageRenderRequestParameters(previousPage, context);
+
+			cookies.removeCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE);
+			cookies.removeCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE);
 		}
-		else
+		else if ( !accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("User hasn't rights to access " + parameters.getLogicalPageName()  + " page");
-			authRedirectService.setReturnPage( parameters.getLogicalPageName() );
-			if (logger.isDebugEnabled()) logger.debug("set return page to " + parameters.getLogicalPageName());
-			handler.handle(getLoginPageParameters());
+
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE, parameters.getLogicalPageName());
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE, ChenillekitAccessInternalUtils.getContextAsString((parameters.getActivationContext())));
+
+			currentParameters = getLoginPageParameters();
 		}
 
+		handler.handle(currentParameters);
 	}
-
 
 	private PageRenderRequestParameters getLoginPageParameters()
 	{

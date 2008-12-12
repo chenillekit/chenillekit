@@ -14,12 +14,14 @@
 
 package org.chenillekit.access.services;
 
+import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
 import org.chenillekit.access.services.impl.DummyAppServerLoginService;
+import org.chenillekit.access.services.impl.UserAuthServiceImpl;
 
 /**
  *
@@ -40,7 +42,7 @@ public class TestAppWithRootModule
 	public static void contributeAuthRedirectService(MappedConfiguration<String, Class> configuration)
 	{
 		configuration.add(ChenilleKitAccessConstants.WEB_USER_AUTH_SERVICE,
-						org.chenillekit.access.services.impl.UserAuthServiceImpl.class);
+						UserAuthServiceImpl.class);
 	}
 
 	/**
@@ -49,5 +51,7 @@ public class TestAppWithRootModule
 	public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
 	{
 		configuration.add(ChenilleKitAccessConstants.LOGIN_PAGE, "login");
+		configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
 	}
+
 }

@@ -3,7 +3,9 @@
  */
 package org.chenillekit.access.internal;
 
+import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.services.ContextValueEncoder;
 import org.apache.tapestry5.services.TransformMethodSignature;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 
@@ -16,6 +18,37 @@ public class ChenillekitAccessInternalUtils
 
 	private ChenillekitAccessInternalUtils() {}
 
+	/**
+	 * Build a string representing the context to be stored inside a cookie.
+	 *
+	 * @param context the context to be stored in the cookie
+	 * @return a String rapresentation of the {@link EventContext}
+	 */
+	public static final String getContextAsString(EventContext context)
+	{
+		String res = "";
+
+		for (int i = 0; i < context.getCount(); i++)
+		{
+			res = res + context.get(String.class, i) + "####";
+		}
+
+		return res;
+	}
+
+	/**
+	 *
+	 * @param valueEncoder
+	 * @param contextString
+	 * @return
+	 */
+	public static final EventContext getContextFromString(ContextValueEncoder valueEncoder,
+							String contextString)
+	{
+		String[] contextElements = contextString.split("####");
+
+		return new CKUrlEventContext(valueEncoder, contextElements);
+	}
 
 	/**
 	 * check if user has required role to access page/component/event.
@@ -25,7 +58,7 @@ public class ChenillekitAccessInternalUtils
 	 *
 	 * @return true if user fulfill the required role
 	 */
-	public static boolean hasUserRequiredRole(int userRoleWeigh, int requiredRoleWeigh)
+	public static final boolean hasUserRequiredRole(int userRoleWeigh, int requiredRoleWeigh)
 	{
 		return userRoleWeigh >= requiredRoleWeigh;
 	}
@@ -38,7 +71,7 @@ public class ChenillekitAccessInternalUtils
 	 *
 	 * @return true if user has the required group
 	 */
-	public static boolean hasUserRequiredGroup(String[] userGroups, String[] requiredGroups)
+	public static final boolean hasUserRequiredGroup(String[] userGroups, String[] requiredGroups)
 	{
 		boolean hasGroup = false;
 
@@ -73,7 +106,7 @@ public class ChenillekitAccessInternalUtils
 	 * @param suffix
 	 * @return
 	 */
-	public static String buildMetaForHandlerMethod(String componentId, String eventType, String suffix)
+	public static final String buildMetaForHandlerMethod(String componentId, String eventType, String suffix)
 	{
 		return ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_PREFIX
 					+ "-" + componentId + "-" + eventType + "-" + suffix;
@@ -85,7 +118,7 @@ public class ChenillekitAccessInternalUtils
 	 *
 	 * @return CSV string
 	 */
-	public static String getStringArrayAsString(String[] groups)
+	public static final String getStringArrayAsString(String[] groups)
 	{
 		String csvString = "";
 
@@ -105,7 +138,7 @@ public class ChenillekitAccessInternalUtils
 	 * @param groups
 	 * @return
 	 */
-	public static String[] getStringAsStringArray(String groups)
+	public static final String[] getStringAsStringArray(String groups)
 	{
 		if ( ChenilleKitAccessConstants.NO_RESTRICTION.equals(groups)) return NO_GROUPS;
 		return groups.split(",");
@@ -115,7 +148,7 @@ public class ChenillekitAccessInternalUtils
 	 * This code is taken deliberatly from
 	 * http://svn.apache.org/viewvc/tapestry/tapestry5/trunk/tapestry-core/src/main/java/org/apache/tapestry5/internal/transform/OnEventWorker.java?view=log
 	 */
-	public static String extractComponentId(TransformMethodSignature method, OnEvent annotation)
+	public static final String extractComponentId(TransformMethodSignature method, OnEvent annotation)
 	{
 		if (annotation != null) return annotation.component();
 
@@ -134,7 +167,7 @@ public class ChenillekitAccessInternalUtils
 	 * This code is taken deliberatly from:
 	 * http://svn.apache.org/viewvc/tapestry/tapestry5/trunk/tapestry-core/src/main/java/org/apache/tapestry5/internal/transform/OnEventWorker.java?view=log
 	 */
-	public static String extractEventType(TransformMethodSignature method, OnEvent annotation)
+	public static final String extractEventType(TransformMethodSignature method, OnEvent annotation)
 	{
 		if (annotation != null) return annotation.value();
 
