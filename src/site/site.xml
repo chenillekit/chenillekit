@@ -59,6 +59,7 @@
         <menu ref="reports"/>
 
         <menu name="Developer Info">
+            <item name="Maven Repos" href="mvnrepo.html"/>
             <item name="Release Checklist" href="release_checklist.html"/>
             <item name="Versioning" href="versioning.html"/>
             <item name="Source" href="source_conventions.html"/>
