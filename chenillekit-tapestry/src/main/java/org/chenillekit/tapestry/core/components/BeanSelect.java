@@ -37,123 +37,122 @@ import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
  * let you make a list of beans selectable.
  *
  * @version $Id: BeanSelect.java 682 2008-05-20 22:00:02Z homburgs $
- * @deprecated
  */
 // TODO make beans multi-selectable
 @SupportsInformalParameters
 public class BeanSelect implements ClientElement
 {
-    /**
-     * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
-     * times, a suffix will be appended to the to id to ensure uniqueness.
-     */
-    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+	/**
+	 * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
+	 * times, a suffix will be appended to the to id to ensure uniqueness.
+	 */
+	@Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+	private String clientId;
 
-    /**
-     * The value(bean) to read or update.
-     */
-    @Parameter(required = true, principal = true)
-    private Object _value;
+	/**
+	 * The value(bean) to read or update.
+	 */
+	@Parameter(required = true, principal = true)
+	private Object value;
 
-    /**
-     * The list of bean should diplayed.
-     */
-    @Parameter(required = true)
-    private List<Object> _list;
+	/**
+	 * The list of bean should diplayed.
+	 */
+	@Parameter(required = true)
+	private List<Object> list;
 
-    /**
-     * Name of the Field that should reflect the label in the select option tag.
-     */
-    @Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
-    private String _labelField;
+	/**
+	 * Name of the Field that should reflect the label in the select option tag.
+	 */
+	@Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
+	private String labelField;
 
-    /**
-     * Name of the Field that should reflect the value in the select option tag.
-     */
-    @Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
-    private String _valueField;
+	/**
+	 * Name of the Field that should reflect the value in the select option tag.
+	 */
+	@Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
+	private String valueField;
 
-    @Component(inheritInformalParameters = true, parameters = {"blankLabel=inherit:blankLabel",
-            "blankOption=inherit:blankOption",
-            "validate=inherit:validate", "value=value", "model=beanModel", "encoder=beanEncoder"})
-    private Select _select;
+	@Component(inheritInformalParameters = true, parameters = {"blankLabel=inherit:blankLabel",
+			"blankOption=inherit:blankOption", "clientId=prop:clientId",
+			"validate=inherit:validate", "value=value", "model=beanModel", "encoder=beanEncoder"})
+	private Select select;
 
-    @Inject
-    private ComponentResources _resources;
+	@Inject
+	private ComponentResources resources;
 
-    @Inject
-    private PropertyAccess _propertyAccess;
+	@Inject
+	private PropertyAccess propertyAccess;
 
-    @Persist
-    private GenericSelectionModel<Object> _model;
+	@Persist
+	private GenericSelectionModel<Object> model;
 
-    @Persist
-    private GenericValueEncoder<Object> _encoder;
+	@Persist
+	private GenericValueEncoder<Object> encoder;
 
-    @Environmental
-    private RenderSupport _pageRenderSupport;
+	@Environmental
+	private RenderSupport renderSupport;
 
-    private String _assignedClientId;
+	private String assignedClientId;
 
-    void setupRender()
-    {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
-    }
+	void setupRender()
+	{
+		assignedClientId = renderSupport.allocateClientId(clientId);
+	}
 
-    void beginRender(MarkupWriter writer)
-    {
-        _encoder = new GenericValueEncoder<Object>(_list, _valueField, _propertyAccess);
-        _model = new GenericSelectionModel<Object>(_list, _labelField, _propertyAccess);
-    }
+	void beginRender(MarkupWriter writer)
+	{
+		encoder = new GenericValueEncoder<Object>(list, valueField, propertyAccess);
+		model = new GenericSelectionModel<Object>(list, labelField, propertyAccess);
+	}
 
-    public GenericSelectionModel<Object> getBeanModel()
-    {
-        return _model;
-    }
+	public GenericSelectionModel<Object> getBeanModel()
+	{
+		return model;
+	}
 
-    public GenericValueEncoder<Object> getBeanEncoder()
-    {
-        return _encoder;
-    }
+	public GenericValueEncoder<Object> getBeanEncoder()
+	{
+		return encoder;
+	}
 
-    public Object getValue()
-    {
-        return _value;
-    }
+	public Object getValue()
+	{
+		return value;
+	}
 
-    public void setValue(Object value)
-    {
-        _value = value;
-    }
+	public void setValue(Object value)
+	{
+		this.value = value;
+	}
 
-    /**
-     * only for testing
-     */
-    void setup(Object value, List<Object> list, String labelField, String valueField)
-    {
-        _value = value;
-        _list = list;
-        _labelField = labelField;
-        _valueField = valueField;
-    }
+	/**
+	 * only for testing
+	 */
+	void setup(Object value, List<Object> list, String labelField, String valueField)
+	{
+		this.value = value;
+		this.list = list;
+		this.labelField = labelField;
+		this.valueField = valueField;
+	}
 
-    /**
-     * only for testing
-     */
-    void inject(ComponentResources resources, PropertyAccess propertyAccess)
-    {
-        _resources = resources;
-        _propertyAccess = propertyAccess;
-    }
+	/**
+	 * only for testing
+	 */
+	void inject(ComponentResources resources, PropertyAccess propertyAccess)
+	{
+		this.resources = resources;
+		this.propertyAccess = propertyAccess;
+	}
 
-    /**
-     * Returns a unique id for the element. This value will be unique for any given rendering of a
-     * page. This value is intended for use as the id attribute of the client-side element, and will
-     * be used with any DHTML/Ajax related JavaScript.
-     */
-    public String getClientId()
-    {
-        return _assignedClientId;
-    }
+	/**
+	 * Returns a unique id for the element. This value will be unique for any given rendering of a
+	 * page. This value is intended for use as the id attribute of the client-side element, and will
+	 * be used with any DHTML/Ajax related JavaScript.
+	 */
+	public String getClientId()
+	{
+		return assignedClientId;
+	}
 }
