@@ -54,7 +54,9 @@ private DateTimeField _dateTimeField3;
                     <br/>
                     <label style="float:left; width:250px;">date format MM/dd/yyyy HH:mm</label>
                     <input t:id="dateTimeField3"/>
-                </form>
+					<br/>
+					<input type="submit"/>
+				</form>
             </fieldset>
 
 

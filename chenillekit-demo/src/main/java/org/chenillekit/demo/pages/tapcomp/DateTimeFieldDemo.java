@@ -32,28 +32,32 @@ public class DateTimeFieldDemo
 {
     @Persist
     @Property
-    private Date _actualDate1;
+    private Date actualDate1;
 
     @Persist
     @Property
-    private Date _actualDate2;
+    private Date actualDate2;
 
     @Persist
     @Property
-    private Date _actualDate3;
+    private Date actualDate3;
+
+    @Persist
+    @Property
+    private Date actualDate4;
 
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
 
     @Component
-    private Form _form;
+    private Form form;
 
     @Component(parameters = {"value=actualDate1", "datePattern=dd-MM-yyyy HH:mm"})
-    private DateTimeField _dateTimeField1;
+    private DateTimeField dateTimeField1;
 
-    @Component(parameters = {"value=actualDate2"})
-    private DateTimeField _dateTimeField2;
+    @Component(parameters = {"value=actualDate2", "lenient=false"})
+    private DateTimeField dateTimeField2;
 
     @Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=MM/dd/yyyy HH:mm"})
-    private DateTimeField _dateTimeField3;
+    private DateTimeField dateTimeField3;
 }
