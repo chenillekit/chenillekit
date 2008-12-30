@@ -15,155 +15,157 @@
   -->
 
 <!DOCTYPE document PUBLIC
-        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+		"-//Apache Software Foundation//DTD XDOC 1.0//EN"
+		"http://maven.apache.org/dtd/xdoc_1_0.dtd">
 
 <document>
 
-    <properties>
-        <title>Home</title>
-        <author email="homburgs@gmail.com"/>
-    </properties>
+	<properties>
+		<title>Home</title>
+		<author email="homburgs@gmail.com"/>
+	</properties>
 
-    <body>
+	<body>
 
-        <section name="What is Chenille Kit?">
+		<section name="What is Chenille Kit?">
 
-            <p>
-                Chenille Kit is a collection of modules with sophisticated components, services and utils based on
-                Tapestry's IOC but
-                <strong>NOT</strong>
-                only for Tapestry Framework based servlet applications.
-            </p>
+			<p>
+				Chenille Kit is a collection of modules with sophisticated components, services and utils based on
+				Tapestry's IOC but
+				<strong>NOT</strong>
+				only for Tapestry Framework based servlet applications.
+			</p>
 
-            <subsection name="The Modules">
+			<subsection name="The Modules">
 
-                <p>
-                    At the moment there exists some modules like:
-                </p>
+				<p>
+					At the moment there exists some modules like:
+				</p>
 
-                <table>
-                    <tr>
-                        <th>module</th>
-                        <th>description</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-core/index.html">Core</a>
-                        </td>
-                        <td>core utils we need for some of the following modules</td>
-                    </tr>
-                    <!--<tr>-->
-                    <!--<td>Access</td>-->
-                    <!--<td>[not ready yet]</td>-->
-                    <!--</tr>-->
-                    <tr>
-                        <td>
-                            <a href="chenillekit-google/index.html">Google</a>
-                        </td>
-                        <td>Google based services like geocoding, distance, etc</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-hibernate/index.html">Hibernate</a>
-                        </td>
-                        <td>some util classes and services to simplify the life with
-                            <a href="http://hibernate.org/">Hibernate</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-hivemind/index.html">Hivemind</a>
-                        </td>
-                        <td>a bridge from/to
-                            <a href="http://hivemind.apache.org/">Apache's HiveMind</a>
-                            to
-                            <a href="http://tapestry.apache.org/tapestry5/">Apache's Tapestry5</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-image/index.html">Image</a>
-                        </td>
-                        <td>a simple image scaling service</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-ldap/index.html">LDAP</a>
-                        </td>
-                        <td>simple search service against a LDAP server</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-lucene/index.html">Lucene</a>
-                        </td>
-                        <td>indexer and sercher service based on
-                            <a href="http://lucene.apache.org/java/docs/index.html">Apache's Lucene's</a>
-                            fulltext engine.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-mail/index.html">Mail</a>
-                        </td>
-                        <td>simple mail service based on
-                            <a href="http://commons.apache.org/email/">Apache's Commons Email</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-quartz/index.html">Quartz</a>
-                        </td>
-                        <td>
-                            <a href="http://www.opensymphony.com/quartz/">Quartz</a>
-                            based scheduler services
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-reports/index.html">Reports</a>
-                        </td>
-                        <td>
-                            <a href="http://jasperforge.org/plugins/project/project_home.php?group_id=102">
-                                Jasperreports
-                            </a>
-                            based reporting services
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-scripting/index.html">Scripting</a>
-                        </td>
-                        <td>scripting service based on
-                            <a href="http://jakarta.apache.org/bsf/index.html">Apache's Bean Scripting Framework</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-tapestry/index.html">Tapestry</a>
-                        </td>
-                        <td>collection of components and services for your
-                            <a href="http://tapestry.apache.org/tapestry5/">Apache's Tapestry5 Framework</a>
-                            based applications
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="chenillekit-template/index.html">Template</a>
-                        </td>
-                        <td>
-                            <a href="http://velocity.apache.org/">Apache's Velocity</a>
-                            and
-                            <a href="http://freemarker.org/">FreeMarker</a>
-                            based template services
-                        </td>
-                    </tr>
-                </table>
+				<table>
+					<tr>
+						<th>module</th>
+						<th>description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-core/index.html">Core</a>
+						</td>
+						<td>core utils we need for some of the following modules</td>
+					</tr>
+					<tr>
+						<td>Access
+							<a href="chenillekit-access/index.html">Access</a>
+						</td>
+						<td>library which provide access restriction constraints to Tapestry 5 web application</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-google/index.html">Google</a>
+						</td>
+						<td>Google based services like geocoding, distance, etc</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-hibernate/index.html">Hibernate</a>
+						</td>
+						<td>some util classes and services to simplify the life with
+							<a href="http://hibernate.org/">Hibernate</a>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-hivemind/index.html">Hivemind</a>
+						</td>
+						<td>a bridge from/to
+							<a href="http://hivemind.apache.org/">Apache's HiveMind</a>
+							to
+							<a href="http://tapestry.apache.org/tapestry5/">Apache's Tapestry5</a>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-image/index.html">Image</a>
+						</td>
+						<td>a simple image scaling service</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-ldap/index.html">LDAP</a>
+						</td>
+						<td>simple search service against a LDAP server</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-lucene/index.html">Lucene</a>
+						</td>
+						<td>indexer and sercher service based on
+							<a href="http://lucene.apache.org/java/docs/index.html">Apache's Lucene's</a>
+							fulltext engine.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-mail/index.html">Mail</a>
+						</td>
+						<td>simple mail service based on
+							<a href="http://commons.apache.org/email/">Apache's Commons Email</a>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-quartz/index.html">Quartz</a>
+						</td>
+						<td>
+							<a href="http://www.opensymphony.com/quartz/">Quartz</a>
+							based scheduler services
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-reports/index.html">Reports</a>
+						</td>
+						<td>
+							<a href="http://jasperforge.org/plugins/project/project_home.php?group_id=102">
+								Jasperreports
+							</a>
+							based reporting services
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-scripting/index.html">Scripting</a>
+						</td>
+						<td>scripting service based on
+							<a href="http://jakarta.apache.org/bsf/index.html">Apache's Bean Scripting Framework</a>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-tapestry/index.html">Tapestry</a>
+						</td>
+						<td>collection of components and services for your
+							<a href="http://tapestry.apache.org/tapestry5/">Apache's Tapestry5 Framework</a>
+							based applications
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="chenillekit-template/index.html">Template</a>
+						</td>
+						<td>
+							<a href="http://velocity.apache.org/">Apache's Velocity</a>
+							and
+							<a href="http://freemarker.org/">FreeMarker</a>
+							based template services
+						</td>
+					</tr>
+				</table>
 
-            </subsection>
+			</subsection>
 
-        </section>
+		</section>
 
-    </body>
+	</body>
 
 </document>
