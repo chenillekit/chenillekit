@@ -59,7 +59,7 @@
     <script type="text/javascript">
         function scriptSelected(response)
         {
-            var json = response.evalJSON()
+            var json = response
             $('scriptText').update(json.script);
         }
     </script>

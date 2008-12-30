@@ -122,17 +122,17 @@ public class BeanShellDemo
     /**
      * send the renderable script source to screen.
      */
-    JSONObject onChangeFromSelectScript(BeanShellScriptEnum script) throws IOException
+    JSONObject onChangeFromSelectScript(String script) throws IOException
     {
         JSONObject json = new JSONObject();
 
-        if (script == null)
-            return null;
+		if (script == null || script.length() == 0)
+			return null;
 
-
-        String scriptString = getScriptString(script.getName(), true);
+		BeanShellScriptEnum bScript = BeanShellScriptEnum.valueOf(script);
+        String scriptString = getScriptString(bScript.getName(), true);
         if (scriptString.length() == 0)
-            json.put("script", String.format("script %s not found!", script.getName()));
+            json.put("script", String.format("script %s not found!", bScript.getName()));
         else
             json.accumulate("script", scriptString);
 

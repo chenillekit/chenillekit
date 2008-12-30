@@ -122,17 +122,18 @@ public class GroovyDemo
     /**
      * send the renderable script source to screen.
      */
-    JSONObject onChangeFromSelectScript(GroovyScriptEnum script) throws IOException
+    JSONObject onChangeFromSelectScript(String script) throws IOException
     {
         JSONObject json = new JSONObject();
 
-        if (script == null)
+        if (script == null || script.length() == 0)
             return null;
 
 
-        String scriptString = getScriptString(script.getName(), true);
+		GroovyScriptEnum gScript = GroovyScriptEnum.valueOf(script);
+		String scriptString = getScriptString(gScript.getName(), true);
         if (scriptString.length() == 0)
-            json.put("script", String.format("script %s not found!", script.getName()));
+            json.put("script", String.format("script %s not found!", script));
         else
             json.accumulate("script", scriptString);
 
