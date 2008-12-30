@@ -59,21 +59,14 @@
 
                 <ol>
                     <li>checkout - checkout the latest trunk from google code repository</li>
+                    <li>maven_install_skin - install the project skin into the local maven repository</li>
                     <li>maven_install - install all project modules into the local maven repository</li>
                     <li>maven_site - build the site</li>
                     <li>maven_package_deploy - deploy all maven modules into the public maven repository</li>
                     <li>maven_site_deploy - deploy the generated project site</li>
                     <li>deploy_demo - deploy the demo application</li>
+                    <li>build_dl_archives -  build and submit download archives (google code)</li>
                 </ol>
-
-            </subsection>
-
-            <subsection name="Update the Downloads Page">
-
-                <ul>
-                    <li>Execute <code>mvn assembly:assembly -Prollout</code></li>
-                    <li>Upload the binary packages and describe the download link.</li>
-                </ul>
 
             </subsection>
 

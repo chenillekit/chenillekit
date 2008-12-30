@@ -525,8 +525,8 @@
 					+ extra css config, because maven forgett it, if not used the "default-site.vm"
 					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 					-->
-					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css
-					</stylesheetfile>
+					<!--<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css-->
+					<!--</stylesheetfile>-->
 					<aggregate>false</aggregate>
 					<configuration>
 						<reportSets>
