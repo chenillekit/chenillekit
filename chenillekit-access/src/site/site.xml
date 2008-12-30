@@ -39,6 +39,7 @@
         <menu>
             <item name="Project Home" href="../index.html"/>
             <item name="Module Home" href="./index.html"/>
+            <item name="Usage" href="./usage.html"/>
         </menu>
 
         <menu ref="reports"/>

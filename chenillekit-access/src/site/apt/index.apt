@@ -29,4 +29,4 @@ Introduction
   pipeline, this class is responsible to read the annotation class and store various meta information needed
   by AccessValidator.
   Second it put two Dispatcher into two different pipelines for intercepting page render and component event
-  action requests to check if they're directed to restricted class/events and to apply the needed contraints. 
+  action requests to check if they're directed to restricted class/events and to apply the needed constraints. 
