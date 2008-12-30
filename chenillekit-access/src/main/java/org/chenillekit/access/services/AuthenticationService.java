@@ -14,11 +14,13 @@
 
 package org.chenillekit.access.services;
 
+import org.chenillekit.access.WebSessionUser;
+
 /**
  *
  * @version $Id$
  */
-public interface AuthService<T>
+public interface AuthenticationService
 {
 	/**
 	 * User authentication.
@@ -26,5 +28,5 @@ public interface AuthService<T>
 	 * @param userName name of the user
 	 * @param password users password
 	 */
-	T doAuthenticate(String userName, String password);
+	WebSessionUser doAuthenticate(String userName, String password);
 }

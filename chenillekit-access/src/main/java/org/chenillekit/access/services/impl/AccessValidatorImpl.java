@@ -13,17 +13,14 @@
  */
 package org.chenillekit.access.services.impl;
 
-import java.lang.reflect.Field;
-
 import org.apache.tapestry5.runtime.Component;
+import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.MetaDataLocator;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.WebSessionUser;
-import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.AccessValidator;
-import org.chenillekit.access.services.WebSessionUserService;
 import org.slf4j.Logger;
 
 /**
@@ -34,17 +31,19 @@ public class AccessValidatorImpl implements AccessValidator
 {
 	private final ComponentSource componentSource;
 	private final MetaDataLocator locator;
-	private final WebSessionUserService userService;
 	private final Logger logger;
+	private final ApplicationStateManager manager;
+	private final Class<? extends WebSessionUser> sessionUser;
 
 
 	public AccessValidatorImpl(ComponentSource componentSource, MetaDataLocator locator,
-							Logger logger, WebSessionUserService userService)
+							Logger logger, ApplicationStateManager manager, Class<? extends WebSessionUser> sessionUser)
 	{
 		this.componentSource = componentSource;
 		this.locator = locator;
 		this.logger = logger;
-		this.userService = userService;
+		this.manager = manager;
+		this.sessionUser = sessionUser;
 	}
 
 
@@ -73,21 +72,21 @@ public class AccessValidatorImpl implements AccessValidator
 			{
 				hasAccess = checkForComponentEventHandlerAccess(page, componentId, eventType);
 
-				if (hasAccess)
-				{
-					Field[] fields = page.getClass().getDeclaredFields();
-					for (Field field : fields)
-					{
-						if (field.isAnnotationPresent(Restricted.class) &&
-								field.isAnnotationPresent(org.apache.tapestry5.annotations.Component.class))
-						{
-							if (logger.isDebugEnabled())
-								logger.debug("found restricted component '{}' in page '{}'", field.getName(), pageName);
-
-							Component pageComponent = page.getComponentResources().getEmbeddedComponent(field.getName());
-						}
-					}
-				}
+//				if (hasAccess)
+//				{
+//					Field[] fields = page.getClass().getDeclaredFields();
+//					for (Field field : fields)
+//					{
+//						if (field.isAnnotationPresent(Restricted.class) &&
+//								field.isAnnotationPresent(org.apache.tapestry5.annotations.Component.class))
+//						{
+//							if (logger.isDebugEnabled())
+//								logger.debug("found restricted component '{}' in page '{}'", field.getName(), pageName);
+//
+//							Component pageComponent = page.getComponentResources().getEmbeddedComponent(field.getName());
+//						}
+//					}
+//				}
 			}
 		}
 
@@ -157,7 +156,7 @@ public class AccessValidatorImpl implements AccessValidator
 
 		if (groups != null || role != null)
 		{
-			WebSessionUser webSessionUser = userService.getUser();
+			WebSessionUser webSessionUser = manager.getIfExists(sessionUser);
 
 			if (webSessionUser == null)
 			{

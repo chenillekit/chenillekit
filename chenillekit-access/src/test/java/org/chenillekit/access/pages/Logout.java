@@ -15,7 +15,8 @@
 package org.chenillekit.access.pages;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.chenillekit.access.services.WebSessionUserService;
+import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.Session;
 
 /**
  * Page which logs the user out of the application.
@@ -25,11 +26,14 @@ import org.chenillekit.access.services.WebSessionUserService;
 public class Logout
 {
 	@Inject
-	private WebSessionUserService webSessionUserService;
+	private Request request;
 
 	final public void beginRender()
 	{
 		// logout
-		webSessionUserService.setUser( null );
+		Session session = request.getSession(false);
+		
+		if (session != null)
+			session.invalidate();
 	}
 }

@@ -128,10 +128,15 @@ public class TestAccessIntegration extends Assert
 		Element element = doc.getElementById("login_message");
 		assertEquals(element.getChildMarkup(), "Login Page");
 
-		Element form = doc.getElementById("form");
+		Element submit = doc.getElementById("chenillekitLoginSubmit");
 		Map<String, String> fieldValues = new HashMap<String, String>();
-		fieldValues.put("inputUserName", "root");
-		fieldValues.put("inputPassword", "banane");
-		doc = pageTester.submitForm(form, fieldValues);
+		fieldValues.put("chenillekitUsername", "root");
+		fieldValues.put("chenillekitPassword", "banane");
+		
+		doc = pageTester.clickSubmit(submit, fieldValues);
+		
+		Document docAccessile = pageTester.renderPage("NotEnoughRights");
+		
+		// TODO We need to assure docAccessible is the NotEnoughRights page
 	}
 }

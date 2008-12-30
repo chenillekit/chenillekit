@@ -61,31 +61,35 @@ public class PageRenderAccessFilter implements PageRenderRequestFilter
 	public void handle(PageRenderRequestParameters parameters,
 			PageRenderRequestHandler handler) throws IOException
 	{
-		PageRenderRequestParameters currentParameters = parameters;
-
-		String previousPage = cookies.readCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE);
-		String previousContext = cookies.readCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE);
-
-		if (previousPage != null)
-		{
-			EventContext context = ChenillekitAccessInternalUtils.getContextFromString(valueEncoder, previousContext);
-			currentParameters = new PageRenderRequestParameters(previousPage, context);
-
-			cookies.removeCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE);
-			cookies.removeCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE);
-		}
-		else if ( !accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
+//		String previousPage = cookies.readCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE);
+//		String previousContext = cookies.readCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE);
+//
+//		if (previousPage != null)
+//		{
+//			EventContext context = ChenillekitAccessInternalUtils.getContextFromString(valueEncoder, previousContext);
+//			currentParameters = new PageRenderRequestParameters(previousPage, context);
+//
+//			cookies.removeCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE);
+//			cookies.removeCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE);
+//		}
+//		else if ( !accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
+		if ( !accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("User hasn't rights to access " + parameters.getLogicalPageName()  + " page");
+			
+			System.out.println("User hasn't rights to access " + parameters.getLogicalPageName()  + " page");
 
 			cookies.writeCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE, parameters.getLogicalPageName());
 			cookies.writeCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE, ChenillekitAccessInternalUtils.getContextAsString((parameters.getActivationContext())));
 
-			currentParameters = getLoginPageParameters();
+			handler.handle(getLoginPageParameters());
 		}
-
-		handler.handle(currentParameters);
+		else
+		{
+			System.out.println("User has rights to access " + parameters.getLogicalPageName()  + " page");
+			handler.handle(parameters);
+		}
 	}
 
 	private PageRenderRequestParameters getLoginPageParameters()

@@ -1,43 +1,30 @@
 <!--
-  ~ Apache License
-  ~ Version 2.0, January 2004
-  ~ http://www.apache.org/licenses/
-  ~
-  ~ Copyright 2008 by chenillekit.org
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~ http://www.apache.org/licenses/LICENSE-2.0
-  -->
+	~ Apache License
+	~ Version 2.0, January 2004
+	~ http://www.apache.org/licenses/
+	~
+	~ Copyright 2008 by chenillekit.org
+	~
+	~ Licensed under the Apache License, Version 2.0 (the "License");
+	~ you may not use this file except in compliance with the License.
+	~ You may obtain a copy of the License at
+	~
+	~ http://www.apache.org/licenses/LICENSE-2.0
+	-->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 <head>
-    <title>Login Page</title>
+		<title>Login Page</title>
 </head>
 
 <body>
 
 <span id="login_message">Login Page</span>
 
-<t:form action="#">
-    <t:errors/>
-    <t:if test="isLoginAllowed()">
-        <t:parameter name="else"><span class="loginError">Too many login attempts</span></t:parameter>
-    <br/>
-    <label>Username</label>
-    <input t:type="TextField" t:value="userName" t:id="inputUserName" type="text" t:validate="required" />
-    <br/>
-    <label>Password</label>
-    <input t:type="PasswordField" t:value="password" t:id="inputPassword" type="password" t:validate="required" />
-    <br/>
-    <input type="submit"/>
-    </t:if>
-</t:form>
+<t:login />
 
 </body>
 </html>

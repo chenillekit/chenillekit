@@ -14,14 +14,8 @@
 
 package org.chenillekit.access.pages;
 
-import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.components.PasswordField;
-import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.chenillekit.access.services.AuthRedirectService;
 import org.slf4j.Logger;
 
 
@@ -33,31 +27,13 @@ import org.slf4j.Logger;
 public class Login
 {
 	private static final int MAX_LOGIN_ATTEMPTS = 3;
-
+	
 	@SuppressWarnings("unused")
 	@Inject
 	private Logger logger;
 
-	@Inject
-	private AuthRedirectService authService;
-
-	@Persist
-	@Property
-	private String userName;
-
-	@Property
-	private String password;
-
-	@SuppressWarnings("unused")
-	@Component(parameters = {"value=userName"})
-	private TextField inputUserName;
-
-	@SuppressWarnings("unused")
-	@Component(parameters = {"value=password"})
-	private PasswordField inputPassword;
-
-	@Inject
-	private ComponentResources resources;
+//	@Inject
+//	private ComponentResources resources;
 
 	@Persist
 	private int loginAttempts;
@@ -66,17 +42,8 @@ public class Login
 	{
 		return loginAttempts < MAX_LOGIN_ATTEMPTS;
 	}
-
-	final public String onSuccess()
-	{
-		loginAttempts++;
-		String page = authService.doAuthenticate( userName, password );
-		if ( null != page ) resources.discardPersistentFieldChanges();
-		return page;
-	}
-
+	
 	void onActivate()
 	{
-
 	}
 }

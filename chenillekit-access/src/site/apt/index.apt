@@ -16,7 +16,17 @@ ChenilleKit Access Module
 
 What is ChenilleKit Access Module?
 
-ChenilleKit Access Module is a Tapestry 5 library which provide access restriction constraints to Tapestry 5
-web application.
+  ChenilleKit Access module is a {{{http://tapestry.apache.org/tapestry5/}Tapestry 5}} library which provide access
+  restriction constraints to Tapestry 5 web application.
 
-TODO Document usage and caveats
+Introduction
+
+  ChenilleKit Access module sits in between your page processing logic and the client HTTP request, doing so it is able
+  to decide when and how the request can pass through or not.
+
+  For doing so it needs two different steps.
+  First it put RestrictedWorker into the ComponentClassTranformWorker
+  pipeline, this class is responsible to read the annotation class and store various meta information needed
+  by AccessValidator.
+  Second it put two Dispatcher into two different pipelines for intercepting page render and component event
+  action requests to check if they're directed to restricted class/events and to apply the needed contraints. 

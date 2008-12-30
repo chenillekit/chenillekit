@@ -14,27 +14,22 @@
 
 package org.chenillekit.access.services.impl;
 
-import org.apache.tapestry5.ioc.annotations.Scope;
 import org.chenillekit.access.WebSessionUser;
-import org.chenillekit.access.services.WebSessionUserService;
+import org.chenillekit.access.services.AppServerLoginService;
 
 /**
- * Service which stores the WebSessionUser and makes it available to the application and other services.
+ * Place holder implementation, it simply does nothing.
  *
  * @version $Id$
  */
-@Scope( value = "perthread" )
-public class WebSessionUserServiceImpl implements WebSessionUserService
+public class NoOpAppServerLoginService implements AppServerLoginService
 {
-	private WebSessionUser user;
-
-	public WebSessionUser getUser()
+	/* (non-Javadoc)
+	 * @see org.chenillekit.access.services.AppServerLoginService#appServerLogin(org.chenillekit.access.WebSessionUser)
+	 */
+	public void appServerLogin(WebSessionUser user)
 	{
-		return user;
+		// To nothing...
 	}
 
-	public void setUser( WebSessionUser user )
-	{
-		this.user = user;
-	}
 }

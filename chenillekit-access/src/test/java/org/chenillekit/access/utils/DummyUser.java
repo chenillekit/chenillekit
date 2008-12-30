@@ -29,30 +29,30 @@ import org.chenillekit.access.WebSessionUser;
 
 public class DummyUser implements WebSessionUser
 {
-	private int userId;
-	private String name;
+//	private int userId;
+//	private String name;
 
 	// Both used for security constraints
 	private int roles;
 	private String[] groups;
 
-	public DummyUser()
+	public DummyUser(int roleWeigth)
 	{
-		this.userId = 2;
-		this.name = "dummy";
+//		this.userId = 2;
+//		this.name = "dummy";
 		this.roles = 0;
-		this.groups = new String[]{"dau"};
+		this.groups = new String[]{"dummy"};
 	}
 
-	public int getUserId()
-	{
-		return userId;
-	}
+//	public int getUserId()
+//	{
+//		return userId;
+//	}
 
-	public String getName()
-	{
-		return name;
-	}
+//	public String getName()
+//	{
+//		return name;
+//	}
 
 	/**
 	 * get the role ids.

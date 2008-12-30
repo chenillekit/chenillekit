@@ -17,10 +17,7 @@ package org.chenillekit.access.pages;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.tapestry5.annotations.ApplicationState;
-import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-import org.chenillekit.access.utils.RootUser;
 
 /**
  *
@@ -28,10 +25,6 @@ import org.chenillekit.access.utils.RootUser;
  */
 public class Start
 {
-	@ApplicationState
-	@Property
-	private RootUser rootUser;
-
 	public static class Item implements Comparable<Item>
 	{
 		private final String _pageName;

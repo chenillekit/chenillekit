@@ -14,14 +14,19 @@
 
 package org.chenillekit.access.services;
 
+import java.util.Map;
+
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
-import org.chenillekit.access.services.impl.DummyAppServerLoginService;
+import org.chenillekit.access.WebSessionUser;
+import org.chenillekit.access.services.impl.NoOpAppServerLoginService;
 import org.chenillekit.access.services.impl.UserAuthServiceImpl;
+import org.chenillekit.access.utils.DummyUser;
 
 /**
  *
@@ -37,12 +42,21 @@ public class TestAppWithRootModule
 	 */
 	public static void bind( ServiceBinder binder )
 	{
-		binder.bind( AppServerLoginService.class, DummyAppServerLoginService.class );
+		binder.bind(AppServerLoginService.class, NoOpAppServerLoginService.class);
 	}
-	public static void contributeAuthRedirectService(MappedConfiguration<String, Class> configuration)
+
+	/**
+	 *
+	 * @param configuration
+	 */
+	public static void contributeAuthenticationService(OrderedConfiguration<AuthenticationService> configuration)
 	{
-		configuration.add(ChenilleKitAccessConstants.WEB_USER_AUTH_SERVICE,
-						UserAuthServiceImpl.class);
+		configuration.add("TEST", new UserAuthServiceImpl());
+	}
+	
+	public static void contributeAccessValidator(MappedConfiguration<String, Class> configurations)
+	{
+		configurations.add(ChenilleKitAccessConstants.WEB_SESSION_USER_KEY, DummyUser.class);
 	}
 
 	/**

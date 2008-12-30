@@ -55,6 +55,9 @@ public final class ChenilleKitAccessConstants
 
 	public static final String REQUESTED_PAGENAME_COOKIE = "chenillekit.acccess-requested-pagename";
 	public static final String REQUESTED_EVENTCONTEXT_COOKIE = "chenillekit.acccess-requested-eventcontext";
+	
+	public static final String NOT_AUTHENTICATED_ERROR_MESSAGE = "chenillekit.access-not-authenticated";
+	
 
 	/**
 	 * A root marker for all things Tapestry related. The remaining markers are children of the TAPESTRY marker.

@@ -15,6 +15,7 @@
 package org.chenillekit.access;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -26,7 +27,8 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.Marker;
 import org.apache.tapestry5.ioc.internal.util.Defense;
-import org.apache.tapestry5.services.ClassTransformation;
+import org.apache.tapestry5.ioc.services.ChainBuilder;
+import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentClassResolver;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.ComponentEventRequestFilter;
@@ -34,23 +36,14 @@ import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.apache.tapestry5.services.MetaDataLocator;
 import org.apache.tapestry5.services.PageRenderRequestFilter;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.RequestFilter;
-import org.apache.tapestry5.services.RequestHandler;
-import org.apache.tapestry5.services.Response;
-import org.apache.tapestry5.services.Session;
 import org.chenillekit.access.annotations.ChenilleKitAccess;
+import org.chenillekit.access.internal.NoOpAuthenticationService;
 import org.chenillekit.access.services.AccessValidator;
-import org.chenillekit.access.services.AppServerLoginService;
-import org.chenillekit.access.services.AuthRedirectService;
-import org.chenillekit.access.services.AuthService;
-import org.chenillekit.access.services.WebSessionUserService;
+import org.chenillekit.access.services.AuthenticationService;
 import org.chenillekit.access.services.impl.AccessValidatorImpl;
-import org.chenillekit.access.services.impl.AuthRedirectServiceImpl;
 import org.chenillekit.access.services.impl.ComponentEventAccessFilter;
 import org.chenillekit.access.services.impl.PageRenderAccessFilter;
 import org.chenillekit.access.services.impl.RestrictedWorker;
-import org.chenillekit.access.services.impl.WebSessionUserServiceImpl;
 import org.slf4j.Logger;
 
 /**
@@ -59,12 +52,38 @@ import org.slf4j.Logger;
  */
 public class ChenilleKitAccessModule
 {
+	/**
+	 *
+	 * @param binder
+	 */
 	public static void bind(ServiceBinder binder)
 	{
 		binder.bind(ComponentEventRequestFilter.class, ComponentEventAccessFilter.class).withMarker(ChenilleKitAccess.class);
 		binder.bind(PageRenderRequestFilter.class, PageRenderAccessFilter.class).withMarker(ChenilleKitAccess.class);
-		binder.bind(WebSessionUserService.class, WebSessionUserServiceImpl.class).withMarker(ChenilleKitAccess.class);
 	}
+	
+	/**
+	 * 
+	 * @param configuration
+	 * @param chainBuilder
+	 * @return
+	 */
+    public static AuthenticationService buildAuthenticationService(
+            final List<AuthenticationService> configuration,
+            @InjectService("ChainBuilder")
+            ChainBuilder chainBuilder)
+    {
+        return chainBuilder.build(AuthenticationService.class, configuration);
+    }
+    
+    /**
+     * 
+     * @param configuration
+     */
+    public static void contributeAuthenticationService(OrderedConfiguration<AuthenticationService> configuration)
+    {
+    	configuration.add("no-op", new NoOpAuthenticationService(), "after:*");
+    }
 
 	/**
 	 * Contribute our {@link ComponentClassTransformWorker} to transformation pipeline to add our code to
@@ -97,26 +116,26 @@ public class ChenilleKitAccessModule
 	 * @param appServerLoginService assure login to the appserver can be handled correctly
 	 * @return auth service for login handling
 	 */
-	public static AuthRedirectService buildAuthRedirectService(final Logger logger,
-															final Map<String, Class> contribution,
-															final WebSessionUserService userService,
-															final AppServerLoginService appServerLoginService)
-	{
-		try
-		{
-			Class authServiceClass = contribution.get(ChenilleKitAccessConstants.WEB_USER_AUTH_SERVICE);
-			Defense.notNull(authServiceClass, ChenilleKitAccessConstants.WEB_USER_AUTH_SERVICE);
-			return new AuthRedirectServiceImpl(logger, (AuthService)authServiceClass.newInstance(), userService, appServerLoginService);
-		}
-		catch (InstantiationException e)
-		{
-			throw new RuntimeException(e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+//	public static AuthRedirectService buildAuthRedirectService(final Logger logger,
+//															final Map<String, Class> contribution,
+//															final WebSessionUserService userService,
+//															final AppServerLoginService appServerLoginService)
+//	{
+//		try
+//		{
+//			Class authServiceClass = contribution.get(ChenilleKitAccessConstants.WEB_USER_AUTH_SERVICE);
+//			Defense.notNull(authServiceClass, ChenilleKitAccessConstants.WEB_USER_AUTH_SERVICE);
+//			return new AuthRedirectServiceImpl(logger, (AuthService)authServiceClass.newInstance(), userService, appServerLoginService);
+//		}
+//		catch (InstantiationException e)
+//		{
+//			throw new RuntimeException(e);
+//		}
+//		catch (IllegalAccessException e)
+//		{
+//			throw new RuntimeException(e);
+//		}
+//	}
 
 	/**
 	 *
@@ -128,10 +147,14 @@ public class ChenilleKitAccessModule
 	@Marker(ChenilleKitAccess.class)
 	public static AccessValidator buildAccessValidator(ComponentSource componentSource,
 													MetaDataLocator locator,
-													Logger logger,
-													WebSessionUserService userService)
+													Logger logger, ApplicationStateManager manager,
+													Map<String, Class> contribution)
 	{
-		return new AccessValidatorImpl(componentSource, locator, logger, userService);
+		Class webSessionUserClass = contribution.get(ChenilleKitAccessConstants.WEB_SESSION_USER_KEY);
+		
+		Defense.notNull(webSessionUserClass, "webSessionUserClass");
+		
+		return new AccessValidatorImpl(componentSource, locator, logger, manager, webSessionUserClass);
 	}
 
 	/**
@@ -184,32 +207,32 @@ public class ChenilleKitAccessModule
 	 * @param appServerLoginService assure login to the appserver can be handled correctly
 	 * @return request filter
 	 */
-	public RequestFilter buildWebSessionUserFilter( final WebSessionUserService webSessionUserService,
-													final AppServerLoginService appServerLoginService )
-	{
-		return new RequestFilter()
-		{
-			public boolean service( Request request, Response response, RequestHandler handler )
-				throws IOException
-			{
-				Session session = request.getSession( false );
-				WebSessionUser wsu = null;
-				if ( null != session ) wsu = (WebSessionUser) session.getAttribute( ChenilleKitAccessConstants.WEB_SESSION_USER_KEY );
-				appServerLoginService.appServerLogin( wsu );
-				webSessionUserService.setUser( wsu );
-
-				// The reponsibility of a filter is to invoke the corresponding method
-				// in the handler. When you chain multiple filters together, each filter
-				// received a handler that is a bridge to the next filter.
-				boolean res = handler.service( request, response );
-
-				wsu = webSessionUserService.getUser();
-				session = request.getSession( wsu != null );
-				if ( null != session ) session.setAttribute( ChenilleKitAccessConstants.WEB_SESSION_USER_KEY, wsu );
-				return res;
-			}
-		};
-	}
+//	public RequestFilter buildWebSessionUserFilter( final WebSessionUserService webSessionUserService,
+//													final AppServerLoginService appServerLoginService )
+//	{
+//		return new RequestFilter()
+//		{
+//			public boolean service( Request request, Response response, RequestHandler handler )
+//				throws IOException
+//			{
+//				Session session = request.getSession( false );
+//				WebSessionUser wsu = null;
+//				if ( null != session ) wsu = (WebSessionUser) session.getAttribute( ChenilleKitAccessConstants.WEB_SESSION_USER_KEY );
+//				appServerLoginService.appServerLogin( wsu );
+//				webSessionUserService.setUser( wsu );
+//
+//				// The reponsibility of a filter is to invoke the corresponding method
+//				// in the handler. When you chain multiple filters together, each filter
+//				// received a handler that is a bridge to the next filter.
+//				boolean res = handler.service( request, response );
+//
+//				wsu = webSessionUserService.getUser();
+//				session = request.getSession( wsu != null );
+//				if ( null != session ) session.setAttribute( ChenilleKitAccessConstants.WEB_SESSION_USER_KEY, wsu );
+//				return res;
+//			}
+//		};
+//	}
 
 	/**
 	 * This is a contribution to the RequestHandler service configuration. This is how we extend Tapestry using the
@@ -218,12 +241,13 @@ public class ChenilleKitAccessModule
 	 * @param configuration configuration to add to
 	 * @param webSessionUserFilter filter info
 	 */
-	public void contributeRequestHandler( OrderedConfiguration<RequestFilter> configuration,
-										@InjectService( "WebSessionUserFilter" ) RequestFilter webSessionUserFilter )
-	{
-		// Each contribution to an ordered configuration has a name, When necessary, you may
-		// set constraints to precisely control the invocation order of the contributed filter
-		// within the pipeline.
-		configuration.add( "WebSessionUser", webSessionUserFilter );
-	}
+//	public void contributeRequestHandler( OrderedConfiguration<RequestFilter> configuration,
+//										@InjectService( "WebSessionUserFilter" ) RequestFilter webSessionUserFilter )
+//	{
+//		// Each contribution to an ordered configuration has a name, When necessary, you may
+//		// set constraints to precisely control the invocation order of the contributed filter
+//		// within the pipeline.
+//		configuration.add( "WebSessionUser", webSessionUserFilter );
+//	}
+
 }
