@@ -26,11 +26,11 @@
 	<parent>
 		<groupId>org.chenillekit</groupId>
 		<artifactId>chenillekit-project</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<name>Chenillekit Template</name>
-	<version>${project.parent.version}</version>
+	<version>1.0.0</version>
 	<description>
 		simple service implementation for using templates in your application
 	</description>
@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>chenillekit-core</artifactId>
-			<version>${project.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>

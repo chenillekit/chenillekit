@@ -26,11 +26,11 @@
     <parent>
         <groupId>org.chenillekit</groupId>
         <artifactId>chenillekit-project</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <name>Chenillekit Core</name>
-	<version>${project.parent.version}</version>
+	<version>1.0.0</version>
     <description>
         This library contains some basic classes we need for other chenillekit modules.
     </description>
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-test</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
 
