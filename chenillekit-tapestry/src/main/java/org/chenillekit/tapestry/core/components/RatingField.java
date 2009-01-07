@@ -35,6 +35,7 @@ import org.apache.tapestry5.corelib.components.Radio;
 import org.apache.tapestry5.corelib.components.RadioGroup;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.services.PropertyAccess;
+import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Environment;
 
 import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
@@ -60,7 +61,7 @@ import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
  *
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"Rating.js"})
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "Rating.js"})
 @IncludeStylesheet(value = {"Rating.css"})
 public class RatingField<T> extends AbstractField
 {
@@ -200,7 +201,30 @@ public class RatingField<T> extends AbstractField
 
     public void afterRender(MarkupWriter writer)
     {
-        renderSupport.addScript("new RatingField('%s', '%s', '%s');", clientId,
-                                     getSelectedImage().toClientURL(), getUnselectedImage().toClientURL());
+		JSONObject options = new JSONObject();
+
+		options.put("disabled", isDisabled());
+
+		//
+		// Let subclasses do more.
+		//
+		configure(options);
+
+		renderSupport.addScript("new Ck.RatingField('%s', '%s', '%s', %s);", clientId,
+                                     getSelectedImage().toClientURL(),
+									 getUnselectedImage().toClientURL(),
+									 options);
     }
+
+	/**
+	 * Invoked to allow subclasses to further configure the parameters passed to this component's javascript
+	 * options. Subclasses may override this method to configure additional features of the Window.
+	 * <p/>
+	 * This implementation does nothing.
+	 *
+	 * @param options windows option object
+	 */
+	protected void configure(JSONObject options)
+	{
+	}
 }
