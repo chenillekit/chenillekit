@@ -33,9 +33,9 @@ import org.apache.tapestry5.services.Cookies;
  *
  * @version $Id: Resizable.java 682 2008-05-20 22:00:02Z homburgs $
  */
-@IncludeJavaScriptLibrary(value = {"../Cookie.js", "${tapestry.scriptaculous}/dragdrop.js",
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "../Cookie.js", "${tapestry.scriptaculous}/dragdrop.js",
         "Resizable.js"})
-@IncludeStylesheet(value = {"Resizable.css"})
+	@IncludeStylesheet(value = {"Resizable.css"})
 public class Resizable implements ClientElement
 {
     /**
