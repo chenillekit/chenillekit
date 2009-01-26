@@ -56,7 +56,7 @@ public class DemoModule
 	public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
 	{
 		configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
-		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en_en,it_it,de_de");
+		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en,it,de,fr");
 		configuration.add(ChenilleKitGoogleConstants.GOOGLE_REFERER, "www.chenillekit.org");
 
 		boolean isProductionMode = Boolean.valueOf(System.getProperty(SymbolConstants.PRODUCTION_MODE, "true"));

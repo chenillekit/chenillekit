@@ -166,7 +166,7 @@ public class DateTimeField extends AbstractField
 	 */
 	void setupRender()
 	{
-		outputFormat = new SimpleDateFormat(datePattern, request.getLocale());
+		outputFormat = new SimpleDateFormat(datePattern, locale);
 	}
 
 
@@ -207,7 +207,7 @@ public class DateTimeField extends AbstractField
 		setup.put("icon", icon.toClientURL());
 		setup.put("timePicker", timePicker);
 		setup.put("timePickerAdjacent", timePickerAdjacent);
-		setup.put("locale", request.getLocale().toString());
+		setup.put("locale", locale.toString());
 
 		if (afterUpdateElement != null)
 			setup.put("afterUpdateElement", afterUpdateElement);
@@ -246,7 +246,7 @@ public class DateTimeField extends AbstractField
 		{
 			if (InternalUtils.isNonBlank(value))
 			{
-				inputFormat = new SimpleDateFormat(datePattern, request.getLocale());
+				inputFormat = new SimpleDateFormat(datePattern, locale);
 				inputFormat.setLenient(lenient);
 				parsedValue = inputFormat.parse(value);
 			}

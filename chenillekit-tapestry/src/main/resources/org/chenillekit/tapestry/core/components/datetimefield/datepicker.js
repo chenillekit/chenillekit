@@ -40,7 +40,7 @@ Control.DatePicker.prototype = {
             this.icon.title = this.tr('Open calendar');
             this.icon.className = 'inputExtension';
             var topOffset = /MSIE/.test(navigator.userAgent) ? '1px' : '3px';
-            Element.setStyle(this.icon, {'position': 'relative', 'left': '-18px', 'top': topOffset});
+            Element.setStyle(this.icon, {'position': 'static', 'left': '-18px', 'top': topOffset});
             Element.insertAfter(this.icon, this.element);
             Event.observe(this.icon, 'click', this.togglePicker.bindAsEventListener(this));
         }
@@ -237,6 +237,7 @@ with (Control.DatePicker)
     // Full locale definitions not needed if countries use the language default format
     // Datepicker will fallback to the language default; i.e. 'es_AR' will use 'es'
     Locale['es'] = i18n.createLocale('eu', 'es');
+    Locale['fr'] = i18n.createLocale('eu', 'fr');
     Locale['en'] = i18n.createLocale('us', 'en');
     Locale['en_GB'] = i18n.createLocale('eu', 'en');
     Locale['en_AU'] = Locale['en_GB'];
