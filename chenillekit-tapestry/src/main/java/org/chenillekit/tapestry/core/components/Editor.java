@@ -45,7 +45,7 @@ import org.apache.tapestry5.services.Request;
  * <p/>
  * <p>NOTE: This component is built on the 2.x version of FCKeditor.</p>
  *
- * @version $Id: Editor.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  * @see <a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide">FCKeditor developer's guide</a>
  * @see <a href="http://docs.fckeditor.net/FCKeditor_2.x/Users_Guide">FCKeditor user's guide</a>
  */
