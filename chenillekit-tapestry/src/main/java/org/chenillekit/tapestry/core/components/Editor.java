@@ -56,42 +56,42 @@ public class Editor extends AbstractTextField
 	 * The height of the editor.
 	 */
 	@Parameter(defaultPrefix = "literal", value = "300px")
-	private String _height;
+	private String height;
 
 	/**
 	 * The width of the editor.
 	 */
 	@Parameter(defaultPrefix = "literal", value = "300px")
-	private String _width;
+	private String width;
 
 	/**
 	 * A custom configuration for this editor.
 	 * See the FCKeditor manual for details on custom configurations.
 	 */
 	@Parameter
-	private Asset _customConfiguration;
+	private Asset customConfiguration;
 
 	/**
 	 * The toolbar set to be used with this editor. Default possible values
 	 * are <code>Default</code> and <code>Basic</code>.
-	 * Toolbar sets can be configured in a {@link #_customConfiguration custom configuration}.
+	 * Toolbar sets can be configured in a {@link #customConfiguration custom configuration}.
 	 */
 	@Parameter(defaultPrefix = "literal", value = "Default")
-	private String _toolbarSet;
+	private String toolbarSet;
 
 	@Inject
-	private ClasspathAssetAliasManager _cpam;
+	private ClasspathAssetAliasManager cpam;
 
 	@Inject
-	private SymbolSource _symbolSource;
+	private SymbolSource symbolSource;
 
 	@Environmental
-	private RenderSupport _pageRenderSupport;
+	private RenderSupport renderSupport;
 
 	@Inject
 	private Request request;
 
-	private String _value;
+	private String value;
 
 	@Override
 	protected final void writeFieldTag(MarkupWriter writer, String value)
@@ -103,13 +103,13 @@ public class Editor extends AbstractTextField
 					   "cols", getWidth());
 
 		// Save until needed in afterRender().
-		_value = value;
+		this.value = value;
 	}
 
 	@AfterRender
 	final void afterRender(MarkupWriter writer)
 	{
-		if (_value != null) writer.write(_value);
+		if (value != null) writer.write(value);
 		writer.end();
 		writeScript();
 	}
@@ -118,52 +118,65 @@ public class Editor extends AbstractTextField
 	{
 		String editorVar = "editor_" + getClientId().replace(':', '_');
 
-		String fckEditorBasePath = _cpam.toClientURL(_symbolSource.expandSymbols("${ck.components}")) + "/fckeditor/";
+		String fckEditorBasePath = cpam.toClientURL(symbolSource.expandSymbols("${ck.components}")) + "/fckeditor/";
 
-		_pageRenderSupport.addScript("var %s = new FCKeditor('%s');", editorVar, getClientId());
-		_pageRenderSupport.addScript("%s.BasePath = '%s';", editorVar, fckEditorBasePath);
+		renderSupport.addScript("var %s = new FCKeditor('%s');", editorVar, getClientId());
+		renderSupport.addScript("%s.BasePath = '%s';", editorVar, fckEditorBasePath);
 
-		if (_customConfiguration != null)
+		if (customConfiguration != null)
 		{
-			/**
-			 * FCK loads itself via an iframe, in which its own html file is loaded that
-			 * takes care of bootstrapping the editor (which includes loading any custom
-			 * config files). This html file is stored on the classpath and when it loads
-			 * custom config files, it receives a relative name. The path of the html
-			 * file is:
-			 *
-			 * org/chenillekit/tapestry/core/components/fckeditor/editor/fckeditor.html
-			 *
-			 * Now when that page is loaded in the iframe, it will load the configuration
-			 * file by writing out a new script tag using the path it receives, which is
-			 * relative. Because the path is relative tapestry interprets the config file
-			 * to be a relative asset on the classpath (relative to the html file). So
-			 * it looks for this on the classpath:
-			 *
-			 * org/chenillekit/tapestry/core/components/fckeditor/editor/myeditor.js
-			 *
-			 * Instead of something like:
-			 *
-			 * /MyApp/myeditor.js
-			 *
-			 * The following hack mangles the URL by appending the interpreted asset
-			 * path to the (absolute) context path. This solves the problem for context
-			 * and classpath assets.
-			 */
-			String hackedPath = _customConfiguration.toClientURL();
+			renderSupport.addScript("%s.Config['CustomConfigurationsPath'] = '%s';",
+										 editorVar,
+										 getCustomizedConfigurationURL(customConfiguration));
+		}
+
+		if (toolbarSet != null)
+			renderSupport.addScript("%s.ToolbarSet = '%s';", editorVar, toolbarSet);
+
+		renderSupport.addScript("%s.Height = '%s';", editorVar, height);
+		renderSupport.addScript("%s.Width = '%s';", editorVar, width);
+		renderSupport.addScript("%s.ReplaceTextarea();", editorVar);
+	}
+
+	/**
+	 * FCK loads itself via an iframe, in which its own html file is loaded that
+	 * takes care of bootstrapping the editor (which includes loading any custom
+	 * config files). This html file is stored on the classpath and when it loads
+	 * custom config files, it receives a relative name. The path of the html
+	 * file is:
+	 * <p/>
+	 * org/chenillekit/tapestry/core/components/fckeditor/editor/fckeditor.html
+	 * <p/>
+	 * Now when that page is loaded in the iframe, it will load the configuration
+	 * file by writing out a new script tag using the path it receives, which is
+	 * relative. Because the path is relative tapestry interprets the config file
+	 * to be a relative asset on the classpath (relative to the html file). So
+	 * it looks for this on the classpath:
+	 * <p/>
+	 * org/chenillekit/tapestry/core/components/fckeditor/editor/myeditor.js
+	 * <p/>
+	 * Instead of something like:
+	 * <p/>
+	 * /MyApp/myeditor.js
+	 * <p/>
+	 * The following hack mangles the URL by appending the interpreted asset
+	 * path to the (absolute) context path. This solves the problem for context
+	 * and classpath assets.
+	 */
+	protected String getCustomizedConfigurationURL(Asset configurationAsset)
+	{
+		String hackedPath = null;
+
+		if (configurationAsset != null)
+		{
+			hackedPath = configurationAsset.toClientURL();
 			if (hackedPath.startsWith("../"))
 			{
 				String contextPath = request.getContextPath();
 				hackedPath = contextPath + hackedPath.substring(2);
 			}
-			_pageRenderSupport.addScript("%s.Config['CustomConfigurationsPath'] = '%s';", editorVar, hackedPath);
 		}
 
-		if (_toolbarSet != null)
-			_pageRenderSupport.addScript("%s.ToolbarSet = '%s';", editorVar, _toolbarSet);
-
-		_pageRenderSupport.addScript("%s.Height = '%s';", editorVar, _height);
-		_pageRenderSupport.addScript("%s.Width = '%s';", editorVar, _width);
-		_pageRenderSupport.addScript("%s.ReplaceTextarea();", editorVar);
+		return hackedPath;
 	}
 }
