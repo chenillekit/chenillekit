@@ -169,12 +169,13 @@ public class Editor extends AbstractTextField
 
 		if (configurationAsset != null)
 		{
+			String contextPath = request.getContextPath();
+
 			hackedPath = configurationAsset.toClientURL();
 			if (hackedPath.startsWith("../"))
-			{
-				String contextPath = request.getContextPath();
 				hackedPath = contextPath + hackedPath.substring(2);
-			}
+			else
+				hackedPath = contextPath + hackedPath;
 		}
 
 		return hackedPath;
