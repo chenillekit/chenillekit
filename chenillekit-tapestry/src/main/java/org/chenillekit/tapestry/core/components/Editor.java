@@ -94,7 +94,7 @@ public class Editor extends AbstractTextField
 	private String value;
 
 	@Override
-	protected final void writeFieldTag(MarkupWriter writer, String value)
+	protected final void writeFieldTag(final MarkupWriter writer, final String value)
 	{
 		// At it's most basic level, editor should function as a textarea.
 		writer.element("textarea",
@@ -107,9 +107,12 @@ public class Editor extends AbstractTextField
 	}
 
 	@AfterRender
-	final void afterRender(MarkupWriter writer)
+	final void afterRender(final MarkupWriter writer)
 	{
-		if (value != null) writer.write(value);
+		if (value != null)
+		{
+			writer.write(value);
+		}
 		writer.end();
 		writeScript();
 	}
@@ -126,12 +129,14 @@ public class Editor extends AbstractTextField
 		if (customConfiguration != null)
 		{
 			renderSupport.addScript("%s.Config['CustomConfigurationsPath'] = '%s';",
-										 editorVar,
-										 getCustomizedConfigurationURL(customConfiguration));
+									editorVar,
+									getCustomizedConfigurationURL(customConfiguration));
 		}
 
 		if (toolbarSet != null)
+		{
 			renderSupport.addScript("%s.ToolbarSet = '%s';", editorVar, toolbarSet);
+		}
 
 		renderSupport.addScript("%s.Height = '%s';", editorVar, height);
 		renderSupport.addScript("%s.Width = '%s';", editorVar, width);
@@ -163,19 +168,19 @@ public class Editor extends AbstractTextField
 	 * path to the (absolute) context path. This solves the problem for context
 	 * and classpath assets.
 	 */
-	protected String getCustomizedConfigurationURL(Asset configurationAsset)
+	protected String getCustomizedConfigurationURL(final Asset configurationAsset)
 	{
 		String hackedPath = null;
+		String contextPath = request.getContextPath();
 
 		if (configurationAsset != null)
 		{
-			String contextPath = request.getContextPath();
-
 			hackedPath = configurationAsset.toClientURL();
 			if (hackedPath.startsWith("../"))
 				hackedPath = contextPath + hackedPath.substring(2);
-			else
-				hackedPath = contextPath + hackedPath;
+
+			if (!hackedPath.startsWith(contextPath))
+				hackedPath = contextPath + "/" + hackedPath;
 		}
 
 		return hackedPath;
