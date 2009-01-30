@@ -37,7 +37,7 @@ import org.chenillekit.google.utils.geocode.GeoCodeResult;
  * @version $Id$
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"GPlotter.js"})
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "GPlotter.js"})
 public class GPlotter implements ClientElement
 {
 	/**
