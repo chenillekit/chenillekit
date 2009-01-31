@@ -30,7 +30,7 @@
 	</parent>
 
 	<name>Chenillekit Lucene</name>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<description>
 		A collection of lucene related utils
 	</description>
@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>chenillekit-test</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 

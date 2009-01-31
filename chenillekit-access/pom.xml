@@ -30,7 +30,7 @@
 	</parent>
 
 	<name>Chenillekit Access</name>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<description>
 		A library to make your pages accessible to authenticated users
 	</description>

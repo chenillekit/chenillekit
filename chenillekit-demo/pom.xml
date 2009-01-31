@@ -30,7 +30,7 @@
 	</parent>
 
 	<name>Chenillekit Tapestry Demo</name>
-	<version>${project.parent.version}</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<description>
 		a demo application
 	</description>
@@ -69,19 +69,19 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>chenillekit-image</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>chenillekit-scripting</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>chenillekit-template</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
