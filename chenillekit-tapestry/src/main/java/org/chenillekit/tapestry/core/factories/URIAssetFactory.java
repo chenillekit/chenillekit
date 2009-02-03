@@ -33,7 +33,7 @@ public class URIAssetFactory implements AssetFactory
      */
     public Resource getRootResource()
     {
-        return new URIResource("file:///");
+        return new URIResource("");
     }
 
     private String clientURL(Resource resource)

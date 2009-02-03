@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.ObjectLocator;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.InjectService;
@@ -28,6 +29,7 @@ import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.services.AssetFactory;
 import org.apache.tapestry5.services.Context;
+import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
@@ -39,6 +41,7 @@ import org.chenillekit.google.ChenilleKitGoogleConstants;
 import org.chenillekit.image.services.ImageService;
 import org.chenillekit.tapestry.core.services.ThumbNailService;
 import org.chenillekit.tapestry.core.services.impl.ThumbNailServiceImpl;
+import org.chenillekit.tapestry.core.services.impl.URIDispatcher;
 import org.chenillekit.template.services.impl.FreeMarkerServiceImpl;
 import org.chenillekit.template.services.impl.VelocityServiceImpl;
 import org.slf4j.Logger;
@@ -48,6 +51,12 @@ import org.slf4j.Logger;
  */
 public class DemoModule
 {
+	public void contributeMasterDispatcher(OrderedConfiguration<Dispatcher> configuration,
+										   ObjectLocator locator)
+	{
+		configuration.add("URIAsset", locator.autobuild(URIDispatcher.class), "after:Asset");
+	}
+
 	/**
 	 * Contributes factory defaults that map be overridden.
 	 *
