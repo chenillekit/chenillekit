@@ -34,6 +34,7 @@ import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.corelib.base.AbstractField;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -78,6 +79,12 @@ public class DateTimeField extends AbstractField
 	private String datePattern;
 
 	/**
+	 * a boolean value determining whether to display the date picker. Defaults to true.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
+	private boolean datePicker;
+
+	/**
 	 * a boolean value determining whether to display the time picker. Defaults to false.
 	 */
 	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
@@ -88,6 +95,12 @@ public class DateTimeField extends AbstractField
 	 */
 	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
 	private boolean timePickerAdjacent;
+
+	/**
+	 * a boolean value determining whether to display the time in AM/PM or 24 hour notation. Defaults to false.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
+	private boolean use24hrs;
 
 	/**
 	 * a named javascript function, that executed after the date selected by the picker.
@@ -132,6 +145,10 @@ public class DateTimeField extends AbstractField
 	@Inject
 	private ComponentDefaultProvider defaultProvider;
 
+	@Inject
+	@Path("datetimefield/clock.png")
+	private Asset clockAsset;
+
 	/**
 	 * For output, format nicely and unambiguously as four digits.
 	 */
@@ -172,6 +189,7 @@ public class DateTimeField extends AbstractField
 
 	void beginRender(MarkupWriter writer)
 	{
+		Asset componentIcon;
 		String value = tracker.getInput(this);
 
 		if (value == null) value = formatCurrentValue();
@@ -204,9 +222,19 @@ public class DateTimeField extends AbstractField
 
 		JSONObject setup = new JSONObject();
 
-		setup.put("icon", icon.toClientURL());
+		if (!datePicker && !timePicker)
+			throw new RuntimeException("both date- and timePicker set to false, that is senseless!");
+
+		if (!datePicker && timePicker)
+			componentIcon = clockAsset;
+		else
+			componentIcon = icon;
+
+		setup.put("icon", componentIcon.toClientURL());
+		setup.put("datePicker", datePicker);
 		setup.put("timePicker", timePicker);
 		setup.put("timePickerAdjacent", timePickerAdjacent);
+		setup.put("use24hrs", use24hrs);
 		setup.put("locale", locale.toString());
 
 		if (afterUpdateElement != null)
