@@ -22,6 +22,7 @@ import org.apache.tapestry5.corelib.components.TextField;
 
 import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.ClickSubmit;
+import org.chenillekit.tapestry.core.components.ColorPicker;
 import org.chenillekit.tapestry.core.components.LinkSubmit;
 
 /**
@@ -36,6 +37,10 @@ public class MultiCompDemo
     @Persist(value = "flash")
     @Property
     private String city;
+
+    @Persist(value = "flash")
+    @Property
+    private String color;
 
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
@@ -54,6 +59,9 @@ public class MultiCompDemo
 
     @Component(parameters = {"value=city"})
     private TextField inputCity;
+
+    @Component(parameters = {"value=color"})
+    private ColorPicker inputColor;
 
     @Component
     private LinkSubmit linkSubmit;
