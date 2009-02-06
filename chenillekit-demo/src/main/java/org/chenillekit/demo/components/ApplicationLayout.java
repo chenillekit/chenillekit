@@ -23,5 +23,18 @@ public class ApplicationLayout
 {
 	@Component(parameters = {"menuName=base"})
 	private HorizontalMenu horizontalMenu;
+
+	public Project getProject()
+	{
+		return new Project();
+	}
+
+	public class Project
+	{
+		public String getVersion()
+		{
+			return "DEVELOPMENT";
+		}
+	}
 }
 
