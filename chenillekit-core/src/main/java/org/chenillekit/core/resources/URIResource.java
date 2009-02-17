@@ -173,7 +173,7 @@ public class URIResource implements Resource
 	 */
 	public Resource withExtension(String extension)
 	{
-		return null;
+		throw new RuntimeException("not implemented yet!");
 	}
 
 	/**
@@ -182,7 +182,17 @@ public class URIResource implements Resource
 	 */
 	public String getFolder()
 	{
-		return uri.getPath();
+		String folderName = "";
+		String completePath = toURL().getPath();
+
+		if (completePath != null)
+		{
+			int lastSlash = completePath.lastIndexOf('/');
+			if (lastSlash > 0)
+				folderName = completePath.substring(0, lastSlash);
+		}
+
+		return folderName;
 	}
 
 	/**
@@ -190,7 +200,18 @@ public class URIResource implements Resource
 	 */
 	public String getFile()
 	{
-		return uri.getPath();
+		String fileName = "";
+		String completePath = toURL().getPath();
+
+		if (completePath != null)
+		{
+			if (completePath.lastIndexOf('/') > 0)
+				fileName = completePath.substring(completePath.lastIndexOf('/') + 1);
+			else
+				fileName = completePath;
+		}
+
+		return fileName;
 	}
 
 	/**
@@ -198,7 +219,7 @@ public class URIResource implements Resource
 	 */
 	public String getPath()
 	{
-		return uri.getPath();
+		return toURL().getPath();
 	}
 
 	@Override
