@@ -90,8 +90,11 @@ public class SimpleSmtpServiceImpl implements SmtpService<Email>
         try
         {
             email.setHostName(smtpServer);
-            email.setAuthentication(smtpUser, smtpPassword);
-            email.setDebug(smtpDebug);
+
+			if (smtpUser != null && smtpUser.length() > 0)
+				email.setAuthentication(smtpUser, smtpPassword);
+
+			email.setDebug(smtpDebug);
             email.setSmtpPort(smtpPort);
             email.setSSL(smtpSSL);
             email.setSslSmtpPort(String.valueOf(smtpSslPort));
