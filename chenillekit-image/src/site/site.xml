@@ -41,7 +41,11 @@
             <item name="Module Home" href="./index.html"/>
         </menu>
 
-        <menu ref="reports"/>
+		<menu name="Services">
+			<item name="Captcha" href="kaptcha.html"/>
+		</menu>
+
+		<menu ref="reports"/>
 
     </body>
 </project>
