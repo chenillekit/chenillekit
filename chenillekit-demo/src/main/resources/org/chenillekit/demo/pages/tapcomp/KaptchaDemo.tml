@@ -1,0 +1,77 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2009 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <div class="yui-g">
+
+		<div class="yui-u first menu">
+
+			<span t:id="menu">the menu</span>
+
+		</div>
+
+		<div class="yui-u content">
+
+			<fieldset class="snippet">
+				<legend>code snippet</legend>
+                <pre>
+                    <![CDATA[
+<form t:id="kaptchaForm">
+	<t:errors/>
+	<div t:id="kaptchaComponent"/>
+	<br/>
+	<input type="submit"/>
+</form>
+
+page class
+
+@Persist
+@Property
+private boolean inputValue;
+
+@Component
+private Form kaptchaForm;
+
+@Component(parameters = {"value=inputValue"})
+private Kaptcha kaptchaComponent;
+
+public boolean onValidateForm()
+{
+	boolean goodValidation = true;
+
+	if (!inputValue)
+	{
+		kaptchaForm.recordError("kaptcha value not equals the user input!");
+		goodValidation = false;
+	}
+
+	return goodValidation;
+}
+]]>
+                </pre>
+			</fieldset>
+
+			<form t:id="kaptchaForm">
+				<t:errors/>
+
+				<div t:id="kaptchaComponent"/>
+				<br/>
+				<input type="submit"/>
+			</form>
+
+		</div>
+	</div>
+
+</span>
