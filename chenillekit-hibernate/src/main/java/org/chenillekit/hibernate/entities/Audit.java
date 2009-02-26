@@ -20,17 +20,43 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import org.hibernate.annotations.AccessType;
+
 /**
  * extension for database entities that should be auditable.
  *
  * @version $Id$
  */
 @Embeddable
+@AccessType("field")
 public class Audit implements Serializable
 {
+	/**
+	 * get the time/date when entity was inserted.
+	 */
+	@Basic
+	@Column(name = "created", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
     private Date created;
-    private String createdBy;
+
+	/**
+	 * who had entity inserted.
+	 */
+	@Basic
+	@Column(name = "created_by", nullable = true, columnDefinition = "VARCHAR(99) DEFAULT NULL")
+	private String createdBy;
+
+	/**
+	 * get the time/date when entity was updated.
+	 */
+	@Basic
+	@Column(name = "updated", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
     private Date updated;
+
+	/**
+	 * who had entity updated.
+	 */
+	@Basic
+	@Column(name = "updated_by", nullable = true, columnDefinition = "VARCHAR(99) DEFAULT NULL")
     private String updatedBy;
 
     public Audit()
@@ -45,11 +71,6 @@ public class Audit implements Serializable
         this.updatedBy = updatedBy;
     }
 
-    /**
-     * get the time/date when entity was inserted.
-     */
-    @Basic
-    @Column(name = "created", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
     public Date getCreated()
     {
         return created;
@@ -60,11 +81,6 @@ public class Audit implements Serializable
         this.created = created;
     }
 
-    /**
-     * who had entity inserted.
-     */
-    @Basic
-    @Column(name = "created_by", nullable = true, columnDefinition = "VARCHAR(99) DEFAULT NULL")
     public String getCreatedBy()
     {
         return createdBy;
@@ -75,11 +91,6 @@ public class Audit implements Serializable
         this.createdBy = createdBy;
     }
 
-    /**
-     * get the time/date when entity was updated.
-     */
-    @Basic
-    @Column(name = "updated", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
     public Date getUpdated()
     {
         return updated;
@@ -90,11 +101,6 @@ public class Audit implements Serializable
         this.updated = updated;
     }
 
-    /**
-     * who had entity updated.
-     */
-    @Basic
-    @Column(name = "updated_by", nullable = true, columnDefinition = "VARCHAR(99) DEFAULT NULL")
     public String getUpdatedBy()
     {
         return updatedBy;
