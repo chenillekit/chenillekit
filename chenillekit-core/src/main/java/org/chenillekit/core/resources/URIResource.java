@@ -15,6 +15,7 @@
 package org.chenillekit.core.resources;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -84,7 +85,10 @@ public class URIResource implements Resource
 		}
 		catch (IOException e)
 		{
-			return false;
+			if (e instanceof FileNotFoundException)
+				return false;
+
+			throw new RuntimeException(e);
 		}
 		finally
 		{
