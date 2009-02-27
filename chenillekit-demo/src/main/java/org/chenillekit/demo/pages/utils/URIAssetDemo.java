@@ -14,7 +14,6 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.SlidingPanel;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
 public class URIAssetDemo
