@@ -26,13 +26,21 @@
 
 		<div class="yui-b">
 
-			<span t:id="asset1Output"/>
+			<div t:id="panel1">
+				<div style="margin: 5px;">
+					<span t:id="asset1Output"/>
+				</div>
+			</div>
 
 		</div>
 
 		<div class="yui-b">
 
-			${asset2Content}
+			<div t:id="panel2">
+				<div style="margin: 5px;">
+					<span t:id="asset2Output"/>
+				</div>
+			</div>
 
 		</div>
 

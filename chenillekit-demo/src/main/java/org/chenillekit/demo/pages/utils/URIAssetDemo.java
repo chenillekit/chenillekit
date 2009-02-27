@@ -11,6 +11,7 @@ import org.apache.tapestry5.corelib.components.OutputRaw;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import org.chenillekit.demo.components.LeftSideMenu;
+import org.chenillekit.tapestry.core.components.SlidingPanel;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">sven</a>
@@ -26,11 +27,20 @@ public class URIAssetDemo
 	private Asset testAsset1;
 
 	@Inject
-	@Path("uri:file:///home/sven/xx.sh")
+	@Path("uri:ftp://ftp.uni-bayreuth.de/pub/index.html")
 	private Asset testAsset2;
+
+	@Component(parameters = {"subject=Content of URI http://www.chenillekit.org/css/print.css"})
+	private SlidingPanel panel1;
 
 	@Component(parameters = {"value=asset1Content"})
 	private OutputRaw asset1Output;
+
+	@Component(parameters = {"subject=Content of URI ftp://ftp.uni-kassel.de/pub/Index.txt", "closed=true"})
+	private SlidingPanel panel2;
+
+	@Component(parameters = {"value=asset2Content"})
+	private OutputRaw asset2Output;
 
 	public String getAsset1Content() throws IOException
 	{
