@@ -39,6 +39,16 @@ public class TestURIResource extends Assert
 	}
 
 	@Test
+	public void ftpURI()
+	{
+		Resource resource = new URIResource("ftp://ftp.uni-kassel.de/pub/Index.txt");
+
+		assertEquals(resource.getFile(), "Index.txt");
+		assertEquals(resource.getPath(), "/pub/Index.txt");
+		assertEquals(resource.getFolder(), "/pub");
+	}
+
+	@Test
 	public void existsURI()
 	{
 		Resource resource = new URIResource("http://www.chenillekit.org/chenillekit-access/index.html");
