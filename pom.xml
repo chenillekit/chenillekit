@@ -21,6 +21,8 @@
 	<properties>
 		<tapestry-release-version>5.1.0.0-SNAPSHOT</tapestry-release-version>
 		<update-release-info>false</update-release-info>
+		<!-- Version 2.1 lists everything as 100% covered, weird. -->
+	        <cobertura-plugin-version>2.2-SNAPSHOT</cobertura-plugin-version>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -37,6 +39,11 @@
 
 	<url>http://www.chenillekit.org/</url>
 
+	<ciManagement>
+		<system>bamboo</system>
+		<url>http://tapestry.formos.com/bamboo/</url>
+	</ciManagement>
+
 	<licenses>
 		<license>
 			<name>Apache Software License 2.0</name>
@@ -51,13 +58,19 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/</developerConnection>
-		<tag>HEAD</tag>
-		<url>http://chenillekit.googlecode.com/svn/trunk/</url>
+		<connection>scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/</connection>
+		<developerConnection>scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/</developerConnection>
+		<!-- <tag>HEAD</tag> -->
+		<url>https://tapestry.formos.com/svn/chenillekit/trunk/</url>
 	</scm>
 
 	<repositories>
+
+		<repository>
+			<id>tapestry</id>
+			<url>http://tapestry.formos.com/maven-repository</url>
+		</repository>
+
 		<repository>
 			<id>tapestry-snapshot</id>
 			<url>http://tapestry.formos.com/maven-snapshot-repository</url>
@@ -87,36 +100,39 @@
 			</snapshots>
 		</pluginRepository>
 
+		<pluginRepository>
+			<id>tapestry</id>
+			<url>http://tapestry.formos.com/maven-repository</url>
+		</pluginRepository>
+		<!-- I believe the Cobertura plugin lives here. -->
+		<pluginRepository>
+			<id>codehaus.snapshots</id>
+			<url>http://snapshots.repository.codehaus.org</url>
+		</pluginRepository>
+
 	</pluginRepositories>
 
 	<distributionManagement>
-
-		<site>
-			<id>chenillekit-site</id>
-			<name>ChenilleKit Site Host</name>
-			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/chenillekit</url>
-		</site>
-
 		<repository>
-			<id>chenillekit-site</id>
-			<name>Release Repository</name>
-			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/maven-repository/release</url>
-			<uniqueVersion>false</uniqueVersion>
+			<id>tapestry</id>
+			<url>file:/var/www/maven-repository</url>
 		</repository>
-
 		<snapshotRepository>
-			<id>chenillekit-site</id>
-			<name>SnapShot Repository</name>
-			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/maven-repository/snapshot</url>
-			<uniqueVersion>false</uniqueVersion>
+			<id>tapestry-snapshot</id>
+			<url>file:/var/www/maven-snapshot-repository</url>
 		</snapshotRepository>
-
+		<site>
+			<!-- Maven will tack on the artifact id. -->
+			<url>file:/var/www/nightly</url>
+		</site>
 	</distributionManagement>
 
+	<!--
 	<issueManagement>
 		<system>Google-Code</system>
 		<url>http://code.google.com/p/chenillekit/issues/list</url>
 	</issueManagement>
+	-->
 
 	<mailingLists>
 		<mailingList>
