@@ -26,7 +26,7 @@ public class ChenilleKitMailModule
 {
     public static void bind(ServiceBinder binder)
     {
-        binder.bind(SimpleSmtpServiceImpl.class);
+        binder.bind(SimpleSmtpServiceImpl.class).withId("SimpleSmtpService");
     }
 
     /**
