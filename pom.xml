@@ -123,7 +123,7 @@
 		</snapshotRepository>
 		<site>
 			<!-- Maven will tack on the artifact id. -->
-			<url>file:/var/www/nightly</url>
+			<url>file:/var/www/nightly/chenille-kit/</url>
 		</site>
 	</distributionManagement>
 
