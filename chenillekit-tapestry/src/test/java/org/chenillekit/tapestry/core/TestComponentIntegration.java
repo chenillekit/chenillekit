@@ -184,13 +184,13 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
         start("ThumbNail");
         waitForPageToLoad("5000");
         captureScreenshot("test_thumbnail.png");
-        assertAttribute("xpath=//img@src", "thumbnails/2373045207");
+        assertAttribute("xpath=//img@src", "/assets/ctx/1.0-test/thumbnails/2515348882");
 
         click("xpath=//img[@id='thumbNail']");
-        assertAttribute("xpath=//img[@id='thumbNail']@src", "assets/images/sven.jpg");
+        assertAttribute("xpath=//img[@id='thumbNail']@src", "/assets/ctx/1.0-test/assets/images/sven.jpg");
 
         mouseOut("xpath=//img[@id='thumbNail']");
-        assertAttribute("xpath=//img[@id='thumbNail']@src", "http://localhost:9999/thumbnails/2373045207");
+        assertAttribute("xpath=//img[@id='thumbNail']@src", "http://localhost:9999/assets/ctx/1.0-test/thumbnails/2515348882");
     }
 
     @Test
