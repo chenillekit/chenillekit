@@ -15,17 +15,21 @@
 package org.chenillekit.mail;
 
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.SubModule;
+import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
+
+import org.chenillekit.core.ChenilleKitCoreModule;
 
 /**
  * @version $Id$
  */
-@SubModule(value = {ChenilleKitMailModule.class})
+@SubModule(value = {ChenilleKitCoreModule.class, ChenilleKitMailModule.class})
 public class ChenilleKitMailTestModule
 {
-    public static void contributeApplicationDefaults(MappedConfiguration<String, String> contribution)
-    {
-        contribution.add(ChenilleKitMailConstants.SMTP_PORT, "9999");
-        contribution.add(ChenilleKitMailConstants.SMTP_DEBUG, "true");
-    }
+	public static void contributeSimpleSmtpService(MappedConfiguration<String, Resource> contributions)
+	{
+		Resource resource = new ClasspathResource("smtp.properties");
+		contributions.add(ChenilleKitMailConstants.PROPERTIES_KEY, resource);
+	}
 }

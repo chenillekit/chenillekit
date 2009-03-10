@@ -14,11 +14,14 @@
 
 package org.chenillekit.mail.services.impl;
 
+import java.util.Map;
+
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.tapestry5.ioc.Resource;
 
+import org.chenillekit.core.services.ConfigurationService;
 import org.chenillekit.mail.ChenilleKitMailConstants;
 import org.chenillekit.mail.services.SmtpService;
 import org.slf4j.Logger;
@@ -30,83 +33,65 @@ import org.slf4j.Logger;
  */
 public class SimpleSmtpServiceImpl implements SmtpService<Email>
 {
-    private final Logger logger;
-    private final String smtpServer;
-    private final int smtpPort;
-    private final String smtpUser;
-    private final String smtpPassword;
-    private final boolean smtpDebug;
-    private final boolean smtpSSL;
-    private final boolean smtpTLS;
-    private final int smtpSslPort;
+	private final Logger logger;
+	private final String smtpServer;
+	private final int smtpPort;
+	private final String smtpUser;
+	private final String smtpPassword;
+	private final boolean smtpDebug;
+	private final boolean smtpSSL;
+	private final boolean smtpTLS;
+	private final int smtpSslPort;
 
-    public SimpleSmtpServiceImpl(Logger logger,
+	public SimpleSmtpServiceImpl(Logger logger,
+								 ConfigurationService configurationService,
+								 Map<String, Resource> configuration)
+	{
+		this.logger = logger;
 
-                                 @Inject
-                                 @Symbol(ChenilleKitMailConstants.SMTP_HOST)
-                                 String smtpServer,
+		Resource servicePorpertiesResource = configuration.get(ChenilleKitMailConstants.PROPERTIES_KEY);
+		if (servicePorpertiesResource == null || !servicePorpertiesResource.exists())
+			throw new RuntimeException(String.format("'%s' does not exists!", servicePorpertiesResource));
 
-                                 @Symbol(ChenilleKitMailConstants.SMTP_PORT)
-                                 int smtpPort,
+		Configuration serviceConfiguration = configurationService.getConfiguration(servicePorpertiesResource);
 
-                                 @Inject
-                                 @Symbol(ChenilleKitMailConstants.SMTP_USER)
-                                 String smtpUser,
+		this.smtpServer = serviceConfiguration.getString(ChenilleKitMailConstants.SMTP_HOST, "localhost");
+		this.smtpPort = serviceConfiguration.getInt(ChenilleKitMailConstants.SMTP_PORT, 25);
+		this.smtpUser = serviceConfiguration.getString(ChenilleKitMailConstants.SMTP_USER);
+		this.smtpPassword = serviceConfiguration.getString(ChenilleKitMailConstants.SMTP_PASSWORD);
+		this.smtpDebug = serviceConfiguration.getBoolean(ChenilleKitMailConstants.SMTP_DEBUG, false);
+		this.smtpSSL = serviceConfiguration.getBoolean(ChenilleKitMailConstants.SMTP_SSL, false);
+		this.smtpTLS = serviceConfiguration.getBoolean(ChenilleKitMailConstants.SMTP_TLS, false);
+		this.smtpSslPort = serviceConfiguration.getInt(ChenilleKitMailConstants.SMTP_SSLPORT, 465);
+	}
 
-                                 @Inject
-                                 @Symbol(ChenilleKitMailConstants.SMTP_PASSWORD)
-                                 String smtpPassword,
+	/**
+	 * send an email.
+	 */
+	public boolean sendEmail(Email email)
+	{
+		boolean sended = true;
 
-                                 @Symbol(ChenilleKitMailConstants.SMTP_DEBUG)
-                                 boolean smtpDebug,
-
-                                 @Symbol(ChenilleKitMailConstants.SMTP_SSL)
-                                 boolean smtpSSL,
-
-                                 @Symbol(ChenilleKitMailConstants.SMTP_TLS)
-                                 boolean smtpTLS,
-
-                                 @Symbol(ChenilleKitMailConstants.SMTP_SSLPORT)
-                                 int smtpSslPort)
-    {
-        this.logger = logger;
-        this.smtpServer = smtpServer;
-        this.smtpPort = smtpPort;
-        this.smtpUser = smtpUser;
-        this.smtpPassword = smtpPassword;
-        this.smtpDebug = smtpDebug;
-        this.smtpSSL = smtpSSL;
-        this.smtpTLS = smtpTLS;
-        this.smtpSslPort = smtpSslPort;
-    }
-
-    /**
-     * send an email.
-     */
-    public boolean sendEmail(Email email)
-    {
-        boolean sended = true;
-
-        try
-        {
-            email.setHostName(smtpServer);
+		try
+		{
+			email.setHostName(smtpServer);
 
 			if (smtpUser != null && smtpUser.length() > 0)
 				email.setAuthentication(smtpUser, smtpPassword);
 
 			email.setDebug(smtpDebug);
-            email.setSmtpPort(smtpPort);
-            email.setSSL(smtpSSL);
-            email.setSslSmtpPort(String.valueOf(smtpSslPort));
-            email.setTLS(smtpTLS);
-            email.send();
-        }
-        catch (EmailException e)
-        {
-            logger.error(e.getLocalizedMessage(), e);
-            sended = false;
-        }
+			email.setSmtpPort(smtpPort);
+			email.setSSL(smtpSSL);
+			email.setSslSmtpPort(String.valueOf(smtpSslPort));
+			email.setTLS(smtpTLS);
+			email.send();
+		}
+		catch (EmailException e)
+		{
+			logger.error(e.getLocalizedMessage(), e);
+			sended = false;
+		}
 
-        return sended;
-    }
+		return sended;
+	}
 }

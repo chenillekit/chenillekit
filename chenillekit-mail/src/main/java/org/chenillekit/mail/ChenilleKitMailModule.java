@@ -14,7 +14,6 @@
 
 package org.chenillekit.mail;
 
-import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 
 import org.chenillekit.mail.services.impl.SimpleSmtpServiceImpl;
@@ -24,23 +23,8 @@ import org.chenillekit.mail.services.impl.SimpleSmtpServiceImpl;
  */
 public class ChenilleKitMailModule
 {
-    public static void bind(ServiceBinder binder)
-    {
-        binder.bind(SimpleSmtpServiceImpl.class).withId("SimpleSmtpService");
-    }
-
-    /**
-     * Contributes factory defaults that may be overridden.
-     */
-    public static void contributeFactoryDefaults(MappedConfiguration<String, String> contribution)
-    {
-        contribution.add(ChenilleKitMailConstants.SMTP_HOST, "localhost");
-        contribution.add(ChenilleKitMailConstants.SMTP_PORT, "25");
-        contribution.add(ChenilleKitMailConstants.SMTP_USER, "");
-        contribution.add(ChenilleKitMailConstants.SMTP_PASSWORD, "");
-        contribution.add(ChenilleKitMailConstants.SMTP_DEBUG, "false");
-        contribution.add(ChenilleKitMailConstants.SMTP_SSL, "false");
-        contribution.add(ChenilleKitMailConstants.SMTP_TLS, "false");
-        contribution.add(ChenilleKitMailConstants.SMTP_SSLPORT, "465");
-    }
+	public static void bind(ServiceBinder binder)
+	{
+		binder.bind(SimpleSmtpServiceImpl.class).withId("SimpleSmtpService");
+	}
 }

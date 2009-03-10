@@ -19,7 +19,13 @@ package org.chenillekit.mail;
  */
 public class ChenilleKitMailConstants
 {
-    public static final String SMTP_HOST = "ck.smtp.host";
+
+	/**
+	 * File name for configuring SMTP services
+	 */
+	public static final String PROPERTIES_KEY = "smtp.service.properties";
+
+	public static final String SMTP_HOST = "ck.smtp.host";
     public static final String SMTP_PORT = "ck.smtp.port";
     public static final String SMTP_USER = "ck.smtp.user";
     public static final String SMTP_PASSWORD = "ck.smtp.password";
