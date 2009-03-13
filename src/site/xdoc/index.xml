@@ -49,14 +49,16 @@
                     </tr>
                     <tr>
                         <td>
+                            <a href="chenillekit-access/index.html">Core</a>
+                        </td>
+                        <td>Access restriction facitlities to Tapestry 5 web application.</td>
+                    </tr>
+                    <tr>
+                        <td>
                             <a href="chenillekit-core/index.html">Core</a>
                         </td>
                         <td>core utils we need for some of the following modules</td>
                     </tr>
-                    <!--<tr>-->
-                    <!--<td>Access</td>-->
-                    <!--<td>[not ready yet]</td>-->
-                    <!--</tr>-->
                     <tr>
                         <td>
                             <a href="chenillekit-google/index.html">Google</a>
