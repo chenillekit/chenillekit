@@ -11,7 +11,6 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
-
 package org.chenillekit.access;
 
 import java.io.IOException;
@@ -31,18 +30,16 @@ import org.apache.tapestry5.ioc.services.ChainBuilder;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentClassResolver;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
-import org.apache.tapestry5.services.ComponentEventRequestFilter;
+import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.apache.tapestry5.services.MetaDataLocator;
-import org.apache.tapestry5.services.PageRenderRequestFilter;
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.internal.NoOpAuthenticationService;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.AuthenticationService;
 import org.chenillekit.access.services.impl.AccessValidatorImpl;
-import org.chenillekit.access.services.impl.ComponentEventAccessFilter;
-import org.chenillekit.access.services.impl.PageRenderAccessFilter;
+import org.chenillekit.access.services.impl.ComponentRequestAccessFilter;
 import org.chenillekit.access.services.impl.RestrictedWorker;
 import org.slf4j.Logger;
 
@@ -57,9 +54,8 @@ public class ChenilleKitAccessModule
 	 * @param binder
 	 */
 	public static void bind(ServiceBinder binder)
-	{
-		binder.bind(ComponentEventRequestFilter.class, ComponentEventAccessFilter.class).withMarker(ChenilleKitAccess.class);
-		binder.bind(PageRenderRequestFilter.class, PageRenderAccessFilter.class).withMarker(ChenilleKitAccess.class);
+	{	
+		binder.bind(ComponentRequestFilter.class, ComponentRequestAccessFilter.class).withMarker(ChenilleKitAccess.class);
 	}
 	
 	/**
@@ -156,22 +152,14 @@ public class ChenilleKitAccessModule
 		
 		return new AccessValidatorImpl(componentSource, locator, logger, manager, webSessionUserClass);
 	}
-
+	
 	/**
-	 * Contributes "AccessControl" filter which checks for access rights of requests.
+	 * 
+	 * @param configuration
+	 * @param accessFilter
 	 */
-	public void contributePageRenderRequestHandler(OrderedConfiguration<PageRenderRequestFilter> configuration,
-												final @ChenilleKitAccess PageRenderRequestFilter accessFilter)
-	{
-		configuration.add("AccessControl", accessFilter, "before:*");
-	}
-
-	/**
-	 * Contribute "AccessControl" filter to determine if the event can be processed and the user
-	 * has enough rights to do so.
-	 */
-	public void contributeComponentEventRequestHandler(OrderedConfiguration<ComponentEventRequestFilter> configuration,
-													@ChenilleKitAccess ComponentEventRequestFilter accessFilter)
+	public static void contributeComponentRequestHandler(OrderedConfiguration<ComponentRequestFilter> configuration,
+							@ChenilleKitAccess ComponentRequestFilter accessFilter)
 	{
 		configuration.add("AccessControl", accessFilter, "before:*");
 	}
