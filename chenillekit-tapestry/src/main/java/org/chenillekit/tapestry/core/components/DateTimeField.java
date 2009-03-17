@@ -240,10 +240,12 @@ public class DateTimeField extends AbstractField
 		if (afterUpdateElement != null)
 			setup.put("afterUpdateElement", afterUpdateElement);
 
-		if (timePicker)
+		if (datePicker && timePicker)
 			setup.put("dateTimeFormat", datePattern);
-		else
+		else if (datePicker)
 			setup.put("dateFormat", datePattern);
+		else
+			setup.put("timeFormat", datePattern);
 
 		support.addScript("new Control.DatePicker('%s', %s);", getClientId(), setup);
 	}
