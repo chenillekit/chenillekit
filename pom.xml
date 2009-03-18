@@ -99,26 +99,21 @@
 
 	<distributionManagement>
 
-		<site>
-			<id>chenillekit-site</id>
-			<name>ChenilleKit Site Host</name>
-			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/chenillekit</url>
-		</site>
-
 		<repository>
-			<id>chenillekit-site</id>
-			<name>Release Repository</name>
-			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/maven-repository/release</url>
-			<uniqueVersion>false</uniqueVersion>
+			<id>tapestry</id>
+			<url>file:/var/www/maven-repository</url>
 		</repository>
 
 		<snapshotRepository>
-			<id>chenillekit-site</id>
-			<name>SnapShot Repository</name>
-			<url>scpexe://www.chenillekit.org:66/home/chenillekit/webapps/maven-repository/snapshot</url>
-			<uniqueVersion>false</uniqueVersion>
+			<id>tapestry-snapshot</id>
+			<url>file:/var/www/maven-snapshot-repository</url>
 		</snapshotRepository>
 
+		<site>
+			<!-- Maven will tack on the artifact id. -->
+			<url>file:/var/www/nightly/chenille-kit/</url>
+		</site>
+		
 	</distributionManagement>
 
 	<issueManagement>
