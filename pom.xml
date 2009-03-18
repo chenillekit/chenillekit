@@ -15,8 +15,8 @@
 	-->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<properties>
 		<tapestry-release-version>5.0.18</tapestry-release-version>
@@ -51,10 +51,10 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/</developerConnection>
+		<connection>scm:svn:https://tapestry.formos.com/svn/chenillekit/branches/1.0</connection>
+		<developerConnection>scm:svn:https://tapestry.formos.com/svn/chenillekit/branches/1.0</developerConnection>
 		<tag>HEAD</tag>
-		<url>http://chenillekit.googlecode.com/svn/trunk/</url>
+		<url>http://tapestry.formos.com/cgi-bin/viewvc.cgi/chenillekit/branches/1.0</url>
 	</scm>
 
 	<repositories>

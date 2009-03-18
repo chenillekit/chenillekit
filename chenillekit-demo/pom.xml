@@ -36,11 +36,18 @@
 	</description>
 
 	<scm>
-		<tag>HEAD</tag>
-		<url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-demo/</url>
-		<connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-demo/</connection>
-		<developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-demo/
+		<connection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/branches/1.0/${artifactId}
+		</connection>
+		<developerConnection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/branches/1.0/${artifactId}
 		</developerConnection>
+		<tag>
+			HEAD
+		</tag>
+		<url>
+			http://tapestry.formos.com/cgi-bin/viewvc.cgi/chenillekit/branches/1.0/${artifactId}
+		</url>
 	</scm>
 
 	<!--
