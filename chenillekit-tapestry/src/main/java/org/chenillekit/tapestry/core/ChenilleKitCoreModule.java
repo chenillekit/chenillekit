@@ -17,12 +17,15 @@ package org.chenillekit.tapestry.core;
 import org.apache.tapestry5.internal.services.ResourceCache;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.ObjectLocator;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Marker;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.AssetFactory;
 import org.apache.tapestry5.services.BindingFactory;
 import org.apache.tapestry5.services.BindingSource;
+import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.LibraryMapping;
 
 import org.chenillekit.tapestry.core.factories.ListBindingFactory;
@@ -33,6 +36,7 @@ import org.chenillekit.tapestry.core.factories.URIAssetFactory;
 import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 import org.chenillekit.tapestry.core.services.URIProvider;
 import org.chenillekit.tapestry.core.services.impl.URIAssetAliasManagerImpl;
+import org.chenillekit.tapestry.core.services.impl.URIDispatcher;
 
 /**
  * module for chenillekit web module.
@@ -59,14 +63,14 @@ public class ChenilleKitCoreModule
 	}
 
 	public void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
-															@Symbol("ck.components")String scriptPath)
+													 @Symbol("ck.components")String scriptPath)
 	{
 		configuration.add("fckeditor/", scriptPath + "/fckeditor/");
 		configuration.add("window/", scriptPath + "/window/");
 	}
 
 	public void contributeBindingSource(MappedConfiguration<String, BindingFactory> configuration,
-											   BindingSource bindingSource)
+										BindingSource bindingSource)
 	{
 		configuration.add("messageformat", new MessageFormatBindingFactory(bindingSource));
 		configuration.add("list", new ListBindingFactory(bindingSource));
@@ -83,12 +87,24 @@ public class ChenilleKitCoreModule
 	public void contributeAssetSource(MappedConfiguration<String, AssetFactory> configuration,
 									  @URIProvider AssetFactory uriAssetFactory)
 	{
-		configuration.add("uri", uriAssetFactory);
+		configuration.add(ChenilleKitCoreConstants.URI_PREFIX, uriAssetFactory);
 	}
 
 	public static void bind(ServiceBinder binder)
 	{
 		binder.bind(URIAssetAliasManager.class, URIAssetAliasManagerImpl.class);
+	}
+
+	/**
+	 * The MasterDispatcher is a chain-of-command of individual Dispatchers, each handling (like a servlet) a particular
+	 * kind of incoming request.
+	 */
+	public void contributeMasterDispatcher(OrderedConfiguration<Dispatcher> configuration,
+										   ObjectLocator locator)
+	{
+		configuration.add("Uri",
+						  locator.autobuild(URIDispatcher.class), "before:Asset");
+
 	}
 
 }

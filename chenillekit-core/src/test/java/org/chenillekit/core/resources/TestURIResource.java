@@ -34,7 +34,7 @@ public class TestURIResource extends Assert
 		Resource resource = new URIResource("http://www.chenillekit.org/chenillekit-access/index.html");
 
 		assertEquals(resource.getFile(), "index.html");
-		assertEquals(resource.getPath(), "/chenillekit-access/index.html");
+		assertEquals(resource.getPath(), "http://www.chenillekit.org/chenillekit-access/index.html");
 		assertEquals(resource.getFolder(), "/chenillekit-access");
 	}
 
@@ -44,7 +44,7 @@ public class TestURIResource extends Assert
 		Resource resource = new URIResource("ftp://ftp.uni-kassel.de/pub/Index.txt");
 
 		assertEquals(resource.getFile(), "Index.txt");
-		assertEquals(resource.getPath(), "/pub/Index.txt");
+		assertEquals(resource.getPath(), "ftp://ftp.uni-kassel.de/pub/Index.txt");
 		assertEquals(resource.getFolder(), "/pub");
 	}
 

@@ -28,7 +28,7 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
      */
     public TestComponentIntegration()
     {
-        super("src/test/webapp");
+        super("src/test/webapp", "*firefox /usr/lib/firefox/firefox-2-bin");
     }
 
     @Test(enabled = false)
@@ -230,4 +230,20 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
 
         assertTrue(this.isVisible("xpath=//img[@class='ck-slide']"));
     }
+
+	@Test
+	public void test_uriasset()
+	{
+		open(BASE_URL);
+
+		start("UriAsset");
+		waitForPageToLoad("5000");
+
+		assertEquals(this.getAttribute("xpath=//a[@id='test1']@href"), "uri/http%3A%2F%2Fwww.google.com");
+
+		click("xpath=//a[@id='test1']");
+		waitForPageToLoad("5000");
+
+		assertEquals(this.getTitle(), "Google");
+	}
 }
