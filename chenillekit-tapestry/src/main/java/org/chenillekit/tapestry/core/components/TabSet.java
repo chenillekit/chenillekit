@@ -31,8 +31,8 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Loop;
 import org.apache.tapestry5.corelib.components.Zone;
-import org.apache.tapestry5.internal.services.ClientBehaviorSupport;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.ClientBehaviorSupport;
 import org.apache.tapestry5.services.Request;
 
 /**
