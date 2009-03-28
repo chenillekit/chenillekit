@@ -28,6 +28,16 @@ import org.slf4j.MarkerFactory;
  */
 public final class ChenilleKitAccessConstants
 {
+	/**
+	 * Cookie name for storing id key to the original requested resource
+	 */
+	public static final String ACCESS_ID_COOKIE_NAME = "CKAccessId";
+	
+	/**
+	 * Cookie flag to indicate a successful login done.
+	 */
+	public static final String LOGIN_SUCCESSFUL_COOKIE_NAME = "CKAccessLoginOK";
+	
 	public static final String WEB_USER_AUTH_SERVICE = "webuser.authservice";
 
 	/**
@@ -46,15 +56,10 @@ public final class ChenilleKitAccessConstants
 
 	public static final String NO_RESTRICTION = "NONE";
 
-	public static final String WEB_SESSION_USER_KEY = "chenillekit.WebSessionUser";
-
 	/**
 	 * contribution key for password encoder.
 	 */
 	public static final String PASSWORD_ENCODER = "chenillekit.access-passwordencoder";
-
-	public static final String REQUESTED_PAGENAME_COOKIE = "chenillekit.acccess-requested-pagename";
-	public static final String REQUESTED_EVENTCONTEXT_COOKIE = "chenillekit.acccess-requested-eventcontext";
 	
 	public static final String NOT_AUTHENTICATED_ERROR_MESSAGE = "chenillekit.access-not-authenticated";
 	

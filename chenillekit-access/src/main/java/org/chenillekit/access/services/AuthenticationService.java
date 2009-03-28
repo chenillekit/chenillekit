@@ -17,7 +17,8 @@ package org.chenillekit.access.services;
 import org.chenillekit.access.WebSessionUser;
 
 /**
- *
+ * Actual way for the web application to authenticate the user coming in.
+ * 
  * @version $Id$
  */
 public interface AuthenticationService

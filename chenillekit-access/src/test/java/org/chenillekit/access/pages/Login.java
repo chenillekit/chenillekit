@@ -14,8 +14,11 @@
 
 package org.chenillekit.access.pages;
 
+import org.apache.tapestry5.annotations.ApplicationState;
 import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.chenillekit.access.WebSessionUser;
 import org.slf4j.Logger;
 
 
@@ -31,9 +34,6 @@ public class Login
 	@SuppressWarnings("unused")
 	@Inject
 	private Logger logger;
-
-//	@Inject
-//	private ComponentResources resources;
 
 	@Persist
 	private int loginAttempts;

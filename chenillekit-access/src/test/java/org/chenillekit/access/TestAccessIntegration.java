@@ -14,14 +14,11 @@
 
 package org.chenillekit.access;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.test.PageTester;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -32,39 +29,13 @@ public class TestAccessIntegration extends Assert
 {
 	private PageTester pageTester;
 
-	@BeforeTest
+	@BeforeMethod
 	public void initializeTests()
 	{
 		String appPackage = "org.chenillekit.access";
 		String appName = "TestAppWithRoot";
 		pageTester = new PageTester(appPackage, appName, "src/test/webapp");
 	}
-
-//    FIXME this test fail cause i don't have a user logged in
-//	@Test
-//	public void test_restricted()
-//	{
-//		Document doc = pageTester.renderPage("Start");
-//		Element link = doc.getElementById("Restricted");
-//
-//		doc = pageTester.clickLink(link);
-//		Element element = doc.getElementById("has_access");
-//
-//		assertEquals(element.getChildMarkup(), "Has Access");
-//	}
-
-	// FIXME this test fail cause i don't have a user logged in
-//    @Test
-//    public void test_restricted_rolevalue()
-//    {
-//        Document doc = pageTester.renderPage("Start");
-//        Element link = doc.getElementById("Restricted");
-//
-//        doc = pageTester.clickLink(link);
-//        Element element = doc.getElementById("role_meta_value");
-//
-//        assertEquals(element.getChildMarkup(), "2");
-//    }
 
 	@Test
 	public void test_unRestricted()
@@ -75,17 +46,6 @@ public class TestAccessIntegration extends Assert
 		doc = pageTester.clickLink(link);
 		Element element = doc.getElementById("has_access");
 		assertEquals(element.getChildMarkup(), "everybody has access");
-	}
-
-	@Test
-	public void test_notEnoughRights()
-	{
-		Document doc = pageTester.renderPage("Start");
-		Element link = doc.getElementById("NotEnoughRights");
-
-		doc = pageTester.clickLink(link);
-		Element element = doc.getElementById("login_message");
-		assertEquals(element.getChildMarkup(), "Login Page");
 	}
 
 	@Test
@@ -100,43 +60,5 @@ public class TestAccessIntegration extends Assert
 
 		Element element2 = doc.getElementById("simpleTextField2");
 		assertNotNull(element2);
-	}
-
-	@Test
-	public void test_restrictedActionLink()
-	{
-		Document doc = pageTester.renderPage("UnRestrictedPage");
-		Element link = doc.getElementById("testRights");
-
-		doc = pageTester.clickLink(link);
-	}
-
-	@Test
-	public void test_restrictedActionLinkOnEvent()
-	{
-		Document doc = pageTester.renderPage("UnRestrictedPage");
-		Element link = doc.getElementById("testRightsOnEvent");
-
-		doc = pageTester.clickLink(link);
-	}
-
-	@Test
-	public void test_login()
-	{
-		Document doc = pageTester.renderPage("NotEnoughRights");
-
-		Element element = doc.getElementById("login_message");
-		assertEquals(element.getChildMarkup(), "Login Page");
-
-		Element submit = doc.getElementById("chenillekitLoginSubmit");
-		Map<String, String> fieldValues = new HashMap<String, String>();
-		fieldValues.put("chenillekitUsername", "root");
-		fieldValues.put("chenillekitPassword", "banane");
-		
-		doc = pageTester.clickSubmit(submit, fieldValues);
-		
-		Document docAccessile = pageTester.renderPage("NotEnoughRights");
-		
-		// TODO We need to assure docAccessible is the NotEnoughRights page
 	}
 }

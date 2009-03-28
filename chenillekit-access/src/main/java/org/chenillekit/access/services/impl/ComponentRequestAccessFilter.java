@@ -18,76 +18,92 @@ import java.io.IOException;
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.internal.EmptyEventContext;
 import org.apache.tapestry5.ioc.services.SymbolSource;
+import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentRequestHandler;
-import org.apache.tapestry5.services.ContextValueEncoder;
-import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.chenillekit.access.ChenilleKitAccessConstants;
-import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
+import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AccessValidator;
+import org.chenillekit.access.services.RedirectService;
 import org.slf4j.Logger;
 
 /**
+ * It the main responsable for checking every incoming request, beeing for a
+ * page render or a component action, to grant the current user has rights to
+ * access the reuqested resource.
  * 
  * @version $Id: AccessValidatorImpl.java 380 2008-12-30 10:21:52Z mlusetti $
  */
 public class ComponentRequestAccessFilter implements ComponentRequestFilter
 {
 	private final Logger logger;
-	private final AccessValidator accessValidator;
-	private final String loginPage;
-	private final ContextValueEncoder valueEncoder;
-
-	private final Cookies cookies;
 	
+	private final AccessValidator accessValidator;
+	
+	private final String loginPage;
+	
+	private final RedirectService redirect;
+	
+	private final ApplicationStateManager stateManager;
+		
+	private final PageRenderRequestParameters loginPageRenderParameters;
+	private final ComponentEventRequestParameters loginComponentEventParameters;
+
+	/**
+	 * 
+	 * @param accessValidator
+	 * @param symbols
+	 * @param logger
+	 * @param valueEncoder
+	 * @param cookies
+	 */
 	public ComponentRequestAccessFilter(AccessValidator accessValidator,
-			SymbolSource symbols, Logger logger,
-			ContextValueEncoder valueEncoder,
-			Cookies cookies)
+			SymbolSource symbols, Logger logger, RedirectService redirect,ApplicationStateManager stateManager)
 	{
+		this.stateManager = stateManager;
 		this.logger = logger;
 		this.accessValidator = accessValidator;
 		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
-		this.cookies = cookies;
-		this.valueEncoder = valueEncoder;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private PageRenderRequestParameters getLoginPageParameters()
-	{
-		PageRenderRequestParameters parameters = new PageRenderRequestParameters(loginPage, new EmptyEventContext());
-
-		return parameters;
+		this.redirect = redirect;
+		
+		this.loginPageRenderParameters = new PageRenderRequestParameters(this.loginPage,
+												new EmptyEventContext());
+		
+		this.loginComponentEventParameters = new ComponentEventRequestParameters(this.loginPage,
+												this.loginPage, "", EventConstants.ACTIVATE,
+												new EmptyEventContext(),new EmptyEventContext());
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	private ComponentEventRequestParameters getLoginComponentParameters()
+	private String generateCKAccessId()
 	{
-		ComponentEventRequestParameters parameters = new ComponentEventRequestParameters(loginPage, loginPage,
-				"", EventConstants.ACTIVATE, new EmptyEventContext(),new EmptyEventContext());
-
-		return parameters;
+		String id = Long.toString(System.currentTimeMillis());
+		
+		return id;
 	}
 	
-
 	/* (non-Javadoc)
 	 * @see org.apache.tapestry5.services.ComponentRequestFilter#handleComponentEvent(org.apache.tapestry5.services.ComponentEventRequestParameters, org.apache.tapestry5.services.ComponentRequestHandler)
 	 */
 	public void handleComponentEvent(ComponentEventRequestParameters parameters,
 			ComponentRequestHandler handler) throws IOException
 	{
-		if (accessValidator.hasAccess(parameters.getActivePageName(), parameters.getNestedComponentId(), parameters.getEventType()))
+		System.out.println("Lo state dell'utente esiste: " + stateManager.exists(WebSessionUser.class));
+		
+		if ( accessValidator.hasAccess(parameters.getActivePageName(),
+				parameters.getNestedComponentId(), parameters.getEventType()) )
+		{
 			handler.handleComponentEvent(parameters);
+		}
 		else
-			handler.handleComponentEvent(getLoginComponentParameters());
+		{
+			String ckAccessId = generateCKAccessId();
+			
+			redirect.rememberComponentEventParameter(ckAccessId, parameters);
+			
+			handler.handleComponentEvent(loginComponentEventParameters);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -96,31 +112,22 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	public void handlePageRender(PageRenderRequestParameters parameters,
 			ComponentRequestHandler handler) throws IOException
 	{
-//		String previousPage = cookies.readCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE);
-//		String previousContext = cookies.readCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE);
-//
-//		if (previousPage != null)
-//		{
-//			EventContext context = ChenillekitAccessInternalUtils.getContextFromString(valueEncoder, previousContext);
-//			currentParameters = new PageRenderRequestParameters(previousPage, context);
-//
-//			cookies.removeCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE);
-//			cookies.removeCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE);
-//		}
-//		else if ( !accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
-		if ( !accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
+		System.out.println("Lo state dell'utente esiste: " + stateManager.exists(WebSessionUser.class));
+		
+		if ( accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
+		{
+			handler.handlePageRender(parameters);
+		}
+		else
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("User hasn't rights to access " + parameters.getLogicalPageName()  + " page");
 			
-			cookies.writeCookieValue(ChenilleKitAccessConstants.REQUESTED_PAGENAME_COOKIE, parameters.getLogicalPageName());
-			cookies.writeCookieValue(ChenilleKitAccessConstants.REQUESTED_EVENTCONTEXT_COOKIE, ChenillekitAccessInternalUtils.getContextAsString((parameters.getActivationContext())));
-
-			handler.handlePageRender(getLoginPageParameters());
-		}
-		else
-		{
-			handler.handlePageRender(parameters);
+			String ckAccessId = generateCKAccessId();
+			
+			redirect.rememberPageRenderParameter(ckAccessId, parameters);
+			
+			handler.handlePageRender(loginPageRenderParameters);
 		}
 	}
 

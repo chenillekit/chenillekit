@@ -16,19 +16,24 @@ package org.chenillekit.access.services.impl;
 
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
-import org.chenillekit.access.utils.DummyUser;
 
 /**
- * ...
+ * Just for tests {@link AuthenticationService}
  *
  * @version $Id$
  */
 public class UserAuthServiceImpl implements AuthenticationService
 {
 	public WebSessionUser doAuthenticate( String userName, String password )
-	{
-		if ( "root".equals( userName ) ) return new DummyUser(10);
-		if ( "dummy".equals( userName ) ) return new DummyUser(0);
+	{	
+		if ( "root".equals( userName ) )
+		{
+			return new WebSessionUser(10);
+		}
+		if ( "dummy".equals( userName ) )
+		{
+			return new WebSessionUser(0);
+		}
 		return null;
 	}
 }

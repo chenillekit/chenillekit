@@ -17,16 +17,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 <head>
-    <title>Logout Page</title>
+    <title>Invisible</title>
 </head>
 
 <body>
 
-<span id="logout_message">Logout Page</span>
-
-<p>You have been logged out.</p>
-
-<p>User logged in: ${userLoggedIn}</p>
+<span>You should be able to not see me!</span>
 
 <p><t:pagelink t:page="Start">Back to start</t:pagelink></p>
 

@@ -14,7 +14,6 @@
 
 package org.chenillekit.access.internal;
 
-import org.chenillekit.access.ChenilleKitAccessException;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
 
@@ -32,8 +31,6 @@ public class NoOpAuthenticationService implements AuthenticationService
 	 */
 	public WebSessionUser doAuthenticate(String userName, String password)
 	{
-//		throw new ChenilleKitAccessException("Unable to find a valid authentication service for " + userName);
-		
 		return null;
 	}
 

@@ -10,34 +10,18 @@
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  */
 
 package org.chenillekit.access.pages;
 
-import org.apache.tapestry5.annotations.InjectPage;
-import org.apache.tapestry5.annotations.OnEvent;
 import org.chenillekit.access.annotations.Restricted;
 
 /**
- *
- * @version $Id$
- */
-public class UnRestrictedPage
+*
+* @version $Id: Start.java 380 2008-12-30 10:21:52Z mlusetti $
+*/
+@Restricted(role = 8)
+public class Invisible
 {
-	@InjectPage
-	private Invisible invisible;
-	
-	@Restricted(groups = { "ADMINS" })
-	Object onActionFromTestRights()
-	{
-		return invisible;
-	}
 
-	@Restricted(groups = { "ADMINS" })
-	@OnEvent(component = "testRightsOnEvent")
-	Object thisThrowRuntimeException()
-	{
-		return invisible;
-	}
 }
