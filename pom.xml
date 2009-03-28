@@ -27,7 +27,7 @@
 	<groupId>org.chenillekit</groupId>
 	<artifactId>chenillekit-project</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<name>ChenilleKit Project</name>
 	<description>
 		A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
@@ -113,7 +113,7 @@
 			<!-- Maven will tack on the artifact id. -->
 			<url>file:/var/www/nightly/chenille-kit/</url>
 		</site>
-		
+
 	</distributionManagement>
 
 	<issueManagement>
@@ -150,15 +150,6 @@
 				<role>committer</role>
 			</roles>
 			<timezone>+1</timezone>
-		</developer>
-		<developer>
-			<id>thobson</id>
-			<name>Toby Hobson</name>
-			<email>Toby.Hobson@gmail.com</email>
-			<roles>
-				<role>committer</role>
-			</roles>
-			<timezone>0</timezone>
 		</developer>
 		<developer>
 			<id>clewis</id>
