@@ -16,36 +16,13 @@ package org.chenillekit.access;
 
 /**
  *
- * @version $Id$
+ * @version $Id: WebSessionUser.java 447 2009-03-28 08:54:25Z mlusetti $
  */
-public class WebSessionUser
-{
-	private final int roleWeight;
-	private final String[] groups;
+public interface WebSessionUser
+{	
+	public String getName();
 	
-	public WebSessionUser(int roleWeight, String... groups)
-	{
-		this.roleWeight = roleWeight;
-		this.groups = groups;
-	}
-	
-	/**
-	 * get the role ids.
-	 *
-	 * @return role ids
-	 */
-	public int getRoleWeight()
-	{
-		return this.roleWeight;
-	}
+	public int getRoleWeight();
 
-	/**
-	 * get the group names.
-	 *
-	 * @return group names
-	 */
-	public String[] getGroups()
-	{
-		return this.groups;
-	}
+	public String[] getGroups();
 }

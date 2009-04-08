@@ -25,6 +25,8 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.Marker;
 import org.apache.tapestry5.ioc.services.ChainBuilder;
+import org.apache.tapestry5.services.ApplicationStateContribution;
+import org.apache.tapestry5.services.ApplicationStateCreator;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentClassResolver;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
@@ -77,6 +79,28 @@ public class ChenilleKitAccessModule
             ChainBuilder chainBuilder)
     {
         return chainBuilder.build(AuthenticationService.class, configuration);
+    }
+    
+    /**
+     * 
+     * @param configuration
+     */
+    public static void contributeApplicationStateManager(
+    		MappedConfiguration<Class, ApplicationStateContribution> configuration)
+    {
+      ApplicationStateCreator<WebSessionUser> creator = new ApplicationStateCreator<WebSessionUser>()
+      {
+		public WebSessionUser create()
+		{
+			// It sounds better to throw an IllegaAccess
+			// but Error and Exceptions are for other use case
+			// as declared in the respective javadocs
+			throw new IllegalStateException("WebSessionUser must be provided, not instantiated");
+		}  
+      };
+      
+      // FIXME Is "session" string available as a constants from Tapestry?
+      configuration.add(WebSessionUser.class, new ApplicationStateContribution("session", creator));
     }
     
     /**

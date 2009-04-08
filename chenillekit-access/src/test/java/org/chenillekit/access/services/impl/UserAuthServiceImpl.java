@@ -28,11 +28,11 @@ public class UserAuthServiceImpl implements AuthenticationService
 	{	
 		if ( "root".equals( userName ) )
 		{
-			return new WebSessionUser(10);
+			return new TestWebSessionUser("root", 10);
 		}
 		if ( "dummy".equals( userName ) )
 		{
-			return new WebSessionUser(0);
+			return new TestWebSessionUser("dummy", 0);
 		}
 		return null;
 	}
