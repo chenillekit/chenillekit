@@ -36,7 +36,7 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
 	 */
 	public TestComponentIntegration()
 	{
-		super("src/test/webapp");
+		super("src/test/webapp", pathToFFBinary);
 	}
 
 	@Test(enabled = false)
