@@ -31,11 +31,11 @@ public class TestURIResource extends Assert
 	@Test
 	public void httpURI()
 	{
-		Resource resource = new URIResource("http://www.chenillekit.org/chenillekit-access/index.html");
+		Resource resource = new URIResource("http://www.google.com/index.html");
 
-		assertEquals(resource.getFile(), "index.html");
-		assertEquals(resource.getPath(), "http://www.chenillekit.org/chenillekit-access/index.html");
-		assertEquals(resource.getFolder(), "/chenillekit-access");
+		assertEquals(resource.getFile(), "/index.html");
+		assertEquals(resource.getPath(), "http://www.google.com/index.html");
+		assertEquals(resource.getFolder(), "");
 	}
 
 	@Test
@@ -51,7 +51,7 @@ public class TestURIResource extends Assert
 	@Test
 	public void existsURI()
 	{
-		Resource resource = new URIResource("http://www.chenillekit.org/chenillekit-access/index.html");
+		Resource resource = new URIResource("http://www.google.com/index.html");
 		assertTrue(resource.exists());
 	}
 
