@@ -19,7 +19,7 @@
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<properties>
-		<tapestry-release-version>5.1.0.3</tapestry-release-version>
+		<tapestry-release-version>5.1.0.5</tapestry-release-version>
 		<update-release-info>false</update-release-info>
 		<!-- Version 2.1 lists everything as 100% covered, weird. -->
 	        <cobertura-plugin-version>2.2-SNAPSHOT</cobertura-plugin-version>
