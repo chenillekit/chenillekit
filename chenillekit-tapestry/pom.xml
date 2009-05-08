@@ -30,7 +30,7 @@
     </parent>
 
     <name>Chenillekit Tapestry</name>
-	<version>1.0.2</version>
+	<version>${project.parent.version}</version>
     <description>
         A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
         and many more ...
@@ -68,19 +68,19 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-core</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-image</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-google</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
 

@@ -30,7 +30,7 @@
 	</parent>
 
 	<name>Chenillekit Reports</name>
-	<version>1.0.2</version>
+	<version>${project.parent.version}</version>
 	<description>
 		A library to make life esier using JasperReports
 	</description>

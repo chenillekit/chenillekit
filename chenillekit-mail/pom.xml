@@ -30,7 +30,7 @@
     </parent>
 
     <name>Chenillekit Mail</name>
-	<version>1.0.2</version>
+	<version>${project.parent.version}</version>
     <description>
         A collection of mail related services
     </description>
@@ -72,14 +72,14 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-test</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-core</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>

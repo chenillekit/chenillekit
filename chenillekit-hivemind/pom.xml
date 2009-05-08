@@ -30,7 +30,7 @@
 	</parent>
 
 	<name>Chenillekit Hivemind</name>
-	<version>1.0.2</version>
+	<version>${project.parent.version}</version>
 	<description>
 		A collection of hivemind related utils
 	</description>

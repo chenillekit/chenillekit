@@ -30,7 +30,7 @@
 	</parent>
 
 	<name>Chenillekit Quartz</name>
-	<version>1.0.2</version>
+	<version>${project.parent.version}</version>
 	<description>
 		A collection of quartz related utils
 	</description>
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>chenillekit-test</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>${project.parent.version}</version>
 			<scope>test</scope>
 		</dependency>
 
