@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>ChenilleKit.org</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
+    <body>
+
+        <section name="Configuration Service">
+
+            <p>
+                This service based on
+                <a href="http://commons.apache.org/configuration/">Commons Configuration</a>
+                and gives you access to nearly all features of the
+                <a href="http://commons.apache.org/configuration/">Commons Configuration</a>
+                library with one extension: The ConfigurationService resolves the kind of the needed configuration
+                interface by the extension of your file/resource.
+            </p>
+
+            <p>
+                The ConfigurationService dont need any contribution.
+            </p>
+
+            <subsection name="use cases">
+                <p>
+                    here we access a simple properties file "test.properties" located in the application classpath.
+                </p>
+
+                <source xml:space="preserve">
+                    <![CDATA[
+Resource configResource = new ClasspathResource("test.properties");
+Configuration configuration = configurationService.getConfiguration(configResource);
+
+configuration.getString("test.value1");
+configuration.getInt("test.value2");
+configuration.getStringArray("test.value3");
+]]>
+                </source>
+
+                <p>
+                    and here we access a xml file "test.xml" located in the WWW.
+                </p>
+
+                <source xml:space="preserve">
+                    <![CDATA[
+Resource configResource = new URIResource("http://www.anywhere.de/test.xml");
+Configuration configuration = configurationService.getConfiguration(configResource);
+
+configuration.getString("test.value1");
+configuration.getInt("test.value2");
+configuration.getStringArray("test.value3");
+]]>
+                </source>
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>

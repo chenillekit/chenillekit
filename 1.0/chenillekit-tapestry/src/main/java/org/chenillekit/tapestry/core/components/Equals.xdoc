@@ -1,0 +1,47 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<document>
+    <body>
+
+        <section name="Examples">
+
+            <p>
+                This example describe how to use the Equals component.
+            </p>
+
+            <subsection name="MyPage.tml">
+                <source>
+                    <![CDATA[
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+    <body>
+        <h1>Hello Guys and Dolls</h1>
+
+            <span t:type="ck/Equals" left="literal:value1" right="literal:value2" else="block:dolls">
+                this content should never display, because "value1".equals("value2") returns false
+            </div>
+
+            <t:block id="dolls">
+                this should shown instead of the content of component Equals
+            </t:block>
+
+    </body>
+</html>
+]]>
+                </source>
+            </subsection>
+
+        </section>
+    </body>
+</document>

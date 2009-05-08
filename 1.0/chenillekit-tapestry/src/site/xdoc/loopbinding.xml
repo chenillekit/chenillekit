@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>Bindings</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
+    <body>
+
+        <section name="loop binding">
+
+            <p>
+                This binding let you iterate between to values in configurable steps.
+            </p>
+
+            <subsection name="sample">
+
+                <source><![CDATA[
+<ul>
+    <li t:type="Loop" source="loop:0,10,2" value="var:step">
+        the ${step} step
+    </li>
+</ul>
+]]></source>
+
+                <p>
+                    in the above sample loops between range 0 and 10 in a interval of 2, so you can see the 6 following
+                    entries 0, 2, 4, 6, 8, 10
+                </p>
+
+            </subsection>
+
+            <subsection name="parameters">
+
+                <p>
+                    the loop binding may have up to three parameters but min. one
+                </p>
+
+                <table>
+                    <tr>
+                        <th>parameter</th>
+                        <th>flags</th>
+                        <th>description</th>
+                        <th>note</th>
+                    </tr>
+                    <tr>
+                        <td>start</td>
+                        <td>optional</td>
+                        <td>the "start" parameter where the loop begins.</td>
+                        <td>if parameter is missing, the binding set 0 as start value</td>
+                    </tr>
+                    <tr>
+                        <td>end</td>
+                        <td>required</td>
+                        <td>the "end" parameter where the loop stops.</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>incrementor</td>
+                        <td>optional</td>
+                        <td>the "incrementor" parameter says.</td>
+                        <td>if parameter is missing, the binding set 1 as incrementor value</td>
+                    </tr>
+                </table>
+
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>

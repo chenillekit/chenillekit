@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>ChenilleKit.org</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
+    <body>
+
+        <section name="ChenilleKit Template">
+
+            <subsection name="service overview">
+
+                <table>
+                    <tr>
+                        <th>service</th>
+                        <th>description</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="howto_freemarkerservice.html">FreeMarker</a>
+                        </td>
+                        <td>This service let you use the great template mechanism
+                            <a href="http://freemarker.sourceforge.net/">FreeMarker</a>
+                            as injectable service in your
+                            <a href="http://tapestry.apache.org/tapestry5/">Tapestry5</a>
+                            application.
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="howto_velocityservice.html">Velocity</a>
+                        </td>
+                        <td>This service let you use the great template mechanism
+                            <a href="http://velocity.apache.org/">Apache's Velocity</a>
+                            as injectable service in your
+                            <a href="http://tapestry.apache.org/tapestry5/">Tapestry5</a>
+                            application.
+                        </td>
+                    </tr>
+                </table>
+
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>

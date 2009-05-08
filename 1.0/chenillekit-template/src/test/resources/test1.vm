@@ -1,0 +1,12 @@
+Dear ${user_name},
+
+you've tried ${login_tries} times to log into our system with wrong password!
+for this reason your home planet would removed for an intergalactical highway
+in 1000 years from today (${block_date}).
+
+If you feel that be a fault, please send your antilogy to the ministry at Vogsphere,
+or contact your <a href="mailto:${sysadm_email}">system administrator</a> via the babelfish.
+
+dont panic and thanks for all the fish,
+Zaphod Beeblebrox
+

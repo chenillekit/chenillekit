@@ -1,0 +1,43 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2008 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+DIV.ck_tabSet {
+}
+
+A.ck_tab {
+    background: url( white-top-bottom.gif ) repeat-x scroll 0 -1px;
+    color: black;
+    border: 1px solid #98c0f4;
+    float: left;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: 2px;
+    cursor: pointer;
+    width: 100px;;
+	text-decoration:none;
+}
+
+.active {
+	font-weight: bold;
+}
+
+DIV.ck_tabSetContent {
+    clear: left;
+    border-left: 1px solid silver;
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+    padding: 5px;
+}
