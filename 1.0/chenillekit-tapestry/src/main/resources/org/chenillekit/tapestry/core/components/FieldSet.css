@@ -1,0 +1,36 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2008 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+FIELDSET.ck_fieldset {
+    border: 1px solid #cccccc;
+    padding: 10px;
+    margin: 0;
+    background: #F2EFE9 url( fieldset_gradient.jpg ) repeat-x;
+}
+
+FIELDSET.ck_fieldset LEGEND {
+    border: 1px solid #98c0f4;
+    color: #000000;
+    font-weight: normal;
+    background: url( white-top-bottom.gif ) repeat-x scroll 0pt -1px;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 50px;
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+FIELDSET.ck_fieldset DIV.ck_fieldset_content {
+}

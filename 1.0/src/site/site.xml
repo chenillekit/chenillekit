@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 1996-2008 homburg Softwaretechnik
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<project name="Chenille Kit">
+
+    <bannerLeft>
+        <name>ChenilleKit</name>
+        <href>index.html</href>
+        <src>images/chenillekit-logo.png</src>
+    </bannerLeft>
+
+	<skin>
+		<groupId>org.chenillekit</groupId>
+		<artifactId>maven-skin</artifactId>
+		<version>1.0</version>
+	</skin>
+
+    <publishDate format="yyyy-MM-dd HH:mm:SS"/>
+
+    <body>
+
+        <links>
+            <item name="Tapestry" href="http://tapestry.apache.org/"/>
+        </links>
+
+        <menu>
+            <item name="Project Home" href="./index.html"/>
+        </menu>
+
+        <menu name="Modules">
+			<item name="Access" href="chenillekit-access/index.html"/>
+            <item name="Core" href="chenillekit-core/index.html"/>
+			<item name="Google" href="chenillekit-google/index.html"/>
+			<item name="Hibernate" href="chenillekit-hibernate/index.html"/>
+            <item name="Hivemind" href="chenillekit-hivemind/index.html"/>
+			<item name="Image" href="chenillekit-image/index.html"/>
+			<item name="LDAP" href="chenillekit-ldap/index.html"/>
+			<item name="Lucene" href="chenillekit-lucene/index.html"/>
+			<item name="Mail" href="chenillekit-mail/index.html"/>
+			<item name="Quartz" href="chenillekit-quartz/index.html"/>
+            <item name="Reports" href="chenillekit-reports/index.html"/>
+            <item name="Scripting" href="chenillekit-scripting/index.html"/>
+			<item name="Template" href="chenillekit-template/index.html"/>
+			<item name="Tapestry" href="chenillekit-tapestry/index.html"/>
+        </menu>
+
+        <menu ref="reports"/>
+
+        <menu name="Developer Info">
+            <item name="Maven Repos" href="mvnrepo.html"/>
+            <item name="Release Checklist" href="release_checklist.html"/>
+            <item name="Versioning" href="versioning.html"/>
+            <item name="Source" href="source_conventions.html"/>
+            <item name="Javascript" href="javascript_namespace.html"/>
+        </menu>
+
+    </body>
+</project>

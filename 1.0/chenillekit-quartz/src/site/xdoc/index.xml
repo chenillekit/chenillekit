@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>ChenilleKit.org</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
+    <body>
+
+        <section name="ChenilleKit Quartz">
+
+            <p>
+                This module offers you the possibilty to inject a scheduler based on
+                <a href="http://www.opensymphony.com/quartz/">OpenSymphony's Quartz</a>
+                scheduler.
+            </p>
+
+            <p>
+                Quartz is a full-featured, open source job scheduling system that can be integrated with, or used along
+                side virtually any J2EE or J2SE application - from the smallest stand-alone application to the largest
+                e-commerce system. Quartz can be used to create simple or complex schedules for executing tens,
+                hundreds, or even tens-of-thousands of jobs; jobs whose tasks are defined as standard Java components or
+                EJBs. The Quartz Scheduler includes many enterprise-class features, such as JTA transactions and
+                clustering.
+            </p>
+
+        </section>
+
+        <section name="HowTo">
+
+            <subsection name="configure">
+
+                <p>
+                    to configure the scheduler factory, copy the quartz properties file at your favourite location
+                    (in the sample the application classpath)
+                </p>
+
+                <p>
+                    for further information about the properties meaning visit
+                    <a href="http://www.opensymphony.com/quartz/wikidocs/Configuration.html">this page</a>.
+                </p>
+
+                <source>
+                    <![CDATA[
+#============================================================================
+# Configure Main Scheduler Properties
+#============================================================================
+org.quartz.scheduler.instanceName = MasterScheduler
+org.quartz.scheduler.instanceId = AUTO
+
+#============================================================================
+# Configure ThreadPool
+#============================================================================
+org.quartz.threadPool.class = org.quartz.simpl.SimpleThreadPool
+org.quartz.threadPool.threadCount = 3
+org.quartz.threadPool.threadPriority = 5
+
+#============================================================================
+# Configure JobStore
+#============================================================================
+org.quartz.jobStore.misfireThreshold = 60000
+org.quartz.jobStore.class = org.quartz.simpl.RAMJobStore
+
+#============================================================================
+# Configure Plugins
+#============================================================================
+org.quartz.plugin.triggHistory.class = org.quartz.plugins.history.LoggingJobHistoryPlugin
+]]>
+                </source>
+
+                <p>
+                    ... than contribute the scheduler factory in your application module like this:
+                </p>
+
+                <source>
+                    <![CDATA[
+public static void contributeSchedulerFactory(MappedConfiguration<String, Resource> configuration)
+{
+    Resource configResource = new ClasspathResource("scheduler.properties");
+    configuration.add("quartz.properties", configResource);
+}
+]]>
+                </source>
+
+            </subsection>
+
+            <subsection name="add jobs to the scheduler">
+
+                <p>
+                    To add a job to the scheduler lets play with a real world sample.
+                    This job reads emails from an IMAP folder and indexes some fields via Lucene serach and index
+                    engine.
+                </p>
+
+                <p>
+                    create a class ImportEmailToArchiveBundle like this:
+                </p>
+
+                <source>
+                    <![CDATA[
+public class ImportEmailToArchiveBundle implements JobSchedulingBundle
+{
+    private final Logger logger = LoggerFactory.getLogger(ImportEmailToArchiveBundle.class);
+    private Trigger trigger;
+    private JobDetail jobDetail;
+    private final EmailArchiveImporter importer;
+
+    public ImportEmailToArchiveBundle(EmailArchiveImporter importer)
+    {
+        this.importer = importer;
+        createBundle();
+    }
+
+    private void createBundle()
+    {
+        try
+        {
+            trigger = new CronTrigger("ImportEmailToArchiveTrigger", "CronTriggerGroup", "0 0/30 * * * ?");
+            JobDataMap jobDataMap = new JobDataMap();
+            jobDataMap.put("importer", importer);
+            trigger.setJobDataMap(jobDataMap);
+
+            jobDetail = new JobDetail("ImportEmailToArchive", null, ImportEmailToArchive.class);
+
+            logger.info("created ImportEmailToArchiveBundle for {}", ((CronTrigger) trigger).getCronExpression());
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getSchedulerId()
+    {
+        return null;
+    }
+
+    public JobDetail getJobDetail()
+    {
+        return jobDetail;
+    }
+
+    public Trigger getTrigger()
+    {
+        return trigger;
+    }
+}
+]]>
+                </source>
+
+                <p>
+                    now let the scheduler now, that he should controll the above job and write the next contribution
+                    also to your application module.
+                </p>
+
+                <source>
+                    <![CDATA[
+public static void contributeQuartzSchedulerManager(EmailArchiveImporter importer,
+                                                    OrderedConfiguration<JobSchedulingBundle> configuration)
+{
+    configuration.add("importEmailToArchive", new ImportEmailToArchiveBundle(importer));
+}
+]]>
+
+                </source>
+
+                <p>
+                    now re-/start your application and the scheduler starts the job every 30 minutes
+                </p>
+
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>

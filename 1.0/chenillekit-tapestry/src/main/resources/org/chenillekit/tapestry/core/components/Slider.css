@@ -1,0 +1,33 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2008 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+DIV.ck_slider-handle {
+    width: 5px;
+    height: 15px;
+    top: -5px;
+    background-color: #f00;
+    cursor: move;
+}
+
+DIV.ck_slider-track {
+    width: 200px;
+    background-color: #aaa;
+    height: 5px;
+}
+
+DIV.ck_slider-value {
+    position: relative;
+    top: -10px;
+    left: 210px;
+}
