@@ -83,7 +83,52 @@ private LinkSubmit clickSubmit;
                 </div>
             </div>
 
-        </div>
+			<div class="yui-g" style="width:100%">
+				<div class="yui-u first">
+
+					<fieldset class="snippet">
+						<legend>code snippet</legend>
+						<pre>
+							<![CDATA[
+@Component(parameters = {"value=dateValue"})
+private DateSelector dateSelector;
+]]>
+						</pre>
+					</fieldset>
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+						<form t:id="form3">
+							<label style="margin-right:5px;">choose your birthdate</label>
+							<select t:id="dateSelector"/>
+							<br/>
+							<input type="submit"/>
+							<p>
+								Your last input was: ${dateValue}
+							</p>
+						</form>
+					</fieldset>
+
+				</div>
+				<div class="yui-u">
+
+					<fieldset class="snippet">
+						<legend>code snippet</legend>
+						<pre>
+							<![CDATA[
+cdfff
+]]>
+						</pre>
+					</fieldset>
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+					</fieldset>
+
+				</div>
+			</div>
+
+		</div>
     </div>
 
 </span>
