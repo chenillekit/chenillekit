@@ -1,6 +1,0 @@
-x = "Hello World from 'test1.bsh' script";
-y = x;
-
-System.out.println(y);
-
-return y;

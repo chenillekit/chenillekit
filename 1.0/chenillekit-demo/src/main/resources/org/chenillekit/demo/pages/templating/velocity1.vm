@@ -1,8 +1,0 @@
-Hello Guys n Dolls
-this is the message from me to you:
-<br/>
-$myText
-<br/>
-this message is generated
-at $sdf.format($date)
-from IP $ipAdress

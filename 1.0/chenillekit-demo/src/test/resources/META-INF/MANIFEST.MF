@@ -1,8 +1,0 @@
-Created-By: Apache Maven
-Manifest-Version: 1.0
-Demo-Version: 12.22
-Tapestry-Module-Classes: org.chenillekit.tapestry.core.ChenilleKitCore
- Module,org.chenillekit.image.ChenilleKitImageModule,org.chenillekit.s
- cripting.ChenilleKitScriptingModule,org.chenillekit.template.Chenille
- KitTemplateModule,org.chenillekit.google.ChenilleKitGoogleModule
-

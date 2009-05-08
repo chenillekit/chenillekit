@@ -1,8 +1,0 @@
-Hello Guys n Dolls
-this is the message from me to you:
-<br/>
-${myText}
-<br/>
-this message is generated
-at ${sysDate?string("yyyy-MM-dd HH:mm:ss zzz")}
-from IP ${ipAdress}
