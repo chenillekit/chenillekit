@@ -34,7 +34,7 @@ public class RatingFieldDemo
 
     @Persist
     @Property
-    private int ratingValue2;
+    private Integer ratingValue2;
 
     @Persist
     @Property

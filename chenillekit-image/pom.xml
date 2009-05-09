@@ -37,11 +37,15 @@
 	</description>
 
 	<scm>
-		<tag>HEAD</tag>
-		<url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-image/</url>
-		<connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-image/</connection>
-		<developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-image/
+		<connection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
+		</connection>
+		<developerConnection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
 		</developerConnection>
+		<url>
+			http://tapestry.formos.com/cgi-bin/viewvc.cgi/chenillekit/trunk/${artifactId}/
+		</url>
 	</scm>
 
 	<!--
@@ -66,6 +70,12 @@
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-ioc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>2.3</version>
 		</dependency>
 
 	</dependencies>

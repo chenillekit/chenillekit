@@ -67,11 +67,15 @@ private LinkSubmit clickSubmit;
                     <fieldset class="sample">
                         <legend>sample</legend>
                         <form t:id="form2">
-                            <label style="margin-right:5px;">type a city</label>
+							<label style="float:left; width:250px;">type a city</label>
                             <input t:id="inputCity" type="text" style="width:12em;margin-right:5px;"/>
+							<br/>
+							<label style="float:left; width:250px;">choose a color</label>
+                            <input t:id="inputColor" type="text" style="width:12em;margin-right:5px;"/>
+							<br/>
                             <a href="#" t:id="linkSubmit" title="click to submit">submit</a>
                             <p>
-                                Your last input was: ${city}
+                                Your last input was: ${city} and ${color}
                             </p>
                         </form>
                     </fieldset>
@@ -79,7 +83,52 @@ private LinkSubmit clickSubmit;
                 </div>
             </div>
 
-        </div>
+			<div class="yui-g" style="width:100%">
+				<div class="yui-u first">
+
+					<fieldset class="snippet">
+						<legend>code snippet</legend>
+						<pre>
+							<![CDATA[
+@Component(parameters = {"value=dateValue"})
+private DateSelector dateSelector;
+]]>
+						</pre>
+					</fieldset>
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+						<form t:id="form3">
+							<label style="margin-right:5px;">choose your birthdate</label>
+							<select t:id="dateSelector"/>
+							<br/>
+							<input type="submit"/>
+							<p>
+								Your last input was: ${dateValue}
+							</p>
+						</form>
+					</fieldset>
+
+				</div>
+				<div class="yui-u">
+
+					<fieldset class="snippet">
+						<legend>code snippet</legend>
+						<pre>
+							<![CDATA[
+cdfff
+]]>
+						</pre>
+					</fieldset>
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+					</fieldset>
+
+				</div>
+			</div>
+
+		</div>
     </div>
 
 </span>

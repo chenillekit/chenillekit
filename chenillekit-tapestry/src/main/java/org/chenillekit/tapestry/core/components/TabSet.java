@@ -60,6 +60,14 @@ public class TabSet implements ClientElement
 	private String clientId;
 
 	/**
+	 * Name of a function on the client-side Tapestry.ElementEffect object that is invoked after the Zone's content has
+	 * been updated. If not specified, then the basic "highlight" method is used, which performs a classic "yellow fade"
+	 * to indicate to the user that and update has taken place.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.LITERAL)
+	private String update;
+
+	/**
 	 * list of div id's (for each panel).
 	 */
 	@Parameter(required = true, defaultPrefix = "list")
@@ -83,7 +91,7 @@ public class TabSet implements ClientElement
 	@Component(parameters = {"source=inherit:panelIds", "value=panelId"})
 	private Loop tabLoop;
 
-	@Component
+	@Component(parameters = {"update=inherit:update"})
 	private Zone contentZone;
 
 	@Component(parameters = {"event=clicked", "zone=contentZone", "context=panelId"})

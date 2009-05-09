@@ -37,6 +37,9 @@ private DateTimeField _dateTimeField2;
 
 @Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=dd-MM-yyyy HH:mm"})
 private DateTimeField _dateTimeField3;
+
+@Component(parameters = {"value=actualDate4", "datePicker=false", "timePicker=true", "datePattern=HH:mm"})
+private DateTimeField _dateTimeField4;
 ]]>
                 </pre>
             </fieldset>
@@ -54,6 +57,9 @@ private DateTimeField _dateTimeField3;
                     <br/>
                     <label style="float:left; width:250px;">date format MM/dd/yyyy HH:mm</label>
                     <input t:id="dateTimeField3"/>
+                    <br/>
+                    <label style="float:left; width:250px;">time format HH:mm</label>
+                    <input t:id="dateTimeField4" style="width:4.5em;"/>
 					<br/>
 					<input type="submit"/>
 				</form>

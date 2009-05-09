@@ -15,70 +15,75 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.chenillekit</groupId>
-    <artifactId>chenillekit-core</artifactId>
-    <packaging>jar</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.chenillekit</groupId>
+	<artifactId>chenillekit-core</artifactId>
+	<packaging>jar</packaging>
 
-    <parent>
-        <groupId>org.chenillekit</groupId>
-        <artifactId>chenillekit-project</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.chenillekit</groupId>
+		<artifactId>chenillekit-project</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
 
-    <name>Chenillekit Core</name>
+	<name>Chenillekit Core</name>
 	<version>${project.parent.version}</version>
-    <description>
-        This library contains some basic classes we need for other chenillekit modules.
-    </description>
+	<description>
+		This library contains some basic classes we need for other chenillekit modules.
+	</description>
 
-    <scm>
-        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-core/</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-core/</developerConnection>
-		<tag>HEAD</tag>
-		<url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-core/</url>
-    </scm>
+	<scm>
+		<connection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
+		</connection>
+		<developerConnection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
+		</developerConnection>
+		<url>
+			http://tapestry.formos.com/cgi-bin/viewvc.cgi/chenillekit/trunk/${artifactId}/
+		</url>
+	</scm>
 
-    <!--
-    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    + dependencies for this module
-    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    -->
-    <dependencies>
+	<!--
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		+ dependencies for this module
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		-->
+	<dependencies>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>chenillekit-test</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>chenillekit-test</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>tapestry-ioc</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-ioc</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

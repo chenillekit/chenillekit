@@ -20,18 +20,44 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import org.hibernate.annotations.AccessType;
+
 /**
  * extension for database entities that should be auditable.
  *
  * @version $Id$
  */
 @Embeddable
+@AccessType("field")
 public class Audit implements Serializable
 {
-    private Date _created;
-    private String _createdBy;
-    private Date _updated;
-    private String _updatedBy;
+	/**
+	 * get the time/date when entity was inserted.
+	 */
+	@Basic
+	@Column(name = "created", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
+    private Date created;
+
+	/**
+	 * who had entity inserted.
+	 */
+	@Basic
+	@Column(name = "created_by", nullable = true, columnDefinition = "VARCHAR(99) DEFAULT NULL")
+	private String createdBy;
+
+	/**
+	 * get the time/date when entity was updated.
+	 */
+	@Basic
+	@Column(name = "updated", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
+    private Date updated;
+
+	/**
+	 * who had entity updated.
+	 */
+	@Basic
+	@Column(name = "updated_by", nullable = true, columnDefinition = "VARCHAR(99) DEFAULT NULL")
+    private String updatedBy;
 
     public Audit()
     {
@@ -39,70 +65,50 @@ public class Audit implements Serializable
 
     public Audit(Date created, String createdBy, Date updated, String updatedBy)
     {
-        _created = created;
-        _createdBy = createdBy;
-        _updated = updated;
-        _updatedBy = updatedBy;
+        this.created = created;
+        this.createdBy = createdBy;
+        this.updated = updated;
+        this.updatedBy = updatedBy;
     }
 
-    /**
-     * get the time/date when entity was inserted.
-     */
-    @Basic
-    @Column(name = "created", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
     public Date getCreated()
     {
-        return _created;
+        return created;
     }
 
     public void setCreated(Date created)
     {
-        _created = created;
+        this.created = created;
     }
 
-    /**
-     * who had entity inserted.
-     */
-    @Basic
-    @Column(name = "created_by", nullable = true, columnDefinition = "VARCHAR(99) DEFAULT NULL")
     public String getCreatedBy()
     {
-        return _createdBy;
+        return createdBy;
     }
 
     public void setCreatedBy(String createdBy)
     {
-        _createdBy = createdBy;
+        this.createdBy = createdBy;
     }
 
-    /**
-     * get the time/date when entity was updated.
-     */
-    @Basic
-    @Column(name = "updated", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
     public Date getUpdated()
     {
-        return _updated;
+        return updated;
     }
 
     public void setUpdated(Date updated)
     {
-        _updated = updated;
+        this.updated = updated;
     }
 
-    /**
-     * who had entity updated.
-     */
-    @Basic
-    @Column(name = "updated_by", nullable = true, columnDefinition = "VARCHAR(99) DEFAULT NULL")
     public String getUpdatedBy()
     {
-        return _updatedBy;
+        return updatedBy;
     }
 
     public void setUpdatedBy(String updatedBy)
     {
-        _updatedBy = updatedBy;
+        this.updatedBy = updatedBy;
     }
 
     public boolean equals(Object o)
@@ -112,10 +118,10 @@ public class Audit implements Serializable
 
         Audit audit = (Audit) o;
 
-        if (_created != null ? !_created.equals(audit._created) : audit._created != null) return false;
-        if (_createdBy != null ? !_createdBy.equals(audit._createdBy) : audit._createdBy != null) return false;
-        if (_updated != null ? !_updated.equals(audit._updated) : audit._updated != null) return false;
-        if (_updatedBy != null ? !_updatedBy.equals(audit._updatedBy) : audit._updatedBy != null) return false;
+        if (created != null ? !created.equals(audit.created) : audit.created != null) return false;
+        if (createdBy != null ? !createdBy.equals(audit.createdBy) : audit.createdBy != null) return false;
+        if (updated != null ? !updated.equals(audit.updated) : audit.updated != null) return false;
+        if (updatedBy != null ? !updatedBy.equals(audit.updatedBy) : audit.updatedBy != null) return false;
 
         return true;
     }
@@ -123,10 +129,10 @@ public class Audit implements Serializable
     public int hashCode()
     {
         int result;
-        result = (_created != null ? _created.hashCode() : 0);
-        result = 31 * result + (_createdBy != null ? _createdBy.hashCode() : 0);
-        result = 31 * result + (_updated != null ? _updated.hashCode() : 0);
-        result = 31 * result + (_updatedBy != null ? _updatedBy.hashCode() : 0);
+        result = (created != null ? created.hashCode() : 0);
+        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
+        result = 31 * result + (updated != null ? updated.hashCode() : 0);
+        result = 31 * result + (updatedBy != null ? updatedBy.hashCode() : 0);
         return result;
     }
 
@@ -135,10 +141,10 @@ public class Audit implements Serializable
     {
         final StringBuilder sb = new StringBuilder();
         sb.append("Audit");
-        sb.append("{_created=").append(_created);
-        sb.append(", _createdBy='").append(_createdBy).append('\'');
-        sb.append(", _updated=").append(_updated);
-        sb.append(", _updatedBy='").append(_updatedBy).append('\'');
+        sb.append("{created=").append(created);
+        sb.append(", createdBy='").append(createdBy).append('\'');
+        sb.append(", updated=").append(updated);
+        sb.append(", updatedBy='").append(updatedBy).append('\'');
         sb.append('}');
         return sb.toString();
     }

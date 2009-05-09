@@ -24,7 +24,8 @@ public class ChenilleKitCoreConstants
     public static String __THUMBNAL_DIRECTORY__ = "thumbnails";
     public static String __CR__ = System.getProperty("line.separator");
     public static String __VERSION__;
-    public static String URI_PATH_PREFIX = "/uri/";
+    public static String URI_PREFIX = "uri";
+    public static String URI_PATH_PREFIX = "/" + URI_PREFIX + "/";
 
     private static ChenilleKitCoreConstants ourInstance = new ChenilleKitCoreConstants();
 

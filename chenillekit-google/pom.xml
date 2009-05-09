@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.chenillekit</groupId>
         <artifactId>chenillekit-project</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+		<version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <name>Chenillekit Google</name>
@@ -37,10 +37,15 @@
     </description>
 
     <scm>
-        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-google/</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-google/</developerConnection>
-		<tag>HEAD</tag>
-        <url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-google/</url>
+		<connection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
+		</connection>
+		<developerConnection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
+		</developerConnection>
+		<url>
+			http://tapestry.formos.com/cgi-bin/viewvc.cgi/chenillekit/trunk/${artifactId}/
+		</url>
     </scm>
 
     <!--
@@ -65,7 +70,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>chenillekit-test</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
             <scope>test</scope>
         </dependency>
 
