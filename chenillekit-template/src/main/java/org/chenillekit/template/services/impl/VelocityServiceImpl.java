@@ -67,7 +67,7 @@ public class VelocityServiceImpl implements TemplateService
              * Configure the engine - as an example, we are using
              * ourselves as the logger - see logging examples
              */
-            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this);
+            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, this);
 
             /**
              * now get configuration and initialize the engine
