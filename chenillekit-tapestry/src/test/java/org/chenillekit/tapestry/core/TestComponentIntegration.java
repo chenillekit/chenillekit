@@ -23,14 +23,6 @@ import org.testng.annotations.Test;
  */
 public class TestComponentIntegration extends AbstractIntegrationTestSuite
 {
-	private static String pathToFFBinary;
-
-	static
-	{
-		String userName = System.getProperty("user.name");
-		pathToFFBinary = userName.equalsIgnoreCase("sven") ? "*firefox /usr/lib/firefox/firefox-2-bin" : "*firefox";
-	}
-
 	/**
 	 * Initializes the suite using {@link #DEFAULT_WEB_APP_ROOT}.
 	 */
@@ -191,14 +183,13 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
 
 		start("ThumbNail");
 		waitForPageToLoad("5000");
-		captureScreenshot("test_thumbnail.png");
-		assertAttribute("xpath=//img@src", "/assets/ctx/1.0-test/thumbnails/41041083");
+		String iconUrl = getAttribute("xpath=//img@src");
 
 		click("xpath=//img[@id='thumbNail']");
 		assertAttribute("xpath=//img[@id='thumbNail']@src", "/assets/ctx/1.0-test/assets/images/sven.jpg");
 
 		mouseOut("xpath=//img[@id='thumbNail']");
-		assertAttribute("xpath=//img[@id='thumbNail']@src", "http://localhost:9999/assets/ctx/1.0-test/thumbnails/41041083");
+		assertAttribute("xpath=//img[@id='thumbNail']@src", "http://localhost:9999" + iconUrl);
 	}
 
 	@Test
