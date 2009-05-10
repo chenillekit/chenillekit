@@ -66,37 +66,39 @@ Control.DatePicker.prototype = {
 		this.originalValue = null;
 		this.hideTimeout = null;
 
-		if (this.options.icon)
-		{
-			var cont = new Element('div', {'style': 'position: relative;'});
-			this.element.parentNode.replaceChild(cont, this.element);
-			cont.appendChild(this.element);
-
-			this.icon = new Element('img', {'src': this.options.icon, 'title': this.tr('Open calendar'), 'className': 'inputExtension'});
-
-			var padding = this.options.padding;
-			if (!padding)
+			if (this.options.icon)
 			{
-				// No icon padding specified, default to 3px and calculate
-				// dynamically on image load
-				padding = 3;
-				Event.observe(this.icon, 'load', function()
-				{
-					padding = parseInt(this.element.offsetHeight - this.icon.offsetHeight) / 2;
-					var right = (this.element.offsetParent.offsetWidth - (this.element.offsetLeft + this.element.offsetWidth) + padding) + 'px';
-					Element.setStyle(this.icon, {'right': right, 'top': padding + 'px'});
-				}.bind(this));
-			}
-			var right = (this.element.offsetParent.offsetWidth - (this.element.offsetLeft + this.element.offsetWidth) + padding) + 'px';
-			Element.setStyle(this.icon, {'position': 'absolute', 'right': right, 'top': padding + 'px'});
-			cont.appendChild(this.icon);
+				var cont = new Element('div', {'style': 'position: relative;'});
+				this.element.parentNode.replaceChild(cont, this.element);
+				cont.appendChild(this.element);
 
-			Event.observe(this.icon, 'click', this.togglePicker.bindAsEventListener(this));
-		}
-		else
-		{
-			Event.observe(this.element, 'click', this.togglePicker.bindAsEventListener(this));
-		}
+				this.icon = new Element('img', {'src': this.options.icon, 'title': !this.element.disabled ? this.tr('Open calendar') : this.tr('disabled'), 'className': 'inputExtension'});
+
+				var padding = this.options.padding;
+				if (!padding)
+				{
+					// No icon padding specified, default to 3px and calculate
+					// dynamically on image load
+					padding = 3;
+					Event.observe(this.icon, 'load', function()
+					{
+						padding = parseInt(this.element.offsetHeight - this.icon.offsetHeight) / 2;
+						var right = (this.element.offsetParent.offsetWidth - (this.element.offsetLeft + this.element.offsetWidth) + padding) + 'px';
+						Element.setStyle(this.icon, {'right': right, 'top': padding + 'px'});
+					}.bind(this));
+				}
+				var right = (this.element.offsetParent.offsetWidth - (this.element.offsetLeft + this.element.offsetWidth) + padding) + 'px';
+				Element.setStyle(this.icon, {'position': 'absolute', 'right': right, 'top': padding + 'px'});
+				cont.appendChild(this.icon);
+
+				if (!this.element.disabled)
+					Event.observe(this.icon, 'click', this.togglePicker.bindAsEventListener(this));
+			}
+			else
+			{
+				if (!this.element.disabled)
+					Event.observe(this.element, 'click', this.togglePicker.bindAsEventListener(this));
+			}
 
 		this.hidePickerListener = this.delayedHide.bindAsEventListener(this);
 		Event.observe(this.element, 'keydown', this.keyHandler.bindAsEventListener(this));
