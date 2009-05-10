@@ -69,7 +69,7 @@ Zaphod Beeblebrox
                     <source><![CDATA[
 public class LostPassword
 {
-    @Inject @VelocityMarker
+    @Inject @Velocity
     private TemplateService _templateService;
 
     public void afterThirdTryToLogin()
