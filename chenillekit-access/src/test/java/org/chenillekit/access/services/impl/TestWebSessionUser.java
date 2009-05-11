@@ -47,4 +47,13 @@ public class TestWebSessionUser implements WebSessionUser
 		return this.roleWeight;
 	}
 
+	/**
+	 * 
+	 */
+	public int getUserId()
+	{
+		return 0;
+	}
+	
+
 }

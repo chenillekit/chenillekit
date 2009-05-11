@@ -20,9 +20,36 @@ package org.chenillekit.access;
  */
 public interface WebSessionUser
 {	
+	/**
+	 * Get the human readble <em>name</em> of the user currently logged in.
+	 * Usually this is used in a (sort of) layout component to show that a
+	 * user is logged into the application.
+	 * 
+	 * @return the human readable name of the person logged in
+	 */
 	public String getName();
 	
+	/**
+	 * Get the weight, in terms of responsibility, of the user currently logged in.
+	 * Usually more to weight correspond more permissions. 
+	 *  
+	 * @return the weight (level of responsibility) of the user
+	 */
 	public int getRoleWeight();
 
+	/**
+	 * Get the groups which the user belongs to. Usually each group is associated
+	 * with a kind of organization membership inside the application scope.
+	 *  
+	 * @return the array of the groups which the user belongs to
+	 */
 	public String[] getGroups();
+	
+	/**
+	 * Get the id (like a PKEY) of the user. Normally this represent the primary
+	 * key of the user in the database.
+	 * 
+	 * @return the id (identifier) of the user currently logged in
+	 */
+	public int getUserId();
 }
