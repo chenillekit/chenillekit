@@ -17,7 +17,6 @@ package org.chenillekit.ldap;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceResources;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
-
 import org.chenillekit.ldap.services.internal.SearcherService;
 import org.chenillekit.ldap.services.internal.SimpleSearcherServiceImpl;
 
