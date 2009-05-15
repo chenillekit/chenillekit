@@ -18,8 +18,8 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceResources;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 
-import org.chenillekit.ldap.services.SearcherService;
-import org.chenillekit.ldap.services.impl.SimpleSearcherServiceImpl;
+import org.chenillekit.ldap.services.internal.SearcherService;
+import org.chenillekit.ldap.services.internal.SimpleSearcherServiceImpl;
 
 /**
  * @version $Id: ChenilleKitMailModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $

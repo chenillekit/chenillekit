@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.ldap.services.impl;
+package org.chenillekit.ldap.services.internal;
 
 import java.util.List;
 
@@ -30,7 +30,6 @@ import netscape.ldap.LDAPSearchResults;
 import netscape.ldap.LDAPv2;
 import netscape.ldap.LDAPv3;
 import org.chenillekit.ldap.ChenilleKitLDAPConstants;
-import org.chenillekit.ldap.services.SearcherService;
 import org.slf4j.Logger;
 
 /**

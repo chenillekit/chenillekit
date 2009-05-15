@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.ldap.services;
+package org.chenillekit.ldap.services.internal;
 
 import java.util.Enumeration;
 import java.util.List;
@@ -20,6 +20,7 @@ import javax.naming.NamingException;
 
 import netscape.ldap.LDAPEntry;
 import org.chenillekit.ldap.ChenilleKitLDAPTestModule;
+import org.chenillekit.ldap.services.internal.SearcherService;
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;

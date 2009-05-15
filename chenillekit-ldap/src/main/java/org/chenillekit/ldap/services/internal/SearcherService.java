@@ -11,7 +11,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
-package org.chenillekit.ldap.services;
+package org.chenillekit.ldap.services.internal;
 
 import java.util.List;
 
