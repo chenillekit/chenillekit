@@ -53,7 +53,7 @@ public class RedirectServiceImpl implements RedirectService
 	{
 		String contextPath = contextPathEncoder.encodeIntoPath(context);
 		
-		String redirectURL = response.encodeRedirectURL(new String(pageName + contextPath));
+		String redirectURL = response.encodeRedirectURL(new String(pageName + "/" + contextPath));
 		
 		response.sendRedirect(redirectURL);
 	}

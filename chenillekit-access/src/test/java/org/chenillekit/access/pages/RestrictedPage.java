@@ -29,9 +29,22 @@ public class RestrictedPage
 {
 	@Inject
 	private ComponentResources resources;
+	
+	private String activationContext = "";
+	
+	void onActivate(String value1, String value2)
+	{
+		activationContext = value1 + " " + value2;
+	}
 
 	public String getRoleMetaValue()
 	{
 		return resources.getComponentModel().getMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE);
+	}
+	
+	public String getActivationContext()
+	{
+		System.out.println("Activation Context: " +  activationContext);
+		return activationContext;
 	}
 }

@@ -46,7 +46,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	
 	private final RedirectService redirect;
 	
-	private final ApplicationStateManager stateManager;
+//	private final ApplicationStateManager stateManager;
 		
 	private final PageRenderRequestParameters loginPageRenderParameters;
 	private final ComponentEventRequestParameters loginComponentEventParameters;
@@ -62,7 +62,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	public ComponentRequestAccessFilter(AccessValidator accessValidator,
 			SymbolSource symbols, Logger logger, RedirectService redirect,ApplicationStateManager stateManager)
 	{
-		this.stateManager = stateManager;
+//		this.stateManager = stateManager;
 		this.logger = logger;
 		this.accessValidator = accessValidator;
 		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
@@ -89,8 +89,6 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	public void handleComponentEvent(ComponentEventRequestParameters parameters,
 			ComponentRequestHandler handler) throws IOException
 	{
-		System.out.println("Lo state dell'utente esiste: " + stateManager.exists(WebSessionUser.class));
-		
 		if ( accessValidator.hasAccess(parameters.getActivePageName(),
 				parameters.getNestedComponentId(), parameters.getEventType()) )
 		{
@@ -111,9 +109,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	 */
 	public void handlePageRender(PageRenderRequestParameters parameters,
 			ComponentRequestHandler handler) throws IOException
-	{
-		System.out.println("Lo state dell'utente esiste: " + stateManager.exists(WebSessionUser.class));
-		
+	{	
 		if ( accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
 		{
 			handler.handlePageRender(parameters);

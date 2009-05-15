@@ -59,6 +59,27 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	}
 	
 	@Test
+	public void restricted_with_context() throws Exception
+	{
+		open("/restrictedpage/yes/present");
+		
+		type("chenillekitUsername", "root");
+		type("chenillekitPassword", "banane");
+		
+		clickAndWait("chenillekitLoginSubmit");
+		
+		assertTextPresent("Context: yes present");
+		
+		open(BASE_URL);
+		
+		clickAndWait("link=Logout");
+		
+		assertTextPresent("Logout Page");
+		
+		assertTextPresent("User logged in: NO");
+	}
+	
+	@Test
 	public void action_link_rights_restricted() throws Exception
 	{
 		open(BASE_URL);
