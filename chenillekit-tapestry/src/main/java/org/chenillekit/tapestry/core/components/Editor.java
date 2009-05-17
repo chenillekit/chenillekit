@@ -119,7 +119,7 @@ public class Editor extends AbstractTextField
 
 	final void writeScript()
 	{
-		String editorVar = "editor_" + getClientId().replace(':', '_');
+		String editorVar = "editor_" + getClientId().replace('-', '_');
 
 		String fckEditorBasePath = cpam.toClientURL(symbolSource.expandSymbols("${ck.components}")) + "/fckeditor/";
 
