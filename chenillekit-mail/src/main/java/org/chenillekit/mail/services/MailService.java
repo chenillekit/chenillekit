@@ -20,7 +20,7 @@ import org.apache.commons.mail.Email;
  *
  * @version $Id$
  */
-public interface SmtpService<T extends Email>
+public interface MailService<T extends Email>
 {
     static final String CONFIG_KEY = "smtp.properties";
     static final String PK_SMTP_SERVER = "smtp.server";

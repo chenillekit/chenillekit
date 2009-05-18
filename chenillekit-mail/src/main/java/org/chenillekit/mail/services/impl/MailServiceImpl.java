@@ -23,7 +23,7 @@ import org.apache.tapestry5.ioc.Resource;
 
 import org.chenillekit.core.services.ConfigurationService;
 import org.chenillekit.mail.ChenilleKitMailConstants;
-import org.chenillekit.mail.services.SmtpService;
+import org.chenillekit.mail.services.MailService;
 import org.slf4j.Logger;
 
 /**
@@ -31,7 +31,7 @@ import org.slf4j.Logger;
  *
  * @version $Id$
  */
-public class SimpleSmtpServiceImpl implements SmtpService<Email>
+public class MailServiceImpl implements MailService<Email>
 {
 	private final Logger logger;
 	private final String smtpServer;
@@ -43,7 +43,7 @@ public class SimpleSmtpServiceImpl implements SmtpService<Email>
 	private final boolean smtpTLS;
 	private final int smtpSslPort;
 
-	public SimpleSmtpServiceImpl(Logger logger,
+	public MailServiceImpl(Logger logger,
 								 ConfigurationService configurationService,
 								 Map<String, Resource> configuration)
 	{

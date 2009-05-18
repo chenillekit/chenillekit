@@ -54,7 +54,7 @@ public class TestSimpleSmtpService extends AbstractTestSuite
         email.setFrom("homburgs@gmail.com");
         email.setMsg("This is a dummy message text!");
 
-        SmtpService service = registry.getService(SmtpService.class);
+        MailService service = registry.getService(MailService.class);
         service.sendEmail(email);
 
         assertTrue(smtpServer.getReceivedEmailSize() == 1);
@@ -83,7 +83,7 @@ public class TestSimpleSmtpService extends AbstractTestSuite
         attachment.setURL(new ClasspathResource("dummy.txt").toURL());
         email.attach(attachment);
 
-        SmtpService service = registry.getService(SmtpService.class);
+        MailService service = registry.getService(MailService.class);
         service.sendEmail(email);
 
         assertTrue(smtpServer.getReceivedEmailSize() == 2);

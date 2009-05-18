@@ -15,8 +15,8 @@
 package org.chenillekit.mail;
 
 import org.apache.tapestry5.ioc.ServiceBinder;
-
-import org.chenillekit.mail.services.impl.SimpleSmtpServiceImpl;
+import org.chenillekit.mail.services.MailService;
+import org.chenillekit.mail.services.impl.MailServiceImpl;
 
 /**
  * @version $Id$
@@ -25,6 +25,6 @@ public class ChenilleKitMailModule
 {
 	public static void bind(ServiceBinder binder)
 	{
-		binder.bind(SimpleSmtpServiceImpl.class).withId("SimpleSmtpService");
+		binder.bind(MailService.class, MailServiceImpl.class).withId("SimpleSmtpService");
 	}
 }
