@@ -14,15 +14,21 @@
 
 package org.chenillekit.mail.services.impl;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Map;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.mail.SimpleEmail;
 import org.apache.tapestry5.ioc.Resource;
-
 import org.chenillekit.core.services.ConfigurationService;
 import org.chenillekit.mail.ChenilleKitMailConstants;
+import org.chenillekit.mail.MailMessageHeaders;
 import org.chenillekit.mail.services.MailService;
 import org.slf4j.Logger;
 
@@ -64,6 +70,56 @@ public class MailServiceImpl implements MailService<Email>
 		this.smtpTLS = serviceConfiguration.getBoolean(ChenilleKitMailConstants.SMTP_TLS, false);
 		this.smtpSslPort = serviceConfiguration.getInt(ChenilleKitMailConstants.SMTP_SSLPORT, 465);
 	}
+	
+	
+	private void setEmailStandardData(Email email)
+	{
+		email.setHostName(smtpServer);
+
+		if (smtpUser != null && smtpUser.length() > 0)
+			email.setAuthentication(smtpUser, smtpPassword);
+
+		email.setDebug(smtpDebug);
+		email.setSmtpPort(smtpPort);
+		email.setSSL(smtpSSL);
+		email.setSslSmtpPort(String.valueOf(smtpSslPort));
+		email.setTLS(smtpTLS);
+	}
+	
+	private EmailAttachment getAttachment(File file)
+	{
+		// Create the attachment
+		EmailAttachment attachment = new EmailAttachment();
+		attachment.setPath(file.getAbsolutePath());
+		attachment.setDisposition(EmailAttachment.ATTACHMENT);
+		attachment.setDescription(file.getName());
+		attachment.setName(file.getName());
+		
+		return attachment;
+	}
+	
+	private void setMailMessageHeaders(Email email, MailMessageHeaders headers)
+					throws EmailException
+	{
+		email.setFrom(headers.getFrom());
+		
+		email.setSubject(headers.getSubject());
+		
+		for (String to : headers.getTo())
+		{
+			email.addTo(to);
+		}
+		
+		for (String cc : headers.getCc())
+		{
+			email.addCc(cc);
+		}
+		
+		for (String bcc : headers.getBcc())
+		{
+			email.addBcc(bcc);
+		}
+	}
 
 	/**
 	 * send an email.
@@ -74,16 +130,19 @@ public class MailServiceImpl implements MailService<Email>
 
 		try
 		{
-			email.setHostName(smtpServer);
-
-			if (smtpUser != null && smtpUser.length() > 0)
-				email.setAuthentication(smtpUser, smtpPassword);
-
-			email.setDebug(smtpDebug);
-			email.setSmtpPort(smtpPort);
-			email.setSSL(smtpSSL);
-			email.setSslSmtpPort(String.valueOf(smtpSslPort));
-			email.setTLS(smtpTLS);
+//			email.setHostName(smtpServer);
+//
+//			if (smtpUser != null && smtpUser.length() > 0)
+//				email.setAuthentication(smtpUser, smtpPassword);
+//
+//			email.setDebug(smtpDebug);
+//			email.setSmtpPort(smtpPort);
+//			email.setSSL(smtpSSL);
+//			email.setSslSmtpPort(String.valueOf(smtpSslPort));
+//			email.setTLS(smtpTLS);
+			
+			setEmailStandardData(email);
+			
 			email.send();
 		}
 		catch (EmailException e)
@@ -94,4 +153,69 @@ public class MailServiceImpl implements MailService<Email>
 
 		return sended;
 	}
+	
+	
+	public boolean sendHtmlMail(MailMessageHeaders headers, String htmlBody, File... attachments)
+	{
+		try {
+			HtmlEmail email = new HtmlEmail();
+			
+			setEmailStandardData(email);
+			
+			setMailMessageHeaders(email, headers);
+			
+			for (File file : attachments)
+			{
+				email.attach(getAttachment(file));	
+			}
+			
+			email.setHtmlMsg(htmlBody);
+			
+			String msgId = email.send();
+			
+			return true;
+			
+		} catch (EmailException e)
+		{
+			// FIXME Handle gracefully
+			throw new RuntimeException(e);
+		}
+	}
+
+	public boolean sendPlainTextMail(MailMessageHeaders headers, String body, File... attachments)
+	{
+		try {
+			Email email = new SimpleEmail();
+			
+			if (attachments != null && attachments.length > 0)
+			{
+				MultiPartEmail multiPart = new MultiPartEmail();
+				
+				for (File file : attachments)
+				{
+					multiPart.attach(getAttachment(file));
+				}
+				email = multiPart;
+			}
+			
+			setEmailStandardData(email);
+			
+			setMailMessageHeaders(email, headers);
+			
+			email.setMsg(body);
+			
+			String msgId = email.send();
+				
+			return true;	
+		}
+		catch (EmailException e)
+		{
+			// FIXME Handle gracefully
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	
+	
 }

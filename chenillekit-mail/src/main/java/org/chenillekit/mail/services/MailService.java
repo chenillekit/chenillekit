@@ -14,7 +14,10 @@
 
 package org.chenillekit.mail.services;
 
+import java.io.File;
+
 import org.apache.commons.mail.Email;
+import org.chenillekit.mail.MailMessageHeaders;
 
 /**
  * SMTP tool for sending emails based on <a href="http://jakarta.apache.org/commons/email">commons-email</a>.
@@ -35,6 +38,32 @@ public interface MailService<T extends Email>
 
     /**
      * send an email.
+     * 
+     * @deprecated use one of the other two methods: <code>sendPlainTextEmail</code> or
+     * <code>sendHtmlMail</code>.
      */
+    @Deprecated
     boolean sendEmail(T email);
+    
+    /**
+     * 
+     * @param header
+     * @param from
+     * @param subject
+     * @param body
+     * @param attachments
+     * @return
+     */
+    boolean sendPlainTextMail(MailMessageHeaders headers, String body, File... attachments);
+    
+    /**
+     * 
+     * @param header
+     * @param from
+     * @param subject
+     * @param htmlBbody
+     * @param attachments
+     * @return
+     */
+    boolean sendHtmlMail(MailMessageHeaders headers, String htmlBody, File... attachments);
 }
