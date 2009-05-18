@@ -27,9 +27,17 @@ public interface SearcherService
      *
      * @param baseDN     like <em>uid=sven.homburg,cn=depot120.dpd.de</em>
      * @param filter     like <em>(objectclass=*)</em>
-     * @param attributes string array wich attributes shoud returnd like <em>uid,userpassword</em>
+     * @param attributes string array which attributes should be returned like <em>uid,userpassword</em>
      *
      * @return
      */
     public List<LDAPEntry> search(String baseDN, String filter, String... attributes);
+    
+    /**
+     * Get the specified DN as a LDAPEntry
+     * 
+     * @param dn the LDAP DN look for 
+     * @return the {@link LDAPEntry} associated with the DN
+     */
+    public LDAPEntry lookup(String dn);
 }

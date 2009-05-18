@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2009 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,11 @@
 package org.chenillekit.ldap;
 
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.ServiceResources;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
+import org.chenillekit.ldap.services.LDAPOperation;
+import org.chenillekit.ldap.services.impl.LDAPOperationImpl;
 import org.chenillekit.ldap.services.internal.SearcherService;
 import org.chenillekit.ldap.services.internal.SimpleSearcherServiceImpl;
 
@@ -25,6 +28,12 @@ import org.chenillekit.ldap.services.internal.SimpleSearcherServiceImpl;
  */
 public class ChenilleKitLDAPModule
 {
+	
+	public static void bind(ServiceBinder binder)
+	{
+		binder.bind(LDAPOperation.class, LDAPOperationImpl.class);
+	}
+	
     public static SearcherService buildSimpleLdapSearcherService(ServiceResources resources,
                                                                  RegistryShutdownHub shutdownHub)
     {

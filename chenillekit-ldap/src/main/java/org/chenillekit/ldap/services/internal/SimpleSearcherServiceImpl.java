@@ -105,8 +105,8 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
         {
             connect();
 
-            if (logger.isInfoEnabled())
-                logger.info("BaseDN: " + baseDN + " / Filter: " + filter + " / Attributes: " + ArrayUtils.toString(attributes, "null"));
+            if (logger.isDebugEnabled())
+                logger.debug("BaseDN: " + baseDN + " / Filter: " + filter + " / Attributes: " + ArrayUtils.toString(attributes, "null"));
 
             int scope = LDAPv3.SCOPE_SUB;
             if (ldapVersion == 2)
@@ -122,11 +122,35 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
         }
         catch (LDAPException e)
         {
+        	// TODO More sane error reporting...
             throw new RuntimeException(e);
         }
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.chenillekit.ldap.services.internal.SearcherService#lookup(java.lang.String)
+     */
+    public LDAPEntry lookup(String dn)
+    {
+    	try
+    	{
+    		connect();
+    		
+    		if (logger.isDebugEnabled())
+    			logger.debug("Lookin up " + dn);
+    		
+    		LDAPEntry entry = ldapConnection.read(dn);
+    		
+    		return entry;
+    	}
+    	catch (LDAPException exc)
+    	{
+    		throw new RuntimeException(exc);
+    	}
+	}
 
-    /**
+	/**
      * connect and/or authenticate at LDAP server.
      *
      * @throws LDAPException
@@ -135,16 +159,16 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
     {
         if (!ldapConnection.isConnected())
         {
-            if (logger.isInfoEnabled())
-                logger.info("connecting server: {}", ldapHostName);
+            if (logger.isDebugEnabled())
+                logger.debug("connecting server: {}", ldapHostName);
 
             ldapConnection.connect(ldapVersion, ldapHostName, ldapPort, ldapAuthDN, ldapPwd);
         }
 
         if (!ldapConnection.isAuthenticated())
         {
-            if (logger.isInfoEnabled())
-                logger.info("authenticate at server: {}", ldapHostName);
+            if (logger.isDebugEnabled())
+                logger.debug("authenticate at server: {}", ldapHostName);
 
             ldapConnection.authenticate(ldapVersion, ldapAuthDN, ldapPwd);
         }
@@ -161,8 +185,8 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
         {
             if (ldapConnection != null && ldapConnection.isConnected())
             {
-                if (logger.isInfoEnabled())
-                    logger.info("disconnecting from server {}", ldapHostName);
+                if (logger.isDebugEnabled())
+                    logger.debug("disconnecting from server {}", ldapHostName);
 
                 ldapConnection.disconnect();
             }

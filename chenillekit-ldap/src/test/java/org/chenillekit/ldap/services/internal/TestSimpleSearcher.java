@@ -40,22 +40,39 @@ public class TestSimpleSearcher extends AbstractTestSuite
     }
 
     @Test(threadPoolSize = 4, invocationCount = 50, successPercentage = 98)
-    public void test_simple_search() throws NamingException
+    public void simple_search() throws NamingException
     {
         String baseDN = "o=Bund,c=DE";
         String filter = "(cn=Bund*)";
         String attribute = "mail";
         List<LDAPEntry> matches = searcherService.search(baseDN, filter, attribute);
         for (LDAPEntry match : matches)
-        {
+        {	
             Enumeration values = match.getAttribute(attribute).getStringValues();
             while (values.hasMoreElements())
             {
                 String value = (String) values.nextElement();
-                System.err.println(String.format("value of attribute '%s': %s", attribute, value));
             }
         }
 
         assertTrue(matches.size() >= 1);
+    }
+    
+    @Test(threadPoolSize = 4, invocationCount = 50, successPercentage = 98)
+    public void lookup() throws NamingException
+    {
+    	String baseDN = "o=Bund,c=DE";
+        String filter = "(cn=Bund*)";
+        
+        List<LDAPEntry> matches = searcherService.search(baseDN, filter);
+        
+        assertTrue(matches.size() >= 1);
+        
+        LDAPEntry match = matches.get(0);
+        
+        String matchDN = match.getDN();
+        LDAPEntry entry = searcherService.lookup(matchDN);
+        
+        assertNotNull(entry);
     }
 }
