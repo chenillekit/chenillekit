@@ -11,6 +11,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package org.chenillekit.mail.services;
 
 import org.apache.commons.mail.Email;
