@@ -27,7 +27,7 @@ import org.chenillekit.core.ChenilleKitCoreModule;
 @SubModule(value = {ChenilleKitCoreModule.class, ChenilleKitMailModule.class})
 public class ChenilleKitMailTestModule
 {
-	public static void contributeSimpleSmtpService(MappedConfiguration<String, Resource> contributions)
+	public static void contributeMailService(MappedConfiguration<String, Resource> contributions)
 	{
 		Resource resource = new ClasspathResource("smtp.properties");
 		contributions.add(ChenilleKitMailConstants.PROPERTIES_KEY, resource);
