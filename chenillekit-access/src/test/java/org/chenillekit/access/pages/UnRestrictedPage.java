@@ -15,6 +15,9 @@
 
 package org.chenillekit.access.pages;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.chenillekit.access.annotations.Restricted;
@@ -28,6 +31,15 @@ public class UnRestrictedPage
 	@InjectPage
 	private Invisible invisible;
 	
+	private List<String> context = null;
+	
+	
+	void onActivate(List<String> context)
+	{
+		this.context = context;
+	}
+	
+	
 	@Restricted(groups = { "ADMINS" })
 	Object onActionFromTestRights()
 	{
@@ -39,5 +51,23 @@ public class UnRestrictedPage
 	Object thisThrowRuntimeException()
 	{
 		return invisible;
+	}
+	
+	@Restricted(groups = { "ADMINS" })
+	void onActionFromTestRightsContext(List<String> context)
+	{
+		
+	}
+	
+	public List<String> getActionContext()
+	{
+		return Arrays.asList("first", "second", "third", "forth");
+	}
+	
+	public String getContextIfPresent()
+	{
+		return this.context == null || this.context.isEmpty() ?
+					"NO CONTEXT" :
+						Arrays.toString(context.toArray());
 	}
 }

@@ -39,10 +39,9 @@ public interface RedirectService
 	
 	/**
 	 * 
-	 * @param ckAccessId
 	 * @param params
 	 */
-	public void rememberPageRenderParameter(String ckAccessId, PageRenderRequestParameters params);
+	public void rememberPageRenderParameter(PageRenderRequestParameters params);
 	
 	/**
 	 * 
@@ -53,15 +52,15 @@ public interface RedirectService
 	
 	/**
 	 * 
-	 * @param chAccessId
 	 * @param params
+	 * @param chAccessId
 	 */
-	public void rememberComponentEventParameter(String ckAccessId, ComponentEventRequestParameters params);
+	public void rememberComponentEventParameter(ComponentEventRequestParameters params);
 	
 	/**
 	 * 
 	 * @param ckAccessId
 	 * @return
 	 */
-	public ComponentEventRequestParameters removeComponentEventParamter(String ckAccessId);
+	public ComponentEventRequestParameters removeComponentEventParameter(String ckAccessId);
 }

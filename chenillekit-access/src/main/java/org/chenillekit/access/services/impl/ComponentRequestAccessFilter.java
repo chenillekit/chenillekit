@@ -24,7 +24,6 @@ import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.chenillekit.access.ChenilleKitAccessConstants;
-import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.RedirectService;
 import org.slf4j.Logger;
@@ -45,8 +44,6 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	private final String loginPage;
 	
 	private final RedirectService redirect;
-	
-//	private final ApplicationStateManager stateManager;
 		
 	private final PageRenderRequestParameters loginPageRenderParameters;
 	private final ComponentEventRequestParameters loginComponentEventParameters;
@@ -62,7 +59,6 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	public ComponentRequestAccessFilter(AccessValidator accessValidator,
 			SymbolSource symbols, Logger logger, RedirectService redirect,ApplicationStateManager stateManager)
 	{
-//		this.stateManager = stateManager;
 		this.logger = logger;
 		this.accessValidator = accessValidator;
 		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
@@ -74,13 +70,6 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 		this.loginComponentEventParameters = new ComponentEventRequestParameters(this.loginPage,
 												this.loginPage, "", EventConstants.ACTIVATE,
 												new EmptyEventContext(),new EmptyEventContext());
-	}
-	
-	private String generateCKAccessId()
-	{
-		String id = Long.toString(System.currentTimeMillis());
-		
-		return id;
 	}
 	
 	/* (non-Javadoc)
@@ -96,9 +85,11 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 		}
 		else
 		{
-			String ckAccessId = generateCKAccessId();
+			if (logger.isDebugEnabled())
+				logger.debug("User hasn't rights to access " +  parameters.getEventType()
+						+ " event on " + parameters.getActivePageName()  + " page");
 			
-			redirect.rememberComponentEventParameter(ckAccessId, parameters);
+			redirect.rememberComponentEventParameter(parameters);
 			
 			handler.handleComponentEvent(loginComponentEventParameters);
 		}
@@ -119,9 +110,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 			if (logger.isDebugEnabled())
 				logger.debug("User hasn't rights to access " + parameters.getLogicalPageName()  + " page");
 			
-			String ckAccessId = generateCKAccessId();
-			
-			redirect.rememberPageRenderParameter(ckAccessId, parameters);
+			redirect.rememberPageRenderParameter(parameters);
 			
 			handler.handlePageRender(loginPageRenderParameters);
 		}

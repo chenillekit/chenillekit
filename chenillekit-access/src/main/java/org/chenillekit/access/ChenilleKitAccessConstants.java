@@ -34,10 +34,23 @@ public final class ChenilleKitAccessConstants
 	public static final String ACCESS_ID_COOKIE_NAME = "CKAccessId";
 	
 	/**
-	 * Cookie flag to indicate a successful login done.
+	 * Cookie flag to check for a successful login done.
 	 */
-	public static final String LOGIN_SUCCESSFUL_COOKIE_NAME = "CKAccessLoginOK";
+	public static final String LOGIN_SUCCESSFUL_COOKIE_NAME = "CKAccessLogin";
 	
+	/**
+	 * Cookie value to indicate a successful login
+	 */
+	public static final String LOGIN_SUCCESSFUL_COOKIE_NAME_OK = "OK";
+	
+	/**
+	 * Cookie value to indicate a unsuccessful login
+	 */
+	public static final String LOGIN_SUCCESSFUL_COOKIE_NAME_KO = "KO";
+	
+	/**
+	 * 
+	 */
 	public static final String WEB_USER_AUTH_SERVICE = "webuser.authservice";
 
 	/**

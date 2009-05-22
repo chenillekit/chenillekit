@@ -22,7 +22,6 @@ import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.chenillekit.access.ChenilleKitAccessConstants;
-import org.chenillekit.access.internal.ComponentRequestParameterHolder;
 import org.chenillekit.access.services.RedirectService;
 
 /**
@@ -48,11 +47,6 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 		this.cookies = cookies;
 		this.redirect = redirect;
 	}
-	
-//	private void handleIt(ComponentRequestParameterHolder holder, ComponentRequestHandler handler)
-//	{
-//		
-//	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.tapestry5.services.ComponentRequestFilter#handleComponentEvent(org.apache.tapestry5.services.ComponentEventRequestParameters, org.apache.tapestry5.services.ComponentRequestHandler)
@@ -61,32 +55,9 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 			ComponentEventRequestParameters parameters,
 			ComponentRequestHandler handler) throws IOException
 	{
-		String ckAccessId = cookies.readCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME);
-		
-		ComponentEventRequestParameters actualParameters = ckAccessId == null ? null : redirect.removeComponentEventParamter(ckAccessId);
-		
-		if (actualParameters == null)
-		{
-			handler.handleComponentEvent(parameters);
-		}
-		else
-		{
-			String successfulLogin = cookies.readCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
-			
-			if (successfulLogin != null && successfulLogin.equals("OK"))
-			{
-				cookies.removeCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
-				cookies.removeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME);
-				
-				redirect.redirectTo(actualParameters.getActivePageName(), actualParameters.getEventContext());
-			}
-			else
-			{
-				handler.handleComponentEvent(parameters);
-			}
-		}
-		
-		
+		// We don't need to interfere here since we do redirect just after a successful
+		// login from our own component which after all do a page render redirect
+		handler.handleComponentEvent(parameters);
 	}
 
 	/* (non-Javadoc)
@@ -95,29 +66,54 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 	public void handlePageRender(PageRenderRequestParameters parameters,
 			ComponentRequestHandler handler) throws IOException
 	{
+		String successfulLogin = cookies.readCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
 		String ckAccessId = cookies.readCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME);
 		
-		PageRenderRequestParameters actualParameters = ckAccessId == null ? null : redirect.removePageRenderParamter(ckAccessId);
+		PageRenderRequestParameters actualParameters = null;
 		
-		if (actualParameters == null)
-		{
-			handler.handlePageRender(parameters);
-		}
-		else
-		{
-			String successfulLogin = cookies.readCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
-			
-			if (successfulLogin != null && successfulLogin.equals("OK"))
+		if (successfulLogin != null && successfulLogin.equals(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME_OK))
+		{	
+			// We have just done a successfull login
+			if (ckAccessId == null)
 			{
-				cookies.removeCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
-				cookies.removeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME);
-			
-				redirect.redirectTo(actualParameters.getLogicalPageName(), actualParameters.getActivationContext());
+				// We don't have the hook for stored parameters so proceed...
+				handler.handlePageRender(parameters);
 			}
 			else
 			{
-				handler.handlePageRender(parameters);
+				// We have the hook so check for stored page render parameter
+				actualParameters = redirect.removePageRenderParamter(ckAccessId);
+				
+				if (actualParameters != null)
+				{
+					cookies.removeCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
+					cookies.removeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME);
+					
+					redirect.redirectTo(actualParameters.getLogicalPageName(), actualParameters.getActivationContext());
+				}
+				else
+				{
+					// We don't have page render parameter check for component event one
+					ComponentEventRequestParameters eventParameters = redirect.removeComponentEventParameter(ckAccessId);
+					if (eventParameters != null)
+					{				
+						cookies.removeCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
+						cookies.removeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME);
+						
+						redirect.redirectTo(eventParameters.getActivePageName(), eventParameters.getEventContext());
+					}
+					else
+					{
+						// We don't have anything and something wired has happened...
+						handler.handlePageRender(parameters);
+					}
+				}
 			}
+		}
+		else
+		{
+			// Normally we should continue down the pipeline...
+			handler.handlePageRender(parameters);
 		}
 	}
 

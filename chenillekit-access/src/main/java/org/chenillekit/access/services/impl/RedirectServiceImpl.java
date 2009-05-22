@@ -28,7 +28,7 @@ public class RedirectServiceImpl implements RedirectService
 	
 	private final Response response;
 	
-	private final ConcurrentMap<String, ComponentEventRequestParameters> requestedEventParamter =
+	private final ConcurrentMap<String, ComponentEventRequestParameters> requestedEventParameter =
 		new ConcurrentHashMap<String, ComponentEventRequestParameters>();
 	
 	private final ConcurrentMap<String, PageRenderRequestParameters> requestedPageParameter =
@@ -44,6 +44,16 @@ public class RedirectServiceImpl implements RedirectService
 		this.contextPathEncoder = contextPathEncoder;
 		this.response = response;
 		this.cookies = cookies;
+	}
+	
+	/**
+	 * @return generate an access key id for storing requests parameters
+	 */
+	private String generateCKAccessId()
+	{
+		String id = Long.toString(System.currentTimeMillis());
+		
+		return id;
 	}
 
 	/* (non-Javadoc)
@@ -62,9 +72,9 @@ public class RedirectServiceImpl implements RedirectService
 	 * (non-Javadoc)
 	 * @see org.chenillekit.access.services.RedirectService#getComponentEventParamter(java.lang.String)
 	 */
-	public ComponentEventRequestParameters removeComponentEventParamter(String ckAccessId)
+	public ComponentEventRequestParameters removeComponentEventParameter(String ckAccessId)
 	{
-		return requestedEventParamter.remove(ckAccessId);
+		return requestedEventParameter.remove(ckAccessId);
 	}
 	
 	/*
@@ -80,24 +90,37 @@ public class RedirectServiceImpl implements RedirectService
 	 * (non-Javadoc)
 	 * @see org.chenillekit.access.services.RedirectService#putComponentEventParameter(java.lang.String, org.apache.tapestry5.services.ComponentEventRequestParameters)
 	 */
-	public void rememberComponentEventParameter(String ckAccessId, ComponentEventRequestParameters params)
+	public void rememberComponentEventParameter(ComponentEventRequestParameters params)
 	{
-		requestedEventParamter.put(ckAccessId, params);
+		String successfulLogin = cookies.readCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
 		
-		cookies.writeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME, ckAccessId);
+		if (successfulLogin == null || !successfulLogin.equals(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME_KO))
+		{
+			String ckAccessId = generateCKAccessId();
+			
+			requestedEventParameter.put(ckAccessId, params);
+			
+			cookies.writeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME, ckAccessId);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.chenillekit.access.services.RedirectService#putPageRenderParameter(java.lang.String, org.apache.tapestry5.services.PageRenderRequestParameters)
 	 */
-	public void rememberPageRenderParameter(String ckAccessId, PageRenderRequestParameters params)
+	public void rememberPageRenderParameter(PageRenderRequestParameters params)
 	{
-		requestedPageParameter.put(ckAccessId, params);
+		String successfulLogin = cookies.readCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
 		
-		cookies.writeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME, ckAccessId);
+		if (successfulLogin == null || !successfulLogin.equals(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME_KO))
+		{
+			String ckAccessId = generateCKAccessId();
+			
+			requestedPageParameter.put(ckAccessId, params);
+			
+			cookies.writeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME, ckAccessId);
+		}
 	}
-	
 	
 
 }

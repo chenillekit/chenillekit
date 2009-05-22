@@ -80,6 +80,34 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	}
 	
 	@Test
+	public void restricted_with_context_error_failed_first_login() throws Exception
+	{
+		open("/restrictedpage/yes/present");
+		
+		type("chenillekitUsername", "rot");
+		type("chenillekitPassword", "banane");
+		
+		clickAndWait("chenillekitLoginSubmit");
+		
+		assertTextPresent("Login Page");
+		
+		type("chenillekitUsername", "root");
+		type("chenillekitPassword", "banane");
+		
+		clickAndWait("chenillekitLoginSubmit");
+		
+		assertTextPresent("Context: yes present");
+		
+		open(BASE_URL);
+		
+		clickAndWait("link=Logout");
+		
+		assertTextPresent("Logout Page");
+		
+		assertTextPresent("User logged in: NO");
+	}
+	
+	@Test
 	public void action_link_rights_restricted() throws Exception
 	{
 		open(BASE_URL);
@@ -101,6 +129,33 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
         clickAndWait("link=only admin handled by OnEvent annotation");
         
         assertTextPresent("Login Page");
+	}
+	
+	@Test
+	public void action_with_context_restricted() throws Exception
+	{
+		open(BASE_URL);
+		
+		clickAndWait("link=UnRestricted");
+		
+		clickAndWait("link=only admin with context");
+		
+		assertTextPresent("Login Page");
+		
+		type("chenillekitUsername", "root");
+		type("chenillekitPassword", "banane");
+		
+		clickAndWait("chenillekitLoginSubmit");
+		
+		assertTextPresent("[first, second, third, forth]");
+		
+		open(BASE_URL);
+		
+		clickAndWait("link=Logout");
+		
+		assertTextPresent("Logout Page");
+		
+		assertTextPresent("User logged in: NO");
 	}
 	
 	@Test

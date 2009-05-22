@@ -15,9 +15,9 @@
 package org.chenillekit.access.components;
 
 import org.apache.tapestry5.ValidationTracker;
-import org.apache.tapestry5.annotations.ApplicationState;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -35,7 +35,7 @@ import org.chenillekit.access.services.AuthenticationService;
 public class Login
 {
 	@SuppressWarnings("unused")
-	@ApplicationState
+	@SessionState
 	private WebSessionUser webSessionUser;
 	
 	@Inject
@@ -71,7 +71,7 @@ public class Login
 	
 	void onFailure()
 	{
-		// TODO What to do here?
+		cookies.writeCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME, "KO", 300);
 	}
 	
 	void onSuccess()

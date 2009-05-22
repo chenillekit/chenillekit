@@ -29,5 +29,9 @@
 
 <t:actionlink t:id="testRightsOnEvent" id="testRightsOnEvent">only admin handled by OnEvent annotation</t:actionlink>
 
+<t:actionlink t:id="testRightsContext" id="testRightsContext" context="actionContext">only admin with context</t:actionlink>
+
+<p>${contextIfPresent}</p>
+
 </body>
 </html>
