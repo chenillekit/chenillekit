@@ -32,7 +32,7 @@ import org.apache.tapestry5.corelib.base.AbstractField;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 
-import com.google.code.kaptcha.Producer;
+import org.chenillekit.image.services.CaptchaProducer;
 import org.chenillekit.tapestry.core.utils.JPEGInline;
 
 /**
@@ -83,7 +83,7 @@ public class Kaptcha extends AbstractField
 	private Request request;
 
 	@Inject
-	private Producer kaptchaProducer;
+	private CaptchaProducer kaptchaProducer;
 
 
 	/**
