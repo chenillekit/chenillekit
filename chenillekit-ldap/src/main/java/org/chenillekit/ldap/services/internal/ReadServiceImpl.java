@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 /**
  * @version $Id: LdapSearchServiceImpl.java 167 2008-07-23 22:05:16Z shomburg $
  */
-public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutdownListener
+public class ReadServiceImpl implements ReadService, RegistryShutdownListener
 {
     private Logger logger;
     private LDAPConnection ldapConnection;
@@ -45,7 +45,7 @@ public class SimpleSearcherServiceImpl implements SearcherService, RegistryShutd
     private final int ldapPort;
     private final int ldapVersion;
 
-    public SimpleSearcherServiceImpl(Logger logger,
+    public ReadServiceImpl(Logger logger,
 
                                      @Inject
                                      @Symbol(ChenilleKitLDAPConstants.LDAP_VERSION)

@@ -14,7 +14,7 @@ import org.chenillekit.ldap.ChenilleKitLDAPTestModule;
 import org.chenillekit.ldap.OnePropMapper;
 import org.chenillekit.ldap.OneProperty;
 import org.chenillekit.ldap.services.LDAPOperation;
-import org.chenillekit.ldap.services.internal.SearcherService;
+import org.chenillekit.ldap.services.internal.ReadService;
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;

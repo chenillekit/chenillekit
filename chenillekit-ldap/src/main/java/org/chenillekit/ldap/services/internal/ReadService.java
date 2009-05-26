@@ -20,7 +20,7 @@ import netscape.ldap.LDAPEntry;
 /**
  * @version $Id: LdapSearchService.java 167 2008-07-23 22:05:16Z shomburg $
  */
-public interface SearcherService
+public interface ReadService
 {
     /**
      * get the result object of an attribute based on baseDN and filter.

@@ -10,7 +10,7 @@ import netscape.ldap.LDAPEntry;
 
 import org.chenillekit.ldap.mapper.EntryMapper;
 import org.chenillekit.ldap.services.LDAPOperation;
-import org.chenillekit.ldap.services.internal.SearcherService;
+import org.chenillekit.ldap.services.internal.ReadService;
 
 /**
  * @author massimo
@@ -18,9 +18,9 @@ import org.chenillekit.ldap.services.internal.SearcherService;
  */
 public class LDAPOperationImpl implements LDAPOperation
 {
-	private final SearcherService search;
+	private final ReadService search;
 	
-	public LDAPOperationImpl(SearcherService search)
+	public LDAPOperationImpl(ReadService search)
 	{
 		this.search = search;
 	}

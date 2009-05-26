@@ -20,7 +20,7 @@ import javax.naming.NamingException;
 
 import netscape.ldap.LDAPEntry;
 import org.chenillekit.ldap.ChenilleKitLDAPTestModule;
-import org.chenillekit.ldap.services.internal.SearcherService;
+import org.chenillekit.ldap.services.internal.ReadService;
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -30,13 +30,13 @@ import org.testng.annotations.Test;
  */
 public class TestSimpleSearcher extends AbstractTestSuite
 {
-    private SearcherService searcherService;
+    private ReadService searcherService;
 
     @BeforeSuite
     public final void setup_registry()
     {
         super.setup_registry(ChenilleKitLDAPTestModule.class);
-        searcherService = registry.getService(SearcherService.class);
+        searcherService = registry.getService(ReadService.class);
     }
 
     @Test(threadPoolSize = 4, invocationCount = 50, successPercentage = 98)

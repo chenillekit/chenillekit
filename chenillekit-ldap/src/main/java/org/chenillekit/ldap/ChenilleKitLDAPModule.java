@@ -20,8 +20,8 @@ import org.apache.tapestry5.ioc.ServiceResources;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 import org.chenillekit.ldap.services.LDAPOperation;
 import org.chenillekit.ldap.services.impl.LDAPOperationImpl;
-import org.chenillekit.ldap.services.internal.SearcherService;
-import org.chenillekit.ldap.services.internal.SimpleSearcherServiceImpl;
+import org.chenillekit.ldap.services.internal.ReadService;
+import org.chenillekit.ldap.services.internal.ReadServiceImpl;
 
 /**
  * @version $Id: ChenilleKitMailModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $
@@ -34,10 +34,10 @@ public class ChenilleKitLDAPModule
 		binder.bind(LDAPOperation.class, LDAPOperationImpl.class);
 	}
 	
-    public static SearcherService buildSimpleLdapSearcherService(ServiceResources resources,
+    public static ReadService buildSimpleLdapSearcherService(ServiceResources resources,
                                                                  RegistryShutdownHub shutdownHub)
     {
-        SimpleSearcherServiceImpl service = resources.autobuild(SimpleSearcherServiceImpl.class);
+        ReadServiceImpl service = resources.autobuild(ReadServiceImpl.class);
         shutdownHub.addRegistryShutdownListener(service);
         return service;
     }
