@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 /**
  * @version $Id$
  */
-public class TestSimpleSearcher extends AbstractTestSuite
+public class ReadServiceTest extends AbstractTestSuite
 {
     private ReadService searcherService;
 
