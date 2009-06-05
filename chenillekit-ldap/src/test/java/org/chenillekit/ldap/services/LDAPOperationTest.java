@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
  * @author massimo
  *
  */
-public class TestLDAPOperation extends AbstractTestSuite
+public class LDAPOperationTest extends AbstractTestSuite
 {
 	private LDAPOperation ldapOperation;
 	
