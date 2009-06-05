@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2009 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,14 @@ package org.chenillekit.ldap.services.internal;
 
 import java.util.Enumeration;
 import java.util.List;
+
 import javax.naming.NamingException;
 
 import netscape.ldap.LDAPEntry;
+
 import org.chenillekit.ldap.ChenilleKitLDAPTestModule;
-import org.chenillekit.ldap.services.internal.ReadService;
 import org.chenillekit.test.AbstractTestSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -32,7 +33,7 @@ public class ReadServiceTest extends AbstractTestSuite
 {
     private ReadService searcherService;
 
-    @BeforeSuite
+    @BeforeTest
     public final void setup_registry()
     {
         super.setup_registry(ChenilleKitLDAPTestModule.class);

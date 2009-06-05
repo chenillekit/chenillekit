@@ -24,6 +24,8 @@ import org.chenillekit.ldap.services.internal.LDAPSource;
 import org.chenillekit.ldap.services.internal.LDAPSourceImpl;
 import org.chenillekit.ldap.services.internal.ReadService;
 import org.chenillekit.ldap.services.internal.ReadServiceImpl;
+import org.chenillekit.ldap.services.internal.WriteService;
+import org.chenillekit.ldap.services.internal.WriteServiceImpl;
 
 /**
  * @version $Id: ChenilleKitMailModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $
@@ -35,6 +37,7 @@ public class ChenilleKitLDAPModule
 	{
 		binder.bind(LDAPOperation.class, LDAPOperationImpl.class);
 		binder.bind(ReadService.class, ReadServiceImpl.class);
+		binder.bind(WriteService.class, WriteServiceImpl.class);
 	}
 	
     public static LDAPSource buildLDAPSource(ServiceResources resources,

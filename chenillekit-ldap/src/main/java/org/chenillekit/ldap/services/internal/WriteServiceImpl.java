@@ -4,6 +4,8 @@
 package org.chenillekit.ldap.services.internal;
 
 import netscape.ldap.LDAPAttributeSet;
+import netscape.ldap.LDAPEntry;
+import netscape.ldap.LDAPException;
 import netscape.ldap.LDAPModificationSet;
 
 import org.slf4j.Logger;
@@ -35,8 +37,16 @@ public class WriteServiceImpl implements WriteService
 	 */
 	public void addEntry(String dn, LDAPAttributeSet attributes)
 	{
-		// TODO Auto-generated method stub
-		throw new RuntimeException("NOT YET IMPLEMENTED");
+		LDAPEntry entry = new LDAPEntry(dn, attributes);
+		
+		try
+		{
+			ldapSource.openSession().add(entry);
+		}
+		catch (LDAPException le)
+		{
+			throw new RuntimeException(le);
+		}
 	}
 
 	/*
@@ -45,8 +55,14 @@ public class WriteServiceImpl implements WriteService
 	 */
 	public void deleteEntry(String dn)
 	{
-		// TODO Auto-generated method stub
-		throw new RuntimeException("NOT YET IMPLEMENTED");
+		try
+		{
+			ldapSource.openSession().delete(dn);
+		}
+		catch (LDAPException le)
+		{
+			throw new RuntimeException(le);
+		}
 	}
 
 	/*
@@ -55,8 +71,14 @@ public class WriteServiceImpl implements WriteService
 	 */
 	public void modifyEntry(String dn, LDAPModificationSet modifications)
 	{
-		// TODO Auto-generated method stub
-		throw new RuntimeException("NOT YET IMPLEMENTED");
+		try
+		{
+			ldapSource.openSession().modify(dn, modifications);
+		}
+		catch (LDAPException le)
+		{
+			throw new RuntimeException(le);
+		}
 	}
 
 	/*
@@ -65,8 +87,14 @@ public class WriteServiceImpl implements WriteService
 	 */
 	public void renameEntry(String oldDn, String newDn)
 	{
-		// TODO Auto-generated method stub
-		throw new RuntimeException("NOT YET IMPLEMENTED");
+		try
+		{
+			ldapSource.openSession().rename(oldDn, newDn, true);
+		}
+		catch (LDAPException le)
+		{
+			throw new RuntimeException(le);
+		}
 	}
 	
 

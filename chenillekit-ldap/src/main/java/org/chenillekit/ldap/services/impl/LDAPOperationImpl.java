@@ -4,13 +4,19 @@
 package org.chenillekit.ldap.services.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import netscape.ldap.LDAPAttribute;
 import netscape.ldap.LDAPEntry;
+import netscape.ldap.LDAPModification;
+import netscape.ldap.LDAPModificationSet;
 
 import org.chenillekit.ldap.mapper.EntryMapper;
 import org.chenillekit.ldap.services.LDAPOperation;
 import org.chenillekit.ldap.services.internal.ReadService;
+import org.chenillekit.ldap.services.internal.WriteService;
 
 /**
  * @author massimo
@@ -18,11 +24,13 @@ import org.chenillekit.ldap.services.internal.ReadService;
  */
 public class LDAPOperationImpl implements LDAPOperation
 {
-	private final ReadService search;
+	private final ReadService reader;
+	private final WriteService writer;
 	
-	public LDAPOperationImpl(ReadService search)
+	public LDAPOperationImpl(ReadService reader, WriteService writer)
 	{
-		this.search = search;
+		this.reader = reader;
+		this.writer = writer;
 	}
 
 	/*
@@ -33,7 +41,7 @@ public class LDAPOperationImpl implements LDAPOperation
 	{
 		try
 		{
-			return search.search(baseDN, filter, attributes);
+			return reader.search(baseDN, filter, attributes);
 		}
 		catch (RuntimeException re)
 		{
@@ -49,7 +57,7 @@ public class LDAPOperationImpl implements LDAPOperation
 	{
 		try
 		{
-			List<LDAPEntry> entries = search.search(baseDN, filter);
+			List<LDAPEntry> entries = reader.search(baseDN, filter);
 			List<T> res = new ArrayList<T>();
 			
 			for (LDAPEntry ldapEntry : entries)
@@ -73,7 +81,7 @@ public class LDAPOperationImpl implements LDAPOperation
 	{
 		try
 		{
-			return search.lookup(dn);
+			return reader.lookup(dn);
 		}
 		catch (RuntimeException exc)
 		{
@@ -89,13 +97,86 @@ public class LDAPOperationImpl implements LDAPOperation
 	{
 		try
 		{
-			T res =  mapper.mapFromEntry(search.lookup(dn));
+			T res =  mapper.mapFromEntry(reader.lookup(dn));
 			return res;
 		}
 		catch (RuntimeException exc)
 		{
 			return null;
 		}
-	}	
+	}
 
+	/* (non-Javadoc)
+	 * @see org.chenillekit.ldap.services.LDAPOperation#add(java.lang.String, java.lang.Object, org.chenillekit.ldap.mapper.EntryMapper)
+	 */
+	public <T> void add(String dn, T element, EntryMapper<T> mapper)
+	{
+		// XXX Note the here we switch from element to entry to attributeSet to entry again
+		LDAPEntry entry = mapper.mapToEntry(element);
+		
+		writer.addEntry(dn, entry.getAttributeSet());
+	}
+
+	/* (non-Javadoc)
+	 * @see org.chenillekit.ldap.services.LDAPOperation#delete(java.lang.String)
+	 */
+	public void delete(String dn)
+	{
+		writer.deleteEntry(dn);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.chenillekit.ldap.services.LDAPOperation#modify(java.lang.String, java.lang.Object, org.chenillekit.ldap.mapper.EntryMapper)
+	 */
+	public <T> void modify(String dn, T element, EntryMapper<T> mapper)
+	{
+		LDAPEntry oriEntry = reader.lookup(dn);
+		
+		Map<String, String[]> orisAttr = new HashMap<String, String[]>();
+		
+		for (int i = 0; i < oriEntry.getAttributeSet().size(); i++)
+		{
+			LDAPAttribute attr = oriEntry.getAttributeSet().elementAt(i);
+			orisAttr.put(attr.getName(), attr.getStringValueArray());
+		}
+		
+		LDAPEntry modEntry = mapper.mapToEntry(element);
+		
+		LDAPModificationSet modSet = new LDAPModificationSet();
+		
+		for (int i = 0; i < modEntry.getAttributeSet().size(); i++)
+		{
+			LDAPAttribute modificationAttribute = modEntry.getAttributeSet().elementAt(i);
+			
+			String name = modificationAttribute.getName();
+			String[] values = modificationAttribute.getStringValueArray();
+			
+			if (orisAttr.containsKey(name))
+			{
+				modSet.add(LDAPModification.REPLACE, new LDAPAttribute(name, values));
+				orisAttr.remove(name);
+			}
+			else
+			{
+				modSet.add(LDAPModification.ADD, new LDAPAttribute(name, values));
+			}
+		}
+		
+		for (String attrName : orisAttr.keySet())
+		{
+			modSet.add(LDAPModification.DELETE, new LDAPAttribute(attrName, orisAttr.get(attrName)));
+		}
+		
+		
+		writer.modifyEntry(dn, modSet);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.chenillekit.ldap.services.LDAPOperation#rename(java.lang.String, java.lang.String)
+	 */
+	public void rename(String oldDn, String newDn)
+	{
+		writer.renameEntry(oldDn, newDn);
+	}	
+	
 }
