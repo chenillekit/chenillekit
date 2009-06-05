@@ -27,7 +27,7 @@ public class AbstractTestSuite extends Assert
 {
     protected static Registry registry;
 
-    public void setup_registry(Class... moduleClasses)
+    public void setup_registry(Class<?>... moduleClasses)
     {
         RegistryBuilder builder = new RegistryBuilder();
 
