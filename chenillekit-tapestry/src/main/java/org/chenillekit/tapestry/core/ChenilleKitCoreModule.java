@@ -60,6 +60,11 @@ public class ChenilleKitCoreModule
 		// contribution based on the path.
 		configuration.add("ck.components", "org/chenillekit/tapestry/core/components");
 		configuration.add("ck.fckeditor", "classpath:${ck.components}/fckeditor");
+
+		configuration.add("yahoo.yui.path", "org/chenillekit/tapestry/core/yui_2_7_0");
+		configuration.add("yahoo.yui", "classpath:${yahoo.yui.path}");
+
+		configuration.add("yahoo.yui.mode", "-min");
 	}
 
 	public void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
