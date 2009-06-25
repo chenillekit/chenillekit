@@ -36,7 +36,7 @@ import org.chenillekit.tapestry.core.utils.XYDataItem;
  */
 @SupportsInformalParameters
 @IncludeJavaScriptLibrary(value = {"../excanvas.js",
-        "chart/flotr.debug-0.1.0alpha.js"})
+        "chart/flotr.debug-0.2.0-test.js"})
 public class Chart implements ClientElement
 {
     /**
