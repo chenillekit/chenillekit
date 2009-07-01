@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="${asset:../assets/styles/default.css}"/>
     <title>Chenille Kit Demo Application</title>
 </head>
-<body class="yui-skin-sam">
+<body>
 
 <div id="doc3">
     <div id="hd" style="height:auto;">

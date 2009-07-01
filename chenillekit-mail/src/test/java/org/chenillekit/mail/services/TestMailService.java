@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Iterator;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
@@ -33,6 +32,8 @@ import com.dumbster.smtp.SimpleSmtpServer;
 import org.chenillekit.mail.ChenilleKitMailTestModule;
 import org.chenillekit.mail.MailMessageHeaders;
 import org.chenillekit.test.AbstractTestSuite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -41,8 +42,10 @@ import org.testng.annotations.Test;
  */
 public class TestMailService extends AbstractTestSuite
 {
-    private SimpleSmtpServer smtpServer;
-    
+	private static final int SMTP_PORT = 9999;
+	private Logger logger = LoggerFactory.getLogger(TestMailService.class);
+	private SimpleSmtpServer smtpServer;
+
     private MailService mailService;
 
     @BeforeSuite
@@ -50,8 +53,10 @@ public class TestMailService extends AbstractTestSuite
     {
         super.setup_registry(ChenilleKitMailTestModule.class);
         // test on port 9999 because linux workstations may blocking port 25
-        smtpServer = SimpleSmtpServer.start(9999);
-        
+
+		logger.info("starting SimpleSmtpServer at port {}", SMTP_PORT);
+		smtpServer = SimpleSmtpServer.start(SMTP_PORT);
+
         mailService = registry.getService(MailService.class);
     }
 
@@ -64,7 +69,7 @@ public class TestMailService extends AbstractTestSuite
         email.setFrom("homburgs@gmail.com");
         email.setMsg("This is a dummy message text!");
 
-        
+
         mailService.sendEmail(email);
 
         assertTrue(smtpServer.getReceivedEmailSize() == 1);
@@ -97,34 +102,34 @@ public class TestMailService extends AbstractTestSuite
 
         assertTrue(smtpServer.getReceivedEmailSize() == 2);
     }
-    
+
     @Test(dependsOnMethods = "test_multipartemail_sending")
     public void send_plain_mail()
     {
     	MailMessageHeaders headers = new MailMessageHeaders();
-    	
+
     	headers.setFrom("sender@example.com");
     	headers.addTo("receiver@example.com");
-    		
+
     	mailService.sendPlainTextMail(headers, "THIS IS THE BODY");
-    	
+
     	assertTrue(smtpServer.getReceivedEmailSize() == 3);
     }
-    
+
     @Test
     public void send_html_mail() throws IOException, URISyntaxException
     {
     	MailMessageHeaders headers = new MailMessageHeaders();
-    	
+
     	headers.setFrom("sender@example.com");
     	headers.addTo("receiver@example.com");
-    	
+
     	File tmp = new File(new ClasspathResource("dummy.txt").toURL().toURI());
-    	
+
     	mailService.sendHtmlMail(headers, "<html><head><title>HTML title message</title></head><body><p>I'm the Body</body></html>", tmp);
-    	
+
     	Iterator<?> iter = smtpServer.getReceivedEmail();
-    	
+
     	while (iter.hasNext()) {
 			Object object = (Object) iter.next();
 			System.err.println(" " + object);

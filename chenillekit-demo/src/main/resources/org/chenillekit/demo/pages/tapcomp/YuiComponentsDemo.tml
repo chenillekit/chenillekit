@@ -24,18 +24,84 @@
 
 		<div class="yui-u content">
 
-			<div class="yui-b">
+			<div class="yui-b" style="padding-bottom: 20px;">
 				<a href="#" t:id="eventLink">This is an EvenLink</a>
 			</div>
 
-			<div class="yui-b">
+			<div class="yui-b" style="padding-bottom: 20px;">
+				<div t:id="yuiTabView1" class="yui-navset">
+					<ul class="yui-nav">
+						<li><a href="#tab1"><em>Tab One Label</em></a></li>
+						<li><a href="#tab2"><em>Tab Two Label</em></a></li>
+						<li><a href="#tab3"><em>Tab Three Label</em></a></li>
+					</ul>
+					<div class="yui-content">
+						<div><p>Tab One Content</p></div>
+						<div><p>Tab Two Content</p></div>
+						<div><p>Tab Three Content</p></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="yui-b" style="padding-bottom: 20px;">
+				<span t:id="yuiTabView2"/>
+			</div>
+
+			<div class="yui-b" style="padding-bottom: 20px;">
 				<form t:type="form">
-					<input type="checkbox" t:id="checkbox"/>
+
+					<div class="yui-b">
+						<div class="yui-gb">
+							<div class="yui-u first">
+								<label>Checkbox</label>
+							</div>
+							<div class="yui-u">
+								<input type="button" t:id="stateButton"/>
+							</div>
+							<div class="yui-u">
+								button is in <t:if negate="true" test="stateButtonValue">un</t:if>checked state
+							</div>
+						</div>
+					</div>
+
+					<div class="yui-b">
+						<div class="yui-gf">
+							<div class="yui-u first">
+								<label>Slider</label>
+							</div>
+							<div class="yui-u">
+								<div t:id="yuiSlider"/>
+								<span id="sliderValue" style="text-align:right;"></span>
+							</div>
+						</div>
+					</div>
+
+					<br/>
+					<input type="submit"/>
 				</form>
 			</div>
 
 		</div>
 
+		<t:zone t:id="counterZone" id="counterZone">
+			<p>You have clicked the link <strong>${clickCount}</strong> times.</p>
+		</t:zone>
+
+		<p>
+			<a href="#" t:id="clicker">increment the count</a>
+		</p>
+
 	</div>
+
+	<t:block id="tab0">
+		dashfkjashdfkadsfkjadadsjfa
+	</t:block>
+
+	<script language="JavaScript">
+		function sliderChangeCallback(newOffset, y)
+		{
+			$('sliderValue').innerHTML = newOffset;
+		}
+	</script>
 
 </span>

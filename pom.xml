@@ -29,7 +29,7 @@
 	<groupId>org.chenillekit</groupId>
 	<artifactId>chenillekit-project</artifactId>
 	<packaging>pom</packaging>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 	<name>ChenilleKit Project</name>
 	<description>
 		A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
@@ -167,24 +167,6 @@
 				<role>committer</role>
 			</roles>
 			<timezone>+1</timezone>
-		</developer>
-		<developer>
-			<id>thobson</id>
-			<name>Toby Hobson</name>
-			<email>Toby.Hobson@gmail.com</email>
-			<roles>
-				<role>committer</role>
-			</roles>
-			<timezone>0</timezone>
-		</developer>
-		<developer>
-			<id>clewis</id>
-			<name>Chris Lewis</name>
-			<email>burningodzilla@gmail.com</email>
-			<roles>
-				<role>committer</role>
-			</roles>
-			<timezone>-5</timezone>
 		</developer>
 	</developers>
 
