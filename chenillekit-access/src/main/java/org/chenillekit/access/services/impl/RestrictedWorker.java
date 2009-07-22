@@ -101,8 +101,12 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 				String roleMeta = ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
 						eventType,
 						ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX);
-
-				model.setMeta(groupMeta, ChenillekitAccessInternalUtils.getStringArrayAsString(restricted.groups()));
+				
+				String groupsString = ChenillekitAccessInternalUtils.getStringArrayAsString(restricted.groups());
+				
+				if (groupsString.trim().length() > 0)
+					model.setMeta(groupMeta, groupsString);
+				
 				model.setMeta(roleMeta, Integer.toString(restricted.role()));
 			}
 			else

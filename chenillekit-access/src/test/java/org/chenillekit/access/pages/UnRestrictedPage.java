@@ -39,6 +39,11 @@ public class UnRestrictedPage
 		this.context = context;
 	}
 	
+	@Restricted(role = 8)
+	Object onActionFromTestRightsRole()
+	{
+		return invisible;
+	}
 	
 	@Restricted(groups = { "ADMINS" })
 	Object onActionFromTestRights()
