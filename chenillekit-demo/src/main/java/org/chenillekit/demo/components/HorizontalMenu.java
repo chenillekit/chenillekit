@@ -15,16 +15,17 @@
 package org.chenillekit.demo.components;
 
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Mixins;
+import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.corelib.components.PageLink;
 
 /**
  * @version $Id$
  */
+@IncludeStylesheet(value = {"HorizontalMenu.css"})
 public class HorizontalMenu extends LeftSideMenu
 {
-    @Component(parameters = {"page=prop:menuItem.pageName", "style=menuItem.styles",
-            "context=menuItem.contextParameters", "color=orange"})
-    @Mixins({"OvalButton"})
-    private PageLink pageLink;
+	@Component(parameters = {"page=prop:menuItem.pageName", "style=menuItem.styles",
+			"context=menuItem.contextParameters"})
+//    @Mixins({"ck/yui/Button"})
+	private PageLink pageLink;
 }

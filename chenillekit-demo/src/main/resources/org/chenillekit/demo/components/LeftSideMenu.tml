@@ -14,11 +14,11 @@
   -->
 
 <span xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
-    <div t:type="chenillekit/RoundCornerContainer" fgcolor="#D2E0F2" style="background-color:#D2E0F2;">
+    <div t:type="chenillekit/RoundCornerContainer" fgcolor="#D2E0F2" bgcolor="#39414A" style="background-color:#D2E0F2;">
         <div class="buttonwrapper" style="padding-top: 2px; padding-left:12px;">
             <span t:id="menuItemLoop">
                 <t:unless test="menuItem.separator">
-                    <a href="#" t:id="pageLink">${menuItem.menuDesc}</a>
+                    <a class="squarebutton orange" href="#" t:id="pageLink"><span>${menuItem.menuDesc}</span></a>
                     <br style="line-height:28px;"/>
                 <t:parameter name="else">
                     <br style="line-height:5px;"/>

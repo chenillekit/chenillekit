@@ -28,9 +28,9 @@
     <div id="hd" style="height:auto;">
         <div class="yui-g" style="width:100%">
             <div class="yui-u first">
-                <a href="http://www.chenillekit.org/" title="back to project page">
-                    <img style="float:left;" alt="back to project page" src="${asset:../assets/images/chenillekit-logo.png}"/>
-                </a>
+                <!--<a href="http://www.chenillekit.org/" title="back to project page">-->
+                    <!--<img style="float:left;" alt="back to project page" src="${asset:../assets/images/chenillekit-logo.png}"/>-->
+                <!--</a>-->
             </div>
 
             <div class="yui-u">
@@ -38,11 +38,11 @@
             </div>
         </div>
 
-        <div class="yui-b" style="width:100%">
+        <div class="yui-b" style="width:100%; padding-top:65px;">
             <span t:id="horizontalMenu"/>
         </div>
     </div>
-    <div id="bd">
+    <div id="bd" style="padding-top:12px;">
         <t:body/>
     </div>
     <div id="ft">
