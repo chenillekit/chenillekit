@@ -16,11 +16,11 @@ package org.chenillekit.tapestry.core.components;
 
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventConstants;
+import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.RenderSupport;
@@ -131,7 +131,7 @@ public class InPlaceCheckbox implements ClientElement
     {
         writer.end(); // input
 
-        Link link = resources.createEventLink(EventConstants.ACTION);
+        Link link = resources.createEventLink(EventConstants.ACTION, contextArray);
         String ajaxString = "new Ck.InPlaceCheckbox('%s', '%s'";
 
         if (onCompleteCallback != null)
@@ -142,11 +142,20 @@ public class InPlaceCheckbox implements ClientElement
         renderSupport.addScript(ajaxString, getClientId(), link.toAbsoluteURI());
     }
 
-    JSONObject onAction(boolean value)
+    JSONObject onAction(EventContext context)
     {
-        Object[] eventContextArray = ArrayUtils.add(contextArray, value);
-        resources.triggerEvent(EVENT_NAME, eventContextArray, null);
-        return new JSONObject().put("value", value);
+		Object[] eventContextArray = new Object[context.getCount()];
+		for (int x = 0; x < context.getCount(); x++)
+		{
+			if (x < context.getCount()-1)
+				eventContextArray[x] = context.get(String.class, x);
+			else
+				eventContextArray[x] = context.get(Boolean.class, x);
+		}
+
+		resources.triggerEvent(EVENT_NAME, eventContextArray, null);
+
+		return new JSONObject().put("value", eventContextArray[context.getCount()-1]);
     }
 
     /**

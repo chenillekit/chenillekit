@@ -43,7 +43,7 @@ public class InPlaceDemo
 	@Property
 	private boolean inPlaceCheckboxValue;
 
-	@Component(parameters = {"value=inPlaceCheckboxValue", "onCompleteCallback=onCheckboxClicked"})
+	@Component(parameters = {"value=inPlaceCheckboxValue", "onCompleteCallback=onCheckboxClicked", "context=literal:testValue"})
 	private InPlaceCheckbox inPlaceCheckbox;
 
 	@Inject
