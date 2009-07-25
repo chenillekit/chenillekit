@@ -29,25 +29,6 @@
 			</div>
 
 			<div class="yui-b" style="padding-bottom: 20px;">
-				<div t:id="yuiTabView1" class="yui-navset">
-					<ul class="yui-nav">
-						<li><a href="#tab1"><em>Tab One Label</em></a></li>
-						<li><a href="#tab2"><em>Tab Two Label</em></a></li>
-						<li><a href="#tab3"><em>Tab Three Label</em></a></li>
-					</ul>
-					<div class="yui-content">
-						<div><p>Tab One Content</p></div>
-						<div><p>Tab Two Content</p></div>
-						<div><p>Tab Three Content</p></div>
-					</div>
-				</div>
-			</div>
-
-			<div class="yui-b" style="padding-bottom: 20px;">
-				<span t:id="yuiTabView2"/>
-			</div>
-
-			<div class="yui-b" style="padding-bottom: 20px;">
 				<form t:type="form">
 
 					<div class="yui-b">

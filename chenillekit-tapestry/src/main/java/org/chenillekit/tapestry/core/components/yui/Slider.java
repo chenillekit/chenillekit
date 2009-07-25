@@ -21,7 +21,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.services.Request;
 
-import org.chenillekit.tapestry.core.base.AbstractYahooFormComponent;
+import org.chenillekit.tapestry.core.base.AbstractYuiField;
 
 /**
  * @version $Id$
@@ -30,7 +30,7 @@ import org.chenillekit.tapestry.core.base.AbstractYahooFormComponent;
 		"${yahoo.yui}/slider/slider${yahoo.yui.mode}.js",
 		"../../Chenillekit.js", "Slider.js"})
 @IncludeStylesheet(value = {"${yahoo.yui}/slider/assets/skins/sam/slider.css"})
-public class Slider extends AbstractYahooFormComponent
+public class Slider extends AbstractYuiField
 {
 	/**
 	 * The value to be read and updated. This is not necessarily a string, a translator may be provided to convert

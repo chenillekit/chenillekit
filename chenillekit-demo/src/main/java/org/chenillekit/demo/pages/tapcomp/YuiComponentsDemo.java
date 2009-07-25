@@ -14,9 +14,6 @@
 
 package org.chenillekit.demo.pages.tapcomp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.InjectComponent;
@@ -34,8 +31,6 @@ import org.apache.tapestry5.services.Request;
 import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.yui.Slider;
 import org.chenillekit.tapestry.core.components.yui.StateButton;
-import org.chenillekit.tapestry.core.components.yui.Tab;
-import org.chenillekit.tapestry.core.components.yui.TabView;
 
 /**
  * @version $Id$
@@ -50,10 +45,6 @@ public class YuiComponentsDemo
 	@Property
 	private int sliderValue;
 
-	@Retain
-	@Property
-	private List<Tab> tabs;
-
 	@Component(parameters = {"menuName=demo"})
 	private LeftSideMenu menu;
 
@@ -66,12 +57,6 @@ public class YuiComponentsDemo
 
 	@Component(parameters = {"value=sliderValue", "changeCallback=sliderChangeCallback"})
 	private Slider yuiSlider;
-
-	@Component(parameters = {"orientation=top", "activeIndex=1"})
-	private TabView yuiTabView1;
-
-	@Component(parameters = {"orientation=top", "activeIndex=1", "tabs=tabs"})
-	private TabView yuiTabView2;
 
 	@Component(parameters = {"zone=counterZone"})
 	@Mixins("ck/yui/Button")
@@ -100,23 +85,9 @@ public class YuiComponentsDemo
 	@Inject
 	private Request request;
 
-	/**
-	 * Tapestry page lifecycle method.
-	 * Called when the page is instantiated and added to the page pool.
-	 * Initialize components, and resources that are not request specific.
-	 */
-	void pageLoaded()
-	{
-		tabs = new ArrayList<Tab>();
-		tabs.add(new Tab("Tab1"));
-		tabs.add(new Tab("Tab2", "Blabla2"));
-		tabs.add(new Tab("Tab3", "Blabla3"));
-	}
-
 	@OnEvent(value = "doNothing")
 	public void doNothing()
 	{
-
 	}
 
 	@OnEvent(component = "yuiTabView2", value = "tabClicked")

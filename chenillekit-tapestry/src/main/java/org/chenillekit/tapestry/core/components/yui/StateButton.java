@@ -15,7 +15,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 
-import org.chenillekit.tapestry.core.base.AbstractYahooFormComponent;
+import org.chenillekit.tapestry.core.base.AbstractYuiField;
 
 /**
  * @version $Id$
@@ -23,7 +23,7 @@ import org.chenillekit.tapestry.core.base.AbstractYahooFormComponent;
 @IncludeStylesheet(value = {"${yahoo.yui}/button/assets/skins/sam/button.css"})
 @IncludeJavaScriptLibrary(value = {"${yahoo.yui}/button/button${yahoo.yui.mode}.js",
 		"StateButton.js"})
-public class StateButton extends AbstractYahooFormComponent
+public class StateButton extends AbstractYuiField
 {
 	/**
 	 * The value to be read or updated. If not bound, the Checkbox will attempt to edit a property of its container
