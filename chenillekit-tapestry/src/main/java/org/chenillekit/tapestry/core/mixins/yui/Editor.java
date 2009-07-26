@@ -41,13 +41,15 @@ import org.chenillekit.tapestry.core.base.AbstractYuiElement;
  * @version $Id$
  */
 @IncludeStylesheet(value = {"${yahoo.yui}/assets/skins/sam/skin.css"})
-@IncludeJavaScriptLibrary(value = {"../../Chenillekit.js", "${yahoo.yui}/container/container_core${yahoo.yui.mode}.js",
+@IncludeJavaScriptLibrary(value = {"../../Chenillekit.js",
+		"${yahoo.yui}/container/container_core${yahoo.yui.mode}.js",
 		"${yahoo.yui}/menu/menu${yahoo.yui.mode}.js",
 		"${yahoo.yui}/button/button${yahoo.yui.mode}.js",
-		"${yahoo.yui}/editor/simpleeditor${yahoo.yui.mode}.js",
+		"${yahoo.yui}/connection/connection${yahoo.yui.mode}.js",
+		"${yahoo.yui}/editor/editor${yahoo.yui.mode}.js",
 		"yui-image-uploader26.js",
-		"SimpleEditor.js"})
-public class SimpleEditor extends AbstractYuiElement
+		"Editor.js"})
+public class Editor extends AbstractYuiElement
 {
 	private static String INTERNAL_EVENT = "internalUploaded";
 	private static String UPLOAD_EVENT = "uploaded";
@@ -85,7 +87,7 @@ public class SimpleEditor extends AbstractYuiElement
 	void beginRender(MarkupWriter writer)
 	{
 		if (!(clientElement instanceof TextArea))
-			throw new RuntimeException("Mixin 'yui/SimpleEditor' must have a TextArea as parent component");
+			throw new RuntimeException("Mixin 'yui/Editor' must have a TextArea as parent component");
 	}
 
 
@@ -107,7 +109,7 @@ public class SimpleEditor extends AbstractYuiElement
 		if (allowUploads)
 			uploadEventLink = resources.createEventLink(INTERNAL_EVENT);
 
-		renderSupport.addScript("new Ck.YuiSimpleEditor('%s', '%s', %s);", clientElement.getClientId(), uploadEventLink, options);
+		renderSupport.addScript("new Ck.YuiEditor('%s', '%s', %s);", clientElement.getClientId(), uploadEventLink, options);
 	}
 
 	StreamResponse onInternalUploaded()

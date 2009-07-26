@@ -57,6 +57,17 @@
 						</div>
 					</div>
 
+					<div class="yui-b">
+						<div class="yui-gf">
+							<div class="yui-u first">
+								<label>SimpleEditor</label>
+							</div>
+							<div class="yui-u">
+								<div t:id="yuiSimpleEditor" style="width:350px;height:250px;"/>
+							</div>
+						</div>
+					</div>
+
 					<br/>
 					<input type="submit"/>
 				</form>
