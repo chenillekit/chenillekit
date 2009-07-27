@@ -47,7 +47,7 @@ import org.apache.tapestry5.services.ResponseRenderer;
  *
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"prototype-ui.js", "AutoComplete.js"})
+@IncludeJavaScriptLibrary(value = {"../../Chenillekit.js", "prototype-ui.js", "AutoComplete.js"})
 @IncludeStylesheet(value = {"themes/auto_complete/default.css", "themes/shadow/drop_shadow.css",
 		"themes/shadow/auto_complete.css"})
 public class AutoComplete extends AbstractField
