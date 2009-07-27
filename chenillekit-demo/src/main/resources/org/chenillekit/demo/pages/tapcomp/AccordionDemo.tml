@@ -14,56 +14,63 @@
 
 <span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
-    <div class="yui-g">
+	<style type="text/css">
+		div.ck_accordionContent {
+			background: inherit;
+		}
 
-        <div class="yui-u first menu">
+		div.ck_accordionToggle {
+			color: black;
+		}
+	</style>
 
-            <span t:id="menu">the menu</span>
+	<div class="yui-g">
 
-        </div>
+		<div class="yui-u first menu">
 
-        <div class="yui-u content">
+			<span t:id="menu">the menu</span>
 
-            <div class="yui-g" style="width:100%">
-                <div class="yui-u first">
+		</div>
 
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"subjects=subjects", "details=details"})
-private Accordion accordion1;
+		<div class="yui-u content">
+
+			<fieldset class="component">
+
+				<legend>Accordion component</legend>
+
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
+						<div style="padding:10px;">
+							<div t:id="accordion" style="width: 100%;"/>
+						</div>
+						<div style="padding:10px;">
+						<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Property
+	private String[] subjects = {"Subject 1", "Subject 2", "Subject 3"};
+
+	@Property
+	private String[] details = {"Content for Tab1", "Content for Tab2", "Content for Tab3"};
+
+	@Component(parameters = {"subjects=subjects", "details=details",
+                         	"duration=literal:1.0"})
+	private Accordion accordion;
+}
 ]]>
-                        </pre>
-                    </fieldset>
+						</pre>
+						</div>
+					</div>
+				</div>
 
-                    <fieldset class="sample">
-                        <legend>sample</legend>
-                        <div t:id="accordion1" style="width: 350px;"/>
-                    </fieldset>
+			</fieldset>
 
-                </div>
-                <div class="yui-u">
-
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"subjects=subjects", "details=details",
-                         "duration=literal:1.0"})
-private Accordion accordion2;
-]]>
-                        </pre>
-                    </fieldset>
-
-                    <fieldset class="sample">
-                        <legend>sample</legend>
-                        <div t:id="accordion2" style="width: 350px;"/>
-                    </fieldset>
-                </div>
-            </div>
-
-        </div>
-    </div>
+		</div>
+	</div>
 
 </span>

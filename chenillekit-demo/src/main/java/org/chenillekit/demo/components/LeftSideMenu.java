@@ -86,7 +86,7 @@ public class LeftSideMenu
 
     @Component(parameters = {"page=prop:menuItem.pageName", "style=menuItem.styles",
             "context=menuItem.contextParameters"})
-    @Mixins({"OvalButton"})
+    @Mixins({"ck/yui/Button"})
     private PageLink pageLink;
 
 

@@ -26,10 +26,10 @@ import org.chenillekit.tapestry.core.components.Accordion;
 public class AccordionDemo
 {
     @Property
-    private String[] _subjects = {"Subject 1", "Subject 2", "Subject 3", "Subject 4", "Subject 5"};
+    private String[] subjects = {"Subject 1", "Subject 2", "Subject 3", "Subject 4", "Subject 5"};
 
     @Property
-    private String[] _details = {"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.\n" +
+    private String[] details = {"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.\n" +
             "Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.\n" +
             "Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis\n" +
             "dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora\n" +
@@ -88,9 +88,6 @@ public class AccordionDemo
     @Component(parameters = {"menuName=demo"})
     private LeftSideMenu menu;
 
-    @Component(parameters = {"subjects=subjects", "details=details"})
-    private Accordion _accordion1;
-
     @Component(parameters = {"subjects=subjects", "details=details", "duration=literal:1.0"})
-    private Accordion _accordion2;
+    private Accordion accordion;
 }

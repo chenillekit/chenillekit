@@ -17,76 +17,84 @@
 
     <div class="yui-g">
 
-        <div class="yui-u first menu">
+		<div class="yui-u first menu">
 
-            <span t:id="menu">the menu</span>
+			<span t:id="menu">the menu</span>
 
-        </div>
+		</div>
 
-        <div class="yui-u content">
+		<div class="yui-u content">
 
-            <fieldset class="snippet">
-                <legend>code snippet</legend>
-                <pre>
-                    <![CDATA[
-@Component(parameters = {"value=selected", "onCompleteCallback=completeCallback"})
-private AjaxCheckbox ajaxCheckbox;
+			<fieldset class="component">
 
-@OnEvent(component = "ajaxCheckbox", value = "checkboxclicked")
-public JSONObject onChangeEvent(boolean value)
-{
-    JSONObject json = new JSONObject();
-    json.put("result", value);
-    return json;
-}
+				<legend>Accordion component</legend>
 
-<script type="text/javascript">
-function completeCallback(response)
-{
-    var result = response.evalJSON().result;
-    $('result1').innerHTML = result;
-}
-</script>
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
+						<div style="padding:10px;">
 
-]]>
-                </pre>
-            </fieldset>
+							<form t:id="form">
+								<label style="padding-right: 5px">click the box</label>
+								<input type="checkbox" t:id="ajaxCheckbox"/>
+							</form>
 
-            <div class="yui-g" style="width:100%">
-                <div class="yui-u first">
+							<p style="padding-bottom:5px;">
+								result
+							</p>
 
+							<h1 id="result1"></h1>
 
-                    <fieldset class="sample">
-                        <legend>sample</legend>
-                        <form t:id="form">
-                            <label style="padding-right: 5px">click the box</label>
-                            <input type="checkbox" t:id="ajaxCheckbox"/>
-                        </form>
-                    </fieldset>
+						</div>
+						<div style="padding:10px;">
+						<pre>
+							<![CDATA[
+							public class DemoPage
+							{
+								@Property
+								@Retain
+								private boolean selected;
 
-                </div>
+								@Component(parameters = {"value=selected", "onCompleteCallback=completeCallback"})
+								private AjaxCheckbox ajaxCheckbox;
 
-                <div class="yui-u">
+								@OnEvent(component = "ajaxCheckbox", value = "checkboxclicked")
+								public JSONObject onChangeEvent(boolean value)
+								{
+									JSONObject json = new JSONObject();
+									json.put("result", value);
+									return json;
+								}
+							}
 
-                    <p style="padding-bottom:5px;">
-                        result
-                    </p>
+							<script type="text/javascript">
+								function completeCallback(response)
+								{
+									var result = response.evalJSON().result;
+									$('result1').innerHTML = result;
+								}
+							</script>
 
-                    <h1 id="result1"></h1>
+							]]>
 
-                </div>
+						</pre>
+						</div>
+					</div>
+				</div>
 
-            </div>
+			</fieldset>
+		</div>
+	</div>
 
-        </div>
-    </div>
-
-    <script type="text/javascript">
-        function completeCallback(response)
-        {
-            var result = response.evalJSON().result;
-            $('result1').innerHTML = result;
-        }
-    </script>
+		<script type="text/javascript">
+			function completeCallback(response)
+			{
+				var result = response.evalJSON().result;
+				$('result1').innerHTML = result;
+			}
+		</script>
 
 </span>
