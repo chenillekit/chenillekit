@@ -13,7 +13,7 @@
   ~
   -->
 
-<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 
     <div class="yui-g">
 
@@ -25,6 +25,7 @@
 
 		<div class="yui-u content">
 
+
 			<fieldset class="component">
 
 				<legend>Accordion component</legend>
@@ -35,6 +36,8 @@
 						<li><a href="#tab2"><em>Sample Source</em></a></li>
 					</ul>
 					<div class="yui-content">
+
+						<!-- demo content start -->
 						<div style="padding:10px;">
 
 							<form t:id="form">
@@ -42,50 +45,56 @@
 								<input type="checkbox" t:id="ajaxCheckbox"/>
 							</form>
 
-							<p style="padding-bottom:5px;">
-								result
-							</p>
-
-							<h1 id="result1"></h1>
+							<div style="padding-top:15px;">
+								result is <span id="result1" style="color:yellow; font-weight:bolder;"></span>
+							</div>
 
 						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
 						<div style="padding:10px;">
+
 						<pre>
-							<![CDATA[
-							public class DemoPage
-							{
-								@Property
-								@Retain
-								private boolean selected;
+<![CDATA[
+public class DemoPage
+{
+	@Property
+	@Retain
+	private boolean selected;
 
-								@Component(parameters = {"value=selected", "onCompleteCallback=completeCallback"})
-								private AjaxCheckbox ajaxCheckbox;
+	@Component(parameters = {"value=selected", "onCompleteCallback=completeCallback"})
+	private AjaxCheckbox ajaxCheckbox;
 
-								@OnEvent(component = "ajaxCheckbox", value = "checkboxclicked")
-								public JSONObject onChangeEvent(boolean value)
-								{
-									JSONObject json = new JSONObject();
-									json.put("result", value);
-									return json;
-								}
-							}
+	@OnEvent(component = "ajaxCheckbox", value = "checkboxclicked")
+	public JSONObject onChangeEvent(boolean value)
+	{
+		JSONObject json = new JSONObject();
+		json.put("result", value);
+		return json;
+	}
+}
 
-							<script type="text/javascript">
-								function completeCallback(response)
-								{
-									var result = response.evalJSON().result;
-									$('result1').innerHTML = result;
-								}
-							</script>
+<script type="text/javascript">
+	function completeCallback(response)
+	{
+		var result = response.evalJSON().result;
+		$('result1').innerHTML = result;
+	}
+</script>
 
-							]]>
+]]>
 
 						</pre>
+
 						</div>
+						<!-- source content end -->
+
 					</div>
 				</div>
 
 			</fieldset>
+
 		</div>
 	</div>
 

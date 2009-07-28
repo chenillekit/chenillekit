@@ -12,7 +12,7 @@
   ~ http://www.apache.org/licenses/LICENSE-2.0
   -->
 
-<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 
 	<style type="text/css">
 		div.ck_accordionContent {
@@ -44,9 +44,14 @@
 						<li><a href="#tab2"><em>Sample Source</em></a></li>
 					</ul>
 					<div class="yui-content">
+
+						<!-- demo content start -->
 						<div style="padding:10px;">
 							<div t:id="accordion" style="width: 100%;"/>
 						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
 						<div style="padding:10px;">
 						<pre>
 <![CDATA[
@@ -65,6 +70,8 @@ public class DemoPage
 ]]>
 						</pre>
 						</div>
+						<!-- source content end -->
+
 					</div>
 				</div>
 

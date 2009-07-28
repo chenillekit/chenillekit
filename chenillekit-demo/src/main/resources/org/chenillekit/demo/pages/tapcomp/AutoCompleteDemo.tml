@@ -15,89 +15,198 @@
 <span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
     <style type="text/css">
-        table.tracks {
-            width: 100%;
-        }
+		table.tracks {
+			width: 100%;
+		}
 
-        table.tracks, th, td, tr {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 3px;
-        }
-    </style>
+		table.tracks, th, td, tr {
+			border: 1px solid black;
+			border-collapse: collapse;
+			padding: 3px;
+		}
+	</style>
 
     <div class="yui-g">
 
-        <div class="yui-u first menu">
+		<div class="yui-u first menu">
 
-            <span t:id="menu">the menu</span>
+			<span t:id="menu">the menu</span>
 
-        </div>
+		</div>
 
-        <div class="yui-u content">
+		<div class="yui-u content">
 
-            <div class="yui-g" style="width:100%">
-                <div class="yui-u first">
+			<fieldset class="component">
 
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-<input t:type="ck/prototype_ui/AutoComplete"
-       t:id="autoComplete" selected="selectedTracks"
-       translate="prop:translator" label="title"/>
+				<legend>Accordion component</legend>
+
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
+
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<t:form>
+								<fieldset class="sample">
+									<legend>sample</legend>
+									<br/>
+									<input t:id="autoComplete" type="text"/>
+									<br/>
+									<input type="submit"/>
+								</fieldset>
+							</t:form>
+
+							<hr/>
+
+							<t:if test="ognl:selectedTracks != null &amp;&amp; selectedTracks.size() > 0">
+								<table class="tracks">
+									<caption>
+										selected tracks
+									</caption>
+									<tr>
+										<th>id</th>
+										<th>title</th>
+										<th>artist</th>
+									</tr>
+									<t:loop element="tr" source="selectedTracks" value="selectedRow">
+										<td>${selectedRow.id}</td>
+										<td>${selectedRow.title}</td>
+										<td>${selectedRow.artist}</td>
+									</t:loop>
+								</table>
+							</t:if>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+
+							<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Property
+	@Inject
+	private MusicLibrary musicLibrary;
+
+	@Inject
+	private Messages messages;
+
+	@Property
+	private Track track;
+
+	@Persist
+	@Property
+	private List<Track> selectedTracks;
+
+	@Property
+	private Track selectedRow;
+
+	@Component(parameters = {"menuName=demo"})
+	private LeftSideMenu menu;
+
+	@Component(parameters = {"selected=selectedTracks", "translate=prop:translator", "label=title"})
+	private AutoComplete autoComplete;
+
+	/**
+	 * Tapestry render phase method.
+	 * Initialize temporary instance variables here.
+	 */
+	void setupRender()
+	{
+		if (selectedTracks == null)
+			selectedTracks = CollectionFactory.newList();
+	}
+
+	public List<Track> onProvidecompletionsFromAutoComplete(String partialValue)
+	{
+		List<Track> resultSet = musicLibrary.findByMatchingTitle(partialValue);
+		return resultSet;
+	}
+
+	public FieldTranslator getTranslator()
+	{
+		return new FieldTranslator<Track>()
+		{
+
+			/**
+			 * Converts a server-side value to a client-side string. This allows for formatting of the value in a way
+			 * appropriate to the end user. The output client value should be parsable by {@link #parse(String)}.
+			 *
+			 * @param value the server side value (which will not be null)
+			 *
+			 * @return client-side value to present to the user
+			 */
+			public String toClient(Track value)
+			{
+				String clientValue = "0";
+				if (value != null)
+					clientValue = String.valueOf(value.getId());
+
+				return clientValue;
+			}
+
+			/**
+			 * Invokes {@link org.apache.tapestry5.Translator#render(org.apache.tapestry5.Field , String, org.apache.tapestry5.MarkupWriter ,org.apache.tapestry5.services.FormSupport)}. This is
+			 * called at a point "inside" the tag, so that additional attributes may be added.  In many cases, the underlying
+			 * {@link org.apache.tapestry5.Validator} may write client-side JavaScript to enforce the constraint as well.
+			 *
+			 * @param writer markup writer to direct output to.
+			 *
+			 * @see org.apache.tapestry5.MarkupWriter#attributes(Object[])
+			 */
+			public void render(MarkupWriter writer)
+			{
+			}
+
+			/**
+			 * Returns the type of  the server-side value.
+			 *
+			 * @return a type
+			 */
+			public Class<Track> getType()
+			{
+				return Track.class;
+			}
+
+			/**
+			 * Invoked after the client-submitted value has been {@link org.apache.tapestry5.Translator translated} to check that the value conforms
+			 * to expectations (often, in terms of minimum or maximum value). If and only if the value is approved by all
+			 * Validators is the value applied by the field.
+			 *
+			 * @throws org.apache.tapestry5.ValidationException
+			 *          if the value violates the constraint
+			 */
+			public Track parse(String clientValue) throws ValidationException
+			{
+				Track serverValue = null;
+
+				if (clientValue != null && clientValue.length() > 0 && !clientValue.equals("0"))
+					serverValue = musicLibrary.getById(new Long(clientValue));
+
+				return serverValue;
+			}
+		};
+	}
+}
 ]]>
-                        </pre>
-                    </fieldset>
 
-                    <t:form>
-                        <fieldset class="sample">
-                            <legend>sample</legend>
-                            <br/>
-                            <input t:id="autoComplete" type="text"/>
-                            <br/>
-                            <input type="submit"/>
-                        </fieldset>
-                    </t:form>
+							</pre>
 
-                    <hr/>
+						</div>
+						<!-- source content end -->
 
-                    <t:if test="ognl:selectedTracks != null &amp;&amp; selectedTracks.size() > 0">
-                        <table class="tracks">
-                            <caption>
-                                selected tracks
-                            </caption>
-                            <tr>
-                                <th>id</th>
-                                <th>title</th>
-                                <th>artist</th>
-                            </tr>
-                            <t:loop element="tr" source="selectedTracks" value="selectedRow">
-                                <td>${selectedRow.id}</td>
-                                <td>${selectedRow.title}</td>
-                                <td>${selectedRow.artist}</td>
-                            </t:loop>
-                        </table>
-                    </t:if>
+					</div>
+				</div>
 
-                </div>
-                <div class="yui-u">
+			</fieldset>
 
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-]]>
-                        </pre>
-                    </fieldset>
-
-                    <fieldset class="sample">
-                        <legend>sample</legend>
-                    </fieldset>
-                </div>
-            </div>
-
-        </div>
-    </div>
+		</div>
+	</div>
 
 </span>
