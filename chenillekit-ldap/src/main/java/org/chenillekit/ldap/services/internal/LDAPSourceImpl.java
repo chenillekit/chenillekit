@@ -16,8 +16,8 @@ package org.chenillekit.ldap.services.internal;
 
 import netscape.ldap.LDAPConnection;
 import netscape.ldap.LDAPException;
+import netscape.ldap.LDAPv2;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.chenillekit.ldap.ChenilleKitLDAPConstants;
@@ -59,12 +59,20 @@ public class LDAPSourceImpl implements LDAPSource
 
     		@Inject
     		@Symbol(ChenilleKitLDAPConstants.LDAP_AUTHPWD)
-    		String ldapPwd)
+    		String ldapPwd,
+    		
+    		@Inject
+    		@Symbol(ChenilleKitLDAPConstants.LDAP_SIZELIMIT)
+    		String sizeLimit,
+    		
+    		@Inject
+    		@Symbol(ChenilleKitLDAPConstants.LDAP_TIMELIMIT)
+    		String timeLimit)
     {
     	this.logger = logger;
     	this.ldapVersion = ldapVersion;
     	
-    	if (StringUtils.isEmpty(ldapHostName))
+    	if (ldapHostName == null || ldapHostName.trim().length() < 1)
             throw new RuntimeException("property '" + ChenilleKitLDAPConstants.LDAP_HOSTNAME + "' cant be empty!");
     	
     	this.ldapHostName = ldapHostName;
@@ -74,6 +82,18 @@ public class LDAPSourceImpl implements LDAPSource
     	this.ldapPwd = ldapPwd;
 
     	ldapConnection = new LDAPConnection();
+    	
+    	try
+    	{
+			ldapConnection.setOption(LDAPv2.SIZELIMIT, new Integer(sizeLimit));
+			ldapConnection.setOption(LDAPv2.TIMELIMIT, new Integer(timeLimit));
+		}
+    	catch (LDAPException le)
+    	{
+    		logger.error(le.getMessage(), le);
+    		
+    		throw new RuntimeException(le);
+		}
     }
     
     /**

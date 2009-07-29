@@ -26,4 +26,7 @@ public class ChenilleKitLDAPConstants
     public static final String LDAP_HOSTPORT = "ck.ldap.hostport";
     public static final String LDAP_AUTHDN = "ck.ldap.authdn";
     public static final String LDAP_AUTHPWD = "ck.ldap.authpwd";
+    
+    public static final String LDAP_SIZELIMIT = "ck.ldap.sizelimit";
+    public static final String LDAP_TIMELIMIT = "ck.ldap.timelimit";
 }

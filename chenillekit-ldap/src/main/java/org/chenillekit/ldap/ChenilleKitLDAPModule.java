@@ -58,5 +58,8 @@ public class ChenilleKitLDAPModule
         contribution.add(ChenilleKitLDAPConstants.LDAP_HOSTPORT, "389");
         contribution.add(ChenilleKitLDAPConstants.LDAP_AUTHDN, "");
         contribution.add(ChenilleKitLDAPConstants.LDAP_AUTHPWD, "");
+        
+        contribution.add(ChenilleKitLDAPConstants.LDAP_SIZELIMIT, "1000");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_TIMELIMIT, "60000");
     }
 }
