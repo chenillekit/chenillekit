@@ -17,6 +17,7 @@ import org.chenillekit.ldap.mapper.EntryMapper;
 import org.chenillekit.ldap.services.LDAPOperation;
 import org.chenillekit.ldap.services.internal.ReadService;
 import org.chenillekit.ldap.services.internal.WriteService;
+import org.slf4j.Logger;
 
 /**
  * @author massimo
@@ -27,10 +28,13 @@ public class LDAPOperationImpl implements LDAPOperation
 	private final ReadService reader;
 	private final WriteService writer;
 	
-	public LDAPOperationImpl(ReadService reader, WriteService writer)
+	private final Logger logger;
+	
+	public LDAPOperationImpl(ReadService reader, WriteService writer, Logger logger)
 	{
 		this.reader = reader;
 		this.writer = writer;
+		this.logger = logger;
 	}
 
 	/*
@@ -45,6 +49,7 @@ public class LDAPOperationImpl implements LDAPOperation
 		}
 		catch (RuntimeException re)
 		{
+			logger.error("Unable to perform search operation: " + re.getMessage(), re);
 			return new ArrayList<LDAPEntry>();
 		}
 	}
@@ -69,6 +74,8 @@ public class LDAPOperationImpl implements LDAPOperation
 		}
 		catch (RuntimeException re)
 		{
+			logger.error("Unable to perform search operation: " + re.getMessage(), re);
+			
 			return new ArrayList<T>();
 		}
 	}
@@ -85,6 +92,7 @@ public class LDAPOperationImpl implements LDAPOperation
 		}
 		catch (RuntimeException exc)
 		{
+			logger.error("Unable to perform lookup operation: " + exc.getMessage(), exc);
 			return null;
 		}
 	}
@@ -102,6 +110,7 @@ public class LDAPOperationImpl implements LDAPOperation
 		}
 		catch (RuntimeException exc)
 		{
+			logger.error("Unable to perform search operation: " + exc.getMessage(), exc);
 			return null;
 		}
 	}
@@ -156,7 +165,7 @@ public class LDAPOperationImpl implements LDAPOperation
 				modSet.add(LDAPModification.REPLACE, new LDAPAttribute(name, values));
 				orisAttr.remove(name);
 			}
-			else
+			else if (values != null && values.length > 0)
 			{
 				modSet.add(LDAPModification.ADD, new LDAPAttribute(name, values));
 			}
@@ -164,9 +173,13 @@ public class LDAPOperationImpl implements LDAPOperation
 		
 		for (String attrName : orisAttr.keySet())
 		{
-			modSet.add(LDAPModification.DELETE, new LDAPAttribute(attrName, orisAttr.get(attrName)));
+//			modSet.add(LDAPModification.DELETE, new LDAPAttribute(attrName, orisAttr.get(attrName)));
+			if (logger.isDebugEnabled())
+				logger.debug("Delting attribute " + attrName);
 		}
 		
+		if (logger.isDebugEnabled())
+			logger.debug("Total number of modifications requested for " + dn + " is " + modSet.size());
 		
 		writer.modifyEntry(dn, modSet);
 	}

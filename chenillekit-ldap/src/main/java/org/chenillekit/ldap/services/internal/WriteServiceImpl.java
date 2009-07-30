@@ -6,6 +6,7 @@ package org.chenillekit.ldap.services.internal;
 import netscape.ldap.LDAPAttributeSet;
 import netscape.ldap.LDAPEntry;
 import netscape.ldap.LDAPException;
+import netscape.ldap.LDAPModification;
 import netscape.ldap.LDAPModificationSet;
 
 import org.slf4j.Logger;
@@ -73,10 +74,26 @@ public class WriteServiceImpl implements WriteService
 	{
 		try
 		{
-			ldapSource.openSession().modify(dn, modifications);
+			if (logger.isDebugEnabled())
+				logger.debug("Modifing DN " + dn + " with " + modifications);
+			
+			
+			for (int i = 0; i < modifications.size(); i++)
+			{
+				LDAPModification mod = modifications.elementAt(i);
+				
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("Performing modification: " + mod);
+				}
+				
+				ldapSource.openSession().modify(dn, mod);
+			}
 		}
 		catch (LDAPException le)
 		{
+			logger.error("Unable to perform " + dn + " modification: "
+							+ le.getLDAPErrorMessage() + " " + le.getMessage(), le);
 			throw new RuntimeException(le);
 		}
 	}

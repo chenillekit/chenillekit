@@ -22,7 +22,6 @@ import netscape.ldap.LDAPSearchResults;
 import netscape.ldap.LDAPv2;
 import netscape.ldap.LDAPv3;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
@@ -67,7 +66,7 @@ public class ReadServiceImpl implements ReadService
         try
         {
             if (logger.isDebugEnabled())
-                logger.debug("BaseDN: " + baseDN + " / Filter: " + filter + " / Attributes: " + ArrayUtils.toString(attributes, "null"));
+                logger.debug("BaseDN: " + baseDN + " / Filter: " + filter + " / Attributes: " + attributes);
 
             int scope = LDAPv3.SCOPE_SUB;
             if (ldapVersion == 2)
@@ -84,6 +83,9 @@ public class ReadServiceImpl implements ReadService
         catch (LDAPException e)
         {
         	// TODO More sane error reporting...
+        	
+        	e.printStackTrace();
+        	
             throw new RuntimeException(e);
         }
     }
@@ -100,6 +102,9 @@ public class ReadServiceImpl implements ReadService
     			logger.debug("Lookin up " + dn);
     		
     		LDAPEntry entry = ldapSource.openSession().read(dn);
+    		
+    		if (logger.isDebugEnabled())
+    			logger.debug("Entry " + entry + " found at " + dn);
     		
     		return entry;
     	}
