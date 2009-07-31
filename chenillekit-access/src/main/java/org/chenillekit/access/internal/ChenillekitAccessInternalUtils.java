@@ -5,7 +5,6 @@ package org.chenillekit.access.internal;
 
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.services.ContextValueEncoder;
 import org.apache.tapestry5.services.TransformMethodSignature;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 
@@ -35,21 +34,7 @@ public class ChenillekitAccessInternalUtils
 
 		return res;
 	}
-
-	/**
-	 *
-	 * @param valueEncoder
-	 * @param contextString
-	 * @return
-	 */
-	public static final EventContext getContextFromString(ContextValueEncoder valueEncoder,
-							String contextString)
-	{
-		String[] contextElements = contextString.split("####");
-
-		return new CKUrlEventContext(valueEncoder, contextElements);
-	}
-
+	
 	/**
 	 * check if user has required role to access page/component/event.
 	 *
