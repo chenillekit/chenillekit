@@ -14,14 +14,12 @@
 
 package org.chenillekit.google.services.impl;
 
+import org.apache.tapestry5.ioc.internal.util.Defense;
+import org.slf4j.Logger;
+
 import java.io.UnsupportedEncodingException;
 import java.net.ProxySelector;
 import java.net.URLEncoder;
-
-import org.apache.tapestry5.ioc.internal.util.Defense;
-
-import org.slf4j.Logger;
-import sun.net.spi.DefaultProxySelector;
 
 /**
  * @version $Id$
@@ -59,7 +57,7 @@ abstract public class AbstractGoogleService
 	 */
 	private void initService()
 	{
-		proxySelector = new DefaultProxySelector();
+		proxySelector = ProxySelector.getDefault();
 	}
 
 	/**
