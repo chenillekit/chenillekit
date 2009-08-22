@@ -17,64 +17,92 @@
 
     <div class="yui-g">
 
-        <div class="yui-u first menu">
+		<div class="yui-u first menu">
 
-            <span t:id="menu">the menu</span>
+			<span t:id="menu">the menu</span>
 
-        </div>
+		</div>
 
-        <div class="yui-u content">
+		<div class="yui-u content">
 
-            <div class="yui-g" style="width:100%">
-                <div class="yui-u first">
+			<fieldset class="component">
 
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"type=button"})
-private Button button1;
+				<legend>BeanSelect component</legend>
 
-@Component(parameters = {"type=page", "pageName=EditorDemo"})
-private Button button3;
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
 
-@OnEvent(component = "button1", value = "clicked")
-void onButton1Clicked()
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<button t:id="button1">
+								<img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 1
+							</button>
+							<br/>
+							<button t:id="button2">
+								<img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 2
+							</button>
+							<br/>
+							<button t:id="button3">
+								<img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a pagelink button
+							</button>
+
+							<p style="margin-top:30px;">
+								Last Event Message: <strong>${lastEventMessage}</strong>
+							</p>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+						<pre>
+<![CDATA[
+public class DemoPage
 {
-    lastEventMessage = "Button1 has been clicked!";
+	@Persist("flash")
+	@Property
+	private String lastEventMessage;
+
+	@Component(parameters = {"menuName=demo"})
+	private LeftSideMenu menu;
+
+	@Component(parameters = {"type=button"})
+	private Button button1;
+
+	@Component(parameters = {"type=button"})
+	private Button button2;
+
+	@Component(parameters = {"type=page", "pageName=tapcomp/EditorDemo"})
+	private Button button3;
+
+	@OnEvent(component = "button1", value = "clicked")
+	void onButton1Clicked()
+	{
+		lastEventMessage = "Button1 has been clicked!";
+	}
+
+	@OnEvent(component = "button2", value = "clicked")
+	void onButton2Clicked()
+	{
+		lastEventMessage = "Button2 has been clicked!";
+	}
 }
 ]]>
-                        </pre>
-                    </fieldset>
+						</pre>
+						</div>
+						<!-- source content end -->
 
-                    <fieldset class="sample">
-                        <legend>sample</legend>
+					</div>
+				</div>
 
-                        <button t:id="button1">
-                            <img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 1
-                        </button>
-                        <br/>
-                        <button t:id="button2">
-                            <img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a button 2
-                        </button>
-                        <br/>
-                        <button t:id="button3">
-                            <img style="vertical-align:middle;" src="${asset:../../assets/images/warning.gif}" alt="Image inside a button"/> This is a pagelink button
-                        </button>
+			</fieldset>
 
-                        <p style="margin-top:30px;">
-                            Last Event Message: <strong>${lastEventMessage}</strong>
-                        </p>
-
-                    </fieldset>
-
-                </div>
-                <div class="yui-u">
-
-                </div>
-            </div>
-
-        </div>
-    </div>
+		</div>
+	</div>
 
 </span>
