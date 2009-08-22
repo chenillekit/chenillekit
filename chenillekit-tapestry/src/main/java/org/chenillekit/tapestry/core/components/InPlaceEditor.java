@@ -130,7 +130,7 @@ public class InPlaceEditor implements ClientElement
 
         resources.triggerEvent(SAVE_EVENT, new Object[]{value, valueText}, null);
 
-        if (valueText.length() == 0)
+        if (valueText == null || valueText.length() == 0)
             valueText = messages.get("empty");
 
         return new TextStreamResponse("text/html", new String(valueText.getBytes("UTF8")));
