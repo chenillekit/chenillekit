@@ -17,56 +17,97 @@
 
     <div class="yui-g">
 
-        <div class="yui-u first menu">
+		<div class="yui-u first menu">
 
-            <span t:id="menu">the menu</span>
+			<span t:id="menu">the menu</span>
 
-        </div>
+		</div>
 
-        <div class="yui-u content">
+		<div class="yui-u content">
 
-            <fieldset class="snippet">
-                <legend>code snippet</legend>
-                <pre>
-                    <![CDATA[
-@Component(parameters = {"value=actualDate1", "datePattern=dd-MM-yyyy HH:mm"})
-private DateTimeField _dateTimeField1;
+			<fieldset class="component">
 
-@Component(parameters = {"value=actualDate2"})
-private DateTimeField _dateTimeField2;
+				<legend>DetTimeField component</legend>
 
-@Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=dd-MM-yyyy HH:mm"})
-private DateTimeField _dateTimeField3;
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
 
-@Component(parameters = {"value=actualDate4", "datePicker=false", "timePicker=true", "datePattern=HH:mm"})
-private DateTimeField _dateTimeField4;
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<form t:id="form">
+								<t:errors/>
+								<br/>
+								<label style="float:left; width:250px;">date format dd-MM-yyyy HH:mm</label>
+								<input t:id="dateTimeField1"/>
+								<br/>
+								<label style="float:left; width:250px;">date format MM/dd/yyyy</label>
+								<input t:id="dateTimeField2"/>
+								<br/>
+								<label style="float:left; width:250px;">date format MM/dd/yyyy HH:mm</label>
+								<input t:id="dateTimeField3"/>
+								<br/>
+								<label style="float:left; width:250px;">time format HH:mm</label>
+								<input t:id="dateTimeField4" style="width:4.5em;"/>
+								<br/>
+								<input type="submit"/>
+							</form>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+				<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Persist
+	@Property
+	private Date actualDate1;
+
+	@Persist
+	@Property
+	private Date actualDate2;
+
+	@Persist
+	@Property
+	private Date actualDate3;
+
+	@Persist
+	@Property
+	private Date actualDate4;
+
+	@Component
+	private Form form;
+
+	@Component(parameters = {"value=actualDate1", "datePattern=dd-MM-yyyy HH:mm"})
+	private DateTimeField dateTimeField1;
+
+	@Component(parameters = {"value=actualDate2", "lenient=false"})
+	private DateTimeField dateTimeField2;
+
+	@Component(parameters = {"value=actualDate3", "timePicker=true", "datePattern=MM/dd/yyyy HH:mm"})
+	private DateTimeField dateTimeField3;
+
+	@Component(parameters = {"value=actualDate4", "datePicker=false", "timePicker=true", "datePattern=HH:mm"})
+	private DateTimeField dateTimeField4;
+}
 ]]>
-                </pre>
-            </fieldset>
+				</pre>
+						</div>
+						<!-- source content end -->
 
-            <fieldset class="sample">
-                <legend>sample</legend>
-                <form t:id="form">
-                    <t:errors/>
-                    <br/>
-                    <label style="float:left; width:250px;">date format dd-MM-yyyy HH:mm</label>
-                    <input t:id="dateTimeField1"/>
-                    <br/>
-                    <label style="float:left; width:250px;">date format MM/dd/yyyy</label>
-                    <input t:id="dateTimeField2"/>
-                    <br/>
-                    <label style="float:left; width:250px;">date format MM/dd/yyyy HH:mm</label>
-                    <input t:id="dateTimeField3"/>
-                    <br/>
-                    <label style="float:left; width:250px;">time format HH:mm</label>
-                    <input t:id="dateTimeField4" style="width:4.5em;"/>
-					<br/>
-					<input type="submit"/>
-				</form>
-            </fieldset>
+					</div>
+				</div>
 
+			</fieldset>
 
-        </div>
-    </div>
+		</div>
+	</div>
 
 </span>
