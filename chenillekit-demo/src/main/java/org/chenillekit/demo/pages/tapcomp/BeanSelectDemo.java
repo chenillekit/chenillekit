@@ -19,17 +19,18 @@ import java.util.List;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
 
 import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.utils.PersonBean;
 import org.chenillekit.tapestry.core.components.BeanSelect;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">homburgs</a>
  * @version $Id$
  */
 public class BeanSelectDemo
 {
+	@Property
 	@Persist
 	private PersonBean selectedBean;
 
@@ -48,16 +49,6 @@ public class BeanSelectDemo
 
 		for (int x = 0; x < 10; x++)
 			someBeans.add(new PersonBean(x, "Person_" + x, "city" + x));
-	}
-
-	public PersonBean getSelectedBean()
-	{
-		return selectedBean;
-	}
-
-	public void setSelectedBean(PersonBean selectedBean)
-	{
-		this.selectedBean = selectedBean;
 	}
 
 	public boolean isSelectedBeanNotNull()

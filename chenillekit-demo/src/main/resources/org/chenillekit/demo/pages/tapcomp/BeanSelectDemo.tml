@@ -24,52 +24,87 @@
 
 		<div class="yui-u content">
 
-			<div class="yui-g" style="width:100%">
-				<div class="yui-u first">
 
-					<fieldset class="snippet">
-						<legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-<select t:type="ck/BeanSelect"
-	list="someBeans"
-	labelField="literal:name"
-	value="selectedBean"/>
-]]>
-                        </pre>
-					</fieldset>
+			<fieldset class="component">
 
-					<fieldset class="sample">
-						<legend>sample</legend>
+				<legend>Accordion component</legend>
 
-						<form t:type="Form" action="#">
-							<select t:id="beanSelect" style="width: 100px">
-								<option value="1">Value 1</option>
-							</select>
-							<br/>
-							<br/>
-							<input type="submit"/>
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
 
-						</form>
-						<hr/>
-						<div t:type="If" test="selectedBeanNotNull">
+						<!-- demo content start -->
+						<div style="padding:10px;">
+							<form t:type="Form" action="#">
+								<select t:id="beanSelect" style="width: 100px">
+									<option value="1">Value 1</option>
+								</select>
+								<br/>
+								<br/>
+								<input type="submit"/>
 
-							<strong>your selection was:</strong>
-							<ul>
-								<li><strong>ID:</strong> ${selectedBean.id}</li>
-								<li><strong>Name:</strong> ${selectedBean.name}</li>
-								<li><strong>City:</strong> ${selectedBean.city}</li>
-							</ul>
+							</form>
+							<hr/>
+							<div t:type="If" test="selectedBeanNotNull">
 
+								<strong>your selection was:</strong>
+								<ul>
+									<li><strong>ID:</strong> ${selectedBean.id}</li>
+									<li><strong>Name:</strong> ${selectedBean.name}</li>
+									<li><strong>City:</strong> ${selectedBean.city}</li>
+								</ul>
+
+							</div>
 						</div>
+						<!-- demo content end -->
 
-					</fieldset>
+						<!-- source content start -->
+						<div style="padding:10px;">
+						<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Property
+	@Persist
+	private Person selectedBean;
 
+	@Component(parameters = {"blankOption=literal:NEVER", "list=someBeans", "labelField=name", "valueField=id",
+			"value=selectedBean"})
+	private BeanSelect beanSelect;
+
+	private List<PersonBean> someBeans;
+
+	void setupRender()
+	{
+		someBeans = new ArrayList<PersonBean>(10);
+
+		for (int x = 0; x < 10; x++)
+			someBeans.add(new PersonBean(x, "Person_" + x, "city" + x));
+	}
+
+	public boolean isSelectedBeanNotNull()
+	{
+		return selectedBean != null;
+	}
+
+	public List<PersonBean> getSomeBeans()
+	{
+		return someBeans;
+	}
+
+}
+]]>
+						</pre>
+						</div>
+						<!-- source content end -->
+
+					</div>
 				</div>
-				<div class="yui-u">
 
-				</div>
-			</div>
+			</fieldset>
 
 		</div>
 	</div>
