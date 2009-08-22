@@ -24,71 +24,99 @@
 
         <div class="yui-u content">
 
-            <fieldset class="snippet">
-                <legend>code snippet</legend>
-                <pre>
-                    <![CDATA[
-@Component(parameters = {"value=selected1", "model=literal:silver, orange, yellow, green, blue, black", "event=change",
-                         "onCompleteCallback=literal:onCompleteFunction"})
-@Mixins({"ck/OnEvent"})
-private Select select1;
+		<fieldset class="component">
 
-@OnEvent(component = "select1", value = "change")
-public JSONObject onChangeEvent(String value)
+			<legend>OnEvent mixin</legend>
+
+			<div t:type="YuiTabSet">
+				<ul class="yui-nav">
+					<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+					<li><a href="#tab2"><em>Sample Source</em></a></li>
+				</ul>
+				<div class="yui-content">
+
+					<!-- demo content start -->
+					<div style="padding:10px;">
+						<form t:type="Form">
+							<label style="padding-right:4px;">choose color</label>
+							<select size="1" t:id="select1"/>
+						</form>
+						<hr/>
+						<p id="result2" style="padding-bottom:5px;">
+							displays your choosen color
+						</p>
+
+						<div id="result1" style="border: 1px solid black; width: 500px; padding: 5px;">
+							Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.
+							Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.
+							Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis
+							dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora
+							torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet
+							consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.
+							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+							Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar
+							a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.
+							In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.
+							Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.
+						</div>
+					</div>
+					<!-- demo content end -->
+
+					<!-- source content start -->
+					<div style="padding:10px;">
+					<pre>
+<![CDATA[
+public class DemoPage
 {
-    JSONObject json = new JSONObject();
-    json.put("color", value);
-    return json;
+	@Component(parameters = {"menuName=demo"})
+	private LeftSideMenu menu;
+
+	@Property
+	private String selected1;
+
+	@Component(parameters = {"value=selected1", "model=literal:silver, orange, yellow, green, blue, black", "event=change",
+			"onCompleteCallback=literal:onCompleteFunction"})
+	@Mixins({"ck/OnEvent"})
+	private Select select1;
+
+	@OnEvent(component = "select1", value = "change")
+	public JSONObject onChangeEvent(String value)
+	{
+		JSONObject json = new JSONObject();
+		json.put("template", "Your choosen color: #{color}");
+		json.put("color", value);
+		return json;
+	}
 }
 
+
+...
 <script type="text/javascript">
-    function onCompleteFunction(response)
-    {
-        var color = response.evalJSON().color;
-        $('result1').style.backgroundColor = color;
-        if (color == "black" || color == "blue" || color == "green")
-            $('result1').style.color = "yellow";
-        else
-            $('result1').style.color = "black";
-    }
+	function onCompleteFunction(response)
+	{
+		var color = response.color;
+		$('result1').style.backgroundColor = color;
+		if (color == "black" || color == "blue" || color == "green")
+			$('result1').style.color = "yellow";
+		else
+			$('result1').style.color = "black";
+
+		var myTemplate = new Template(response.template)
+		$('result2').innerHTML = myTemplate.evaluate(response);
+
+	}
 </script>
 ]]>
-                </pre>
-            </fieldset>
+					</pre>
+					</div>
+					<!-- source content end -->
 
-            <div class="yui-g" style="width:100%">
+				</div>
+			</div>
 
-                <div class="yui-u first">
+		</fieldset>
 
-                    <form t:type="Form">
-                        <label style="padding-right:4px;">choose color</label>
-                        <select size="1" t:id="select1"/>
-                    </form>
 
-                </div>
-
-                <div class="yui-u">
-
-                    <p id="result2" style="padding-bottom:5px;">
-                        displays your choosen color
-                    </p>
-
-                    <div id="result1" style="border: 1px solid black; width: 500px; padding: 5px;">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Quisque consequat purus sed nulla.
-                        Proin nunc nunc, vehicula eu, sollicitudin sit amet, condimentum pulvinar, eros. Praesent dui.
-                        Pellentesque porta, magna sit amet tristique congue, ligula magna ornare ligula, vitae lobortis
-                        dolor lorem vitae purus. Nam convallis turpis non augue. Class aptent taciti sociosqu ad litora
-                        torquent per conubia nostra, per inceptos hymenaeos. Maecenas sit amet mi in nisi laoreet
-                        consectetuer. Quisque orci sem, tincidunt quis, adipiscing sodales, sagittis egestas, leo.
-                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                        Vestibulum sed turpis in arcu porta consectetuer. Duis arcu erat, porta ut, convallis et, pulvinar
-                        a, quam. Aliquam nunc. Pellentesque interdum nibh ac dolor. Vivamus auctor consequat sapien.
-                        In odio metus, hendrerit at, ornare in, pellentesque quis, nunc. Aenean ultricies est id lacus.
-                        Nam neque. Maecenas cursus rutrum magna. Etiam lacus. Mauris non nunc.
-                    </div>
-
-                </div>
-            </div>
         </div>
     </div>
 
