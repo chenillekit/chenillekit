@@ -37,7 +37,7 @@ import org.chenillekit.tapestry.core.base.AbstractYuiField;
  */
 @IncludeStylesheet(value = {"${yahoo.yui}/button/assets/skins/sam/button.css"})
 @IncludeJavaScriptLibrary(value = {"${yahoo.yui}/button/button${yahoo.yui.mode}.js",
-		"StateButton.js"})
+		"../../Chenillekit.js", "StateButton.js"})
 public class StateButton extends AbstractYuiField
 {
 	/**
