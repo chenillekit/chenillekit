@@ -24,52 +24,75 @@
 
 		<div class="yui-u content">
 
-			<fieldset class="snippet">
-				<legend>code snippet</legend>
-                <pre>
-                    <![CDATA[
+		<fieldset class="component">
+
+			<legend>Kaptcha component</legend>
+
+			<div t:type="YuiTabSet">
+				<ul class="yui-nav">
+					<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+					<li><a href="#tab2"><em>Sample Source</em></a></li>
+				</ul>
+				<div class="yui-content">
+
+					<!-- demo content start -->
+					<div style="padding:10px;">
+						<form t:id="kaptchaForm">
+							<t:errors/>
+
+							<div t:id="kaptchaComponent"/>
+							<br/>
+							<input type="submit"/>
+						</form>
+					</div>
+					<!-- demo content end -->
+
+					<!-- source content start -->
+					<div style="padding:10px;">
+					<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Persist
+	@Property
+	private boolean inputValue;
+
+	@Component
+	private Form kaptchaForm;
+
+	@Component(parameters = {"value=inputValue"})
+	private Kaptcha kaptchaComponent;
+
+	public boolean onValidateForm()
+	{
+		boolean goodValidation = true;
+
+		if (!inputValue)
+		{
+			kaptchaForm.recordError("kaptcha value not equals the user input!");
+			goodValidation = false;
+		}
+
+		return goodValidation;
+	}
+}
+
+...
 <form t:id="kaptchaForm">
 	<t:errors/>
 	<div t:id="kaptchaComponent"/>
 	<br/>
 	<input type="submit"/>
 </form>
-
-page class
-
-@Persist
-@Property
-private boolean inputValue;
-
-@Component
-private Form kaptchaForm;
-
-@Component(parameters = {"value=inputValue"})
-private Kaptcha kaptchaComponent;
-
-public boolean onValidateForm()
-{
-	boolean goodValidation = true;
-
-	if (!inputValue)
-	{
-		kaptchaForm.recordError("kaptcha value not equals the user input!");
-		goodValidation = false;
-	}
-
-	return goodValidation;
-}
 ]]>
-                </pre>
-			</fieldset>
+					</pre>
+					</div>
+					<!-- source content end -->
 
-			<form t:id="kaptchaForm">
-				<t:errors/>
+				</div>
+			</div>
 
-				<div t:id="kaptchaComponent"/>
-				<br/>
-				<input type="submit"/>
-			</form>
+		</fieldset>
 
 		</div>
 	</div>
