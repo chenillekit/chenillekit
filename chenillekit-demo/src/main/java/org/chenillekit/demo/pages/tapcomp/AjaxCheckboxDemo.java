@@ -40,7 +40,7 @@ public class AjaxCheckboxDemo
     @Component
     private Form form;
 
-    @Component(parameters = {"value=selected", "onCompleteCallback=completeCallback"})
+    @Component(parameters = {"value=selected"})
     private AjaxCheckbox ajaxCheckbox;
 
     @OnEvent(component = "ajaxCheckbox", value = "checkboxclicked")

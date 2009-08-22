@@ -36,7 +36,7 @@ Ck.AjaxCheckbox.prototype = {
             },
             onSuccess: function(t)
             {
-                if (this.onCompleteCallback != "undefined")
+                if (this.onCompleteCallback != undefined)
                     eval(this.onCompleteCallback + "('" + t.responseText + "')");
             }.bind(this)
         });
