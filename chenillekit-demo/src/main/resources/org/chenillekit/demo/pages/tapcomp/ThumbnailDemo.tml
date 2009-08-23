@@ -25,26 +25,52 @@
 
         <div class="yui-u content">
 
-            <fieldset class="snippet">
-                <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"asset=prop:myAsset", "thumbHeight=50", "onClickAction=true"})
-private ThumbNail thumbNail;
+		<fieldset class="component">
 
+			<legend>OnEvent mixin</legend>
 
-<img style="border: 1px dashed blue; padding:3px; margin-left:30px" src="#" t:id="thumbNail"/>
+			<div t:type="YuiTabSet">
+				<ul class="yui-nav">
+					<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+					<li><a href="#tab2"><em>Sample Source</em></a></li>
+				</ul>
+				<div class="yui-content">
+
+					<!-- demo content start -->
+					<div style="padding:10px;">
+
+						<p>
+							click on the image and after that move mouse out
+						</p>
+
+						<img style="border: 1px dashed blue; padding:3px; margin-left:30px" src="#" t:id="thumbNail"/>
+
+					</div>
+					<!-- demo content end -->
+
+					<!-- source content start -->
+					<div style="padding:10px;">
+					<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Inject
+	@Path("../../assets/images/sven.jpg")
+	@Property
+	private Asset myAsset;
+
+	@Component(parameters = {"asset=prop:myAsset", "thumbHeight=50", "onClickAction=true"})
+	private ThumbNail thumbNail;
+}
 ]]>
-                        </pre>
-            </fieldset>
+					</pre>
+					</div>
+					<!-- source content end -->
 
-            <fieldset class="sample">
-                <legend>sample</legend>
+				</div>
+			</div>
 
-                <img style="border: 1px dashed blue; padding:3px; margin-left:30px" src="#" t:id="thumbNail"/>
-
-            </fieldset>
-
+		</fieldset>
 
         </div>
     </div>
