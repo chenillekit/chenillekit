@@ -17,8 +17,10 @@ package org.chenillekit.demo.pages.tapcomp;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.Form;
 
 import org.chenillekit.demo.components.LeftSideMenu;
+import org.chenillekit.tapestry.core.components.RatingField;
 
 /**
  * @version $Id$
@@ -39,4 +41,16 @@ public class RatingFieldDemo
     @Persist
     @Property
     private String ratingValue3;
+
+	@Component
+	private Form form;
+
+	@Component(parameters = {"source=list:1,2,3,4,5,6,7,8,9,10", "value=ratingValue1"})
+	private RatingField ratingField1;
+
+	@Component(parameters = {"source=list:1,2,3,4,5", "value=ratingValue2"})
+	private RatingField ratingField2;
+
+	@Component(parameters = {"source=list:'bad','nice','good','excelent'", "value=ratingValue3"})
+	private RatingField ratingField3;
 }

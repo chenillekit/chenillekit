@@ -22,6 +22,7 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.data.Track;
 import org.chenillekit.demo.services.MusicLibrary;
 import org.chenillekit.tapestry.core.components.PagedLoop;
+import org.chenillekit.tapestry.core.components.TrimmedString;
 
 /**
  * @version $Id$
@@ -40,4 +41,13 @@ public class PagedLoopDemo
 
     @Component(parameters = {"source=musicLibrary.tracks", "value=track"})
     private PagedLoop pagedLoop;
+
+    @Component(parameters = {"maxLength=40", "value=track.album"})
+    private TrimmedString trimmedAlbum;
+
+    @Component(parameters = {"value=track.artist"})
+    private TrimmedString trimmedArtist;
+
+    @Component(parameters = {"maxLength=40", "value=track.title"})
+    private TrimmedString trimmedTitle;
 }

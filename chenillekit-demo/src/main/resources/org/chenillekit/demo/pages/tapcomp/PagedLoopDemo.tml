@@ -41,55 +41,116 @@
 
         <div class="yui-u content">
 
+		<fieldset class="component">
 
-            <fieldset class="snippet">
-                <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"source=musicLibrary.tracks", "value=track"})
-private PagedLoop pagedLoop;
+			<legend>PagedLoop component</legend>
 
+			<div t:type="YuiTabSet">
+				<ul class="yui-nav">
+					<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+					<li><a href="#tab2"><em>Sample Source</em></a></li>
+				</ul>
+				<div class="yui-content">
 
+					<!-- demo content start -->
+					<div style="padding:10px;">
+
+						<ul>
+							<li>
+								<div class="yui-gb" style="width:100%;">
+									<div class="yui-u first">
+										<strong>Album</strong>
+									</div>
+									<div class="yui-u">
+										<strong>Artist</strong>
+									</div>
+									<div class="yui-u">
+										<strong>Title</strong>
+									</div>
+								</div>
+							</li>
+							<li t:id="pagedLoop">
+								<div class="yui-gb" style="width:100%;">
+									<div class="yui-u first">
+										<span t:id="trimmedAlbum"/>
+									</div>
+									<div class="yui-u">
+										<span t:id="trimmedArtist"/>
+									</div>
+									<div class="yui-u">
+										<span t:id="trimmedTitle"/>
+									</div>
+								</div>
+							</li>
+						</ul>
+
+					</div>
+					<!-- demo content end -->
+
+					<!-- source content start -->
+					<div style="padding:10px;">
+			<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Property
+	@Inject
+	private MusicLibrary musicLibrary;
+
+	@Property
+	private Track track;
+
+	@Component(parameters = {"source=musicLibrary.tracks", "value=track"})
+	private PagedLoop pagedLoop;
+
+	@Component(parameters = {"maxLength=40", "value=track.album"})
+	private TrimmedString trimmedAlbum;
+
+	@Component(parameters = {"value=track.artist"})
+	private TrimmedString trimmedArtist;
+
+	@Component(parameters = {"maxLength=40", "value=track.title"})
+	private TrimmedString trimmedTitle;
+}
+
+...
 <ul>
-    <li t:id="pagedLoop">
-        ${track.album} - ${track.artist} - ${track.title}
-    </li>
+	<li>
+		<div class="yui-gb" style="width:100%;">
+			<div class="yui-u first">
+				<strong>Album</strong>
+			</div>
+			<div class="yui-u">
+				<strong>Artist</strong>
+			</div>
+			<div class="yui-u">
+				<strong>Title</strong>
+			</div>
+		</div>
+	</li>
+	<li t:id="pagedLoop">
+		<div class="yui-gb" style="width:100%;">
+			<div class="yui-u first">
+				<span t:id="trimmedAlbum"/>
+			</div>
+			<div class="yui-u">
+				<span t:id="trimmedArtist"/>
+			</div>
+			<div class="yui-u">
+				<span t:id="trimmedTitle"/>
+			</div>
+		</div>
+	</li>
 </ul>
 ]]>
-                        </pre>
-            </fieldset>
+			</pre>
+					</div>
+					<!-- source content end -->
 
-            <fieldset class="sample">
-                <legend>sample</legend>
-                <ul>
-                    <li>
-                        <div class="yui-gb" style="width:100%;">
-                            <div class="yui-u first">
-                                <strong>Album</strong>
-                            </div>
-                            <div class="yui-u">
-                                <strong>Artist</strong>
-                            </div>
-                            <div class="yui-u">
-                                <strong>Title</strong>
-                            </div>
-                        </div>
-                    </li>
-                    <li t:id="pagedLoop">
-                        <div class="yui-gb" style="width:100%;">
-                            <div class="yui-u first">
-                                <span t:type="ck/TrimmedString" maxLength="40" value="track.album"/>
-                            </div>
-                            <div class="yui-u">
-                                <span t:type="ck/TrimmedString" value="track.artist"/>
-                            </div>
-                            <div class="yui-u">
-                                <span t:type="ck/TrimmedString" maxLength="40" value="track.title"/>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </fieldset>
+				</div>
+			</div>
+
+		</fieldset>
 
         </div>
     </div>
