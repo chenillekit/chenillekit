@@ -27,7 +27,7 @@
 
 		<fieldset class="component">
 
-			<legend>OnEvent mixin</legend>
+			<legend>ThumbNail component</legend>
 
 			<div t:type="YuiTabSet">
 				<ul class="yui-nav">

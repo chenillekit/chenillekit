@@ -16,9 +16,7 @@ package org.chenillekit.demo.pages.tapcomp;
 
 import java.util.List;
 
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.ActionLink;
@@ -47,9 +45,6 @@ public class GPlotterDemo
 	@Component()
 	private ActionLink plotLink;
 
-	@Environmental
-	private RenderSupport renderSupport;
-
 	@Persist
 	@Property(write = false)
 	private List<GMapAddress> addressList;
@@ -69,7 +64,6 @@ public class GPlotterDemo
 			addressList.add(new GMapAddress("Howard", "OR", "USA", "", "Portland"));
 			addressList.add(new GMapAddress("Sven", "", "DE", "21220", "Seevetal"));
 			addressList.add(new GMapAddress("Massimo", "", "IT", "", "Modena"));
-			addressList.add(new GMapAddress("Florian", "", "CO", "", "Cali"));
 			addressList.add(new GMapAddress("NoBody", "", "MOON", "", "Nowhere"));
 		}
 	}
@@ -79,10 +73,7 @@ public class GPlotterDemo
 		for (GMapAddress a_addressList : addressList)
 		{
 			if (a_addressList.getName().equalsIgnoreCase(name))
-			{
 				selectedAddress = a_addressList;
-				System.err.println("Selected: " + a_addressList.getName());
-			}
 		}
 	}
 }

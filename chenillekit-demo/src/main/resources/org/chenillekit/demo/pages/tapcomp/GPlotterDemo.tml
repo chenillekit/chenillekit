@@ -24,46 +24,103 @@
 
 		<div class="yui-u content">
 
-			<fieldset class="snippet">
-				<legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"street=literal:myStreet", "country=literal:myCountry", "zipCode=literal:myZipCode",
-	"city=literal:myCity", "errorCallbackFunction=GMapErrorHandler"})
-private GPlotter gPlotter;
-]]>
-                        </pre>
-			</fieldset>
+		<fieldset class="component">
 
-			<div class="yui-g" style="width:100%">
-				<div class="yui-u first">
+			<legend>GPlotter component</legend>
 
+			<div t:type="YuiTabSet">
+				<ul class="yui-nav">
+					<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+					<li><a href="#tab2"><em>Sample Source</em></a></li>
+				</ul>
+				<div class="yui-content">
 
-					<fieldset class="sample">
-						<legend>sample</legend>
+					<!-- demo content start -->
+					<div style="padding:10px;">
 
-						<ul>
-							<li t:type="Loop" source="addressList" value="address">
-								<a href="#" t:id="plotLink" context="address.name">plot</a> -> ${address.city} / ${address.country} (home town of ${address.name})
-							</li>
-						</ul>
+						<div class="yui-g" style="width:100%">
+							<div class="yui-u first">
 
-					</fieldset>
+									<ul>
+										<li t:type="Loop" source="addressList" value="address">
+											<a href="#" t:id="plotLink" context="address.name">plot</a> -> ${address.city} / ${address.country} (home town of ${address.name})
+										</li>
+									</ul>
 
-				</div>
-				<div class="yui-u">
-
-					<fieldset class="sample">
-						<legend>result</legend>
-						<span t:type="If" test="ognl:selectedAddress != null">
-							<div t:id="gplotter" style="width: 500px; height: 300px"/>
-							<div id="plotterError" style="display:none;">
-								here should the error resists.
 							</div>
-						</span>
-					</fieldset>
+							<div class="yui-u">
+
+									<span t:type="If" test="ognl:selectedAddress != null">
+										<div t:id="gplotter" style="width: 500px; height: 300px"/>
+										<div id="plotterError" style="display:none;">
+											here should the error resists.
+										</div>
+									</span>
+							</div>
+						</div>
+
+					</div>
+					<!-- demo content end -->
+
+					<!-- source content start -->
+					<div style="padding:10px;">
+			<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Component(parameters = {"errorCallbackFunction=literal:GMapErrorHandler",
+		"street=literal:",
+		"country=prop:selectedAddress.country",
+		"state=prop:selectedAddress.state",
+		"zipCode=prop:selectedAddress.zipCode",
+		"city=prop:selectedAddress.city"})
+	private GPlotter gPlotter;
+
+	@Component()
+	private ActionLink plotLink;
+
+	@Persist
+	@Property(write = false)
+	private List<GMapAddress> addressList;
+
+	@Persist
+	@Property
+	private GMapAddress selectedAddress;
+
+	@Property
+	private GMapAddress address;
+
+	void setupRender()
+	{
+		if (addressList == null)
+		{
+			addressList = CollectionFactory.newList();
+			addressList.add(new GMapAddress("Howard", "OR", "USA", "", "Portland"));
+			addressList.add(new GMapAddress("Sven", "", "DE", "21220", "Seevetal"));
+			addressList.add(new GMapAddress("Massimo", "", "IT", "", "Modena"));
+			addressList.add(new GMapAddress("NoBody", "", "MOON", "", "Nowhere"));
+		}
+	}
+
+	public void onActionFromPlotLink(String name)
+	{
+		for (GMapAddress a_addressList : addressList)
+		{
+			if (a_addressList.getName().equalsIgnoreCase(name))
+				selectedAddress = a_addressList;
+		}
+	}
+}
+]]>
+			</pre>
+					</div>
+					<!-- source content end -->
+
 				</div>
 			</div>
+
+		</fieldset>
+
 
 		</div>
 	</div>
