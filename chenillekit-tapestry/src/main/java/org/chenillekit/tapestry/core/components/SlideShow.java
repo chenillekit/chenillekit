@@ -34,54 +34,68 @@ import org.apache.tapestry5.json.JSONObject;
 @IncludeStylesheet("SlideShow.css")
 public class SlideShow implements ClientElement
 {
-    /**
-     * Sets the amount of time (in seconds) each slide will be displayed.
-     */
-    @Parameter(value = "2")
-    private int interval;
+	/**
+	 * Sets the amount of time (in seconds) each slide will be displayed.
+	 */
+	@Parameter(value = "2")
+	private int interval;
 
-    /**
-     * The slide transition object.
-     */
-    @Parameter(defaultPrefix = BindingConstants.LITERAL, value = "Ck.SlideShow.Tx.Crossfade")
-    private String transition;
+	/**
+	 * The slide transition object.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "Ck.SlideShow.Tx.Crossfade")
+	private String transition;
 
-    // (in development)
-    @Parameter(value = "true")
-    private boolean controls;
+	// (in development)
+	@Parameter(value = "true")
+	private boolean controls;
 
-    /**
-     * Determines if the slide show will start over after displaying the final slide.
-     */
-    @Parameter(value = "false")
-    private boolean loop;
+	/**
+	 * Determines if the slide show will start over after displaying the final slide.
+	 */
+	@Parameter(value = "false")
+	private boolean loop;
 
-    /**
-     * Determines if the slide show will pause when the mouse hovers over it.
-     */
-    @Parameter(value = "true")
-    private boolean pauseOnHover;
+	/**
+	 * Determines if the slide show will pause when the mouse hovers over it.
+	 */
+	@Parameter(value = "true")
+	private boolean pauseOnHover;
 
-    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String clientId;
+	/**
+	 * calculates the component size by the size of the biggest image.
+	 */
+	@Parameter(value = "true")
+	private boolean calculateElementSize;
 
-    @Environmental
-    private RenderSupport renderSupport;
+	@Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+	private String clientId;
 
-    void beginRender(final MarkupWriter writer)
-    {
-        JSONObject jsConfig = new JSONObject();
-        jsConfig.put("interval", interval);
-        jsConfig.put("transition", transition);
-        jsConfig.put("controls", controls);
-        jsConfig.put("loop", loop);
-        jsConfig.put("pauseOnHover", pauseOnHover);
-        renderSupport.addScript("new Ck.SlideShow('%s', %s);", getClientId(), jsConfig);
-    }
+	@Environmental
+	private RenderSupport renderSupport;
 
-    public String getClientId()
-    {
-        return clientId;
-    }
+	private String assignedClientId;
+
+	void setupRender()
+	{
+		assignedClientId = renderSupport.allocateClientId(clientId);
+	}
+
+	void beginRender(final MarkupWriter writer)
+	{
+		JSONObject jsConfig = new JSONObject();
+		jsConfig.put("interval", interval);
+		jsConfig.put("transition", transition);
+		jsConfig.put("controls", controls);
+		jsConfig.put("loop", loop);
+		jsConfig.put("pauseOnHover", pauseOnHover);
+		jsConfig.put("calculateElementSize", calculateElementSize);
+		renderSupport.addScript("new Ck.SlideShow('%s', %s);", getClientId(), jsConfig);
+	}
+
+	public String getClientId()
+	{
+		return assignedClientId;
+	}
 
 }

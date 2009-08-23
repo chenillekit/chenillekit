@@ -20,9 +20,9 @@
         TODO display conditionally
         TODO control IDs can't be static
     -->
-    <div class="ck-slideshow-ctls" style="display: none;">
-        <a href="#" class="ss-ctl-prev"> &lt; prev </a>
-        <a href="#" class="ss-ctl-play_pause"> || play/pause </a>
-        <a href="#" class="ss-ctl-next"> &gt; next </a>
+    <div id="${clientId}-ctls" class="ck-slideshow-ctls" style="display: none;">
+        <a href="#" id="${clientId}-ctl-prev" class="ss-ctl-prev"> &lt; prev </a>
+        <a href="#" id="${clientId}-ctl-play_pause" class="ss-ctl-play_pause"> || play/pause </a>
+        <a href="#" id="${clientId}-ctl-next" class="ss-ctl-next"> &gt; next </a>
     </div>
 </div>
