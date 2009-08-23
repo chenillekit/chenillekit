@@ -28,5 +28,8 @@ public class SlideShowDemo
     private LeftSideMenu menu;
 
     @Component(parameters = {"interval=3", "loop=true", "controls=false"})
-    private SlideShow slideShow;
+    private SlideShow slideShow1;
+
+    @Component(parameters = {"interval=3", "loop=true", "controls=true"})
+    private SlideShow slideShow2;
 }

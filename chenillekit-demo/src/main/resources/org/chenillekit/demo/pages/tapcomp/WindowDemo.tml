@@ -16,79 +16,162 @@
 
     <div class="yui-g">
 
-        <div class="yui-u first menu">
+		<div class="yui-u first menu">
 
-            <span t:id="menu">the menu</span>
+			<span t:id="menu">the menu</span>
 
-        </div>
+		</div>
 
-        <div class="yui-u content">
+		<div class="yui-u content">
 
+			<fieldset class="component">
 
-            <fieldset class="snippet">
-                <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"style=bluelighting", "show=true",
-                         "modal=true", "title=literal:Window 1"})
-private Window window1;
+				<legend>Window component</legend>
 
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
 
-<a href="#" onclick="window1.showCenter(true)">click here to show window</a>
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<ul>
+								<li>
+									<a href="#" onclick="window1.showCenter(true)">click here for modal window</a> (style=bluelighting)
+								</li>
+								<li>
+									<a href="#" onclick="window2.showCenter(false)">click here for normal window</a> (style=mac_os_x)
+								</li>
+								<li>
+									<a href="#" onclick="window3.showCenter(false)">click here for normal window</a> (style=nuncio)
+								</li>
+								<li>
+									<a href="#" onclick="window4.showCenter(false)">click here for normal window</a> (style=spread)
+								</li>
+								<li>
+									<a href="#" onclick="window5.showCenter(false)">click here for normal window</a> (style=alphacube)
+								</li>
+								<li>
+									<a href="#" onclick="window6.showCenter(false)">click here for normal window</a> (style=dialog)
+								</li>
+							</ul>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+				<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Component(parameters = {"style=bluelighting", "show=false", "title=literal:Window 1", "width=300", "height=200"})
+	private Window window1;
+
+	@Component(parameters = {"style=mac_os_x", "show=false", "title=literal:Window 2", "width=300", "height=200"})
+	private Window window2;
+
+	@Component(parameters = {"style=nuncio", "show=false", "title=literal:Window 3", "width=300", "height=200"})
+	private Window window3;
+
+	@Component(parameters = {"style=spread", "show=false", "title=literal:Window 4", "width=300", "height=200"})
+	private Window window4;
+
+	@Component(parameters = {"style=alphacube", "show=false", "title=literal:Window 5", "width=300", "height=200"})
+	private Window window5;
+
+	@Component(parameters = {"style=dialog", "show=false", "title=literal:Window 6", "width=300", "height=200"})
+	private Window window6;
+}
+
+...
+<ul>
+	<li>
+		<a href="#" onclick="window1.showCenter(true)">click here for modal window</a> (style=bluelighting)
+	</li>
+	<li>
+		<a href="#" onclick="window2.showCenter(false)">click here for normal window</a> (style=mac_os_x)
+	</li>
+	<li>
+		<a href="#" onclick="window3.showCenter(false)">click here for normal window</a> (style=nuncio)
+	</li>
+	<li>
+		<a href="#" onclick="window4.showCenter(false)">click here for normal window</a> (style=spread)
+	</li>
+	<li>
+		<a href="#" onclick="window5.showCenter(false)">click here for normal window</a> (style=alphacube)
+	</li>
+	<li>
+		<a href="#" onclick="window6.showCenter(false)">click here for normal window</a> (style=dialog)
+	</li>
+</ul>
 
 <div t:id="window1">
-    <h3>Test Window</h3>
-    <p>
-        This is the inlined content of a test window
-    </p>
+	<h3>Test Window</h3>
+	<p>
+		This is the inlined content of a test window
+	</p>
 </div>
 
+<div t:id="window2">
+	<h3>Test Window</h3>
+	<p>
+		This is the inlined content of a test window
+	</p>
+</div>
+
+<div t:id="window3">
+</div>
+
+<div t:id="window4">
+</div>
+
+<div t:id="window5">
+</div>
+
+<div t:id="window6">
+</div>
 
 ]]>
-                        </pre>
-            </fieldset>
+				</pre>
+						</div>
+						<!-- source content end -->
 
-            <fieldset class="sample">
-                <legend>sample</legend>
+					</div>
+				</div>
 
-                <ul>
-                    <li><a href="#" onclick="window1.showCenter(true)">click here for modal window</a> (style=bluelighting)</li>
-                    <li><a href="#" onclick="window2.showCenter(false)">click here for normal window</a> (style=mac_os_x)</li>
-                    <li><a href="#" onclick="window3.showCenter(false)">click here for normal window</a> (style=nuncio)</li>
-                    <li><a href="#" onclick="window4.showCenter(false)">click here for normal window</a> (style=spread)</li>
-                    <li><a href="#" onclick="window5.showCenter(false)">click here for normal window</a> (style=alphacube)</li>
-                    <li><a href="#" onclick="window6.showCenter(false)">click here for normal window</a> (style=dialog)</li>
-                </ul>
+			</fieldset>
 
-            </fieldset>
+		</div>
+	</div>
 
-        </div>
-    </div>
+	<div t:id="window1">
+		<h3>Test Window</h3>
+		<p>
+			This is the inlined content of a test window
+		</p>
+	</div>
 
-    <div t:id="window1">
-        <h3>Test Window</h3>
-        <p>
-            This is the inlined content of a test window
-        </p>
-    </div>
+	<div t:id="window2">
+		<h3>Test Window</h3>
+		<p>
+			This is the inlined content of a test window
+		</p>
+	</div>
 
-    <div t:id="window2">
-        <h3>Test Window</h3>
-        <p>
-            This is the inlined content of a test window
-        </p>
-    </div>
+	<div t:id="window3">
+	</div>
 
-    <div t:id="window3">
-    </div>
+	<div t:id="window4">
+	</div>
 
-    <div t:id="window4">
-    </div>
+	<div t:id="window5">
+	</div>
 
-    <div t:id="window5">
-    </div>
-
-    <div t:id="window6">
-    </div>
+	<div t:id="window6">
+	</div>
 
 </span>

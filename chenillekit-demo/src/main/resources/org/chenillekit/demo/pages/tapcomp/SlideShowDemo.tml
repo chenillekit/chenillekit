@@ -16,53 +16,92 @@
 
     <div class="yui-g">
 
-        <div class="yui-u first menu">
+		<div class="yui-u first menu">
 
-            <span t:id="menu">the menu</span>
+			<span t:id="menu">the menu</span>
 
-        </div>
+		</div>
 
-        <div class="yui-u content">
+		<div class="yui-u content">
 
-            <div class="yui-g" style="width:100%">
-                <div class="yui-u first">
+			<fieldset class="component">
 
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters = {"interval=3", "loop=true", "controls=false"})
-private SlideShow slideShow;
+				<legend>SlideShow component</legend>
 
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
 
-<div t:id="slideshow">
-    <img src="${asset:../../assets/images/at-the-drive-in.jpg}"/>
-    <img src="${asset:../../assets/images/good-riddance.jpg}"/>
-    <img src="${asset:../../assets/images/radiohead.jpg}"/>
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<div class="yui-gd" style="width:100%;">
+
+								<div class="yui-u first">
+
+									<div t:id="slideshow1">
+										<img src="${asset:../../assets/images/at-the-drive-in.jpg}"/>
+										<img src="${asset:../../assets/images/good-riddance.jpg}"/>
+										<img src="${asset:../../assets/images/radiohead.jpg}"/>
+									</div>
+								</div>
+
+								<div class="yui-u">
+
+									<div t:id="slideshow2">
+										<img src="${asset:../../assets/images/hamburg1.jpg}"/>
+										<img src="${asset:../../assets/images/hamburg2.jpg}"/>
+										<img src="${asset:../../assets/images/hamburg3.jpg}"/>
+										<img src="${asset:../../assets/images/hamburg4.jpg}"/>
+										<img src="${asset:../../assets/images/hamburg5.jpg}"/>
+										<img src="${asset:../../assets/images/hamburg6.jpg}"/>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+			<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Component(parameters = {"interval=3", "loop=true", "controls=false"})
+	private SlideShow slideShow1;
+
+	@Component(parameters = {"interval=1", "loop=true", "controls=true"})
+	private SlideShow slideShow2;
+}
+
+...
+<div t:id="slideshow1">
+	<img src="${asset:../../assets/images/at-the-drive-in.jpg}"/>
+	<img src="${asset:../../assets/images/good-riddance.jpg}"/>
+	<img src="${asset:../../assets/images/radiohead.jpg}"/>
+</div>
+
+<div t:id="slideshow2">
+	<img src="${asset:../../assets/images/at-the-drive-in.jpg}"/>
+	<img src="${asset:../../assets/images/good-riddance.jpg}"/>
+	<img src="${asset:../../assets/images/radiohead.jpg}"/>
 </div>
 ]]>
-                        </pre>
-                    </fieldset>
+			</pre>
+						</div>
+						<!-- source content end -->
 
-                    <fieldset class="sample">
-                        <legend>sample</legend>
+					</div>
+				</div>
 
-                        <div t:id="slideshow">
-                            <img src="${asset:../../assets/images/at-the-drive-in.jpg}"/>
-                            <img src="${asset:../../assets/images/good-riddance.jpg}"/>
-                            <img src="${asset:../../assets/images/radiohead.jpg}"/>
-                        </div>
+			</fieldset>
 
-
-                    </fieldset>
-
-                </div>
-                <div class="yui-u">
-
-                </div>
-            </div>
-
-        </div>
-    </div>
+		</div>
+	</div>
 
 </span>

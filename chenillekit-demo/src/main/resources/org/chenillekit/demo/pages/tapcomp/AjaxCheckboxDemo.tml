@@ -46,7 +46,7 @@
 							</form>
 
 							<div style="padding-top:15px;">
-								result is <span id="result1" style="color:yellow; font-weight:bolder;"></span>
+								result is <span id="result1" style="color:red; font-weight:bolder;"></span>
 							</div>
 
 						</div>

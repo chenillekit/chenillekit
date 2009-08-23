@@ -17,80 +17,96 @@
 
     <div class="yui-g">
 
-        <div class="yui-u first menu">
+		<div class="yui-u first menu">
 
-            <span t:id="menu">the menu</span>
+			<span t:id="menu">the menu</span>
 
-        </div>
+		</div>
 
-        <div class="yui-u content">
+		<div class="yui-u content">
 
-            <div class="yui-gb" style="width:100%">
-                <div class="yui-u first">
+			<fieldset class="component">
 
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters =
-    {"dataItems=testData"})
-private Chart chart1;
+				<legend>Chart component</legend>
+
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
+
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<div class="yui-gb" style="width:100%">
+								<div class="yui-u first">
+									<div t:id="chart1" style="width: auto; height: 150px;"/>
+								</div>
+								<div class="yui-u">
+									<div t:id="chart2" style="width: auto; height: 150px;"/>
+								</div>
+								<div class="yui-u">
+									<div t:id="chart3" style="width: auto; height: 150px;"/>
+								</div>
+							</div>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+					<pre>
+<![CDATA[
+public class DemoPage
+{
+	private List<List<XYDataItem>> testData;
+
+	@Component(parameters = {"dataItems=testData"})
+	private Chart chart1;
+
+	@Component
+	private BarChart chart2;
+
+	@Component(parameters = {"dataItems=testData"})
+	private LineChart chart3;
+
+	@Cached
+	public List getTestData()
+	{
+		List<List<XYDataItem>> dataList = CollectionFactory.newList();
+		List<XYDataItem> list1 = CollectionFactory.newList();
+		List<XYDataItem> list2 = CollectionFactory.newList();
+
+		list1.add(new XYDataItem(0, 0.5));
+		list1.add(new XYDataItem(1, 0.6));
+		list1.add(new XYDataItem(2, 1.8));
+		list1.add(new XYDataItem(3, 0.9));
+		list1.add(new XYDataItem(4, 2));
+
+		list2.add(new XYDataItem(0, 1.5));
+		list2.add(new XYDataItem(1, 2));
+		list2.add(new XYDataItem(2, 4.5));
+		list2.add(new XYDataItem(3, 3.5));
+		list2.add(new XYDataItem(4, 5.5));
+
+		dataList.add(list1);
+		dataList.add(list2);
+
+		return dataList;
+	}
+}
 ]]>
-                        </pre>
-                    </fieldset>
+					</pre>
+						</div>
+						<!-- source content end -->
 
-                    <fieldset class="sample">
-                        <legend>sample</legend>
+					</div>
+				</div>
 
-                        <div t:id="chart1" style="width: auto; height: 150px;"/>
+			</fieldset>
 
-                    </fieldset>
-
-                </div>
-                <div class="yui-u">
-
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component
-private BarChart chart2;
-]]>
-                        </pre>
-                    </fieldset>
-
-                    <fieldset class="sample">
-                        <legend>sample</legend>
-
-                        <div t:id="chart2" style="width: auto; height: 150px;"/>
-
-                    </fieldset>
-
-                </div>
-                <div class="yui-u">
-
-                    <fieldset class="snippet">
-                        <legend>code snippet</legend>
-                        <pre>
-                            <![CDATA[
-@Component(parameters =
-    {"dataItems=testData"})
-private LineChart chart3;
-]]>
-                        </pre>
-                    </fieldset>
-
-                    <fieldset class="sample">
-                        <legend>sample</legend>
-
-                        <div t:id="chart3" style="width: auto; height: 150px;"/>
-
-                    </fieldset>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
+		</div>
+	</div>
 
 </span>
