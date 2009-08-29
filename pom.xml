@@ -131,12 +131,10 @@
 		</site>
 	</distributionManagement>
 
-	<!--
 	<issueManagement>
-		<system>Google-Code</system>
-		<url>http://code.google.com/p/chenillekit/issues/list</url>
+		<system>Jire</system>
+		<url>http://tapestry.formos.com/jira/browse/CHEN</url>
 	</issueManagement>
-	-->
 
 	<mailingLists>
 		<mailingList>
