@@ -19,6 +19,7 @@
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tapestry-release-version>5.1.0.5</tapestry-release-version>
 		<update-release-info>false</update-release-info>
 		<!-- Version 2.1 lists everything as 100% covered, weird. -->
@@ -29,13 +30,13 @@
 	<groupId>org.chenillekit</groupId>
 	<artifactId>chenillekit-project</artifactId>
 	<packaging>pom</packaging>
-	<version>1.1.0</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<name>ChenilleKit Project</name>
 	<description>
 		A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
 		and many more ...
 	</description>
-	<inceptionYear>2008</inceptionYear>
+	<inceptionYear>2008-2009</inceptionYear>
 
 	<url>http://www.chenillekit.org/</url>
 
