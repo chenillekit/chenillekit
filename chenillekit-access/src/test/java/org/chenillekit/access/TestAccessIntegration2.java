@@ -243,5 +243,21 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 		
 		assertTextPresent("User logged in: NO");
 	}
+	
+	public void equal_check() throws Exception
+	{
+		open(BASE_URL);
+		
+		clickAndWait("link=Invisible");
+		
+		assertTextPresent("Login Page");
+		
+		type("chenillekitUsername", "root");
+		type("chenillekitPassword", "root");
+		
+		clickAndWait("chenillekitLoginSubmit");
+		
+		assertTextPresent("Login Page");
+	}
 
 }

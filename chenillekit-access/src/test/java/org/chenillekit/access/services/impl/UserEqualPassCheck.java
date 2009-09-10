@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2009 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,26 +19,25 @@ import org.chenillekit.access.services.AuthenticationService;
 import org.chenillekit.access.services.AuthenticationServiceFilter;
 
 /**
- * Just for tests {@link AuthenticationService}
+ * @id $id$
  *
- * @version $Id$
  */
-public class UserAuthServiceImpl implements AuthenticationServiceFilter
+public class UserEqualPassCheck implements AuthenticationServiceFilter
 {
+
 	/* (non-Javadoc)
 	 * @see org.chenillekit.access.services.AuthenticationServiceFilter#doAuthenticate(java.lang.String, java.lang.String, org.chenillekit.access.services.AuthenticationService)
 	 */
 	public WebSessionUser doAuthenticate(String userName, String password,
 			AuthenticationService delegate)
 	{
-		if ( "root".equals(userName) )
+		// Just to show how the pipeline can operate
+		if (userName.equalsIgnoreCase(password))
 		{
-			return new TestWebSessionUser("root", 10);
+			return null;
 		}
-		if ( "dummy".equals(userName) )
-		{
-			return new TestWebSessionUser("dummy", 0);
-		}
+		
 		return delegate.doAuthenticate(userName, password);
 	}
+
 }

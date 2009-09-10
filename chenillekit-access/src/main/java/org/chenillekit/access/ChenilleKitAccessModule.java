@@ -24,7 +24,7 @@ import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.Marker;
-import org.apache.tapestry5.ioc.services.ChainBuilder;
+import org.apache.tapestry5.ioc.services.PipelineBuilder;
 import org.apache.tapestry5.services.ApplicationStateContribution;
 import org.apache.tapestry5.services.ApplicationStateCreator;
 import org.apache.tapestry5.services.ApplicationStateManager;
@@ -36,9 +36,9 @@ import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.apache.tapestry5.services.MetaDataLocator;
 import org.chenillekit.access.annotations.ChenilleKitAccess;
-import org.chenillekit.access.internal.NoOpAuthenticationService;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.AuthenticationService;
+import org.chenillekit.access.services.AuthenticationServiceFilter;
 import org.chenillekit.access.services.RedirectService;
 import org.chenillekit.access.services.impl.AccessValidatorImpl;
 import org.chenillekit.access.services.impl.ComponentRequestAccessFilter;
@@ -65,21 +65,33 @@ public class ChenilleKitAccessModule
 	}
 	
 	/**
-	 * Actually builds a chain of commands from various implementation of
-	 * {@link AuthenticationService} to serve as authentication mechanism
-	 * for the web application and letting every user provide their own.
+	 * Build a pipeline service around the {@link AuthenticationService} so we
+	 * may have more then one implementation decide how and when to authenticate.
 	 * 
-	 * @param configuration
-	 * @param chainBuilder
-	 * @return
+	 * @param configuration {@link List} of filters to insert into the pipeline
+	 * @param builder {@link PipelineBuilder} from Tapestr5 IoC
+	 * @param logger {@link Logger} configured by the Tapestry5 IoC
+	 * @return the facade service acting as a pipeline through the contributed
+	 * implementations 
 	 */
-    public static AuthenticationService buildAuthenticationService(
-            final List<AuthenticationService> configuration,
-            @InjectService("ChainBuilder")
-            ChainBuilder chainBuilder)
-    {
-        return chainBuilder.build(AuthenticationService.class, configuration);
-    }
+	public static AuthenticationService build(
+			@InjectService("PipelineBuilder")
+			PipelineBuilder builder,
+			final List<AuthenticationServiceFilter> configuration,
+			Logger logger)
+	{
+		AuthenticationService terminator = new AuthenticationService()
+		{	
+			public WebSessionUser doAuthenticate(String userName, String password)
+			{
+				// Return a null so the service can fail if no other contributions are made
+				return null;
+			}
+		};
+		
+		return builder.build(logger, AuthenticationService.class, AuthenticationServiceFilter.class, configuration, terminator);
+		
+	}
     
     /**
      * 
@@ -101,15 +113,6 @@ public class ChenilleKitAccessModule
       
       // FIXME Is "session" string available as a constants from Tapestry?
       configuration.add(WebSessionUser.class, new ApplicationStateContribution("session", creator));
-    }
-    
-    /**
-     * 
-     * @param configuration
-     */
-    public static void contributeAuthenticationService(OrderedConfiguration<AuthenticationService> configuration)
-    {
-    	configuration.add("no-op", new NoOpAuthenticationService(), "after:*");
     }
 
 	/**

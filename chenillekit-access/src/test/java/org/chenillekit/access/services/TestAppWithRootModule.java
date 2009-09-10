@@ -21,6 +21,7 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
+import org.chenillekit.access.services.impl.UserEqualPassCheck;
 import org.chenillekit.access.services.impl.NoOpAppServerLoginService;
 import org.chenillekit.access.services.impl.UserAuthServiceImpl;
 
@@ -45,9 +46,10 @@ public class TestAppWithRootModule
 	 *
 	 * @param configuration
 	 */
-	public static void contributeAuthenticationService(OrderedConfiguration<AuthenticationService> configuration)
+	public static void contributeAuthenticationService(OrderedConfiguration<AuthenticationServiceFilter> configuration)
 	{
-		configuration.add("TEST", new UserAuthServiceImpl());
+		configuration.add("SAMPLE", new UserAuthServiceImpl());
+		configuration.add("EQUALTEST", new UserEqualPassCheck(), "before:*");
 	}
 
 	/**
