@@ -12,7 +12,7 @@
 	~ You may obtain a copy of the License at
 	~
 	~ http://www.apache.org/licenses/LICENSE-2.0
-	-->
+-->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -42,7 +42,7 @@
 
 	<ciManagement>
 		<system>bamboo</system>
-		<url>http://tapestry.formos.com/bamboo/</url>
+		<url>http://bamboo.ci.codehaus.org/</url>
 	</ciManagement>
 
 	<licenses>
@@ -59,21 +59,20 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/</connection>
-		<developerConnection>scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/</developerConnection>
-		<!-- <tag>HEAD</tag> -->
-		<url>https://tapestry.formos.com/svn/chenillekit/trunk/</url>
+		<connection>scm:svn:http://svn.codehaus.org/chenillekit/trunk/</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/chenillekit/trunk/</developerConnection>
+		<url>http://svn.codehaus.org/chenillekit/trunk/</url>
 	</scm>
 
 	<repositories>
 
 		<repository>
-			<id>tapestry</id>
+			<id>tapestry-formos</id>
 			<url>http://tapestry.formos.com/maven-repository</url>
 		</repository>
 
 		<repository>
-			<id>tapestry-snapshot</id>
+			<id>tapestry-formos-snapshot</id>
 			<url>http://tapestry.formos.com/maven-snapshot-repository</url>
 			<snapshots>
 				<enabled>true</enabled>
@@ -98,7 +97,7 @@
 	<pluginRepositories>
 
 		<pluginRepository>
-			<id>tapestry-snapshot</id>
+			<id>tapestry-formos-snapshot</id>
 			<url>http://tapestry.formos.com/maven-snapshot-repository</url>
 			<snapshots>
 				<enabled>true</enabled>
@@ -106,7 +105,7 @@
 		</pluginRepository>
 
 		<pluginRepository>
-			<id>tapestry</id>
+			<id>tapestry-formos</id>
 			<url>http://tapestry.formos.com/maven-repository</url>
 		</pluginRepository>
 		<!-- I believe the Cobertura plugin lives here. -->
@@ -119,32 +118,43 @@
 
 	<distributionManagement>
 		<repository>
-			<id>tapestry</id>
-			<url>file:/var/www/maven-repository</url>
+			<id>codehaus.org</id>
+			<name>ChenilleKit Central Reposiroty</name>
+			<url>dav:https://dav.codehaus.org/repository/chenillekit/</url>
 		</repository>
 		<snapshotRepository>
-			<id>tapestry-snapshot</id>
-			<url>file:/var/www/maven-snapshot-repository</url>
+			<id>codehaus.org</id>
+			<name>ChenilleKit Central Development Reposiroty</name>
+			<url>dav:https://dav.codehaus.org/snapshots.repository/chenillekit/</url>
 		</snapshotRepository>
 		<site>
+			<id>codehaus.org</id>
 			<!-- Maven will tack on the artifact id. -->
-			<url>file:/var/www/nightly/chenille-kit/</url>
+			<url>dav:https://dav.codehaus.org/chenillekit/</url>
 		</site>
 	</distributionManagement>
 
 	<issueManagement>
-		<system>Jire</system>
-		<url>http://tapestry.formos.com/jira/browse/CHEN</url>
+		<system>Jira</system>
+		<url>http://jira.codehaus.org/browse/CHEN</url>
 	</issueManagement>
 
 	<mailingLists>
 		<mailingList>
 			<name>User List</name>
-			<archive>http://groups.google.com/group/chenillekit-usr</archive>
+			<archive>http://xircles.codehaus.org/lists/user@chenillekit.codehaus.org</archive>
 		</mailingList>
 		<mailingList>
-			<name>Developer List</name>
-			<archive>http://groups.google.com/group/chenillekit-dev</archive>
+			<name>Dev List</name>
+			<archive>http://xircles.codehaus.org/lists/dev@chenillekit.codehaus.org</archive>
+		</mailingList>
+		<mailingList>
+			<name>Announce List</name>
+			<archive>http://xircles.codehaus.org/lists/announce@chenillekit.codehaus.org</archive>
+		</mailingList>
+		<mailingList>
+			<name>Commit List</name>
+			<archive>http://xircles.codehaus.org/lists/scm@chenillekit.codehaus.org</archive>
 		</mailingList>
 	</mailingLists>
 
@@ -483,6 +493,13 @@
 			</plugin>
 
 		</plugins>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupdId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-1</version>
+			</extension>
+		</extensions>
 	</build>
 
 
