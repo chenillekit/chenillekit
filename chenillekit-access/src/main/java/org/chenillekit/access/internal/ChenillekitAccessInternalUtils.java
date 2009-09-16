@@ -26,8 +26,13 @@ public class ChenillekitAccessInternalUtils
 	public static final String getContextAsString(EventContext context)
 	{
 		String res = "";
+		
+		if (context == null)
+			return res;
+		
+		int parametersCount = context.getCount();
 
-		for (int i = 0; i < context.getCount(); i++)
+		for (int i = 0; i < parametersCount; i++)
 		{
 			res = res + context.get(String.class, i) + "####";
 		}
@@ -49,7 +54,7 @@ public class ChenillekitAccessInternalUtils
 	}
 
 	/**
-	 * check if user has required group to access page/component/event.
+	 * Check if user has required group to access page/component/event.
 	 *
 	 * @param userGroups     groups the user have
 	 * @param requiredGroups groups required for page/component/event access
@@ -63,22 +68,25 @@ public class ChenillekitAccessInternalUtils
 		/**
 		 * if no group required
 		 */
-		if (requiredGroups.length == 0)
+		if (requiredGroups == null || requiredGroups.length == 0)
 			return true;
 
-		for (String requiredGroup : requiredGroups)
+		if (userGroups != null)
 		{
-			for (String userGroup : userGroups)
+			for (String requiredGroup : requiredGroups)
 			{
-				if (userGroup.equalsIgnoreCase(requiredGroup))
+				for (String userGroup : userGroups)
 				{
-					hasGroup = true;
-					break;
+					if (userGroup.equalsIgnoreCase(requiredGroup))
+					{
+						hasGroup = true;
+						break;
+					}
 				}
-			}
 
-			if (hasGroup)
-				break;
+				if (hasGroup)
+					break;
+			}
 		}
 
 		return hasGroup;
@@ -107,12 +115,15 @@ public class ChenillekitAccessInternalUtils
 	{
 		String csvString = "";
 
-		for (int i = 0; i < groups.length; i++)
+		if (groups != null)
 		{
-			if (i == 0)
-				csvString += groups[i];
-			else
-				csvString += "," + groups[i];
+			for (int i = 0; i < groups.length; i++)
+			{
+				if (i == 0)
+					csvString += groups[i];
+				else
+					csvString += "," + groups[i];
+			}
 		}
 
 		return csvString;
@@ -125,7 +136,9 @@ public class ChenillekitAccessInternalUtils
 	 */
 	public static final String[] getStringAsStringArray(String groups)
 	{
-		if ( ChenilleKitAccessConstants.NO_RESTRICTION.equals(groups)) return NO_GROUPS;
+		if ( groups == null ||
+				ChenilleKitAccessConstants.NO_RESTRICTION.equals(groups)) return NO_GROUPS;
+		
 		return groups.split(",");
 	}
 
