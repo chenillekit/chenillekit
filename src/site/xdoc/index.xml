@@ -54,7 +54,7 @@
 						<td>core utils we need for some of the following modules</td>
 					</tr>
 					<tr>
-						<td>Access
+						<td>
 							<a href="chenillekit-access/index.html">Access</a>
 						</td>
 						<td>library which provide access restriction constraints to Tapestry 5 web application</td>
