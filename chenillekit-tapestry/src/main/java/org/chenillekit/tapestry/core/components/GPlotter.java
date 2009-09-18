@@ -71,35 +71,11 @@ public class GPlotter implements ClientElement
 	@Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
 	private String clientId;
 
-	/**
-	 * google map search argument: street
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "")
-	private String street;
+	@Parameter(defaultPrefix = BindingConstants.PROP)
+	private Double lat;
 
-	/**
-	 * google map search argument: country
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "")
-	private String country;
-
-	/**
-	 * google map search argument: state
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "")
-	private String state;
-
-	/**
-	 * google map search argument: zipCode
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "")
-	private String zipCode;
-
-	/**
-	 * google map search argument: city
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "")
-	private String city;
+	@Parameter(defaultPrefix = BindingConstants.PROP)
+	private Double lng;
 
 	/**
 	 * name of a javascript function that acts as error handler.
@@ -107,14 +83,14 @@ public class GPlotter implements ClientElement
 	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "")
 	private String errorCallbackFunction;
 
-	private GeoCodeResult geoCodeResult;
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "")
+	private String dragendCallbackFunction;
 
 	private String assignedClientId;
 
 	void setupRender()
 	{
 		assignedClientId = renderSupport.allocateClientId(clientId);
-		geoCodeResult = geoCoder.getGeoCode(request.getLocale(), street, country, state, zipCode, city);
 	}
 
 	public String getPlotterId()
@@ -159,20 +135,15 @@ public class GPlotter implements ClientElement
 
 		configure(configuration);
 
-		renderSupport.addScript("var %s = new Ck.GPlotter('%s_map', '%s', '%s', %s);",
-								getClientId(), getClientId(),
-								geoCoder.getKey(),
-								errorCallbackFunction,
-								configuration.toString());
+		renderSupport.addScript("var %s = new Ck.GPlotter('%s_map', '%s', '%s', '%s', %s);",
+				getClientId(), getClientId(),
+				geoCoder.getKey(),
+				errorCallbackFunction,
+				dragendCallbackFunction,
+				configuration.toString());
 
-		if (geoCodeResult.getPlacemarks().size() > 0)
-			renderSupport.addScript("%s.setMarker('%s', '%s', '%s', '%s', '%s', '%s', '%s');",
-									getClientId(),
-									geoCodeResult.getPlacemarks().get(0).getLatLng().getLatitude(),
-									geoCodeResult.getPlacemarks().get(0).getLatLng().getLongitude(),
-									street, country, state, zipCode, city);
-		else
-			renderSupport.addScript("%s.callException();", getClientId());
+		renderSupport.addScript("%s.setCenter(%s, %s);", getClientId(), lat, lng);
+
 	}
 
 	/**

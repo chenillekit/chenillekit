@@ -52,6 +52,12 @@
 
 									<span t:type="If" test="ognl:selectedAddress != null">
 										<div t:id="gplotter" style="width: 500px; height: 300px"/>
+										<span t:type="Loop" source="geoCodeResult.placemarks" value="placemark">
+											<t:chenillekit.google.gmarker t:id="gmarker" gPlotterId="prop:gPlotterId"
+																		  infoWindowHtml="prop:infoWindowHtml"
+																		  lat="prop:placemark.latLng.latitude"
+																		  lng="prop:placemark.latLng.longitude" draggable="false"/>
+										</span>
 										<div id="plotterError" style="display:none;">
 											here should the error resists.
 										</div>
@@ -113,6 +119,17 @@ public class DemoPage
 }
 ]]>
 			</pre>
+						<br/>
+				<pre>
+					<![CDATA[
+<span t:type="Loop" source="geoCodeResult.placemarks" value="placemark">
+	<t:chenillekit.google.gmarker t:id="gmarker" gPlotterId="prop:gPlotterId"
+								  infoWindowHtml="prop:infoWindowHtml"
+								  lat="prop:placemark.latLng.latitude"
+								  lng="prop:placemark.latLng.longitude" draggable="false"/>
+</span>
+]]>
+				</pre>
 					</div>
 					<!-- source content end -->
 

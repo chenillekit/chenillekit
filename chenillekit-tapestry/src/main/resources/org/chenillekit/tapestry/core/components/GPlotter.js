@@ -14,7 +14,7 @@
 
 Ck.GPlotter = Class.create();
 Ck.GPlotter.prototype = {
-	initialize: function(elementId, key, errorCallbackFunction, options)
+	initialize: function(elementId, key, errorCallbackFunction, options, dragendCallbackFunction)
 	{
 		this.options = Object.extend({
 			zoomLevel:		 13,
@@ -28,6 +28,7 @@ Ck.GPlotter.prototype = {
 		this.key = key;
 		this.map = null;
 		this.errorCallbackFunction = errorCallbackFunction;
+		this.dragendCallbackFunction = dragendCallbackFunction;
 
 		if (GBrowserIsCompatible())
 		{
@@ -44,28 +45,39 @@ Ck.GPlotter.prototype = {
 		}
 
 	},
-	setMarker: function(latitude, longitude, street, country, state, zipcode, city)
+	setCenter: function(latitude, longitude)
 	{
 		var point = new GLatLng(latitude, longitude);
 		this.map.setCenter(point, this.options.zoomLevel);
+	},
 
-		var marker = new GMarker(point);
-		var text = this.__getString(this.options.label, "<b>", "</b>");
+	setMarker: function(latitude, longitude, infoText, hiddenLatId, hiddenLngId, draggable)
+	{
+		var point = new GLatLng(latitude, longitude);
 
-		text += this.__getString(street, "<br/>", "");
-		text += this.__getString(country, "<br/>", "");
-		text += this.__getString(state, " (", ")");
-		text += this.__getString(zipcode, "-", "");
-		text += this.__getString(city, " ", "");
+		var marker = new GMarker(point, {draggable: draggable});
 
 		GEvent.addListener(marker, "click", function()
 		{
-			marker.openInfoWindowHtml(text);
+			marker.openInfoWindowHtml(infoText);
 		});
 
+		if (draggable) {
+
+			GEvent.addListener(marker, "dragstart", function() {
+				this.closeInfoWindow();
+			});
+
+			GEvent.addListener(marker, "dragend", function() {
+				document.getElementById(hiddenLatId).value = marker.getPoint().lat();
+				document.getElementById(hiddenLngId).value = marker.getPoint().lng();
+			});
+
+		}
 
 		this.map.addOverlay(marker);
 	},
+
 	callException: function()
 	{
 		if (this.errorCallbackFunction.length > 0)
@@ -85,5 +97,10 @@ Ck.GPlotter.prototype = {
 			returnString += preString + stringValue + postString;
 
 		return returnString;
+	},
+
+	closeInfoWindow: function() {
+		this.map.closeInfoWindow();
 	}
+
 }
