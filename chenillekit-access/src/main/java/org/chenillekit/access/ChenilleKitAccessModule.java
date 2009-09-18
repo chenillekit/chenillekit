@@ -123,7 +123,7 @@ public class ChenilleKitAccessModule
 	public static void contributeComponentClassTransformWorker(
 				OrderedConfiguration<ComponentClassTransformWorker> configuration)
 	{
-		configuration.add("Restricted", new RestrictedWorker(), "after:Secure");
+		configuration.addInstance("Restricted", RestrictedWorker.class, "after:Secure");
 	}
 
 	/**
