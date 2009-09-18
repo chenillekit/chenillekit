@@ -16,7 +16,6 @@ package org.chenillekit.test;
 
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
-
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 
@@ -45,8 +44,11 @@ public class AbstractTestSuite extends Assert
     @AfterSuite
     public final void shutdown_registry()
     {
-        registry.cleanupThread();
-        registry.shutdown();
-        registry = null;
+    	if (registry != null)
+    	{
+    		registry.cleanupThread();
+    		registry.shutdown();
+    		registry = null;
+    	}
     }
 }
