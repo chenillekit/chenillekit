@@ -4,8 +4,6 @@
 package org.chenillekit.access.internal;
 
 import org.apache.tapestry5.EventContext;
-import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.services.TransformMethodSignature;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 
 /**
@@ -107,7 +105,7 @@ public class ChenillekitAccessInternalUtils
 	}
 
 	/**
-	 * build an CSV string from group array.
+	 * Build an CSV string from group array.
 	 *
 	 * @return CSV string
 	 */
@@ -130,9 +128,10 @@ public class ChenillekitAccessInternalUtils
 	}
 
 	/**
-	 *
-	 * @param groups
-	 * @return
+	 * Split the {@link String} array into a CSV {@link String}.
+	 * 
+	 * @param groups the array to split
+	 * @return the CSV {@link String}
 	 */
 	public static final String[] getStringAsStringArray(String groups)
 	{
@@ -141,41 +140,5 @@ public class ChenillekitAccessInternalUtils
 		
 		return groups.split(",");
 	}
-
-	/**
-	 * This code is taken deliberatly from
-	 * http://svn.apache.org/viewvc/tapestry/tapestry5/trunk/tapestry-core/src/main/java/org/apache/tapestry5/internal/transform/OnEventWorker.java?view=log
-	 */
-	public static final String extractComponentId(TransformMethodSignature method, OnEvent annotation)
-	{
-		if (annotation != null) return annotation.component();
-
-		// Method name started with "on". Extract the component id, if present.
-
-		String name = method.getMethodName();
-
-		int fromx = name.indexOf("From");
-
-		if (fromx < 0) return "";
-
-		return name.substring(fromx + 4);
-	}
-
-	/**
-	 * This code is taken deliberatly from:
-	 * http://svn.apache.org/viewvc/tapestry/tapestry5/trunk/tapestry-core/src/main/java/org/apache/tapestry5/internal/transform/OnEventWorker.java?view=log
-	 */
-	public static final String extractEventType(TransformMethodSignature method, OnEvent annotation)
-	{
-		if (annotation != null) return annotation.value();
-
-		// Method name started with "on". Extract the event type.
-
-		String name = method.getMethodName();
-
-		int fromx = name.indexOf("From");
-
-		return fromx == -1 ? name.substring(2) : name.substring(2, fromx);
-	}
-
+	
 }

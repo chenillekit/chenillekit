@@ -27,6 +27,7 @@ import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessException;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
+import org.slf4j.Logger;
 
 /**
  *
@@ -34,8 +35,12 @@ import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
  */
 public class RestrictedWorker implements ComponentClassTransformWorker
 {
-	// FIXME How do we get the Logger from the IoC?
-	// private final Logger logger;
+	private final Logger logger;
+	
+	public RestrictedWorker(Logger logger)
+	{
+		this.logger = logger;
+	}
 
 
 	/* (non-Javadoc)
@@ -43,8 +48,12 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 */
 	public void transform(ClassTransformation transformation, MutableComponentModel model)
 	{
+		if (logger.isDebugEnabled())
+			logger.debug("Processing page render restrictions:");
 		processPageRestriction(transformation, model);
 
+		if (logger.isDebugEnabled())
+			logger.debug("Processing event handlers restrictions:");
 		processEventHandlerRestrictions(transformation, model);
 
 		// processComponentsRestrictions(transformation, model);
@@ -71,6 +80,12 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 			if (groups.length > 0)
 				model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP,
 						ChenillekitAccessInternalUtils.getStringArrayAsString(groups));
+			if (logger.isDebugEnabled())
+			{
+				logger.debug(transformation.getClassName() + " has restrictions:");
+				logger.debug("    " + model.getMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE));
+				logger.debug("    " + model.getMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP));
+			}
 		}
 	}
 
@@ -84,15 +99,17 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 */
 	private void processEventHandlerRestrictions(ClassTransformation transformation, MutableComponentModel model)
 	{
+		
 		for (TransformMethodSignature method : transformation.findMethodsWithAnnotation(Restricted.class))
 		{
 			String methodName = method.getMethodName();
 			Restricted restricted = transformation.getMethodAnnotation(method, Restricted.class);
 			OnEvent event = transformation.getMethodAnnotation(method, OnEvent.class);
+			
 			if (methodName.startsWith("on") || event != null)
 			{
-				String componentId = ChenillekitAccessInternalUtils.extractComponentId(method, event);
-				String eventType = ChenillekitAccessInternalUtils.extractEventType(method, event);
+				String componentId = extractComponentId(method, event);
+				String eventType = extractEventType(method, event);
 
 				String groupMeta = ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
 						eventType,
@@ -108,6 +125,13 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 					model.setMeta(groupMeta, groupsString);
 				
 				model.setMeta(roleMeta, Integer.toString(restricted.role()));
+				
+				if (logger.isDebugEnabled())
+				{
+					logger.debug( methodName + " has restrictions:");
+					logger.debug("    " + roleMeta + " => " + Integer.toString(restricted.role()));
+					logger.debug("    " + groupMeta + " => " + groupsString);
+				}
 			}
 			else
 			{
@@ -117,7 +141,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	}
 
 	/**
-	 * inject meta datas about annotated methods
+	 * Inject meta datas about annotated methods
 	 *
 	 * @param transformation Contains class-specific information used when transforming a raw component class
 	 *                       into an executable component class.
@@ -126,6 +150,57 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 */
 	private void processComponentsRestrictions(ClassTransformation transformation, MutableComponentModel model)
 	{
-		throw new RuntimeException("NOT YET IMPLEMENTED");
+		logger.warn("Component restriction is not yet implemented");
 	}
+	
+	/**
+	 * Extract the component id from the method signature or the annotation, following
+	 * the principles of the Tapestry5 conventions. If the {@link OnEvent} annotation
+	 * is present it takes precedence over the method signature.
+	 * This method is taken from Tapestry5 OnEventWorker.
+	 * 
+	 * @param method the {@link TransformMethodSignature} signature to look for
+	 * @param annotation the, eventually present, {@link OnEvent} annotation. 
+	 * @return the componentId of the associated component, it could also be
+	 * the empty string if the event handler method is not associated to a
+	 * particular component.
+	 */
+	private String extractComponentId(TransformMethodSignature method, OnEvent annotation)
+    {
+        if (annotation != null) return annotation.component();
+
+        // Method name started with "on". Extract the component id, if present.
+
+        String name = method.getMethodName();
+
+        int fromx = name.indexOf("From");
+
+        if (fromx < 0) return "";
+
+        return name.substring(fromx + 4);
+    }
+	
+	/**
+	 * Extract the event type from the method signatur or the annotation, following
+	 * the principles of the Tapestry5 conventions. If the {@link OnEvent} annotation
+	 * is present it takes precendence over the method signature.
+	 * This method is taken from Tapestry5 OnEventWorker.
+	 * 
+	 * @param method the {@link TransformMethodSignature} signature to look for
+	 * @param annotation the, eventually present, {@link OnEvent} annotation.
+	 * @return the event type for which the method act as an 'handler method', it
+	 * could not be an empty string and defaults to <code>Action</code>.
+	 */
+	private String extractEventType(TransformMethodSignature method, OnEvent annotation)
+    {
+        if (annotation != null) return annotation.value();
+
+        // Method name started with "on". Extract the event type.
+
+        String name = method.getMethodName();
+
+        int fromx = name.indexOf("From");
+
+        return fromx == -1 ? name.substring(2) : name.substring(2, fromx);
+    }
 }
