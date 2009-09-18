@@ -65,6 +65,8 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 		
 		clickAndWait("chenillekitLoginSubmit");
 		
+		open("/restrictedpage/yes/present");
+		
 		assertTextPresent("Context: yes present");
 		
 		open(BASE_URL);
@@ -74,6 +76,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 		assertTextPresent("Logout Page");
 		
 		assertTextPresent("User logged in: NO");
+		
 	}
 	
 	public void restricted_with_context_error_failed_first_login() throws Exception
