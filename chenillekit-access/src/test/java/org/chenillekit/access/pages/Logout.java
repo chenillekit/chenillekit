@@ -14,11 +14,12 @@
 
 package org.chenillekit.access.pages;
 
-import org.apache.tapestry5.annotations.ApplicationState;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Session;
+
 import org.chenillekit.access.WebSessionUser;
 
 /**
@@ -30,9 +31,9 @@ public class Logout
 {
 	@Inject
 	private Request request;
-	
+
 	@SuppressWarnings("unused")
-	@ApplicationState
+	@SessionState
 	private WebSessionUser user;
 	@Property
 	private boolean userExists;
@@ -41,11 +42,11 @@ public class Logout
 	{
 		// logout
 		Session session = request.getSession(false);
-		
+
 		if (session != null)
 			session.invalidate();
 	}
-	
+
 	public String getUserLoggedIn()
 	{
 		if (userExists)
@@ -56,6 +57,6 @@ public class Logout
 		{
 			return "NO";
 		}
-		
+
 	}
 }

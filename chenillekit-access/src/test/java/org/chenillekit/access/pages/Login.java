@@ -14,11 +14,9 @@
 
 package org.chenillekit.access.pages;
 
-import org.apache.tapestry5.annotations.ApplicationState;
 import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.chenillekit.access.WebSessionUser;
+
 import org.slf4j.Logger;
 
 
@@ -30,7 +28,7 @@ import org.slf4j.Logger;
 public class Login
 {
 	private static final int MAX_LOGIN_ATTEMPTS = 3;
-	
+
 	@SuppressWarnings("unused")
 	@Inject
 	private Logger logger;
@@ -42,7 +40,7 @@ public class Login
 	{
 		return loginAttempts < MAX_LOGIN_ATTEMPTS;
 	}
-	
+
 	void onActivate()
 	{
 	}
