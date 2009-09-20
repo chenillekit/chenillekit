@@ -61,7 +61,7 @@ public class ChenilleKitCoreModule
 		configuration.add("ck.components", "org/chenillekit/tapestry/core/components");
 		configuration.add("ck.fckeditor", "classpath:${ck.components}/fckeditor");
 
-		configuration.add("yahoo.yui.path", "org/chenillekit/tapestry/core/yui_2_7_0");
+		configuration.add("yahoo.yui.path", "org/chenillekit/tapestry/core/yui_2_8_0");
 		configuration.add("yahoo.yui", "classpath:${yahoo.yui.path}");
 
 		configuration.add("yahoo.yui.mode", "-min");
