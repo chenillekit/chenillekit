@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.tapestry.core.pages;
+package org.chenillekit.demo.pages.tapcomp;
 
 /**
  * @version $Id$

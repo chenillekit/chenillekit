@@ -3,12 +3,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 <head>
-    <title>ThumbNail Test</title>
+    <title>UriAsset Test</title>
 </head>
 
 <body>
 
-<a href="${clientUrl}" id="test1">click here</a>
+<img id="test1" src="${asset:uri:http://www.heise.de/ct/motive/image/1476/p800.jpg}"/>
 
 </body>
 </html>
