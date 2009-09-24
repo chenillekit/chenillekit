@@ -40,7 +40,9 @@
 								<input type="button" t:id="stateButton"/>
 							</div>
 							<div class="yui-u">
-								button is in <t:if negate="true" test="stateButtonValue">un</t:if>checked state
+								button is in
+								<t:if negate="true" test="stateButtonValue">un</t:if>
+								checked state
 							</div>
 						</div>
 					</div>
@@ -75,8 +77,8 @@
 
 		</div>
 
-		<t:zone t:id="counterZone" id="counterZone">
-			<p>You have clicked the link <strong>${clickCount}</strong> times.</p>
+		<t:zone t:id="yuiZone" id="yuiZone">
+
 		</t:zone>
 
 		<p>
@@ -87,6 +89,14 @@
 
 	<t:block id="tab0">
 		dashfkjashdfkadsfkjadadsjfa
+	</t:block>
+
+	<t:block id="yuiDynamicTest">
+
+		<form t:type="form">
+			<input type="button" t:id="dynamicYuiButton"/>
+		</form>
+
 	</t:block>
 
 	<script language="JavaScript">

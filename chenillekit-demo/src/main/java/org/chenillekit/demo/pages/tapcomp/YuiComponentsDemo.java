@@ -19,19 +19,17 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import org.apache.tapestry5.Asset;
+import org.apache.tapestry5.Block;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Mixins;
 import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Retain;
 import org.apache.tapestry5.annotations.Service;
 import org.apache.tapestry5.corelib.components.ActionLink;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.TextArea;
-import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.internal.services.ContextResource;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
@@ -71,6 +69,9 @@ public class YuiComponentsDemo
 	@Component(parameters = {"value=stateButtonValue"})
 	private StateButton stateButton;
 
+	@Component(parameters = {"value=stateButtonValue"})
+	private StateButton dynamicYuiButton;
+
 	@Component(parameters = {"value=sliderValue", "changeCallback=sliderChangeCallback"})
 	private Slider yuiSlider;
 
@@ -78,7 +79,7 @@ public class YuiComponentsDemo
 	@Mixins("ck/yui/Editor")
 	private TextArea yuiSimpleEditor;
 
-	@Component(parameters = {"zone=counterZone"})
+	@Component(parameters = {"zone=yuiZone"})
 	@Mixins("ck/yui/Button")
 	private ActionLink clicker;
 
@@ -89,21 +90,15 @@ public class YuiComponentsDemo
 	private Context context;
 
 	@Inject
+	private Block yuiDynamicTest;
+
+	@Inject
 	@Service("ContextAssetFactory")
 	private AssetFactory assetFactory;
 
-	@Property
-	@Persist
-	private int clickCount;
-
-	@InjectComponent
-	private Zone counterZone;
-
 	Object onActionFromClicker()
 	{
-		clickCount++;
-
-		return counterZone.getBody();
+		return yuiDynamicTest;
 	}
 
 	/**

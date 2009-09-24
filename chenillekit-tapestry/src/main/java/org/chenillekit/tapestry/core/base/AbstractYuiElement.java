@@ -1,10 +1,27 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2009 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package org.chenillekit.tapestry.core.base;
 
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
+import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
+import org.apache.tapestry5.MarkupWriterListener;
 import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.AfterRenderTemplate;
+import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.dom.Element;
@@ -37,8 +54,14 @@ abstract public class AbstractYuiElement implements ClientElement
 	/**
 	 * RenderSupport to get unique client side id.
 	 */
-	@Inject
+	@Environmental
 	private RenderSupport renderSupport;
+
+	/**
+	 * For blocks, messages, crete actionlink, trigger event.
+	 */
+	@Inject
+	private ComponentResources resources;
 
 
 	private String assignedClientId;
@@ -59,20 +82,33 @@ abstract public class AbstractYuiElement implements ClientElement
 	 * @param writer the markup writer
 	 */
 	@AfterRenderTemplate
-	void afterRenderTemplate(MarkupWriter writer)
+	void afterRenderTemplate(final MarkupWriter writer)
 	{
-		Element bodyElement = writer.getDocument().find("html/body");
-		if (bodyElement == null)
-			throw new RuntimeException("there ist no 'html/body' element in this page");
-
-		String cssClassValue = bodyElement.getAttribute("class");
-		if (cssClassValue == null)
-			bodyElement.attribute("class", YUI_CSS_CLASS);
-		else
+		writer.addListener(new MarkupWriterListener()
 		{
-			if (!cssClassValue.contains(YUI_CSS_CLASS))
-				bodyElement.addClassName(YUI_CSS_CLASS);
-		}
+			public void elementDidStart(Element element)
+			{
+				Element bodyElement = element.getDocument().find("html/body");
+				if (bodyElement == null)
+					return;
+
+				String cssClassValue = bodyElement.getAttribute("class");
+				if (cssClassValue == null)
+					bodyElement.attribute("class", YUI_CSS_CLASS);
+				else
+				{
+					if (!cssClassValue.contains(YUI_CSS_CLASS))
+						bodyElement.addClassName(YUI_CSS_CLASS);
+				}
+
+				if (bodyElement.getAttribute("class") != null)
+					writer.removeListener(this);
+			}
+
+			public void elementDidEnd(Element element)
+			{
+			}
+		});
 	}
 
 	public final String getClientId()
