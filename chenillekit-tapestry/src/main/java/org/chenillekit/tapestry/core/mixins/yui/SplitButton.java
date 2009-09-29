@@ -27,7 +27,7 @@ import org.apache.tapestry5.corelib.base.AbstractField;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 
-import org.chenillekit.tapestry.core.base.AbstractYuiElement;
+import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">sven</a>
@@ -35,7 +35,7 @@ import org.chenillekit.tapestry.core.base.AbstractYuiElement;
  */
 @IncludeStylesheet(value = {"${yahoo.yui}/button/assets/skins/sam/button.css"})
 @IncludeJavaScriptLibrary(value = {"${yahoo.yui}/button/button${yahoo.yui.mode}.js"})
-public class SplitButton extends AbstractYuiElement
+public class SplitButton extends AbstractYahooComponent
 {
 	@Parameter(required = false, defaultPrefix = BindingConstants.LITERAL)
 	private String label;

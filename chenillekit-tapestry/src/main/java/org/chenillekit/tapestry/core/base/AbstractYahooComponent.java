@@ -32,7 +32,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
  */
 @IncludeJavaScriptLibrary(value = {"${yahoo.yui}/yahoo-dom-event/yahoo-dom-event.js",
 		"${yahoo.yui}/element/element${yahoo.yui.mode}.js"})
-abstract public class AbstractYuiElement implements ClientElement
+abstract public class AbstractYahooComponent implements ClientElement
 {
 	private static final String YUI_CSS_CLASS = "yui-skin-sam";
 

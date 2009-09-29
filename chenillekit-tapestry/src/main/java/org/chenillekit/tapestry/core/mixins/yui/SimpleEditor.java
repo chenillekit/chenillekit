@@ -35,7 +35,7 @@ import org.apache.tapestry5.upload.services.MultipartDecoder;
 import org.apache.tapestry5.upload.services.UploadedFile;
 import org.apache.tapestry5.util.TextStreamResponse;
 
-import org.chenillekit.tapestry.core.base.AbstractYuiElement;
+import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
 
 /**
  * @version $Id$
@@ -47,7 +47,7 @@ import org.chenillekit.tapestry.core.base.AbstractYuiElement;
 		"${yahoo.yui}/editor/simpleeditor${yahoo.yui.mode}.js",
 		"yui-image-uploader26.js",
 		"SimpleEditor.js"})
-public class SimpleEditor extends AbstractYuiElement
+public class SimpleEditor extends AbstractYahooComponent
 {
 	private static String INTERNAL_EVENT = "internalUploaded";
 	private static String UPLOAD_EVENT = "uploaded";

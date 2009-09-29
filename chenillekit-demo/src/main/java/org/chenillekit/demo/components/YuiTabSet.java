@@ -21,7 +21,7 @@ import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-import org.chenillekit.tapestry.core.base.AbstractYuiElement;
+import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">sven</a>
@@ -29,7 +29,7 @@ import org.chenillekit.tapestry.core.base.AbstractYuiElement;
  */
 @IncludeStylesheet(value = {"${yahoo.yui}/assets/skins/sam/tabview.css"})
 @IncludeJavaScriptLibrary(value = {"${yahoo.yui}/tabview/tabview${yahoo.yui.mode}.js"})
-public class YuiTabSet extends AbstractYuiElement
+public class YuiTabSet extends AbstractYahooComponent
 {
 	/**
 	 * RenderSupport to get unique client side id.
