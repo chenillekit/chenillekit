@@ -27,11 +27,6 @@ import org.chenillekit.reports.services.ReportsService;
 @SubModule(value = {ChenilleKitReportsModule.class})
 public class ChenilleKitReportsTestModule
 {
-    /**
-     * wo liegen die Entities fuer das Masterdata5 Modul.
-     *
-     * @param configuration
-     */
     public static void contributeReportsService(MappedConfiguration<String, Resource> configuration)
     {
         configuration.add(ReportsService.CONFIG_RESOURCE_KEY, new ClasspathResource("jasperreports.properties"));

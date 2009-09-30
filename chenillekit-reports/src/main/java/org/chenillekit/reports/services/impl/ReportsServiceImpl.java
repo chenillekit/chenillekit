@@ -15,7 +15,6 @@
 package org.chenillekit.reports.services.impl;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -98,37 +97,42 @@ public class ReportsServiceImpl implements ReportsService
 	}
 
 	/**
-	 * Klassenpfad-Verzeichnis fuer den JasperReport-Compiler setzen.
-	 * Alle JARs aus dem angegebenen Verzeichnis werden an den aktuellen Klassenpfad angehaengt.
+	 * set the classpath for the choosen jasperReport compiler.
+	 * all JARs located in the given directory will added to the actual classpath from the running application.
 	 *
-	 * @param value Name des Klassenpfad-Verzeichnis
+	 * @param value name of the location, where your additional libraries resists.
 	 */
 	public void addCompilerClassPath(String value)
 	{
 		File jarDir = new File(value);
-		if (!jarDir.exists() || !jarDir.isDirectory())
-			throw new RuntimeException(new FileNotFoundException("'" + jarDir.getPath() + "' does not exists or is no directory"));
-
-		File[] jarFiles = jarDir.listFiles(new FilenameFilter()
+		if (jarDir.exists() && jarDir.isDirectory())
 		{
-
-			/**
-			 * Tests if a specified file should be included in a file list.
-			 *
-			 * @param dir  the directory in which the file was found.
-			 * @param name the name of the file.
-			 *
-			 * @return <code>true</code> if and only if the name should be
-			 *         included in the file list; <code>false</code> otherwise.
-			 */
-			public boolean accept(File dir, String name)
+			File[] jarFiles = jarDir.listFiles(new FilenameFilter()
 			{
-				return name.endsWith(".jar");
-			}
-		});
 
-		for (File jarFile : jarFiles)
-			addCompilerClassPath(jarFile.getPath());
+				/**
+				 * Tests if a specified file should be included in a file list.
+				 *
+				 * @param dir  the directory in which the file was found.
+				 * @param name the name of the file.
+				 *
+				 * @return <code>true</code> if and only if the name should be
+				 *         included in the file list; <code>false</code> otherwise.
+				 */
+				public boolean accept(File dir, String name)
+				{
+					return name.endsWith(".jar");
+				}
+			});
+
+			for (File jarFile : jarFiles)
+				addCompilerClassPath(jarFile.getPath());
+		}
+		else
+		{
+			if (logger.isWarnEnabled())
+				logger.warn("'{}' does not exists or is not a directory", jarDir.getPath());
+		}
 	}
 
 	/**
