@@ -28,10 +28,23 @@ import org.slf4j.MarkerFactory;
  */
 public final class ChenilleKitAccessConstants
 {
-	/**
-	 * Cookie name for storing id key to the original requested resource
-	 */
-	public static final String ACCESS_ID_COOKIE_NAME = "CKAccessId";
+	public static final String REMEMBERED_ACTIVE_PAGE_NAME = "CKRememberedActivePageName";
+	
+	public static final String REMEMBERED_CONTAINING_PAGE_NAME = "CKRememberedContainingPageName";
+	
+	public static final String REMEMBERED_NESTED_COMPONENT_ID = "CKRememberedComponentId";
+	
+	public static final String REMEMBERED_EVENT_TYPE = "CKRememberedAtcivePageName";
+	
+	public static final String REMEMBERED_EVENT_CONTEXT = "CKRememberedActivationContext";
+	
+	public static final String REMEMBERED_ACTIVATION_CONTEXT = "CKRememberedActivationContext";
+	
+	public static final String REMEMBERED_PARAMS_TYPE = "CKRememberedParamsType";
+	
+	public static final String REMEMBERED_PARAMS_TYPE_PAGERENDER_VALUE = "pagerender";
+	
+	public static final String REMEMBERED_PARAMS_TYPE_ACTIONEVENT_VALUE = "actioneventr";
 	
 	/**
 	 * Cookie flag to check for a successful login done.

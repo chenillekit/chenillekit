@@ -4,8 +4,6 @@
 package org.chenillekit.access.services.impl;
 
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
@@ -14,6 +12,7 @@ import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.apache.tapestry5.services.Response;
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.RedirectService;
 
 /**
@@ -28,12 +27,6 @@ public class RedirectServiceImpl implements RedirectService
 	
 	private final Response response;
 	
-	private final ConcurrentMap<String, ComponentEventRequestParameters> requestedEventParameter =
-		new ConcurrentHashMap<String, ComponentEventRequestParameters>();
-	
-	private final ConcurrentMap<String, PageRenderRequestParameters> requestedPageParameter =
-		new ConcurrentHashMap<String, PageRenderRequestParameters>();
-	
 	/**
 	 * 
 	 * @param contextPathEncoder
@@ -44,16 +37,6 @@ public class RedirectServiceImpl implements RedirectService
 		this.contextPathEncoder = contextPathEncoder;
 		this.response = response;
 		this.cookies = cookies;
-	}
-	
-	/**
-	 * @return generate an access key id for storing requests parameters
-	 */
-	private String generateCKAccessId()
-	{
-		String id = Long.toString(System.currentTimeMillis());
-		
-		return id;
 	}
 
 	/* (non-Javadoc)
@@ -67,42 +50,6 @@ public class RedirectServiceImpl implements RedirectService
 		
 		response.sendRedirect(redirectURL);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.chenillekit.access.services.RedirectService#getComponentEventParamter(java.lang.String)
-	 */
-	public ComponentEventRequestParameters removeComponentEventParameter(String ckAccessId)
-	{
-		return requestedEventParameter.remove(ckAccessId);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.chenillekit.access.services.RedirectService#getPageRenderParamter(java.lang.String)
-	 */
-	public PageRenderRequestParameters removePageRenderParamter(String ckAccessId)
-	{
-		return requestedPageParameter.remove(ckAccessId);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.chenillekit.access.services.RedirectService#putComponentEventParameter(java.lang.String, org.apache.tapestry5.services.ComponentEventRequestParameters)
-	 */
-	public void rememberComponentEventParameter(ComponentEventRequestParameters params)
-	{
-		String successfulLogin = cookies.readCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
-		
-		if (successfulLogin == null || !successfulLogin.equals(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME_KO))
-		{
-			String ckAccessId = generateCKAccessId();
-			
-			requestedEventParameter.put(ckAccessId, params);
-			
-			cookies.writeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME, ckAccessId);
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -113,14 +60,53 @@ public class RedirectServiceImpl implements RedirectService
 		String successfulLogin = cookies.readCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
 		
 		if (successfulLogin == null || !successfulLogin.equals(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME_KO))
-		{
-			String ckAccessId = generateCKAccessId();
-			
-			requestedPageParameter.put(ckAccessId, params);
-			
-			cookies.writeCookieValue(ChenilleKitAccessConstants.ACCESS_ID_COOKIE_NAME, ckAccessId);
+		{	
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVE_PAGE_NAME,
+						params.getLogicalPageName());
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVATION_CONTEXT,
+						ChenillekitAccessInternalUtils.getContextAsString(params.getActivationContext()));
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE,
+					ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE_PAGERENDER_VALUE);
 		}
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.chenillekit.access.services.RedirectService#rememberComponentEventParameters(org.apache.tapestry5.services.ComponentEventRequestParameters)
+	 */
+	public void rememberComponentEventParameters(
+			ComponentEventRequestParameters params)
+	{
+		String successfulLogin = cookies.readCookieValue(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME);
+		
+		if (successfulLogin == null || !successfulLogin.equals(ChenilleKitAccessConstants.LOGIN_SUCCESSFUL_COOKIE_NAME_KO))
+		{
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVE_PAGE_NAME,
+						params.getActivePageName());
+			System.out.println("@@@@");
+			System.out.println(params.getActivePageName());
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_CONTAINING_PAGE_NAME,
+					params.getContainingPageName());
+			System.out.println("@@@@");
+			System.out.println(params.getContainingPageName());
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_EVENT_TYPE,
+					params.getEventType());
+			System.out.println("@@@@");
+			System.out.println(params.getEventType());
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_NESTED_COMPONENT_ID,
+					params.getNestedComponentId());
+			System.out.println("@@@@");
+			System.out.println(params.getNestedComponentId());
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVATION_CONTEXT,
+						ChenillekitAccessInternalUtils.getContextAsString(params.getPageActivationContext()));
+			System.out.println("@@@@");
+			System.out.println(ChenillekitAccessInternalUtils.getContextAsString(params.getPageActivationContext()));
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_EVENT_CONTEXT,
+					ChenillekitAccessInternalUtils.getContextAsString(params.getEventContext()));
+			System.out.println("@@@@");
+			System.out.println(ChenillekitAccessInternalUtils.getContextAsString(params.getEventContext()));
+			cookies.writeCookieValue(ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE,
+					ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE_ACTIONEVENT_VALUE);
+		}
+	}
 
 }

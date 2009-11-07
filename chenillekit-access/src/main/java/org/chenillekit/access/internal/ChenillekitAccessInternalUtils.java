@@ -4,6 +4,7 @@
 package org.chenillekit.access.internal;
 
 import org.apache.tapestry5.EventContext;
+import org.apache.tapestry5.ioc.services.TypeCoercer;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 
 /**
@@ -12,6 +13,9 @@ import org.chenillekit.access.ChenilleKitAccessConstants;
 public class ChenillekitAccessInternalUtils
 {
 	private static final String[] NO_GROUPS = new String[0];
+	
+	private static final String CK_EVENT_CONTEXT_PREFIX = "ckEventContext";
+	private static final String CK_EVENT_CONTEXT_DELIMITER = "####";
 
 	private ChenillekitAccessInternalUtils() {}
 
@@ -29,13 +33,35 @@ public class ChenillekitAccessInternalUtils
 			return res;
 		
 		int parametersCount = context.getCount();
-
+		
+		res = CK_EVENT_CONTEXT_PREFIX;
+		
 		for (int i = 0; i < parametersCount; i++)
 		{
-			res = res + context.get(String.class, i) + "####";
+			res = res + context.get(String.class, i) + CK_EVENT_CONTEXT_DELIMITER;
 		}
 
 		return res;
+	}
+	
+	/**
+	 * 
+	 * @param coercer
+	 * @param contextString
+	 * @return
+	 */
+	public static final EventContext getContextFromString(TypeCoercer coercer, String contextString)
+	{	
+		if (contextString == null || !contextString.startsWith(CK_EVENT_CONTEXT_PREFIX))
+		{
+			throw new RuntimeException("Cannot parse the contextString: " + contextString);
+		}
+		
+		String actual = contextString.substring(CK_EVENT_CONTEXT_PREFIX.length(), contextString.length());
+		
+		String[] elements = actual.split(CK_EVENT_CONTEXT_DELIMITER);
+		
+		return new ChenilleKitAccessEventContext(coercer, elements);
 	}
 	
 	/**

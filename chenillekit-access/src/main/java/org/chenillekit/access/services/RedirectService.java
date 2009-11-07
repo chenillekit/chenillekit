@@ -19,6 +19,7 @@ import java.io.IOException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
+import org.apache.tapestry5.services.Response;
 
 /**
 * Service used to redirect incoming requests where they belong and they
@@ -38,29 +39,16 @@ public interface RedirectService
 	public void redirectTo(String pageName, EventContext context) throws IOException;
 	
 	/**
+	 * Remember the {@link PageRenderRequestParameters} to use in a future
+	 * {@link Response} redirect after an eventually successful login.
 	 * 
-	 * @param params
+	 * @param params the {@link PageRenderRequestParameters} to remember
 	 */
 	public void rememberPageRenderParameter(PageRenderRequestParameters params);
 	
 	/**
 	 * 
-	 * @param ckAccessId
-	 * @return
-	 */
-	public PageRenderRequestParameters removePageRenderParamter(String ckAccessId);
-	
-	/**
-	 * 
 	 * @param params
-	 * @param chAccessId
 	 */
-	public void rememberComponentEventParameter(ComponentEventRequestParameters params);
-	
-	/**
-	 * 
-	 * @param ckAccessId
-	 * @return
-	 */
-	public ComponentEventRequestParameters removeComponentEventParameter(String ckAccessId);
+	public void rememberComponentEventParameters(ComponentEventRequestParameters params);
 }

@@ -25,6 +25,7 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.Marker;
 import org.apache.tapestry5.ioc.services.PipelineBuilder;
+import org.apache.tapestry5.ioc.services.TypeCoercer;
 import org.apache.tapestry5.services.ApplicationStateContribution;
 import org.apache.tapestry5.services.ApplicationStateCreator;
 import org.apache.tapestry5.services.ApplicationStateManager;
@@ -158,11 +159,11 @@ public class ChenilleKitAccessModule
 	 */
 	public static void contributeComponentRequestHandler(OrderedConfiguration<ComponentRequestFilter> configuration,
 							@ChenilleKitAccess ComponentRequestFilter accessFilter,
-							Cookies cookies, RedirectService redirect)
+							Cookies cookies, RedirectService redirect, TypeCoercer coercer)
 	{
 		configuration.add("AccessControl", accessFilter, "before:*");
 		
-		CookieRedirectAccessFilter cookieFilter = new CookieRedirectAccessFilter(cookies, redirect);
+		CookieRedirectAccessFilter cookieFilter = new CookieRedirectAccessFilter(cookies, redirect, coercer);
 		
 		configuration.add("CookieRedirect", cookieFilter, "after:AccessControl");
 	}

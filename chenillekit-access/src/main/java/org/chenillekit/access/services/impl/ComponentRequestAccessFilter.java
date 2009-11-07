@@ -24,6 +24,7 @@ import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.RedirectService;
 import org.slf4j.Logger;
@@ -89,7 +90,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 				logger.debug("User hasn't rights to access " +  parameters.getEventType()
 						+ " event on " + parameters.getActivePageName()  + " page");
 			
-			redirect.rememberComponentEventParameter(parameters);
+			redirect.rememberComponentEventParameters(parameters);
 			
 			handler.handleComponentEvent(loginComponentEventParameters);
 		}
@@ -100,7 +101,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	 */
 	public void handlePageRender(PageRenderRequestParameters parameters,
 			ComponentRequestHandler handler) throws IOException
-	{	
+	{
 		if ( accessValidator.hasAccess(parameters.getLogicalPageName(), null, null) )
 		{
 			handler.handlePageRender(parameters);
