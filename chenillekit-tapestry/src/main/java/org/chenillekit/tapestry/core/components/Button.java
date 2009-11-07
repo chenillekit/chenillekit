@@ -27,14 +27,16 @@ import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
+import org.apache.tapestry5.corelib.components.PageLink;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.PageRenderLinkSource;
 
 /**
  * Render a button tag element and bind to it's "click" event an event on the server side.
  * The event name is customizable and it defaults to "CLICKED".
  * <p/>
- * If button is typed as "page", you must fill the parameter "pageName" with an existing
- * logical page name.
+ * If parameter <code>pageName</code> is given the component act like a {@link PageLink}
+ * to the page corresponding to the logical name <code>pageName</code>.
  *
  * @version $Id: Button.java 682 2008-05-20 22:00:02Z homburgs $
  */
@@ -44,32 +46,31 @@ public class Button implements ClientElement
 {
     static final String CLICKED_EVENT = "clicked";
 
-    static final String BUTTON_TYPE = "button";
-    static final String SUBMIT_TYPE = "submit";
-    static final String CANCEL_TYPE = "cancel";
-    static final String PAGE_TYPE = "page";
+    static final String TYPE_BUTTON = "button";
+    static final String TYPE_SUBMIT = "submit";
+    static final String TYPE_RESET = "reset";
 
     /**
-     * type of button.
-     * possible value are "button", "submit" and "cancel".
+     * Type of the button, possible value are "button", "submit" and "reset".
      */
-    @Parameter(defaultPrefix = BindingConstants.LITERAL, value = BUTTON_TYPE)
+    @Parameter(defaultPrefix = BindingConstants.LITERAL, value = TYPE_BUTTON)
     private String type;
 
     /**
-     * wich event should your application receiving.
+     * The name of the event fired. Defaults to <code>clicked</code>.
      */
     @Parameter(defaultPrefix = BindingConstants.LITERAL, value = CLICKED_EVENT)
     private String event;
 
     /**
-     * The logical name of the page to link to.
+     * If specified the components act as a {@link PageLink} doing a link
+     * for rendering the logical <code>pageName</code>.
      */
     @Parameter(defaultPrefix = BindingConstants.LITERAL, required = false)
     private String pageName;
 
     /**
-     * dis-/enable the button.
+     * <code>Disabled</code> attribute of the element.
      */
     @Parameter(value = "false")
     private boolean disabled;
@@ -82,9 +83,11 @@ public class Button implements ClientElement
     private String clientId;
 
     /**
-     * The context for the link (optional parameter). This list of values will be converted into strings and included in
-     * the URI. The strings will be coerced back to whatever their values are and made available to event handler
-     * methods.
+     * The context for the link (optional parameter). This list of values will
+     * be converted into strings and included in the URI. The strings will be
+     * coerced back to whatever their values are and made available to event
+     * handler methods or the passivate mthod of the page to link to in case
+     * a <code>pageName</code> has been specified.
      */
     @Parameter
     private List<?> context;
@@ -94,6 +97,9 @@ public class Button implements ClientElement
 
     @Inject
     private ComponentResources resources;
+    
+    @Inject
+    private PageRenderLinkSource pageRenderResources;
 
     private String assignedClientId;
 
@@ -113,19 +119,19 @@ public class Button implements ClientElement
 
     void afterRender(MarkupWriter writer)
     {
-        if (!disabled && (type.equalsIgnoreCase(BUTTON_TYPE) || type.equalsIgnoreCase(PAGE_TYPE)))
+        if (!disabled && type.equalsIgnoreCase(TYPE_BUTTON))
         {
             Link link;
-
-            if (!type.equalsIgnoreCase(PAGE_TYPE))
-                link = resources.createEventLink(event, contextArray);
+            
+            if (pageName != null)
+            {
+            	link = pageRenderResources.createPageRenderLinkWithContext(pageName, contextArray);
+            }
             else
             {
-                if (pageName == null)
-                    throw new RuntimeException("parameter 'pageName' can not be null for button typed page link");
-
-                link = resources.createPageLink(pageName, resources.isBound("context"), contextArray);
+            	link = resources.createEventLink(event, contextArray);
             }
+            
             renderSupport.addScript("new Ck.ButtonEvent('%s', '%s');",
                                     getClientId(), link.toAbsoluteURI());
         }
