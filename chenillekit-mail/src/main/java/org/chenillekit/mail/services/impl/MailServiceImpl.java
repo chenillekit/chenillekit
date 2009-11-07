@@ -15,8 +15,9 @@
 package org.chenillekit.mail.services.impl;
 
 import java.io.File;
-import java.net.URL;
 import java.util.Map;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.mail.Email;
@@ -26,6 +27,7 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.tapestry5.ioc.Resource;
+
 import org.chenillekit.core.services.ConfigurationService;
 import org.chenillekit.mail.ChenilleKitMailConstants;
 import org.chenillekit.mail.MailMessageHeaders;
@@ -50,8 +52,8 @@ public class MailServiceImpl implements MailService<Email>
 	private final int smtpSslPort;
 
 	public MailServiceImpl(Logger logger,
-								 ConfigurationService configurationService,
-								 Map<String, Resource> configuration)
+						   ConfigurationService configurationService,
+						   Map<String, Resource> configuration)
 	{
 		this.logger = logger;
 
@@ -70,8 +72,8 @@ public class MailServiceImpl implements MailService<Email>
 		this.smtpTLS = serviceConfiguration.getBoolean(ChenilleKitMailConstants.SMTP_TLS, false);
 		this.smtpSslPort = serviceConfiguration.getInt(ChenilleKitMailConstants.SMTP_SSLPORT, 465);
 	}
-	
-	
+
+
 	private void setEmailStandardData(Email email)
 	{
 		email.setHostName(smtpServer);
@@ -85,7 +87,7 @@ public class MailServiceImpl implements MailService<Email>
 		email.setSslSmtpPort(String.valueOf(smtpSslPort));
 		email.setTLS(smtpTLS);
 	}
-	
+
 	private EmailAttachment getAttachment(File file)
 	{
 		// Create the attachment
@@ -94,27 +96,27 @@ public class MailServiceImpl implements MailService<Email>
 		attachment.setDisposition(EmailAttachment.ATTACHMENT);
 		attachment.setDescription(file.getName());
 		attachment.setName(file.getName());
-		
+
 		return attachment;
 	}
-	
+
 	private void setMailMessageHeaders(Email email, MailMessageHeaders headers)
-					throws EmailException
+			throws EmailException
 	{
 		email.setFrom(headers.getFrom());
-		
+
 		email.setSubject(headers.getSubject());
-		
+
 		for (String to : headers.getTo())
 		{
 			email.addTo(to);
 		}
-		
+
 		for (String cc : headers.getCc())
 		{
 			email.addCc(cc);
 		}
-		
+
 		for (String bcc : headers.getBcc())
 		{
 			email.addBcc(bcc);
@@ -140,9 +142,9 @@ public class MailServiceImpl implements MailService<Email>
 //			email.setSSL(smtpSSL);
 //			email.setSslSmtpPort(String.valueOf(smtpSslPort));
 //			email.setTLS(smtpTLS);
-			
+
 			setEmailStandardData(email);
-			
+
 			email.send();
 		}
 		catch (EmailException e)
@@ -153,60 +155,70 @@ public class MailServiceImpl implements MailService<Email>
 
 		return sended;
 	}
-	
-	
-	public boolean sendHtmlMail(MailMessageHeaders headers, String htmlBody, File... attachments)
+
+	/**
+	 * send a HTML message.
+	 *
+	 * @param headers  the mail headers
+	 * @param htmlBody the mail body (HTML based)
+	 *
+	 * @return true if mail successfull send
+	 */
+	public boolean sendHtmlMail(MailMessageHeaders headers, String htmlBody)
 	{
-		try {
-			HtmlEmail email = new HtmlEmail();
-			
-			setEmailStandardData(email);
-			
-			setMailMessageHeaders(email, headers);
-			
-			for (File file : attachments)
-			{
-				email.attach(getAttachment(file));	
-			}
-			
-			email.setHtmlMsg(htmlBody);
-			
-			String msgId = email.send();
-			
-			return true;
-			
-		} catch (EmailException e)
-		{
-			// FIXME Handle gracefully
-			throw new RuntimeException(e);
-		}
+		return sendHtmlMail(headers, htmlBody, (DataSource[]) null);
 	}
 
-	public boolean sendPlainTextMail(MailMessageHeaders headers, String body, File... attachments)
+	/**
+	 * send a HTML message.
+	 *
+	 * @param headers	 the mail headers
+	 * @param htmlBody	the mail body (HTML based)
+	 * @param attachments array of files to attach at this mail
+	 *
+	 * @return true if mail successfull send
+	 */
+	public boolean sendHtmlMail(MailMessageHeaders headers, String htmlBody, File... attachments)
 	{
-		try {
-			Email email = new SimpleEmail();
-			
-			if (attachments != null && attachments.length > 0)
-			{
-				MultiPartEmail multiPart = new MultiPartEmail();
-				
-				for (File file : attachments)
-				{
-					multiPart.attach(getAttachment(file));
-				}
-				email = multiPart;
-			}
-			
+		DataSource[] dataSources = null;
+
+		if (attachments != null)
+		{
+			dataSources = new DataSource[attachments.length];
+			for (int x = 0; x < attachments.length; x++)
+				dataSources[x] = new FileDataSource(attachments[x]);
+		}
+
+		return sendHtmlMail(headers, htmlBody, dataSources);
+	}
+
+	/**
+	 * send a HTML message.
+	 *
+	 * @param headers	 the mail headers
+	 * @param htmlBody	the mail body (HTML based)
+	 * @param dataSources array of data sources to attach at this mail
+	 *
+	 * @return true if mail successfull send
+	 */
+	public boolean sendHtmlMail(MailMessageHeaders headers, String htmlBody, DataSource... dataSources)
+	{
+		try
+		{
+			HtmlEmail email = new HtmlEmail();
+
 			setEmailStandardData(email);
-			
+
 			setMailMessageHeaders(email, headers);
-			
-			email.setMsg(body);
-			
+
+			for (DataSource dataSource : dataSources)
+				email.attach(dataSource, dataSource.getName(), dataSource.getName());
+
+			email.setHtmlMsg(htmlBody);
+
 			String msgId = email.send();
-				
-			return true;	
+
+			return true;
 		}
 		catch (EmailException e)
 		{
@@ -214,8 +226,84 @@ public class MailServiceImpl implements MailService<Email>
 			throw new RuntimeException(e);
 		}
 	}
-	
-	
-	
-	
+
+	/**
+	 * send a plain text message.
+	 *
+	 * @param headers the mail headers
+	 * @param body	the mail body (text based)
+	 *
+	 * @return true if mail successfull send
+	 */
+	public boolean sendPlainTextMail(MailMessageHeaders headers, String body)
+	{
+		return sendPlainTextMail(headers, body, (DataSource[]) null);
+	}
+
+	/**
+	 * send a plain text message.
+	 *
+	 * @param headers	 the mail headers
+	 * @param body		the mail body (text based)
+	 * @param attachments array of files to attach at this mail
+	 *
+	 * @return true if mail successfull send
+	 */
+	public boolean sendPlainTextMail(MailMessageHeaders headers, String body, File... attachments)
+	{
+		DataSource[] dataSources = null;
+
+		if (attachments != null)
+		{
+			dataSources = new DataSource[attachments.length];
+			for (int x = 0; x < attachments.length; x++)
+				dataSources[x] = new FileDataSource(attachments[x]);
+		}
+
+		return sendPlainTextMail(headers, body, dataSources);
+	}
+
+
+	/**
+	 * send a plain text message.
+	 *
+	 * @param headers	 the mail headers
+	 * @param body		the mail body (text based)
+	 * @param dataSources array of data sources to attach at this mail
+	 *
+	 * @return true if mail successfull send
+	 */
+	public boolean sendPlainTextMail(MailMessageHeaders headers, String body, DataSource... dataSources)
+	{
+		try
+		{
+			Email email = new SimpleEmail();
+
+			if (dataSources != null && dataSources.length > 0)
+			{
+				MultiPartEmail multiPart = new MultiPartEmail();
+
+				for (DataSource dataSource : dataSources)
+					multiPart.attach(dataSource, dataSource.getName(), dataSource.getName());
+
+				email = multiPart;
+			}
+
+			setEmailStandardData(email);
+
+			setMailMessageHeaders(email, headers);
+
+			email.setMsg(body);
+
+			String msgId = email.send();
+
+			return true;
+		}
+		catch (EmailException e)
+		{
+			// FIXME Handle gracefully
+			throw new RuntimeException(e);
+		}
+	}
+
 }
