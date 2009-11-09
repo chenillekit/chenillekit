@@ -92,6 +92,8 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 		EventContext activationContext = ChenillekitAccessInternalUtils.getContextFromString(coercer, activationContextString);
 		EventContext eventContext = ChenillekitAccessInternalUtils.getContextFromString(coercer, eventContextString);
 		
+		removeAllCookies();
+		
 		if (rememberedType.equals(ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE_PAGERENDER_VALUE))
 		{
 			redirect.redirectTo(activePageName, activationContext);
