@@ -14,11 +14,13 @@
 
 package org.chenillekit.access;
 
+import java.io.Serializable;
+
 /**
  *
- * @version $Id: WebSessionUser.java 447 2009-03-28 08:54:25Z mlusetti $
+ * @version $Id$
  */
-public interface WebSessionUser
+public interface WebSessionUser extends Serializable
 {	
 	/**
 	 * Get the human readble <em>name</em> of the user currently logged in.
