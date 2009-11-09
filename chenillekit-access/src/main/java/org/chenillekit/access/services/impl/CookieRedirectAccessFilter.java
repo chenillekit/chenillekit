@@ -24,7 +24,6 @@ import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.chenillekit.access.ChenilleKitAccessConstants;
-import org.chenillekit.access.internal.ChenilleKitAccessEventContext;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.RedirectService;
 
@@ -43,10 +42,11 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 	private final TypeCoercer coercer;
 	
 	/**
+	 * Default main construction with injection fields.
 	 * 
-	 * @param cookies
-	 * @param response
-	 * @param redirect
+	 * @param cookies {@link Cookies} services from Tapestry5
+	 * @param response {@link Response} shadow servide from Tapestry5
+	 * @param redirect {@link RedirectService} to apply redirections
 	 */
 	public CookieRedirectAccessFilter(Cookies cookies,
 				RedirectService redirect, TypeCoercer coercer)
@@ -56,7 +56,10 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 		this.coercer = coercer;
 	}
 	
-	private void resetCookies()
+	/**
+	 * Remove all the cookies used
+	 */
+	private void removeAllCookies()
 	{
 		cookies.removeCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVATION_CONTEXT);
 		cookies.removeCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVE_PAGE_NAME);
@@ -89,15 +92,13 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 		EventContext activationContext = ChenillekitAccessInternalUtils.getContextFromString(coercer, activationContextString);
 		EventContext eventContext = ChenillekitAccessInternalUtils.getContextFromString(coercer, eventContextString);
 		
-//		resetCookies();
-		
 		if (rememberedType.equals(ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE_PAGERENDER_VALUE))
 		{
 			redirect.redirectTo(activePageName, activationContext);
 		}
 		else if (rememberedType.equals(ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE_ACTIONEVENT_VALUE))
 		{
-			// XXX This one is missing the event type...
+			// XXX This one is missing stuff and is not completely right!
 			redirect.redirectTo(activePageName, eventContext);
 		}
 		else
