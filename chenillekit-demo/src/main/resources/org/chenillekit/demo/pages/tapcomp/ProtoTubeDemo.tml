@@ -12,7 +12,7 @@
   ~ http://www.apache.org/licenses/LICENSE-2.0
   -->
 
-<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 
 	<style type="text/css">
 
@@ -32,17 +32,79 @@
 
 	<div class="yui-g">
 
-		<div class="yui-u first menu">
+	<div class="yui-u first menu">
 
-			<span t:id="menu">the menu</span>
+		<span t:id="menu">the menu</span>
+
+	</div>
+
+	<div class="yui-u content">
+
+		<div class="yui-u" style="width:100%">
+
+			<fieldset class="component">
+
+				<legend>ProtoTube component</legend>
+
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
+
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<div t:id="prototube" class="sampletube"/>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+				<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Property
+	private List<ProtoTubeIdHolder> youtubeIds;
+
+	@Component(parameters = {"youtubeIds=youtubeIds"})
+	private ProtoTube protoTube;
+
+	/**
+ 	 * Tapestry render phase method.
+ 	 * Initialize temporary instance variables here.
+ 	 */
+	void setupRender()
+	{
+		youtubeIds = new ArrayList<ProtoTubeIdHolder>();
+		youtubeIds.add(new ProtoTubeIdHolder("NTI6qzaGtuY", "Caracho - In Hamburg sagt man JaJa"));
+		youtubeIds.add(new ProtoTubeIdHolder("bbMYEPecCqY", "Nena, Olli & Remmler - Ich kann nix dafür"));
+		youtubeIds.add(new ProtoTubeIdHolder("hHkhzNLHC4g", "Rammstein & Tatu - Moskau"));
+		youtubeIds.add(new ProtoTubeIdHolder("_k-vPv-XEpg", "Rammstein - Keine Lust"));
+		youtubeIds.add(new ProtoTubeIdHolder("QHkqIyOtuzU", "Rammstein - Zwitter"));
+		youtubeIds.add(new ProtoTubeIdHolder("eTcPIAewhMg", "Marilyn Manson - Tainted Love"));
+		youtubeIds.add(new ProtoTubeIdHolder("L2GaCnAiuvo", "Depeche Mode - Wrong"));
+		youtubeIds.add(new ProtoTubeIdHolder("eBQBUURLtZU", "Großstadtgeflüster - Haufenweise Scheiße by Jenny"));
+		youtubeIds.add(new ProtoTubeIdHolder("rznn6bgq5nA", "Marilyn Manson - The Beautiful People"));
+	}
+}
+]]>
+				</pre>
+						</div>
+						<!-- source content end -->
+
+					</div>
+				</div>
+
+			</fieldset>
+
 
 		</div>
 
-		<div class="yui-u content">
-
-			<span t:id="prototube" class="sampletube"/>
-
-		</div>
+	</div>
 	</div>
 
 </span>
