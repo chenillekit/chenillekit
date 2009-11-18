@@ -1,22 +1,27 @@
 package org.chenillekit.hibernate;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
-
-import org.testng.Assert;
+import org.chenillekit.test.AbstractTestSuite;
+import org.hibernate.Session;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 /**
  * @version $Id$
  */
-public class AbstractHibernateTest extends Assert
+public class AbstractHibernateTest extends AbstractTestSuite
 {
-    protected SessionFactory sessionFactory;
+    protected Session session;
 
+    @BeforeTest
     public void setup()
     {
-        AnnotationConfiguration configuration = new AnnotationConfiguration();
-        configuration.addPackage("org.chenillekit.hibernate.entities");
-        configuration.configure();
-        sessionFactory = configuration.buildSessionFactory();
+        super.setup_registry(ChenillekitHibernateTestModule.class);
+        session = registry.getService("Session", Session.class);
+    }
+
+    @AfterTest
+    public void afterTest()
+    {
+        session.getSessionFactory().close();
     }
 }

@@ -71,6 +71,13 @@
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		-->
 		<dependency>
+			<groupId>org.chenillekit</groupId>
+			<artifactId>chenillekit-test</artifactId>
+			<scope>test</scope>
+            <version>${project.parent.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
 			<scope>test</scope>
