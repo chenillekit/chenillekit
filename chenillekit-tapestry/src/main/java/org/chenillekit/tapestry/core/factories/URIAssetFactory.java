@@ -14,7 +14,7 @@ import org.chenillekit.core.resources.URIResource;
 import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 
 /**
- * @version $Id: URIAssetFactory.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class URIAssetFactory implements AssetFactory
 {

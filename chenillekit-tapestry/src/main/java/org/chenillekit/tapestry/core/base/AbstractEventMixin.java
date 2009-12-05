@@ -31,7 +31,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 
 /**
- * @version $Id: AbstractEventMixin.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "../components/CkOnEvents.js"})
 @MixinAfter

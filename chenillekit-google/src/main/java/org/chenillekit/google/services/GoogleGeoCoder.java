@@ -22,7 +22,7 @@ import org.chenillekit.google.utils.geocode.GeoCodeResult;
 /**
  * This service let you ues some Google Maps services in your application.
  *
- * @version $Id: GoogleMapService.java 367 2008-02-06 09:59:36Z homburgs $
+ * @version $Id$
  */
 public interface GoogleGeoCoder extends GoogleService
 {

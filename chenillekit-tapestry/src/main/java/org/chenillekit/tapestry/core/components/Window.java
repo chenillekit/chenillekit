@@ -27,7 +27,7 @@ import org.chenillekit.tapestry.core.base.AbstractWindow;
 /**
  * creates a window based on jvascript <a href="http://prototype-window.xilinus.com/">window</a> library.
  *
- * @version $Id: Window.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class Window extends AbstractWindow
 {

@@ -28,7 +28,7 @@ import org.apache.tapestry5.json.JSONObject;
  * A component for creating a slide show from a generic group of HTML
  * elements on the client side.
  *
- * @version $Id: SlideShow.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary({"../Chenillekit.js", "SlideShow.js"})
 @IncludeStylesheet("SlideShow.css")

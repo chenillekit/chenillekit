@@ -14,7 +14,7 @@
 
 /**
  * @author Chris Lewis Nov 8, 2007 <chris@thegodcode.net>
- * @version $Id: SlideShow.js 454 2008-02-23 19:45:52Z burningodzilla $
+ * @version $Id$
  */
 Ck.SlideShow = Class.create();
 

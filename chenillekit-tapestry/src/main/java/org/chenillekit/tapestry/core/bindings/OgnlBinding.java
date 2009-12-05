@@ -27,7 +27,7 @@ import ognl.Ognl;
  * Binding type for OGNL expressions.
  * This binding called by expression "ognl:".
  *
- * @version $Id: OgnlBinding.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class OgnlBinding extends AbstractBinding
 {

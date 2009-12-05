@@ -31,7 +31,7 @@ import org.chenillekit.access.services.RedirectService;
 * Filter to catch request coming in after a successfull login which should
 * be redirected to the actual request made before the login request.
 * 
-* @version $Id: AuthenticationService.java 380 2008-12-30 10:21:52Z mlusetti $
+* @version $Id$
 */
 public class CookieRedirectAccessFilter implements ComponentRequestFilter
 {

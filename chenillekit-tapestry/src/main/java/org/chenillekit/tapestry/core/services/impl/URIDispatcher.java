@@ -28,7 +28,7 @@ import org.chenillekit.tapestry.core.ChenilleKitCoreConstants;
 import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 
 /**
- * @version $Id: URIDispatcher.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class URIDispatcher implements Dispatcher
 {

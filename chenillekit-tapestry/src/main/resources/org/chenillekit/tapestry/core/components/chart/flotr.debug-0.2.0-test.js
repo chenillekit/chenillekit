@@ -1,5 +1,5 @@
 //Flotr 0.2.0-test Copyright (c) 2009 Bas Wenneker, <http://solutoire.com>, MIT License.
-/* $Id: flotr.js 125 2009-06-22 19:02:23Z fabien.menager $ */
+/* $Id$ */
 
 /** 
  * @projectDescription Flotr is a javascript plotting library based on the Prototype Javascript Framework.

@@ -18,7 +18,7 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 
 /**
- * @version $Id: ChenilleKitMailTestModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $
+ * @version $Id$
  */
 @SubModule(value = {ChenilleKitLDAPModule.class})
 public class ChenilleKitLDAPTestModule

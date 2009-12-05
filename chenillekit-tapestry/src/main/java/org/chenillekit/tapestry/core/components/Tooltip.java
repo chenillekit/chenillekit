@@ -30,7 +30,7 @@ import org.apache.tapestry5.services.Environment;
 /**
  * shows an tooltip if mouse slides over the declared content.
  *
- * @version $Id: Tooltip.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "Tooltip.js"})
 @IncludeStylesheet(value = {"Tooltip.css"})

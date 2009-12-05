@@ -22,7 +22,7 @@ import org.chenillekit.tapestry.core.base.AbstractEventMixin;
  * OnChange mixin catch the browser event "onChange" from a select component
  * and redirect it to your application via tapestry event "change".
  *
- * @version $Id: OnEvent.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class OnEvent extends AbstractEventMixin
 {

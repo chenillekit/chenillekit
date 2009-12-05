@@ -30,7 +30,7 @@ import org.chenillekit.tapestry.core.bindings.MessageFormatBinding;
 /**
  * Binding factory where the expression is a collection type.
  *
- * @version $Id: MessageFormatBindingFactory.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class MessageFormatBindingFactory implements BindingFactory
 {

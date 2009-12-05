@@ -25,7 +25,7 @@ import org.apache.tapestry5.ioc.internal.util.TapestryException;
 import org.chenillekit.tapestry.core.encoders.MultipleValueEncoder;
 
 /**
- * @version $Id: MultipleSelectModelRenderer.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class MultipleSelectModelRenderer implements SelectModelVisitor
 {

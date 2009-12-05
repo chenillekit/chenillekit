@@ -31,7 +31,7 @@ import java.io.OutputStream;
 /**
  * some image based helpers.
  *
- * @version $Id: ImageServiceImpl.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class ImageServiceImpl implements ImageService
 {

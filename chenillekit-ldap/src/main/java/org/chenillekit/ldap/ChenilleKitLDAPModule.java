@@ -28,7 +28,7 @@ import org.chenillekit.ldap.services.internal.WriteService;
 import org.chenillekit.ldap.services.internal.WriteServiceImpl;
 
 /**
- * @version $Id: ChenilleKitMailModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $
+ * @version $Id$
  */
 public class ChenilleKitLDAPModule
 {

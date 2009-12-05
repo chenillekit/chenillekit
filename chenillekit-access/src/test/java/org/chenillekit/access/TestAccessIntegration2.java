@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 
 /**
  *
- * @version $Id: TestAccessIntegration.java 380 2008-12-30 10:21:52Z mlusetti $
+ * @version $Id$
  */
 @Test
 public class TestAccessIntegration2 extends AbstractIntegrationTestSuite

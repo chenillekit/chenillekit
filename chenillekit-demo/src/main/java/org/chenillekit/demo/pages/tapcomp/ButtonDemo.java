@@ -23,7 +23,7 @@ import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.Button;
 
 /**
- * @version $Id: ButtonPage.java 396 2008-02-07 20:55:40Z homburgs $
+ * @version $Id$
  */
 public class ButtonDemo
 {

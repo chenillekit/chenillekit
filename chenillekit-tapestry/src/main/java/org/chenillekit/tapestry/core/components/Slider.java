@@ -34,7 +34,7 @@ import org.apache.tapestry5.services.Request;
 /**
  * a slider component that dont must emmbedded in a form..
  *
- * @version $Id: Slider.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"${tapestry.scriptaculous}/controls.js", "${tapestry.scriptaculous}/slider.js"})
 @IncludeStylesheet(value = {"Slider.css"})

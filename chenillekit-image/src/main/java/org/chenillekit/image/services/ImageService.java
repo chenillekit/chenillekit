@@ -22,7 +22,7 @@ import org.apache.tapestry5.ioc.Resource;
 /**
  * some image based helpers.
  *
- * @version $Id: ImageService.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public interface ImageService
 {

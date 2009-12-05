@@ -18,7 +18,7 @@ import org.chenillekit.access.annotations.Restricted;
 
 /**
 *
-* @version $Id: Start.java 380 2008-12-30 10:21:52Z mlusetti $
+* @version $Id$
 */
 @Restricted(role = 8)
 public class Invisible

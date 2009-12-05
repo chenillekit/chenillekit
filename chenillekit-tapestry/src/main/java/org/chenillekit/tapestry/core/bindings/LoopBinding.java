@@ -13,7 +13,7 @@ import org.apache.tapestry5.ioc.Location;
  * Binding type for collection values.
  * This binding called by expression "loop:".
  *
- * @version $Id: LoopBinding.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class LoopBinding extends ListBinding
 {

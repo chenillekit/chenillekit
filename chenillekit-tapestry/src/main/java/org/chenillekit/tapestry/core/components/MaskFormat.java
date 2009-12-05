@@ -33,7 +33,7 @@ import org.slf4j.Logger;
  * <p/>
  * for more informations <a target="blank" href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/MaskFormatter.html">click here</a>
  *
- * @version $Id: MaskFormat.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @SupportsInformalParameters
 public class MaskFormat

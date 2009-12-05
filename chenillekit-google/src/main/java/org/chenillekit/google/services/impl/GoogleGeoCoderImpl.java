@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 /**
  * This service let you ues some Google Maps services in your application.
  *
- * @version $Id: GoogleMapServiceImpl.java 388 2008-02-07 10:19:22Z homburgs $
+ * @version $Id$
  */
 public class GoogleGeoCoderImpl extends AbstractGoogleService implements GoogleGeoCoder
 {

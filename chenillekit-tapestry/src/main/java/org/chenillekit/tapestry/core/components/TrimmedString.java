@@ -24,7 +24,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * Replace from <em>maxLength</em> all text with parameter value <em>suffix</em>.
  *
- * @version $Id: TrimmedString.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @SupportsInformalParameters
 public class TrimmedString

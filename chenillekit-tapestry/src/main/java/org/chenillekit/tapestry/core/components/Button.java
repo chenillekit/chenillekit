@@ -38,7 +38,7 @@ import org.apache.tapestry5.services.PageRenderLinkSource;
  * If parameter <code>pageName</code> is given the component act like a {@link PageLink}
  * to the page corresponding to the logical name <code>pageName</code>.
  *
- * @version $Id: Button.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @SupportsInformalParameters
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "CkOnEvents.js"})

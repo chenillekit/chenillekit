@@ -25,7 +25,7 @@ import org.apache.tapestry5.services.Response;
 * Service used to redirect incoming requests where they belong and they
 * can have access.
 * 
-* @version $Id: AuthenticationService.java 380 2008-12-30 10:21:52Z mlusetti $
+* @version $Id$
 */
 public interface RedirectService
 {

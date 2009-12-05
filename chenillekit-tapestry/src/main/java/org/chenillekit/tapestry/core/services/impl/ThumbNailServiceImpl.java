@@ -35,7 +35,7 @@ import org.chenillekit.tapestry.core.services.ThumbNailService;
 import org.slf4j.Logger;
 
 /**
- * @version $Id: ThumbNailServiceImpl.java 701 2008-07-01 20:17:47Z homburgs $
+ * @version $Id$
  */
 public class ThumbNailServiceImpl implements ThumbNailService
 {

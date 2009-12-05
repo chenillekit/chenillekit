@@ -31,7 +31,7 @@ import org.apache.tapestry5.services.Cookies;
  * Helper mixin that will render a variable element type.
  * Similar to the Any component in Tapestry3.
  *
- * @version $Id: Resizable.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "../Cookie.js", "${tapestry.scriptaculous}/dragdrop.js",
         "Resizable.js"})

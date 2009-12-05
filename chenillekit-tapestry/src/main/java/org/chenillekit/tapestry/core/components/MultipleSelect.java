@@ -49,7 +49,7 @@ import org.chenillekit.tapestry.core.renderes.MultipleSelectModelRenderer;
  * <p/>
  * the only diffrence to the original tapestry select component is that the "value" parameter expected a java.util.List object.
  *
- * @version $Id: MultipleSelect.java 703 2008-07-06 13:54:03Z homburgs $
+ * @version $Id$
  * @link http://tapestry.apache.org/t5components/tapestry-core/component-parameters.html#orgapachetapestrycorelibcomponentsselect
  */
 public class MultipleSelect extends AbstractField

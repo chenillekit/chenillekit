@@ -19,7 +19,7 @@ import org.apache.tapestry5.annotations.Component;
 import org.chenillekit.tapestry.core.components.ThumbNail;
 
 /**
- * @version $Id: ThumbNailDemo.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class ThumbNailDemo
 {

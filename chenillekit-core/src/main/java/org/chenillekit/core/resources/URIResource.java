@@ -29,7 +29,7 @@ import org.apache.tapestry5.ioc.internal.util.LocalizedNameGenerator;
 /**
  * A resource stored with in any location (local, remote or jar archive).
  *
- * @version $Id: URIResource.java 367 2008-02-06 09:59:36Z homburgs $
+ * @version $Id$
  */
 public class URIResource implements Resource
 {

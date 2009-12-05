@@ -33,7 +33,7 @@ import org.slf4j.Logger;
  * page render or a component action, to grant the current user has rights to
  * access the reuqested resource.
  * 
- * @version $Id: AccessValidatorImpl.java 380 2008-12-30 10:21:52Z mlusetti $
+ * @version $Id$
  */
 public class ComponentRequestAccessFilter implements ComponentRequestFilter
 {

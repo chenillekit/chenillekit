@@ -17,7 +17,7 @@ package org.chenillekit.tapestry.core.encoders;
 import java.util.List;
 
 /**
- * @version $Id: MultipleValueEncoder.java 367 2008-02-06 09:59:36Z homburgs $
+ * @version $Id$
  */
 public interface MultipleValueEncoder<V>
 {

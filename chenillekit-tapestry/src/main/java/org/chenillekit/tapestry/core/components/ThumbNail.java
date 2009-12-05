@@ -32,7 +32,7 @@ import org.chenillekit.tapestry.core.services.ThumbNailService;
 /**
  * converts a image asset into a <a href="http://en.wikipedia.org/wiki/Thumbnail">thumbnail</a>.
  *
- * @version $Id: ThumbNail.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @SupportsInformalParameters
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "ThumbNail.js"})

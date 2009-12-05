@@ -26,7 +26,7 @@ import org.apache.tapestry5.ioc.Messages;
  * Binding type for collection values.
  * This binding called by expression "messageformat:".
  *
- * @version $Id: MessageFormatBinding.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class MessageFormatBinding extends AbstractBinding
 {
