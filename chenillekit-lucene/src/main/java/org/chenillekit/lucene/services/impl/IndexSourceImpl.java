@@ -25,6 +25,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
@@ -55,7 +56,7 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	 * @param logger
 	 * @param configResource
 	 */
-	public IndexSourceImpl(final Logger logger, final Resource configResource)
+	public IndexSourceImpl(final Logger logger, final Resource configResource, Version version)
 	{
 		Defense.notNull(configResource, "configResource");
         this.logger = logger;
@@ -75,14 +76,11 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
             
             boolean enableLuceneOutput = Boolean.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_ELO, "false"));
             
-            String analyzerClassName = prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_ACN, StandardAnalyzer.class.getName());
-            
             int maxFieldLength = Integer.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_MFL, "250000"));
  
-            this.directory = FSDirectory.getDirectory(indexFolderFile);
+            this.directory = FSDirectory.open(indexFolderFile);
             
-            Class analyzerClass = getClass().getClassLoader().loadClass(analyzerClassName);
-            this.analyzer = (Analyzer) analyzerClass.newInstance();
+            this.analyzer = new StandardAnalyzer(version);
 
             if (enableLuceneOutput)
                 IndexWriter.setDefaultInfoStream(System.out);
@@ -95,18 +93,6 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
         catch (IOException ioe)
         {
             throw new ChenilleKitLuceneRuntimeException(ioe);
-        }
-        catch (IllegalAccessException iae)
-        {
-        	throw new ChenilleKitLuceneRuntimeException(iae);
-        }
-        catch (InstantiationException ie)
-        {
-        	throw new ChenilleKitLuceneRuntimeException(ie);
-        }
-        catch (ClassNotFoundException cnfe)
-        {
-        	throw new ChenilleKitLuceneRuntimeException(cnfe);
         }
 	}
 	

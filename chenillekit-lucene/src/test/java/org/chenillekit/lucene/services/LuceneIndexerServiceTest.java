@@ -26,7 +26,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-
 import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeClass;
@@ -54,9 +53,9 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
         String[] fileNames = new String[]{"airbag.txt", "consp.txt", "aliens.txt"};
 
         Document document = new Document();
-        document.add(new Field("id", "", Field.Store.YES, Field.Index.UN_TOKENIZED));
-        document.add(new Field("url", "", Field.Store.YES, Field.Index.UN_TOKENIZED));
-        document.add(new Field("content", "", Field.Store.YES, Field.Index.TOKENIZED));
+        document.add(new Field("id", "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        document.add(new Field("url", "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        document.add(new Field("content", "", Field.Store.YES, Field.Index.ANALYZED));
 
         for (int i = 0; i < repeating; i++)
         {

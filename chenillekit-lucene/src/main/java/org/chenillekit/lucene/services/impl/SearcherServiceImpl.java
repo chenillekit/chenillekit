@@ -26,9 +26,9 @@ import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Searcher;
-import org.apache.lucene.search.TopDocCollector;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.util.Version;
 import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
-
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
 import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.SearcherService;
@@ -48,17 +48,21 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
     private final Searcher indexSearcher;
 
     private final Analyzer analyzer;
+    
+    private final Version version;
 
     /**
      *
      * @param logger
      * @param indexSource
      */
-    public SearcherServiceImpl(Logger logger, IndexSource indexSource)
+    public SearcherServiceImpl(Logger logger, IndexSource indexSource, Version version)
     {
     	this.logger = logger;
 
     	this.analyzer = indexSource.getAnalyzer();
+    	
+    	this.version = version;
 
     	this.indexSearcher = indexSource.createIndexSearcher();
     }
@@ -66,7 +70,7 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 
     public List<Document> search(String fieldName, String queryString, Integer howMany)
     {
-    	QueryParser parser = new QueryParser(fieldName, this.analyzer);
+    	QueryParser parser = new QueryParser(this.version, fieldName, this.analyzer);
 
     	Query query;
 		try
@@ -84,7 +88,7 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 
     	int total = howMany != null ? howMany.intValue() : MAX_SCORE_DOC;
 
-    	TopDocCollector collector = new TopDocCollector(total);
+    	TopScoreDocCollector collector = TopScoreDocCollector.create(total, true);
 		try
 		{
 			this.indexSearcher.search(query, collector);

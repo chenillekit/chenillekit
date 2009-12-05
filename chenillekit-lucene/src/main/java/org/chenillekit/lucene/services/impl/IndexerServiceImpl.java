@@ -21,7 +21,6 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
-
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
 import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.IndexerService;
@@ -96,15 +95,31 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
         }
     }
 
-    /**
-     * get the amount of documents stored in the disk index.
-     *
-     * @return amount of documents
+    /*
+     * (non-Javadoc)
+     * @see org.chenillekit.lucene.services.IndexerService#getDocCount()
      */
     public int getDocCount()
     {
-        return this.indexWriter.docCount();
+        return this.indexWriter.maxDoc();
     }
+    
+    /* (non-Javadoc)
+	 * @see org.chenillekit.lucene.services.IndexerService#getDocCountWithDeletions()
+	 */
+	public int getDocCountWithDeletions()
+	{
+		try
+		{
+			return this.indexWriter.numDocs();
+		}
+		catch (IOException ioe)
+		{
+			logger.error("Unable to perform numDocs count returning zero", ioe);
+			return 0;
+		}
+	}
+    
 
     /*
      * (non-Javadoc)
