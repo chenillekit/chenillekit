@@ -53,5 +53,5 @@ public interface WebSessionUser extends Serializable
 	 * 
 	 * @return the id (identifier) of the user currently logged in
 	 */
-	public int getUserId();
+	public String getUserId();
 }

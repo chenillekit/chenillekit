@@ -46,13 +46,15 @@ public class TestWebSessionUser implements WebSessionUser
 	{
 		return this.roleWeight;
 	}
-
-	/**
-	 * 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.chenillekit.access.WebSessionUser#getUserId()
 	 */
-	public int getUserId()
+	public String getUserId()
 	{
-		return 0;
+		return Integer.toString(0);
+		
 	}
 	
 
