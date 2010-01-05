@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,19 +30,17 @@ import java.util.List;
  */
 public class TestUserDAO extends AbstractHibernateTest
 {
-    protected UserDAO userDAO;
-
     @BeforeTest
     public void setup()
     {
         super.setup();
-
-        userDAO = registry.getService(UserDAO.class);
     }
 
     @Test
     public void test_persist_user_entity()
     {
+        UserDAO userDAO = registry.getService(UserDAO.class);
+
         User user = new User("homburgs", "password");
         user.setLastLogin(new Date());
         user.setActive(true);
@@ -60,12 +58,14 @@ public class TestUserDAO extends AbstractHibernateTest
         user.getPseudonyms().add(new Pseudonym(user, "trugoy"));
         user.getPseudonyms().add(new Pseudonym(user, "hombi"));
 
+        System.err.println("test_persist_user_entity: " + userDAO);
         userDAO.doSave(user);
     }
 
     @Test(dependsOnMethods = {"test_persist_user_entity"})
     public void test_find_user_entity()
     {
+        UserDAO userDAO = registry.getService(UserDAO.class);
         List entityList = userDAO.findByQuery("FROM User WHERE loginName = :loginName",
                                               QueryParameter.newInstance("loginName", "homburgs"));
 
@@ -75,6 +75,7 @@ public class TestUserDAO extends AbstractHibernateTest
     @Test(dependsOnMethods = {"test_persist_user_entity"})
     public void test_remove_pseudonym_entity()
     {
+        UserDAO userDAO = registry.getService(UserDAO.class);
         List<User> entityList = userDAO.findByQuery("FROM User WHERE loginName = :loginName",
                                               QueryParameter.newInstance("loginName", "homburgs"));
 
@@ -93,6 +94,7 @@ public class TestUserDAO extends AbstractHibernateTest
     @Test(dependsOnMethods = {"test_persist_user_entity"})
     public void test_group_by_loginname()
     {
+        UserDAO userDAO = registry.getService(UserDAO.class);
         String result = (String) userDAO.aggregateOrGroup("SELECT loginName FROM User GROUP BY loginName");
 
         assertEquals(result, "homburgs");
@@ -101,6 +103,7 @@ public class TestUserDAO extends AbstractHibernateTest
     @Test(dependsOnMethods = {"test_persist_user_entity"})
     public void test_max_id()
     {
+        UserDAO userDAO = registry.getService(UserDAO.class);
         long result = (Long) userDAO.aggregateOrGroup("SELECT MAX(id) FROM User");
 
         assertEquals(result, 1);
