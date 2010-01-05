@@ -20,8 +20,13 @@ import java.io.Serializable;
  *
  * @version $Id$
  */
-public interface WebSessionUser extends Serializable
-{	
+public interface WebSessionUser<T> extends Serializable
+{
+	/**
+	 * @return the generic type of the implementation
+	 */
+	public Class<T> getType();
+	
 	/**
 	 * Get the human readble <em>name</em> of the user currently logged in.
 	 * Usually this is used in a (sort of) layout component to show that a
@@ -53,5 +58,5 @@ public interface WebSessionUser extends Serializable
 	 * 
 	 * @return the id (identifier) of the user currently logged in
 	 */
-	public String getUserId();
+	public T getUserId();
 }

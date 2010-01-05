@@ -9,8 +9,10 @@ import org.chenillekit.access.WebSessionUser;
  * @author massimo
  *
  */
-public class TestWebSessionUser implements WebSessionUser
+public class TestWebSessionUser implements WebSessionUser<String>
 {
+	private static final long serialVersionUID = -2806629129033079130L;
+	
 	private final String name;
 	private final int roleWeight;
 	private final String[] groups;
@@ -56,6 +58,13 @@ public class TestWebSessionUser implements WebSessionUser
 		return Integer.toString(0);
 		
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.chenillekit.access.WebSessionUser#getType()
+	 */
+	public Class<String> getType()
+	{
+		return String.class;
+	}
 
 }
