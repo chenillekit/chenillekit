@@ -70,7 +70,7 @@ public class ChenilleKitAccessEventContext implements EventContext
 		
 		for (int i = 0; i < values.length; i++)
 		{
-			res.add(values[i].toString());
+			res.add(coercer.coerce(values[i], String.class));
 		}
 		
 		return res.toArray(new String[res.size()]);
