@@ -65,7 +65,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 		this.redirect = redirect;
 		
 		this.loginPageRenderParameters = new PageRenderRequestParameters(this.loginPage,
-												new EmptyEventContext());
+												new EmptyEventContext(), false);
 		
 		this.loginComponentEventParameters = new ComponentEventRequestParameters(this.loginPage,
 												this.loginPage, "", EventConstants.ACTIVATE,
