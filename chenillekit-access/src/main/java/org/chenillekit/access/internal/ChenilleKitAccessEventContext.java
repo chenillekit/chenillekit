@@ -14,6 +14,9 @@
 
 package org.chenillekit.access.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.ioc.services.TypeCoercer;
 
@@ -56,6 +59,21 @@ public class ChenilleKitAccessEventContext implements EventContext
 	public int getCount()
 	{
 		return values.length;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.tapestry5.EventContext#toStrings()
+	 */
+	public String[] toStrings()
+	{
+		List<String> res = new ArrayList<String>();
+		
+		for (int i = 0; i < values.length; i++)
+		{
+			res.add(values[i].toString());
+		}
+		
+		return res.toArray(new String[res.size()]);
 	}
 
 }
