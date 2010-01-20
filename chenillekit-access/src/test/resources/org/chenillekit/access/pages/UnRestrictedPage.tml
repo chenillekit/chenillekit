@@ -14,11 +14,11 @@
 	-->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
-		<title>UnRestricted Page</title>
+    <title>UnRestricted Page</title>
 </head>
 
 <body>
@@ -31,9 +31,18 @@
 
 <t:actionlink t:id="testRightsOnEvent" id="testRightsOnEvent">only admin handled by OnEvent annotation</t:actionlink>
 
-<t:actionlink t:id="testRightsContext" id="testRightsContext" context="actionContext">only admin with context</t:actionlink>
+<t:actionlink t:id="testRightsContext" id="testRightsContext" context="actionContext">only admin with context
+</t:actionlink>
 
 <p>${contextIfPresent}</p>
+
+<form t:id="testForm">
+    <div id="error">
+        <div t:id="testErrors"/>
+    </div>
+    <input t:id="testInput" type="text"/>
+    <input id="restrictedSubmit" t:id="testSubmit" type="submit" value="send"/>
+</form>
 
 </body>
 </html>

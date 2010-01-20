@@ -21,44 +21,53 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- *
  * @version $Id$
  */
 public class TestAccessIntegration extends Assert
 {
-	private PageTester pageTester;
+    private PageTester pageTester;
 
-	@BeforeMethod
-	public void initializeTests()
-	{
-		String appPackage = "org.chenillekit.access";
-		String appName = "TestAppWithRoot";
-		pageTester = new PageTester(appPackage, appName, "src/test/webapp");
-	}
+    @BeforeMethod
+    public void initializeTests()
+    {
+        String appPackage = "org.chenillekit.access";
+        String appName = "TestAppWithRoot";
+        pageTester = new PageTester(appPackage, appName, "src/test/webapp");
+    }
 
-	@Test
-	public void test_unRestricted()
-	{
-		Document doc = pageTester.renderPage("Start");
-		Element link = doc.getElementById("UnRestricted");
+    @Test
+    public void test_unRestricted()
+    {
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("UnRestricted");
 
-		doc = pageTester.clickLink(link);
-		Element element = doc.getElementById("has_access");
-		assertEquals(element.getChildMarkup(), "everybody has access");
-	}
+        doc = pageTester.clickLink(link);
+        Element element = doc.getElementById("has_access");
+        assertEquals(element.getChildMarkup(), "everybody has access");
 
-	@Test
-	public void test_restrictedTextField()
-	{
-		Document doc = pageTester.renderPage("Start");
-		Element link = doc.getElementById("RestrictedTextField");
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("testInput", "Sven");
+        Element submit = doc.getElementById("restrictedSubmit");
+        doc = pageTester.clickSubmit(submit, paramMap);
+        element = doc.getElementById("error");
+        assertTrue(element.getChildMarkup().contains("onNotEnoughAccessRights"));
+    }
 
-		doc = pageTester.clickLink(link);
-		Element element1 = doc.getElementById("simpleTextField1");
-		assertNotNull(element1);
+    @Test
+    public void test_restrictedTextField()
+    {
+        Document doc = pageTester.renderPage("Start");
+        Element link = doc.getElementById("RestrictedTextField");
 
-		Element element2 = doc.getElementById("simpleTextField2");
-		assertNotNull(element2);
-	}
+        doc = pageTester.clickLink(link);
+        Element element1 = doc.getElementById("simpleTextField1");
+        assertNotNull(element1);
+
+        Element element2 = doc.getElementById("simpleTextField2");
+        assertNotNull(element2);
+    }
 }
