@@ -19,44 +19,40 @@ import java.util.Locale;
 import org.chenillekit.google.utils.GeoCodeLocation;
 import org.chenillekit.google.utils.geocode.GeoCodeResult;
 
-
 /**
  * This service let you ues some Google Maps services in your application.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: GoogleMapService.java 367 2008-02-06 09:59:36Z homburgs $
+ * @version $Id$
  */
-public interface GoogleGeoCoder
+public interface GoogleGeoCoder extends GoogleService
 {
-    public static String CONFIG_KEY_PROPERTIES = "google.geocoder.properties";
+	/**
+	 * get the geo code from google map service for address.
+	 *
+	 * @param geoCodeLocation location holder
+	 */
+	GeoCodeResult getGeoCode(GeoCodeLocation geoCodeLocation);
 
-    /**
-     * get the geo code from google map service for address.
-     *
-     * @param geoCodeLocation location holder
-     */
-    GeoCodeResult getGeoCode(GeoCodeLocation geoCodeLocation);
+	/**
+	 * get the geo code from google map service for address.
+	 *
+	 * @param street  the street
+	 * @param country the country
+	 * @param state   the state
+	 * @param zipCode the zip code
+	 * @param city	the city
+	 */
+	GeoCodeResult getGeoCode(String street, String country, String state, String zipCode, String city);
 
-    /**
-     * get the geo code from google map service for address.
-     *
-     * @param street  the street
-     * @param country the country
-     * @param state   the state
-     * @param zipCode the zip code
-     * @param city    the city
-     */
-    GeoCodeResult getGeoCode(String street, String country, String state, String zipCode, String city);
-
-    /**
-     * get the geo code from google map service for address.
-     *
-     * @param locale
-     * @param street  the street
-     * @param country the country
-     * @param state   the state
-     * @param zipCode the zip code
-     * @param city    the city
-     */
-    GeoCodeResult getGeoCode(Locale locale, String street, String country, String state, String zipCode, String city);
+	/**
+	 * get the geo code from google map service for address.
+	 *
+	 * @param locale
+	 * @param street  the street
+	 * @param country the country
+	 * @param state   the state
+	 * @param zipCode the zip code
+	 * @param city	the city
+	 */
+	GeoCodeResult getGeoCode(Locale locale, String street, String country, String state, String zipCode, String city);
 }

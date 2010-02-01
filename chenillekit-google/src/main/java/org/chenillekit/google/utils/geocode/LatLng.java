@@ -13,17 +13,22 @@
  */
 package org.chenillekit.google.utils.geocode;
 
-import org.chenillekit.google.utils.JSONObject;
 import org.chenillekit.google.utils.JSONException;
+import org.chenillekit.google.utils.JSONObject;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class LatLng
 {
     private double latitude;
     private double longitude;
+
+	public LatLng(double latitude, double longitude)
+	{
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
     public LatLng(JSONObject json)
     {

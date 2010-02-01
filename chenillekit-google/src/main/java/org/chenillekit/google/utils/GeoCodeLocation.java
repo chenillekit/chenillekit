@@ -20,7 +20,6 @@ import java.util.Locale;
 /**
  * simple class to hold a location for geocoding.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class GeoCodeLocation implements Serializable

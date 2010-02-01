@@ -17,7 +17,6 @@ package org.chenillekit.hibernate.daos;
 import org.chenillekit.hibernate.entities.Address;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface AddressDAO extends GenericDAO<Address, Long>

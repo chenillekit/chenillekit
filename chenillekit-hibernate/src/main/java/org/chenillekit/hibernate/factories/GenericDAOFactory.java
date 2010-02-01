@@ -19,7 +19,6 @@ import org.chenillekit.hibernate.daos.GenericDAO;
 /**
  * generic data access object factory.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface GenericDAOFactory

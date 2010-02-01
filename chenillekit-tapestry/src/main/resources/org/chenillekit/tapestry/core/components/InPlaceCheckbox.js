@@ -24,7 +24,7 @@ Ck.InPlaceCheckbox.prototype = {
     },
     _click: function(theEvent)
     {
-        new Ajax.Request(this.reBuildURL(this.requestUrl, $(this.elementId).getValue()), {
+        new Ajax.Request(this.reBuildURL(this.requestUrl, $(this.elementId).checked), {
             method: 'post',
             onFailure: function(t)
             {
@@ -41,14 +41,14 @@ Ck.InPlaceCheckbox.prototype = {
             }.bind(this)
         });
     },
-    reBuildURL:function(url, checkboxValue)
+    reBuildURL:function(url, checked)
     {
         var newUrl = "";
         var result = url.split(/\?/);
         for (var i = 0; i < result.length; i++)
         {
             if (i == 0)
-                newUrl = result[i] + "/" + (checkboxValue == null ? "false" : "true");
+                newUrl = result[i] + "/" + checked;
             else
                 newUrl += "?" + result[i];
         }

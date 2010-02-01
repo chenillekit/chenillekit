@@ -1,22 +1,22 @@
 <!--
-  ~ Apache License
-  ~ Version 2.0, January 2004
-  ~ http://www.apache.org/licenses/
-  ~
-  ~ Copyright 2008 by chenillekit.org
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~ http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  -->
+	~ Apache License
+	~ Version 2.0, January 2004
+	~ http://www.apache.org/licenses/
+	~
+	~ Copyright 2008 by chenillekit.org
+	~
+	~ Licensed under the Apache License, Version 2.0 (the "License");
+	~ you may not use this file except in compliance with the License.
+	~ You may obtain a copy of the License at
+	~
+	~ http://www.apache.org/licenses/LICENSE-2.0
+	~
+	-->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
     <title>UnRestricted Page</title>
 </head>
@@ -25,6 +25,24 @@
 
 <span id="has_access">everybody has access</span>
 
+<t:actionlink t:id="testRights" id="testRights">only admin</t:actionlink>
+
+<t:actionlink t:id="testRightsRole" id="testRightsRole">only role 10</t:actionlink>
+
+<t:actionlink t:id="testRightsOnEvent" id="testRightsOnEvent">only admin handled by OnEvent annotation</t:actionlink>
+
+<t:actionlink t:id="testRightsContext" id="testRightsContext" context="actionContext">only admin with context
+</t:actionlink>
+
+<p>${contextIfPresent}</p>
+
+<form t:id="testForm">
+    <div id="error">
+        <div t:id="testErrors"/>
+    </div>
+    <input t:id="testInput" type="text"/>
+    <input id="restrictedSubmit" t:id="testSubmit" type="submit" value="send"/>
+</form>
 
 </body>
 </html>

@@ -20,6 +20,11 @@
 
 <document>
 
+    <properties>
+        <title>Javascript Namespace</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
     <body>
 
         <section name="Release Checklist">
@@ -45,54 +50,23 @@
 
             </subsection>
 
-            <subsection name="Build site">
+            <subsection name="Build site and packages">
 
                 <p>
-                    Execute <code>mvn clean site -Prollout</code>
+                    login www.chenillekit.org and call the shell script <code>./bin/chekit_rollout</code><br/>
+                    the following steps will be done after a while:
                 </p>
 
-            </subsection>
-
-            <subsection name="Build/install packages">
-
-                <p>
-                    Execute <code>mvn -Dmaven.test.skip=true install -Prollout</code>
-                </p>
-
-            </subsection>
-
-            <subsection name="Deploy artifacts">
-
-                <p>
-                    Execute <code>mvn -Dmaven.test.skip=true deploy -Prollout</code>
-                </p>
-
-            </subsection>
-
-            <subsection name="Deploy site">
-
-                <p>
-                    Execute <code>mvn -Dmaven.test.skip=true site:deploy -Prollout</code>
-                </p>
-
-            </subsection>
-
-            <subsection name="Bring Demo Application online">
-
-                <ul>
-                    <li>login to demo server</li>
-                    <li>extract the chenillekit-demo.war file into /srv/webapps/chenillekit</li>
-                    <li>restart jetty</li>
-                </ul>
-
-            </subsection>
-
-            <subsection name="Update the Downloads Page">
-
-                <ul>
-                    <li>Execute <code>mvn assembly:assembly -Prollout</code></li>
-                    <li>Upload the binary packages and describe the download link.</li>
-                </ul>
+                <ol>
+                    <li>checkout - checkout the latest trunk from google code repository</li>
+                    <li>maven_install_skin - install the project skin into the local maven repository</li>
+                    <li>maven_install - install all project modules into the local maven repository</li>
+                    <li>maven_site - build the site</li>
+                    <li>maven_package_deploy - deploy all maven modules into the public maven repository</li>
+                    <li>maven_site_deploy - deploy the generated project site</li>
+                    <li>deploy_demo - deploy the demo application</li>
+                    <li>build_dl_archives -  build and submit download archives (google code)</li>
+                </ol>
 
             </subsection>
 

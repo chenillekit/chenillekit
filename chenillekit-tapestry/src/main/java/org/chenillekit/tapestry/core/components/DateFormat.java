@@ -31,8 +31,7 @@ import org.apache.tapestry5.corelib.mixins.RenderInformals;
  * end the optional parameter <em>bodyPosition</em> shifts the
  * tag body to the left or right side, or discarded it.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
- * @version $Id: DateFormat.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class DateFormat
 {

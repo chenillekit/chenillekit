@@ -29,8 +29,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * diplays a panel that can open/close its content.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: SlidingPanel.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @SupportsInformalParameters
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "SlidingPanel.js"})

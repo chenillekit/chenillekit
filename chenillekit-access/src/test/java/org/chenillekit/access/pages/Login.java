@@ -14,45 +14,34 @@
 
 package org.chenillekit.access.pages;
 
-import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.annotations.Log;
-import org.apache.tapestry5.corelib.components.PasswordField;
-import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import org.slf4j.Logger;
-import org.chenillekit.access.services.AuthService;
 
 
 /**
+ * Login page. The user is given three login attempts, or else the browser session will need to be closed.
+ *
  * @version $Id$
  */
 public class Login
 {
-    @Inject
-    private Logger logger;
+	private static final int MAX_LOGIN_ATTEMPTS = 3;
 
-    @Inject
-    private AuthService authService;
+	@SuppressWarnings("unused")
+	@Inject
+	private Logger logger;
 
-    @Persist
-    @Property
-    private String userName;
+	@Persist
+	private int loginAttempts;
 
-    @Property
-    private String password;
+	final public boolean isLoginAllowed()
+	{
+		return loginAttempts < MAX_LOGIN_ATTEMPTS;
+	}
 
-    @Component(parameters = {"value=userName"})
-    private TextField inputUserName;
-
-    @Component(parameters = {"value=password"})
-    private PasswordField inputPassword;
-
-    @Log
-    void onSuccess()
-    {
-        authService.doAuthenticate(userName, password);
-    }
+	void onActivate()
+	{
+	}
 }

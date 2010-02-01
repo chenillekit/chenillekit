@@ -22,38 +22,68 @@
 ------------------------------------------------------------------------
  */
 html, body {
-    height: 100%;
+	height: 100%;
+	color: white;
+	background-color: #39414A;
+}
+
+.yui-skin-sam .yui-editor-panel label {
+	color: black;
+}
+
+.yui-skin-sam .yui-navset .yui-nav, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav {
+	border-color: silver;
+	border-style: solid;
+	border-width: 0 0 5px;
+}
+
+.yui-navset-top .yui-content {
+	border-color: silver #808080 #808080;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0.25em 0.5em;
+	color: white;
+}
+
+.yui-skin-sam .yui-navset .yui-content {
+	background: #39414A none repeat scroll 0 0;
+}
+
+fieldset.component {
+	border-top: 1px solid white;
+}
+
+fieldset.component legend {
+	padding-right: 10px;
+	font-weight: bold;
+	font-size: 130%;
+	padding-bottom: 10px;
 }
 
 body {
-    /*background-color: #dedcdc;*/
+	background: #39414A url( ../images/bg-tile.jpg ) repeat-x scroll 50% 0;
 }
 
 #doc3, #bd {
-    height: 95%;
-    margin-top: 4px;
-    margin-bottom: 4px;
 }
 
 #hd {
-    height: 117px;
 }
 
 #ft {
-    height: 4%;
 }
 
 td, th {
-    border: none;
-    padding: 0.1em;
+	border: none;
+	padding: 0.1em;
 }
 
 .yui-u.first.menu {
-    width: 11%;
+	width: 11%;
 }
 
 .yui-u.content {
-    width: 88.5%;
+	width: 88.5%;
 }
 
 /*
@@ -62,7 +92,7 @@ td, th {
 ------------------------------------------------------------------------
 */
 html > body div.t-error li {
-    margin-left: 25px;
+	margin-left: 25px;
 }
 
 /*
@@ -71,18 +101,18 @@ html > body div.t-error li {
 ------------------------------------------------------------------------
 */
 .licensemessage {
-    border-top: 1px solid silver;
-    background-color: #FFFFCE;
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 77%;
-    padding-bottom: 2px;
-    padding-top: 2px;
-    text-align: center;
+	border-top: 1px solid silver;
+	background-color: #FFFFCE;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 77%;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	text-align: center;
 }
 
 .component_header {
-    padding: 5px 0 5px 5px;
-    background-color: #E5E5E5;
+	padding: 5px 0 5px 5px;
+	background-color: #E5E5E5;
 }
 
 /*
@@ -91,96 +121,45 @@ html > body div.t-error li {
 ------------------------------------------------------------------------
  */
 div.shadow {
-    width: 100%;
-    float: left;
-    background-color: #bbb;
-    padding: 0;
+	width: 100%;
+	float: left;
+	background-color: #bbb;
+	padding: 0;
 }
 
 div.shadow div.container {
-    width: 100%;
-    display: block;
-    border: 1px solid #666;
-    position: relative;
-    top: -3px;
-    left: -5px;
-}
-
-/*
-------------------------------------------------------------------------
--- Square Button
-------------------------------------------------------------------------
- */
-
-a.squarebutton {
-    background: transparent url( '../images/oval-blue-left.gif' ) no-repeat scroll left top;
-    display: block;
-    float: left;
-    font: normal 13px Tahoma; /* Change 12px as desired */
-    line-height: 16px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 23px) */
-    height: 24px; /* Height of button background height */
-    padding-left: 11px; /* Width of left menu image */
-    text-decoration: none;
-}
-
-a:link.squarebutton, a:visited.squarebutton, a:active.squarebutton {
-    color: #494949; /*button text color*/
-}
-
-a.squarebutton span {
-    background: transparent url( '../images/oval-blue-right.gif' ) no-repeat scroll right top;
-    display: block;
-    padding: 4px 11px 4px 0; /*Set 9px below to match value of 'padding-left' value above*/
-}
-
-a.squarebutton:hover {
-/* Hover state CSS */
-    background-position: bottom left;
-}
-
-a.squarebutton:hover span {
-/* Hover state CSS */
-    background-position: bottom right;
-    color: black;
-}
-
-.buttonwrapper {
-/* Container you can use to surround a CSS button to clear float */
-    overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
-    width: 100%;
-}
-
-a.orange {
-    background: transparent url( '../images/oval-orange-left.gif' ) no-repeat scroll left top;
-}
-
-a.orange span {
-    background: transparent url( '../images/oval-orange-right.gif' ) no-repeat scroll right top;
+	width: 100%;
+	display: block;
+	border: 1px solid #666;
+	position: relative;
+	top: -3px;
+	left: -5px;
 }
 
 fieldset.snippet {
-    border-top: 1px solid black;
-    padding: 5px;
+	border-top: 1px solid black;
+	padding: 5px;
 }
 
 fieldset.snippet legend {
-    padding-left: 3px;
-    padding-right: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
 fieldset.snippet pre {
-    border: 1px solid black;
-    background-color: lightgray;
-    margin: 5px;
-    padding: 8px;
+	border: 1px solid black;
+	background-color: lightgray;
+	margin: 5px;
+	padding: 8px;
 }
 
 fieldset.sample {
-    border-top: 1px solid black;
-    padding: 5px;
+	border-top: 1px solid black;
+	padding: 5px;
 }
 
 fieldset.sample legend {
-    padding-left: 3px;
-    padding-right: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
 }
+

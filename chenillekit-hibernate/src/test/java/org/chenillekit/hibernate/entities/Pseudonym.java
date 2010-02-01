@@ -28,7 +28,6 @@ import javax.persistence.Table;
 import org.apache.tapestry5.beaneditor.Validate;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @Entity

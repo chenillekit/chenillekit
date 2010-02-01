@@ -29,7 +29,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 /**
  * a expand-/pin-able side panel.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SupportsInformalParameters

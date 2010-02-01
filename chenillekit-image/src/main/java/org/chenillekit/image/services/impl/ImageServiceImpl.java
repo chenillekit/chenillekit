@@ -14,23 +14,24 @@
 
 package org.chenillekit.image.services.impl;
 
+import org.apache.tapestry5.ioc.Resource;
+import org.chenillekit.image.services.ImageService;
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.tapestry5.ioc.Resource;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import org.chenillekit.image.services.ImageService;
-
 /**
  * some image based helpers.
  *
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
- * @version $Id: ImageServiceImpl.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class ImageServiceImpl implements ImageService
 {
@@ -68,15 +69,18 @@ public class ImageServiceImpl implements ImageService
      */
     public void reduceImageQuality(BufferedImage image, float quality, OutputStream output)
     {
-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(output);
-        JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(image);
+        ImageWriter encoder = (ImageWriter) ImageIO.getImageWritersByFormatName("JPEG").next();
+        JPEGImageWriteParam param = new JPEGImageWriteParam(null);
+
         quality = Math.max(0, Math.min(quality, 100));
-        param.setQuality(quality / 100.0f, false);
-        encoder.setJPEGEncodeParam(param);
+        param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        param.setCompressionQuality(quality / 100.0f);
+
+        encoder.setOutput(output);
 
         try
         {
-            encoder.encode(image);
+            encoder.write((IIOMetadata) null, new IIOImage(image, null, null), param);
         }
         catch (IOException e)
         {

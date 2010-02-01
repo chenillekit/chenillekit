@@ -14,10 +14,11 @@
 
 package org.chenillekit.template.services.impl;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 
@@ -32,15 +33,14 @@ import org.slf4j.Logger;
 /**
  * template service based on <a href="http://freemarker.sourceforge.net">FreeMarker</a> framework.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 public class FreeMarkerServiceImpl implements TemplateService
 {
     public static final String CONFIG_RESOURCE_KEY = "freemarker.configuration";
 
-    private Configuration _configuration;
-    private Logger _serviceLog;
+    private Configuration configuration;
+    private Logger serviceLog;
 
     /**
      * Standard-Konstruktor.
@@ -50,8 +50,8 @@ public class FreeMarkerServiceImpl implements TemplateService
      */
     public FreeMarkerServiceImpl(Logger serviceLog, Configuration configuration)
     {
-        _serviceLog = serviceLog;
-        _configuration = configuration;
+        this.serviceLog = serviceLog;
+        this.configuration = configuration;
     }
 
     /**
@@ -91,30 +91,30 @@ public class FreeMarkerServiceImpl implements TemplateService
     {
         try
         {
-            if (_configuration == null)
+            if (configuration == null)
             {
-                _configuration = new Configuration();
+                configuration = new Configuration();
 
                 // Specify how templates will see the data model. This is an advanced topic...
                 // but just use this:
-                _configuration.setObjectWrapper(new DefaultObjectWrapper());
-                _configuration.setClassForTemplateLoading(Resource.class, "/");
+                configuration.setObjectWrapper(new DefaultObjectWrapper());
+                configuration.setClassForTemplateLoading(Resource.class, "/");
             }
 
             //noinspection unchecked
             parameterMap.put("elementList", elements);
 
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("processing template resource '" + template.getPath() + "'");
+            if (serviceLog.isInfoEnabled())
+                serviceLog.info("processing template resource '" + template.getPath() + "'");
 
             String path = template.getPath();
-            Template freeMarkerTemplate = _configuration.getTemplate(path);
+            Template freeMarkerTemplate = configuration.getTemplate(path);
             Writer out = new OutputStreamWriter(outputStream);
             freeMarkerTemplate.process(parameterMap, out);
             out.flush();
 
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("processing template file '" + template.getPath() + "' finished");
+            if (serviceLog.isInfoEnabled())
+                serviceLog.info("processing template file '" + template.getPath() + "' finished");
 
         }
         catch (Exception e)
@@ -158,6 +158,35 @@ public class FreeMarkerServiceImpl implements TemplateService
      */
     public void mergeDataWithStream(InputStream templateStream, OutputStream outputStream, Map parameterMap, Object[] elements)
     {
-        throw new RuntimeException("not implemented yet!");
+        try
+        {
+            if (configuration == null)
+            {
+                configuration = new Configuration();
+
+                // Specify how templates will see the data model. This is an advanced topic...
+                // but just use this:
+                configuration.setObjectWrapper(new DefaultObjectWrapper());
+                configuration.setClassForTemplateLoading(Resource.class, "/");
+            }
+
+            //noinspection unchecked
+            parameterMap.put("elementList", elements);
+
+            if (serviceLog.isInfoEnabled())
+                serviceLog.info("processing template stream");
+
+            Template freeMarkerTemplate = new Template("doedel", new InputStreamReader(templateStream), configuration);
+            Writer out = new OutputStreamWriter(outputStream);
+            freeMarkerTemplate.process(parameterMap, out);
+            out.flush();
+
+            if (serviceLog.isInfoEnabled())
+                serviceLog.info("processing template finished");
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
     }
 }

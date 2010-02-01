@@ -14,16 +14,27 @@
 
 package org.chenillekit.demo.components;
 
-import org.chenillekit.demo.DemoConstants;
+import org.apache.tapestry5.annotations.Component;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ApplicationLayout
 {
-    public String getDemoVersion()
-    {
-        return DemoConstants.VERSION;
-    }
+	@Component(parameters = {"menuName=base"})
+	private HorizontalMenu horizontalMenu;
+
+	public Project getProject()
+	{
+		return new Project();
+	}
+
+	public class Project
+	{
+		public String getVersion()
+		{
+			return "DEVELOPMENT";
+		}
+	}
 }
+

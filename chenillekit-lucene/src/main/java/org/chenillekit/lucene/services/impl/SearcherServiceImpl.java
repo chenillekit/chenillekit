@@ -14,138 +14,133 @@
 
 package org.chenillekit.lucene.services.impl;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.Hits;
-import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Searcher;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.internal.util.Defense;
-import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
-
-import org.chenillekit.lucene.services.IndexerService;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.util.Version;
+import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
+import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
+import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.SearcherService;
 import org.slf4j.Logger;
 
 /**
  * implements seacher based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public class SearcherServiceImpl implements SearcherService<Hits>, RegistryShutdownListener
+public class SearcherServiceImpl implements SearcherService, ThreadCleanupListener
 {
+	private static final int MAX_SCORE_DOC = 100;
+
     private Logger logger;
-    private Directory directory;
-    private Searcher indexSearcher;
-    private Analyzer standardAnalyzer;
 
-    public SearcherServiceImpl(final Logger logger, final Resource configResource)
-    {
-        Defense.notNull(configResource, "configResource");
-        this.logger = logger;
+    private final Searcher indexSearcher;
 
-        if (!configResource.exists())
-            throw new RuntimeException(String.format("config resource '%s' not found!", configResource.toURL().toString()));
-
-        initLucene(configResource);
-    }
-
-    private void initLucene(Resource configResource)
-    {
-        try
-        {
-            Configuration configuration = new PropertiesConfiguration(configResource.toURL());
-            File indexFolderFile = new File(configuration.getString(IndexerService.PROPERTIES_KEY_IF));
-            if (!indexFolderFile.exists())
-                throw new RuntimeException(String.format("index directory '%s' doesnt exists", indexFolderFile.getAbsoluteFile()));
-
-            String analyzerClassName = configuration.getString(IndexerService.PROPERTIES_KEY_ACN, StandardAnalyzer.class.getName());
-            Class analyzerClass = getClass().getClassLoader().loadClass(analyzerClassName);
-            standardAnalyzer = (Analyzer) analyzerClass.newInstance();
-
-            directory = FSDirectory.getDirectory(indexFolderFile);
-            indexSearcher = new IndexSearcher(directory);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (ConfigurationException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (ClassNotFoundException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (InstantiationException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @SuppressWarnings({"unchecked"})
-    public <T> T search(String fieldName, String queryString)
-    {
-        try
-        {
-            indexSearcher.doc(1);
-            QueryParser parser = new QueryParser(fieldName, standardAnalyzer);
-            Query query = parser.parse(queryString);
-            return (T) indexSearcher.search(query);
-        }
-        catch (ParseException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
+    private final Analyzer analyzer;
+    
+    private final Version version;
 
     /**
-     * close all handles inside the service.
+     *
+     * @param logger
+     * @param indexSource
      */
-    private void close()
+    public SearcherServiceImpl(Logger logger, IndexSource indexSource, Version version)
     {
-        try
-        {
-            if (indexSearcher != null)
-                indexSearcher.close();
+    	this.logger = logger;
 
-            if (directory != null)
-                directory.close();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+    	this.analyzer = indexSource.getAnalyzer();
+    	
+    	this.version = version;
+
+    	this.indexSearcher = indexSource.createIndexSearcher();
     }
 
-    /**
-     * Invoked when the registry shuts down, giving services a chance to perform any final
-     * operations. Service implementations should not attempt to invoke methods on other services
-     * (via proxies) as the service proxies may themselves be shutdown.
-     */
-    public void registryDidShutdown()
+
+    public List<Document> search(String fieldName, String queryString, Integer howMany)
     {
-        close();
-    }
+    	QueryParser parser = new QueryParser(this.version, fieldName, this.analyzer);
+
+    	Query query;
+		try
+		{
+			query = parser.parse(queryString);
+
+		}
+		catch (ParseException pe)
+		{
+			this.logger.error(String.format("Unable to parse the query string: '%s'", pe.getMessage()), pe);
+			throw new ChenilleKitLuceneRuntimeException(pe);
+		}
+
+    	ScoreDoc[] scores;
+
+    	int total = howMany != null ? howMany.intValue() : MAX_SCORE_DOC;
+
+    	TopScoreDocCollector collector = TopScoreDocCollector.create(total, true);
+		try
+		{
+			this.indexSearcher.search(query, collector);
+			scores = collector.topDocs().scoreDocs;
+		}
+		catch (IOException ioe)
+		{
+			this.logger.error(String.format("Unable to access the index for searching: '%s'", ioe.getMessage()), ioe);
+			throw new ChenilleKitLuceneRuntimeException(ioe);
+		}
+
+    	List<Document> docs = new ArrayList<Document>();
+
+    	for (int i = 0; i < scores.length; i++)
+    	{
+			int docId = scores[i].doc;
+
+			try
+			{
+				docs.add(this.indexSearcher.doc(docId));
+			}
+			catch (CorruptIndexException cie)
+			{
+				this.logger.error(String.format("The index result corrupted: '%s'", cie.getMessage()), cie);
+				throw new ChenilleKitLuceneRuntimeException(cie);
+			}
+			catch (IOException ioe)
+			{
+				this.logger.error(String.format("Unable to access the index for searching: '%s'", ioe.getMessage()), ioe);
+				throw new ChenilleKitLuceneRuntimeException(ioe);
+			}
+		}
+
+		return docs;
+	}
+
+    /*
+     * (non-Javadoc)
+     * @see org.apache.tapestry5.ioc.services.ThreadCleanupListener#threadDidCleanup()
+     */
+	public void threadDidCleanup()
+	{
+		try
+		{
+			this.indexSearcher.close();
+		}
+		catch (IOException ioe)
+		{
+			this.logger.error("Unable to close the IndexSearcher during thread cleanup: " + ioe.getMessage(), ioe);
+		}
+	}
+
+
+
 }

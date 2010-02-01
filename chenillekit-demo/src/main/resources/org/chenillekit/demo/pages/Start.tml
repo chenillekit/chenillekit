@@ -16,23 +16,5 @@
 
 <body t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd" xmlns="http://www.w3.org/1999/xhtml">
 
-<div class="yui-g">
-
-    <div class="yui-u first menu">
-
-        <span t:id="menu">the menu</span>
-
-    </div>
-
-    <div class="yui-u content">
-
-        <div class="yui-b">
-
-            content
-
-        </div>
-
-    </div>
-</div>
 
 </body>

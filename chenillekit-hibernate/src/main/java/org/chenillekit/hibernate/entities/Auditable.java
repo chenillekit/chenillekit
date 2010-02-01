@@ -17,7 +17,6 @@ package org.chenillekit.hibernate.entities;
 /**
  * interface extension for database entities that should be auditable.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface Auditable

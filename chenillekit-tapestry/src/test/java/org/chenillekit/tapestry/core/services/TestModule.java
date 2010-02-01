@@ -16,8 +16,10 @@ package org.chenillekit.tapestry.core.services;
 
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.SubModule;
+import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.services.AssetFactory;
 import org.apache.tapestry5.services.Context;
+import org.apache.tapestry5.SymbolConstants;
 
 import org.chenillekit.image.ChenilleKitImageModule;
 import org.chenillekit.image.services.ImageService;
@@ -25,16 +27,22 @@ import org.chenillekit.tapestry.core.services.impl.ThumbNailServiceImpl;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
-@SubModule(value = {ChenilleKitImageModule.class})
+@SubModule(value = { ChenilleKitImageModule.class })
 public class TestModule
 {
+    public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
+    {
+        configuration.add(SymbolConstants.APPLICATION_VERSION, "1.0-test");
+        configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
+    }
+
     public static ThumbNailService buildThumbnailService(Logger logger,
                                                          ImageService imageService,
                                                          Context context,
-                                                         @InjectService("ContextAssetFactory")AssetFactory assetFactory)
+                                                         @InjectService("ContextAssetFactory")
+                                                         AssetFactory assetFactory)
     {
         return new ThumbNailServiceImpl(logger, imageService, context, assetFactory);
     }

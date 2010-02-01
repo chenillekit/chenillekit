@@ -15,23 +15,23 @@
 package org.chenillekit.lucene.services;
 
 import java.io.IOException;
+import java.util.List;
 
-import org.apache.lucene.search.Hits;
+import org.apache.lucene.document.Document;
 
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.Test;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class LuceneSearcherServiceTest extends AbstractTestSuite
 {
-    @Test
+	@Test
     public void query_records() throws IOException
     {
         SearcherService service = registry.getService(SearcherService.class);
-        Hits hits = (Hits) service.search("content", "manufacturers OR \"British Government Warehouse\"");
-        assertEquals(hits.length(), 199);
+        List<Document> docs = service.search("content", "manufacturers OR \"British Government Warehouse\"", 200);
+        assertEquals(docs.size(), 199);
     }
 }

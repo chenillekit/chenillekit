@@ -32,8 +32,7 @@ import org.apache.tapestry5.services.AssetSource;
 /**
  * creates a window based on jvascript <a href="http://prototype-window.xilinus.com/">window</a> library.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
- * @version $Id: AbstractWindow.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"${tapestry.scriptaculous}/effects.js", "../components/window/window.js",
         "../components/window/window_effects.js"})

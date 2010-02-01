@@ -14,8 +14,6 @@
 
 package org.chenillekit.google.services;
 
-import java.util.Locale;
-
 import org.chenillekit.google.ChenilleKitGoogleTestModule;
 import org.chenillekit.google.utils.GeoCodeLocation;
 import org.chenillekit.google.utils.geocode.GeoCodeResult;
@@ -24,8 +22,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Locale;
+
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class TestGeoCoding extends AbstractTestSuite
@@ -106,7 +105,7 @@ public class TestGeoCoding extends AbstractTestSuite
     public void test_location_notexist(GeoCodeLocation geo1)
     {
         GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
-        assertTrue(result.getStatus().getCode() == GeoCodeResult.G_GEO_UNKNOWN_ADDRESS);
+        assertTrue(result.getPlacemarks().get(0).getAddressDetails().getAccuracy() == 5);
     }
 
     @Test(dataProvider = "location_exists")

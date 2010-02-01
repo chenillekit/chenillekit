@@ -21,19 +21,30 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.tapestry5.ioc.Resource;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public interface ConfigurationService
 {
     /**
      * get the configuration from the named resource.
+     * <p/>
+     * the system properties merged auto. into the returned configuration
      *
      * @param configurationResource the configuration resource
      *
      * @return the configuration
      */
     Configuration getConfiguration(Resource configurationResource);
+
+    /**
+     * get the configuration from the named resource.
+     *
+     * @param configurationResource the configuration resource
+     * @param mergeWithSysProps     merge the configuration resource with system properties
+     *
+     * @return the configuration
+     */
+    Configuration getConfiguration(Resource configurationResource, boolean mergeWithSysProps);
 
     /**
      * get the configuration from JNDI context.

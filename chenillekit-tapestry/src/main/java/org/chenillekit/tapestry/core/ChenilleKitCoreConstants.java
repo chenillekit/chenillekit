@@ -17,15 +17,15 @@ package org.chenillekit.tapestry.core;
 /**
  * some constants for t5components library.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: TapestryCommonsConstants.java 684 2008-05-26 23:32:28Z homburgs $
+ * @version $Id$
  */
 public class ChenilleKitCoreConstants
 {
     public static String __THUMBNAL_DIRECTORY__ = "thumbnails";
     public static String __CR__ = System.getProperty("line.separator");
     public static String __VERSION__;
-    public static String URI_PATH_PREFIX = "/uri/";
+    public static String URI_PREFIX = "uri";
+    public static String URI_PATH_PREFIX = "/" + URI_PREFIX + "/";
 
     private static ChenilleKitCoreConstants ourInstance = new ChenilleKitCoreConstants();
 

@@ -32,12 +32,11 @@ import org.chenillekit.tapestry.core.utils.XYDataItem;
 /**
  * chart component based on <a href="http://solutoire.com/flotr/">Flotr javascript library</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"${ck.components}/excanvas.js",
-        "${ck.components}/chart/flotr.debug-0.1.0alpha.js"})
+@IncludeJavaScriptLibrary(value = {"../excanvas.js",
+        "chart/flotr.debug-0.2.0-test.js"})
 public class Chart implements ClientElement
 {
     /**

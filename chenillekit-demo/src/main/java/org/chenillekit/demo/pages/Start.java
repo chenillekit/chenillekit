@@ -23,6 +23,4 @@ import org.chenillekit.demo.components.LeftSideMenu;
  */
 public class Start
 {
-    @Component(parameters = {"menuName=demo"})
-    private LeftSideMenu menu;
 }

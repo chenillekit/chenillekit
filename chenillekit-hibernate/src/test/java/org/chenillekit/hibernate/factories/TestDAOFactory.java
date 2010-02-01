@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 /**
  * This is a factory for the test DAOs.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class TestDAOFactory extends AbstractHibernateDAOFactory

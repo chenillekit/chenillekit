@@ -33,8 +33,7 @@ import org.slf4j.Logger;
 /**
  * service implementation for scripting framework <a href="http://jakarta.apache.org/bsf">BSF</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">homburgs</a>
- * @version $Id: BSFServiceImpl.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class BSFServiceImpl implements ScriptingService
 {

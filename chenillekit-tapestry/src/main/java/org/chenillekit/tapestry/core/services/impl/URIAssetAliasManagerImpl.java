@@ -27,8 +27,7 @@ import org.chenillekit.tapestry.core.ChenilleKitCoreConstants;
 import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
- * @version $Id: URIAssetAliasManagerImpl.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class URIAssetAliasManagerImpl implements URIAssetAliasManager
 {

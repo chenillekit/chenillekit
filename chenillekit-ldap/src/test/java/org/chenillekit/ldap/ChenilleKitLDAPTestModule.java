@@ -15,25 +15,21 @@
 package org.chenillekit.ldap;
 
 import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-import org.apache.tapestry5.ioc.services.ClassFactory;
-
-import org.chenillekit.core.ChenilleKitCoreModule;
-import org.chenillekit.ldap.services.SearcherService;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
- * @version $Id: ChenilleKitMailTestModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $
+ * @version $Id$
  */
-@SubModule(value = {ChenilleKitCoreModule.class, ChenilleKitLDAPModule.class})
+@SubModule(value = {ChenilleKitLDAPModule.class})
 public class ChenilleKitLDAPTestModule
 {
-    public static void contributeSimpleLdapSearcherService(ClassFactory classFactory,
-                                                           MappedConfiguration<String, Resource> configuration)
+    /**
+     * Contributes factory defaults that may be overridden.
+     */
+    public static void contributeApplicationDefaults(MappedConfiguration<String, String> contribution)
     {
-        Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "ldap.properties");
-        configuration.add(SearcherService.CONFIG_KEY, cpResource);
+        contribution.add(ChenilleKitLDAPConstants.LDAP_HOSTNAME, "x500.bund.de");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_AUTHDN, "");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_AUTHPWD, "");
     }
 }

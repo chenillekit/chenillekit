@@ -27,7 +27,6 @@ import org.testng.annotations.Test;
 /**
  * Testcase for the HiveMindObjectProvider
  *
- * @author <a href="mailto:mlusetti@gmail.com">Massimo Lusetti</a>
  * @version $Id$
  */
 public class TestHiveMindObjectProvider extends IOCInternalTestCase

@@ -24,8 +24,6 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.tapestry5.ioc.Resource;
-
 import org.chenillekit.google.services.GoogleGeoCoder;
 import org.chenillekit.google.utils.GeoCodeLocation;
 import org.chenillekit.google.utils.JSONException;
@@ -36,8 +34,7 @@ import org.slf4j.Logger;
 /**
  * This service let you ues some Google Maps services in your application.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: GoogleMapServiceImpl.java 388 2008-02-07 10:19:22Z homburgs $
+ * @version $Id$
  */
 public class GoogleGeoCoderImpl extends AbstractGoogleService implements GoogleGeoCoder
 {
@@ -47,11 +44,10 @@ public class GoogleGeoCoderImpl extends AbstractGoogleService implements GoogleG
      * standard constructor.
      *
      * @param logger         system logger
-     * @param configResource file that holds your google map setup
      */
-    public GoogleGeoCoderImpl(Logger logger, Resource configResource)
+    public GoogleGeoCoderImpl(Logger logger, String googleKey, int timeout, String referer, String proxy)
     {
-        super(logger, configResource);
+        super(logger, googleKey, timeout, referer, proxy);
         this.logger = logger;
     }
 
@@ -98,15 +94,14 @@ public class GoogleGeoCoderImpl extends AbstractGoogleService implements GoogleG
 
         try
         {
-            String proxy = getServiceConfiguration().getString(AbstractGoogleService.GOOGLE_PROXY, "");
             String queryString = String.format("%shttp://maps.google.com/maps/geo?q=%s,%s,%s,%s,%s&key=%s&gl=%s&output=json",
-                                               proxy,
+                                               getProxy(),
                                                getEncodedString(street),
                                                getEncodedString(country),
                                                getEncodedString(state),
                                                getEncodedString(zipCode),
                                                getEncodedString(city),
-                                               getAccessKey(),
+                                               getKey(),
                                                locale.getLanguage());
 
             if (logger.isDebugEnabled())
@@ -118,7 +113,7 @@ public class GoogleGeoCoderImpl extends AbstractGoogleService implements GoogleG
             URLConnection connection = url.openConnection(proxies.get(0));
             connection.setConnectTimeout(getTimeout());
             connection.setUseCaches(false);
-            connection.addRequestProperty("Referer", getServiceConfiguration().getString(AbstractGoogleService.GOOGLE_REFERER));
+            connection.addRequestProperty("Referer", getReferer());
 
             String line;
             StringBuilder builder = new StringBuilder();

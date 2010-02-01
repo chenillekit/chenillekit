@@ -27,7 +27,6 @@ import java.lang.annotation.Target;
 /**
  * marker for chenillekit secure module access control dispatcher.
  *
- * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD})

@@ -1,0 +1,109 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+
+    <div class="yui-g">
+
+		<div class="yui-u first menu">
+
+			<span t:id="menu">the menu</span>
+
+		</div>
+
+		<div class="yui-u content">
+
+			<div class="yui-b" style="padding-bottom: 20px;">
+				<a href="#" t:id="eventLink">This is an EvenLink</a>
+			</div>
+
+			<div class="yui-b" style="padding-bottom: 20px;">
+				<form t:type="form">
+
+					<div class="yui-b">
+						<div class="yui-gb">
+							<div class="yui-u first">
+								<label>Checkbox</label>
+							</div>
+							<div class="yui-u">
+								<input type="button" t:id="stateButton"/>
+							</div>
+							<div class="yui-u">
+								button is in
+								<t:if negate="true" test="stateButtonValue">un</t:if>
+								checked state
+							</div>
+						</div>
+					</div>
+
+					<div class="yui-b">
+						<div class="yui-gf">
+							<div class="yui-u first">
+								<label>Slider</label>
+							</div>
+							<div class="yui-u">
+								<div t:id="yuiSlider"/>
+								<span id="sliderValue" style="text-align:right;"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="yui-b">
+						<div class="yui-gf">
+							<div class="yui-u first">
+								<label>SimpleEditor</label>
+							</div>
+							<div class="yui-u">
+								<div t:id="yuiSimpleEditor" style="width:350px;height:250px;"/>
+							</div>
+						</div>
+					</div>
+
+					<br/>
+					<input type="submit"/>
+				</form>
+			</div>
+
+		</div>
+
+		<t:zone t:id="yuiZone" id="yuiZone">
+
+		</t:zone>
+
+		<p>
+			<a href="#" t:id="clicker">increment the count</a>
+		</p>
+
+	</div>
+
+	<t:block id="tab0">
+		dashfkjashdfkadsfkjadadsjfa
+	</t:block>
+
+	<t:block id="yuiDynamicTest">
+
+		<form t:type="form">
+			<input type="button" t:id="dynamicYuiButton"/>
+		</form>
+
+	</t:block>
+
+	<script language="JavaScript">
+		function sliderChangeCallback(newOffset, y)
+		{
+			$('sliderValue').innerHTML = newOffset;
+		}
+	</script>
+
+</span>

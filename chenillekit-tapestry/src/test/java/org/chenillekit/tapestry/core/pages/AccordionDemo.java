@@ -20,7 +20,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.chenillekit.tapestry.core.components.Accordion;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class AccordionDemo

@@ -23,13 +23,12 @@ import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Response;
 
+import org.chenillekit.core.resources.URIResource;
 import org.chenillekit.tapestry.core.ChenilleKitCoreConstants;
 import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
-import org.chenillekit.core.resources.URIResource;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
- * @version $Id: URIDispatcher.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class URIDispatcher implements Dispatcher
 {

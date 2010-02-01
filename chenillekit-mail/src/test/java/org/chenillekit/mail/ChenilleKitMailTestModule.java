@@ -18,20 +18,18 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-import org.apache.tapestry5.ioc.services.ClassFactory;
 
-import org.chenillekit.mail.services.SmtpService;
+import org.chenillekit.core.ChenilleKitCoreModule;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
-@SubModule(value = {ChenilleKitMailModule.class})
+@SubModule(value = {ChenilleKitCoreModule.class, ChenilleKitMailModule.class})
 public class ChenilleKitMailTestModule
 {
-    public static void contributeSmtpService(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
-    {
-        Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "smtp.properties");
-        configuration.add(SmtpService.CONFIG_KEY, cpResource);
-    }
+	public static void contributeMailService(MappedConfiguration<String, Resource> contributions)
+	{
+		Resource resource = new ClasspathResource("smtp.properties");
+		contributions.add(ChenilleKitMailConstants.PROPERTIES_KEY, resource);
+	}
 }

@@ -45,124 +45,144 @@ import org.apache.tapestry5.services.Request;
  * <p/>
  * <p>NOTE: This component is built on the 2.x version of FCKeditor.</p>
  *
- * @author Tod Orr
- * @version $Id: Editor.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  * @see <a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide">FCKeditor developer's guide</a>
  * @see <a href="http://docs.fckeditor.net/FCKeditor_2.x/Users_Guide">FCKeditor user's guide</a>
  */
 @IncludeJavaScriptLibrary("fckeditor/fckeditor.js")
 public class Editor extends AbstractTextField
 {
-    /**
-     * The height of the editor.
-     */
-    @Parameter(defaultPrefix = "literal", value = "300px")
-    private String _height;
+	/**
+	 * The height of the editor.
+	 */
+	@Parameter(defaultPrefix = "literal", value = "300px")
+	private String height;
 
-    /**
-     * The width of the editor.
-     */
-    @Parameter(defaultPrefix = "literal", value = "300px")
-    private String _width;
+	/**
+	 * The width of the editor.
+	 */
+	@Parameter(defaultPrefix = "literal", value = "300px")
+	private String width;
 
-    /**
-     * A custom configuration for this editor.
-     * See the FCKeditor manual for details on custom configurations.
-     */
-    @Parameter
-    private Asset _customConfiguration;
+	/**
+	 * A custom configuration for this editor.
+	 * See the FCKeditor manual for details on custom configurations.
+	 */
+	@Parameter
+	private Asset customConfiguration;
 
-    /**
-     * The toolbar set to be used with this editor. Default possible values
-     * are <code>Default</code> and <code>Basic</code>.
-     * Toolbar sets can be configured in a {@link #_customConfiguration custom configuration}.
-     */
-    @Parameter(defaultPrefix = "literal", value = "Default")
-    private String _toolbarSet;
+	/**
+	 * The toolbar set to be used with this editor. Default possible values
+	 * are <code>Default</code> and <code>Basic</code>.
+	 * Toolbar sets can be configured in a {@link #customConfiguration custom configuration}.
+	 */
+	@Parameter(defaultPrefix = "literal", value = "Default")
+	private String toolbarSet;
 
-    @Inject
-    private ClasspathAssetAliasManager _cpam;
+	@Inject
+	private ClasspathAssetAliasManager cpam;
 
-    @Inject
-    private SymbolSource _symbolSource;
+	@Inject
+	private SymbolSource symbolSource;
 
-    @Environmental
-    private RenderSupport _pageRenderSupport;
+	@Environmental
+	private RenderSupport renderSupport;
 
-    @Inject
-    private Request request;
+	@Inject
+	private Request request;
 
-    private String _value;
+	private String value;
 
-    @Override
-    protected final void writeFieldTag(MarkupWriter writer, String value)
-    {
-        // At it's most basic level, editor should function as a textarea.
-        writer.element("textarea",
-                       "name", getControlName(),
-                       "id", getClientId(),
-                       "cols", getWidth());
+	@Override
+	protected final void writeFieldTag(final MarkupWriter writer, final String value)
+	{
+		// At it's most basic level, editor should function as a textarea.
+		writer.element("textarea",
+					   "name", getControlName(),
+					   "id", getClientId(),
+					   "cols", getWidth());
 
-        // Save until needed in afterRender().
-        _value = value;
-    }
+		// Save until needed in afterRender().
+		this.value = value;
+	}
 
-    @AfterRender
-    final void afterRender(MarkupWriter writer)
-    {
-        if (_value != null) writer.write(_value);
-        writer.end();
-        writeScript();
-    }
+	@AfterRender
+	final void afterRender(final MarkupWriter writer)
+	{
+		if (value != null)
+		{
+			writer.write(value);
+		}
+		writer.end();
+		writeScript();
+	}
 
-    final void writeScript()
-    {
-        String editorVar = "editor_" + getClientId().replace(':', '_');
+	final void writeScript()
+	{
+		String editorVar = "editor_" + getClientId().replace('-', '_');
 
-        String fckEditorBasePath = _cpam.toClientURL(_symbolSource.expandSymbols("${ck.components}")) + "/fckeditor/";
+		String fckEditorBasePath = cpam.toClientURL(symbolSource.expandSymbols("${ck.components}")) + "/fckeditor/";
 
-        _pageRenderSupport.addScript("var %s = new FCKeditor('%s');", editorVar, getClientId());
-        _pageRenderSupport.addScript("%s.BasePath = '%s';", editorVar, fckEditorBasePath);
+		renderSupport.addScript("var %s = new FCKeditor('%s');", editorVar, getClientId());
+		renderSupport.addScript("%s.BasePath = '%s';", editorVar, fckEditorBasePath);
 
-        if (_customConfiguration != null)
-        {
-            /**
-             * FCK loads itself via an iframe, in which its own html file is loaded that
-             * takes care of bootstrapping the editor (which includes loading any custom
-             * config files). This html file is stored on the classpath and when it loads
-             * custom config files, it receives a relative name. The path of the html
-             * file is:
-             *
-             * org/chenillekit/tapestry/core/components/fckeditor/editor/fckeditor.html
-             *
-             * Now when that page is loaded in the iframe, it will load the configuration
-             * file by writing out a new script tag using the path it receives, which is
-             * relative. Because the path is relative tapestry interprets the config file
-             * to be a relative asset on the classpath (relative to the html file). So
-             * it looks for this on the classpath:
-             *
-             * org/chenillekit/tapestry/core/components/fckeditor/editor/myeditor.js
-             *
-             * Instead of something like:
-             *
-             * /MyApp/myeditor.js
-             *
-             * The following hack mangles the URL by appending the interpreted asset
-             * path to the (absolute) context path. This solves the problem for context
-             * and classpath assets.
-             */
-            String contextPath = request.getContextPath();
-            String hackedPath = _customConfiguration.toClientURL();
-            if (!hackedPath.startsWith(contextPath))
-                hackedPath = contextPath + "/" + hackedPath;
-            _pageRenderSupport.addScript("%s.Config['CustomConfigurationsPath'] = '%s';", editorVar, hackedPath);
-        }
+		if (customConfiguration != null)
+		{
+			renderSupport.addScript("%s.Config['CustomConfigurationsPath'] = '%s';",
+									editorVar,
+									getCustomizedConfigurationURL(customConfiguration));
+		}
 
-        if (_toolbarSet != null)
-            _pageRenderSupport.addScript("%s.ToolbarSet = '%s';", editorVar, _toolbarSet);
+		if (toolbarSet != null)
+		{
+			renderSupport.addScript("%s.ToolbarSet = '%s';", editorVar, toolbarSet);
+		}
 
-        _pageRenderSupport.addScript("%s.Height = '%s';", editorVar, _height);
-        _pageRenderSupport.addScript("%s.Width = '%s';", editorVar, _width);
-        _pageRenderSupport.addScript("%s.ReplaceTextarea();", editorVar);
-    }
+		renderSupport.addScript("%s.Height = '%s';", editorVar, height);
+		renderSupport.addScript("%s.Width = '%s';", editorVar, width);
+		renderSupport.addScript("%s.ReplaceTextarea();", editorVar);
+	}
+
+	/**
+	 * FCK loads itself via an iframe, in which its own html file is loaded that
+	 * takes care of bootstrapping the editor (which includes loading any custom
+	 * config files). This html file is stored on the classpath and when it loads
+	 * custom config files, it receives a relative name. The path of the html
+	 * file is:
+	 * <p/>
+	 * org/chenillekit/tapestry/core/components/fckeditor/editor/fckeditor.html
+	 * <p/>
+	 * Now when that page is loaded in the iframe, it will load the configuration
+	 * file by writing out a new script tag using the path it receives, which is
+	 * relative. Because the path is relative tapestry interprets the config file
+	 * to be a relative asset on the classpath (relative to the html file). So
+	 * it looks for this on the classpath:
+	 * <p/>
+	 * org/chenillekit/tapestry/core/components/fckeditor/editor/myeditor.js
+	 * <p/>
+	 * Instead of something like:
+	 * <p/>
+	 * /MyApp/myeditor.js
+	 * <p/>
+	 * The following hack mangles the URL by appending the interpreted asset
+	 * path to the (absolute) context path. This solves the problem for context
+	 * and classpath assets.
+	 */
+	protected String getCustomizedConfigurationURL(final Asset configurationAsset)
+	{
+		String hackedPath = null;
+		String contextPath = request.getContextPath();
+
+		if (configurationAsset != null)
+		{
+			hackedPath = configurationAsset.toClientURL();
+			if (hackedPath.startsWith("../"))
+				hackedPath = contextPath + hackedPath.substring(2);
+
+			if (!hackedPath.startsWith(contextPath))
+				hackedPath = contextPath + "/" + hackedPath;
+		}
+
+		return hackedPath;
+	}
 }

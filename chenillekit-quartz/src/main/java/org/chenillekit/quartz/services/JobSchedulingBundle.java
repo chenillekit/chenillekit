@@ -20,7 +20,6 @@ import org.quartz.Trigger;
 /**
  * job detail/trigger bundle.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SuppressWarnings({"JavaDoc"})

@@ -17,8 +17,7 @@ package org.chenillekit.tapestry.core.services;
 import org.apache.tapestry5.Asset;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
- * @version $Id: ThumbNailService.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public interface ThumbNailService
 {

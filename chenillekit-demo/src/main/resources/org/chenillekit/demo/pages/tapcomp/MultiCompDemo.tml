@@ -1,0 +1,134 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <div class="yui-g">
+
+        <div class="yui-u first menu">
+
+            <span t:id="menu">the menu</span>
+
+        </div>
+
+        <div class="yui-u content">
+
+            <div class="yui-g" style="width:100%">
+                <div class="yui-u first">
+
+                    <fieldset class="snippet">
+                        <legend>code snippet</legend>
+                        <pre>
+                            <![CDATA[
+@Component(parameters = {"element=img"})
+private ClickSubmit clickSubmit;
+]]>
+                        </pre>
+                    </fieldset>
+
+                    <fieldset class="sample">
+                        <legend>sample</legend>
+                        <form t:id="form1">
+                            <label style="margin-right:5px;">type your name</label>
+                            <input t:id="inputName" type="text" style="width:12em;margin-right:5px;"/>
+                            <img src="${asset:classpath:org/chenillekit/demo/assets/images/warning.gif}"
+                                 t:id="clickSubmit" alt="click to submit" title="click to submit"
+                                 style="vertical-align:text-bottom;cursor:pointer;"/>
+                            <p>
+                                Your last input was: ${name}
+                            </p>
+                        </form>
+                    </fieldset>
+
+                </div>
+                <div class="yui-u">
+
+                    <fieldset class="snippet">
+                        <legend>code snippet</legend>
+                        <pre>
+                            <![CDATA[
+@Component
+private LinkSubmit clickSubmit;
+]]>
+                        </pre>
+                    </fieldset>
+
+                    <fieldset class="sample">
+                        <legend>sample</legend>
+                        <form t:id="form2">
+							<label style="float:left; width:250px;">type a city</label>
+                            <input t:id="inputCity" type="text" style="width:12em;margin-right:5px;"/>
+							<br/>
+							<label style="float:left; width:250px;">choose a color</label>
+                            <input t:id="inputColor" type="text" style="width:12em;margin-right:5px;"/>
+							<br/>
+                            <a href="#" t:id="linkSubmit" title="click to submit">submit</a>
+                            <p>
+                                Your last input was: ${city} and ${color}
+                            </p>
+                        </form>
+                    </fieldset>
+
+                </div>
+            </div>
+
+			<div class="yui-g" style="width:100%">
+				<div class="yui-u first">
+
+					<fieldset class="snippet">
+						<legend>code snippet</legend>
+						<pre>
+							<![CDATA[
+@Component(parameters = {"value=dateValue"})
+private DateSelector dateSelector;
+]]>
+						</pre>
+					</fieldset>
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+						<form t:id="form3">
+							<label style="margin-right:5px;">choose your birthdate</label>
+							<select t:id="dateSelector"/>
+							<br/>
+							<input type="submit"/>
+							<p>
+								Your last input was: ${dateValue}
+							</p>
+						</form>
+					</fieldset>
+
+				</div>
+				<div class="yui-u">
+
+					<fieldset class="snippet">
+						<legend>code snippet</legend>
+						<pre>
+							<![CDATA[
+cdfff
+]]>
+						</pre>
+					</fieldset>
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+					</fieldset>
+
+				</div>
+			</div>
+
+		</div>
+    </div>
+
+</span>

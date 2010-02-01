@@ -27,7 +27,6 @@ import org.apache.tapestry5.services.BindingFactory;
 import org.apache.tapestry5.services.BindingSource;
 import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.LibraryMapping;
-
 import org.chenillekit.tapestry.core.factories.ListBindingFactory;
 import org.chenillekit.tapestry.core.factories.LoopBindingFactory;
 import org.chenillekit.tapestry.core.factories.MessageFormatBindingFactory;
@@ -41,18 +40,17 @@ import org.chenillekit.tapestry.core.services.impl.URIDispatcher;
 /**
  * module for chenillekit web module.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitCoreModule
 {
-    public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration)
+    public void contributeComponentClassResolver(Configuration<LibraryMapping> configuration)
     {
         configuration.add(new LibraryMapping("chenillekit", "org.chenillekit.tapestry.core"));
         configuration.add(new LibraryMapping("ck", "org.chenillekit.tapestry.core"));
     }
 
-    public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration)
+    public void contributeFactoryDefaults(MappedConfiguration<String, String> configuration)
     {
         // This is designed to make it easy to keep syncrhonized with FCKeditor. As we
         // support a new version, we create a new folder, and update the path entry. We can then
@@ -61,31 +59,27 @@ public class ChenilleKitCoreModule
         // contribution based on the path.
         configuration.add("ck.components", "org/chenillekit/tapestry/core/components");
         configuration.add("ck.fckeditor", "classpath:${ck.components}/fckeditor");
+
+        configuration.add("yahoo.yui.path", "org/chenillekit/tapestry/core/yui_2_8_0");
+        configuration.add("yahoo.yui", "classpath:${yahoo.yui.path}");
+
+        configuration.add("yahoo.yui.mode", "-min");
     }
 
-    public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
-                                                            @Symbol("ck.components")String scriptPath)
+    public void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
+                                                     @Symbol("ck.components") String scriptPath)
     {
         configuration.add("fckeditor/", scriptPath + "/fckeditor/");
         configuration.add("window/", scriptPath + "/window/");
     }
 
-    public static void contributeBindingSource(MappedConfiguration<String, BindingFactory> configuration,
-                                               BindingSource bindingSource)
+    public void contributeBindingSource(MappedConfiguration<String, BindingFactory> configuration,
+                                        BindingSource bindingSource)
     {
         configuration.add("messageformat", new MessageFormatBindingFactory(bindingSource));
         configuration.add("list", new ListBindingFactory(bindingSource));
         configuration.add("loop", new LoopBindingFactory(bindingSource));
         configuration.add("ognl", new OgnlBindingFactory());
-    }
-
-    /**
-     * The MasterDispatcher is a chain-of-command of individual Dispatchers, each handling (like a servlet) a particular
-     * kind of incoming request.
-     */
-    public void contributeMasterDispatcher(OrderedConfiguration<Dispatcher> configuration, ObjectLocator locator)
-    {
-        configuration.add("URI", locator.autobuild(URIDispatcher.class), "after:RootPath");
     }
 
     @Marker(URIProvider.class)
@@ -97,7 +91,7 @@ public class ChenilleKitCoreModule
     public void contributeAssetSource(MappedConfiguration<String, AssetFactory> configuration,
                                       @URIProvider AssetFactory uriAssetFactory)
     {
-        configuration.add("uri", uriAssetFactory);
+        configuration.add(ChenilleKitCoreConstants.URI_PREFIX, uriAssetFactory);
     }
 
     public static void bind(ServiceBinder binder)
@@ -105,4 +99,26 @@ public class ChenilleKitCoreModule
         binder.bind(URIAssetAliasManager.class, URIAssetAliasManagerImpl.class);
     }
 
+    /**
+     * The MasterDispatcher is a chain-of-command of individual Dispatchers, each handling (like a servlet) a particular
+     * kind of incoming request.
+     */
+    public void contributeMasterDispatcher(OrderedConfiguration<Dispatcher> configuration,
+                                           ObjectLocator locator)
+    {
+        configuration.add("Uri",
+                locator.autobuild(URIDispatcher.class), "before:Asset");
+
+    }
+
+    /**
+     * overide the tapestry configuration, that is too restrictive (missing .swf).
+     *
+     * @param regex
+     */
+    public void contributeRegexAuthorizer(org.apache.tapestry5.ioc.Configuration<String> regex)
+    {
+        String pathPattern = "([^/.]+/)*[^/.]+\\.((swf)|(css)|(js)|(jpg)|(jpeg)|(png)|(gif))$";
+        regex.add("^org/chenillekit/tapestry/" + pathPattern);
+    }
 }

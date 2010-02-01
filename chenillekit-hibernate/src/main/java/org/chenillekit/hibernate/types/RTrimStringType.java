@@ -26,7 +26,6 @@ import org.hibernate.usertype.UserType;
 /**
  * strips trailing blanks (SQL92)
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class RTrimStringType implements UserType

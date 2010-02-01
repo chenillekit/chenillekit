@@ -15,8 +15,7 @@
 package org.chenillekit.tapestry.core.services;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
- * @version $Id: URIAssetAliasManager.java 669 2008-05-09 00:05:47Z homburgs $
+ * @version $Id$
  */
 public interface URIAssetAliasManager
 {

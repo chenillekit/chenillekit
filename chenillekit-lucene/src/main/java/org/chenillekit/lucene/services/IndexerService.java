@@ -14,47 +14,21 @@
 
 package org.chenillekit.lucene.services;
 
+import org.apache.lucene.document.Document;
+
 /**
  * implements indexer based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
-public interface IndexerService<T>
+public interface IndexerService
 {
-    public final String CONFIG_KEY_PROPERTIES = "lucene.properties";
-    public final String PROPERTIES_KEY_IF = "search.index.folder";
-    public final String PROPERTIES_KEY_OIF = "search.overwrite.index.folder";
-    public final String PROPERTIES_KEY_ACN = "search.analyzer.class.name";
-    public final String PROPERTIES_KEY_MFL = "search.max.field.length";
-    public final String PROPERTIES_KEY_OPT = "optimize.after.ramwriter.closed";
-    public final String PROPERTIES_KEY_ELO = "enable.lucene.log.output";
-
-    /**
-     * optimize the index.
-     *
-     * @return un-/successfull optimized
-     */
-    void optimizeIndex();
-
-    /**
-     * service schould use the indexwriter or not.
-     *
-     * @param use
-     */
-    void useRamWriter(boolean use);
-
-    /**
-     * test if ram indexwriter is active.
-     */
-    boolean isRamWriterActive();
-
     /**
      * add a document to the standard index.
      *
      * @param document
      */
-    void addDocument(T document);
+    void addDocument(Document document);
 
     /**
      * delete documents by the given field name and the query.
@@ -65,9 +39,27 @@ public interface IndexerService<T>
     void delDocuments(String field, String queryString);
 
     /**
-     * get the amount of documents stored in the disk index.
+     * Get the number of documents stored in the disk index. Be aware the
+     * presumably this methods delegates to a <code>synchronized</code>
+     * methods.
      *
-     * @return amount of documents
+     * @return the number of documents indexed
      */
     int getDocCount();
+    
+    /**
+     * Get the number of documents stored in the index counting
+     * the deletions. Be aware the
+     * presumably this methods delegates to a <code>synchronized</code>
+     * methods.
+     * This methods should never return a checked exception.
+     * 
+     * @return the number of documents indexed
+     */
+    int getDocCountWithDeletions();
+
+    /**
+     * Force a commit of changes to the index
+     */
+    void commit();
 }

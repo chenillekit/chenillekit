@@ -15,12 +15,14 @@
 package org.chenillekit.quartz;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.EagerLoad;
+import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
@@ -35,77 +37,74 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class ChenilleKitQuartzModule
 {
     /**
      * bind the <a href="http://www.opensymphony.com/quartz/">Quartz</a> scheduler factory.
+     * <p/>
+     * first we look for configuration contribution. if not exists (is null) we try to access
+     * the quartz.properties in classpath.
      *
-     * @param configuration IOC configuration map
-     * @param shutdownHub   the shutdown hub
+     * @param shutdownHub the shutdown hub
      *
      * @return scheduler factory
      */
-    public static SchedulerFactory buildSchedulerFactory(Logger logger, Map<String, Resource> configuration,
-                                                         RegistryShutdownHub shutdownHub)
+    public static SchedulerFactory buildSchedulerFactory(Logger logger,
+                                                         RegistryShutdownHub shutdownHub,
+                                                         Map<String, Resource> contributions)
     {
-        final SchedulerFactory factory;
+        if (logger.isInfoEnabled())
+            logger.info("initialize scheduler factory");
 
-        if (configuration.containsKey("quartz.properties"))
+        try
         {
-            try
-            {
-                Properties properties = new Properties();
-                properties.load(configuration.get("quartz.properties").openStream());
+            Resource resource = contributions.get(ChenilleKitQuartzConstants.CONFIG_RESOURCE_KEY);
+            if (resource == null)
+                resource = new ClasspathResource("/" + ChenilleKitQuartzConstants.CONFIG_RESOURCE_KEY);
 
-                if (logger.isInfoEnabled())
-                    logger.info("initialize configured scheduler factory");
+            if (!resource.exists())
+                throw new RuntimeException(String.format("Quartz properties resource '%s' doesnt exists!", resource));
 
-                factory = new StdSchedulerFactory(properties);
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-            catch (SchedulerException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }
-        else
-        {
-            if (logger.isInfoEnabled())
-                logger.info("initialize un-configured scheduler factory");
+            InputStream in = resource.openStream();
+            Properties prop = new Properties();
+            prop.load(in);
 
-            factory = new StdSchedulerFactory();
-        }
+            final SchedulerFactory factory = new StdSchedulerFactory(prop);
 
-        shutdownHub.addRegistryShutdownListener(new RegistryShutdownListener()
-        {
-            /**
-             * Invoked when the registry shuts down, giving services a chance to perform any final operations. Service
-             * implementations should not attempt to invoke methods on other services (via proxies) as the service proxies may
-             * themselves be shutdown.
-             */
-            public void registryDidShutdown()
+            shutdownHub.addRegistryShutdownListener(new RegistryShutdownListener()
             {
-                try
+                /**
+                 * Invoked when the registry shuts down, giving services a chance to perform any final operations. Service
+                 * implementations should not attempt to invoke methods on other services (via proxies) as the service proxies may
+                 * themselves be shutdown.
+                 */
+                public void registryDidShutdown()
                 {
-                    List<Scheduler> schedulers = CollectionFactory.newList(factory.getAllSchedulers());
-                    for (Scheduler scheduler : schedulers)
-                        scheduler.shutdown();
+                    try
+                    {
+                        List<Scheduler> schedulers = CollectionFactory.newList(factory.getAllSchedulers());
+                        for (Scheduler scheduler : schedulers)
+                            scheduler.shutdown();
+                    }
+                    catch (SchedulerException e)
+                    {
+                        throw new RuntimeException(e);
+                    }
                 }
-                catch (SchedulerException e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+            });
 
-        return factory;
-
+            return factory;
+        }
+        catch (IOException ioe)
+        {
+            throw new RuntimeException(ioe);
+        }
+        catch (SchedulerException se)
+        {
+            throw new RuntimeException(se);
+        }
     }
 
     /**

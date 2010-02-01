@@ -17,81 +17,109 @@ package org.chenillekit.tapestry.core.base;
 import java.util.List;
 
 import org.apache.tapestry5.ClientElement;
+import org.apache.tapestry5.ComponentEventCallback;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.Link;
-import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.InjectContainer;
 import org.apache.tapestry5.annotations.MixinAfter;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.internal.util.Holder;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.Request;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: AbstractEventMixin.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "../components/CkOnEvents.js"})
 @MixinAfter
 abstract public class AbstractEventMixin implements EventMixin
 {
-    @Inject
-    private ComponentResources resources;
+	private static String EVENT_NAME = "internalEvent";
 
-    @InjectContainer
-    private ClientElement clientElement;
+	private static String PARAM_NAME = "value";
 
-    /**
-     * the javascript callback function (optional).
-     * function has one parameter: the response text
-     */
-    @Parameter(required = false, defaultPrefix = "literal")
-    private String onCompleteCallback;
+	@Inject
+	private Request request;
 
-    /**
-     * <a href="http://www.prototypejs.org/api/event/stop">Event.stop</a>
-     */
-    @Parameter(required = false, defaultPrefix = "literal")
-    private boolean stop;
+	@Inject
+	private ComponentResources resources;
 
-    /**
-     * The context for the link (optional parameter). This list of values will be converted into strings and included in
-     * the URI. The strings will be coerced back to whatever their values are and made available to event handler
-     * methods.
-     */
-    @Parameter
-    private List<?> context;
+	@InjectContainer
+	private ClientElement clientElement;
 
-    @Environmental
-    private RenderSupport pageRenderSupport;
+	/**
+	 * the javascript callback function (optional).
+	 * function has one parameter: the response text
+	 */
+	@Parameter(required = false, defaultPrefix = "literal")
+	private String onCompleteCallback;
 
-    private Object[] contextArray;
+	/**
+	 * <a href="http://www.prototypejs.org/api/event/stop">Event.stop</a>
+	 */
+	@Parameter(required = false, defaultPrefix = "literal")
+	private boolean stop;
 
-    /**
-     * get the conext parameter(s)
-     *
-     * @return conext parameter(s)
-     */
-    public List<?> getContext()
-    {
-        return context;
-    }
+	/**
+	 * The context for the link (optional parameter). This list of values will be converted into strings and included in
+	 * the URI. The strings will be coerced back to whatever their values are and made available to event handler
+	 * methods.
+	 */
+	@Parameter
+	private List<?> context;
 
-    void setupRender()
-    {
-        contextArray = context == null ? new Object[0] : context.toArray();
-    }
+	@Environmental
+	private RenderSupport pageRenderSupport;
 
-    void afterRender(MarkupWriter writer)
-    {
-        Link link = resources.createEventLink(getEventName().toLowerCase(), contextArray);
-        String id = clientElement.getClientId();
+	private Object[] contextArray;
 
-        String callback = resources.isBound("onCompleteCallback") ? "'" + onCompleteCallback + "'" : null;
-        boolean doStop = resources.isBound("stop") && stop;
+	/**
+	 * get the conext parameter(s)
+	 *
+	 * @return conext parameter(s)
+	 */
+	public List<?> getContext()
+	{
+		return context;
+	}
 
-        pageRenderSupport.addScript("new Ck.OnEvent('%s', '%s', %b, '%s', %s);",
-                                    getEventName(), id, doStop, link.toAbsoluteURI(), callback);
-    }
+	void setupRender()
+	{
+		contextArray = context == null ? new Object[0] : context.toArray();
+	}
+
+	void afterRender()
+	{
+		Link link = resources.createEventLink(EVENT_NAME, contextArray);
+		String id = clientElement.getClientId();
+
+		String jsString = "new Ck.OnEvent('%s', '%s', %b, '%s', '%s');";
+		String callBackString = resources.isBound("onCompleteCallback") ? onCompleteCallback : "";
+		boolean doStop = resources.isBound("stop") && stop;
+
+		pageRenderSupport.addScript(jsString, getEventName(), id, doStop, link.toAbsoluteURI(), callBackString);
+	}
+
+	Object onInternalEvent()
+	{
+		String input = request.getParameter(PARAM_NAME);
+
+		final Holder<Object> valueHolder = Holder.create();
+
+		ComponentEventCallback callback = new ComponentEventCallback<Object>()
+		{
+			public boolean handleResult(Object result)
+			{
+				valueHolder.put(result);
+				return true;
+			}
+		};
+
+		resources.triggerEvent(getEventName(), new Object[]{input}, callback);
+
+		return valueHolder.get();
+	}
 }

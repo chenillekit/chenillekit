@@ -1,172 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.chenillekit</groupId>
-    <artifactId>chenillekit-hivemind</artifactId>
-    <packaging>jar</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.chenillekit</groupId>
+	<artifactId>chenillekit-hivemind</artifactId>
+	<packaging>jar</packaging>
 
-    <parent>
-        <groupId>org.chenillekit</groupId>
-        <artifactId>chenillekit-project</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.chenillekit</groupId>
+		<artifactId>chenillekit-project</artifactId>
+        <version>1.3.0-SNAPSHOT</version>
+	</parent>
 
-    <name>Chenillekit Hivemind</name>
-    <version>0.0.1-SNAPSHOT</version>
-    <description>
-        A collection of hivemind related utils
-    </description>
+	<name>Chenillekit Hivemind</name>
+	<version>1.2.0</version>
+	<description>
+		A collection of hivemind related utils
+	</description>
 
-    <scm>
-        <url>http://chenillekit.googlecode.com/svn/trunk/chenillekit-hivemind/</url>
-        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/chenillekit-hivemind/</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/chenillekit-hivemind/</developerConnection>
-    </scm>
+	<scm>
+		<connection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
+		</connection>
+		<developerConnection>
+			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
+		</developerConnection>
+		<url>
+			http://tapestry.formos.com/cgi-bin/viewvc.cgi/chenillekit/trunk/${artifactId}/
+		</url>
+	</scm>
 
-    <!--
-    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    + dependencies for this module
-    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    -->
-    <dependencies>
+	<!--
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	+ dependencies for this module
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	-->
+	<dependencies>
 
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>tapestry-ioc</artifactId>
-        </dependency>
+		<!-- testing libs -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<classifier>jdk15</classifier>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>hivemind</groupId>
-            <artifactId>hivemind</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-ioc</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>oro</groupId>
+			<artifactId>oro</artifactId>
+			<version>2.0.8</version>
+		</dependency>
 
-        <dependency>
-            <groupId>oro</groupId>
-            <artifactId>oro</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>hivemind</groupId>
+			<artifactId>hivemind</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 
-    <build>
+	<build>
+		<plugins>
 
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
+			<!--
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			+ pack the jar archive
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<compress>true</compress>
+						<index>true</index>
+						<manifestEntries>
+							<Tapestry-Module-Classes>
+								org.chenillekit.hivemind.ChenilleKitHivemindModule
+							</Tapestry-Module-Classes>
+							<Implementation-Version>
+								${project.version}
+							</Implementation-Version>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
 
-        <plugins>
-
-            <!--
-            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            + build the module site
-            ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <templateFile>${basedir}/../src/site/maven-site.vm</templateFile>
-                    <stagingDirectory>${basedir}/../target/staging</stagingDirectory>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <compress>true</compress>
-                        <index>true</index>
-                        <manifestEntries>
-                            <Tapestry-Module-Classes>
-                                org.chenillekit.hivemind.ChenilleHivemindModule
-                            </Tapestry-Module-Classes>
-                            <Implementation-Version>
-                                ${project.version}
-                            </Implementation-Version>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>summary</report>
-                            <report>dependencies</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-
-        </plugins>
-    </reporting>
-
-    <profiles>
-        <profile>
-            <id>assembly</id>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/assembly/bin.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+		</plugins>
+	</build>
 
 </project>

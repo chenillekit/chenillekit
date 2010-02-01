@@ -34,235 +34,285 @@ import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.corelib.base.AbstractField;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.internal.util.InternalUtils;
+import org.apache.tapestry5.json.JSONObject;
+import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.services.FieldValidatorDefaultSource;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.ComponentDefaultProvider;
-import org.apache.tapestry5.json.JSONObject;
 
 /**
  * A component used to collect a provided date/time from the user using a client-side JavaScript calendar. Non-JavaScript
  * clients can simply type into a text field.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 @IncludeStylesheet("datetimefield/datepicker.css")
 @IncludeJavaScriptLibrary({"datetimefield/datepicker.js", "../prototype-base-extensions.js",
-        "../prototype-date-extensions.js"})
+		"../prototype-date-extensions.js"})
 public class DateTimeField extends AbstractField
 {
-    /**
-     * The value parameter of a DateField must be a {@link java.util.Date}.
-     */
-    @Parameter(required = true, principal = true)
-    private Date value;
+	/**
+	 * The value parameter of a DateField must be a {@link java.util.Date}.
+	 */
+	@Parameter(required = true, principal = true)
+	private Date value;
 
-    /**
-     * The object that will perform input validation (which occurs after translation). The translate binding prefix is
-     * generally used to provide this object in a declarative fashion.
-     */
-    @Parameter(defaultPrefix = BindingConstants.VALIDATE)
-    @SuppressWarnings("unchecked")
-    private FieldValidator<Object> validate;
+	/**
+	 * The object that will perform input validation (which occurs after translation). The translate binding prefix is
+	 * generally used to provide this object in a declarative fashion.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.VALIDATE)
+	@SuppressWarnings("unchecked")
+	private FieldValidator<Object> validate;
 
-    @Parameter(defaultPrefix = BindingConstants.ASSET, value = "datetimefield/calendar.png")
-    private Asset icon;
+	@Parameter(defaultPrefix = BindingConstants.ASSET, value = "datetimefield/calendar.png")
+	private Asset icon;
 
-    /**
-     * the pattern describing the date and time format {@link java.text.SimpleDateFormat}.
-     */
-    @Parameter(defaultPrefix = BindingConstants.LITERAL, value = "MM/dd/yyyy")
-    private String datePattern;
+	/**
+	 * the pattern describing the date and time format {@link java.text.SimpleDateFormat}.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "MM/dd/yyyy")
+	private String datePattern;
 
-    /**
-     * a boolean value determining whether to display the time picker. Defaults to false.
-     */
-    @Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
-    private boolean timePicker;
+	/**
+	 * a boolean value determining whether to display the date picker. Defaults to true.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
+	private boolean datePicker;
 
-    /**
-     * a boolean value determining whether to display the time picker next to the date picker (true) or under it (false, default).
-     */
-    @Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
-    private boolean timePickerAdjacent;
+	/**
+	 * a boolean value determining whether to display the time picker. Defaults to false.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
+	private boolean timePicker;
 
-    @Environmental
-    private RenderSupport support;
+	/**
+	 * a boolean value determining whether to display the time picker next to the date picker (true) or under it (false, default).
+	 */
+	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
+	private boolean timePickerAdjacent;
 
-    @Environmental
-    private ValidationTracker tracker;
+	/**
+	 * a boolean value determining whether to display the time in AM/PM or 24 hour notation. Defaults to false.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
+	private boolean use24hrs;
 
-    @Inject
-    private ComponentResources resources;
+	/**
+	 * a named javascript function, that executed after the date selected by the picker.
+	 * there should one function parameter that holds the input dom element.
+	 * This funtion should returns true or false.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, required = false)
+	private String afterUpdateElement;
 
-    @Inject
-    private Messages messages;
+	/**
+	 * Specify whether or not date/time parsing is to be lenient.
+	 * With lenient parsing, the parser may use heuristics to interpret inputs that do not precisely match this object's format.
+	 * With strict parsing, inputs must match this object's format.
+	 */
+	@Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
+	private boolean lenient;
 
-    @Inject
-    private Request request;
+	@Environmental
+	private RenderSupport support;
 
-    @Inject
-    private Locale locale;
+	@Environmental
+	private ValidationTracker tracker;
 
-    @Inject
-    private FieldValidatorDefaultSource fieldValidatorDefaultSource;
+	@Inject
+	private ComponentResources resources;
 
-    @Inject
-    private FieldValidationSupport fieldValidationSupport;
+	@Inject
+	private Messages messages;
 
-    @Inject
-    private ComponentDefaultProvider defaultProvider;
+	@Inject
+	private Request request;
 
-    /**
-     * For output, format nicely and unambiguously as four digits.
-     */
-    private DateFormat outputFormat;
+	@Inject
+	private Locale locale;
 
-    /**
-     * When the user types a value, they may only type two digits for the year; SimpleDateFormat will do something
-     * reasonable.  If they use the popup, it will be unambiguously 4 digits.
-     */
-    private DateFormat inputFormat;
+	@Inject
+	private FieldValidatorDefaultSource fieldValidatorDefaultSource;
 
-    /**
-     * The default value is a property of the container whose name matches the component's id. May return null if the
-     * container does not have a matching property.
-     */
-    final Binding defaultValue()
-    {
-        return createDefaultParameterBinding("value");
-    }
+	@Inject
+	private FieldValidationSupport fieldValidationSupport;
 
-    /**
-     * Computes a default value for the "validate" parameter using {@link org.apache.tapestry5.services.ComponentDefaultProvider}.
-     */
-    final FieldValidator defaultValidate()
-    {
-        return defaultProvider.defaultValidator("value", resources);
-    }
+	@Inject
+	private ComponentDefaultProvider defaultProvider;
 
-    /**
-     * Tapestry render phase method.
-     * Initialize temporary instance variables here.
-     */
-    void setupRender()
-    {
-        outputFormat = new SimpleDateFormat(datePattern);
-    }
+	@Inject
+	@Path("datetimefield/clock.png")
+	private Asset clockAsset;
 
+	/**
+	 * For output, format nicely and unambiguously as four digits.
+	 */
+	private DateFormat outputFormat;
 
-    void beginRender(MarkupWriter writer)
-    {
-        String value = tracker.getInput(this);
+	/**
+	 * When the user types a value, they may only type two digits for the year; SimpleDateFormat will do something
+	 * reasonable.  If they use the popup, it will be unambiguously 4 digits.
+	 */
+	private DateFormat inputFormat;
 
-        if (value == null) value = formatCurrentValue();
+	/**
+	 * The default value is a property of the container whose name matches the component's id. May return null if the
+	 * container does not have a matching property.
+	 */
+	final Binding defaultValue()
+	{
+		return createDefaultParameterBinding("value");
+	}
 
-        String clientId = getClientId();
+	/**
+	 * Computes a default value for the "validate" parameter using {@link org.apache.tapestry5.services.ComponentDefaultProvider}.
+	 */
+	final Binding defaultValidate()
+	{
+		return defaultProvider.defaultValidatorBinding("value", resources);
+	}
 
-        writer.element("input",
-
-                       "type", "text",
-
-                       "class", "datepicker",
-
-                       "name", getControlName(),
-
-                       "id", clientId,
-
-                       "value", value);
-
-        writeDisabled(writer);
-
-        validate.render(writer);
-
-        resources.renderInformalParameters(writer);
-
-        decorateInsideField();
-
-        writer.end();
-
-        // The setup parameters passed to Calendar.setup():
-
-        JSONObject setup = new JSONObject();
-
-        setup.put("icon", icon.toClientURL());
-        setup.put("timePicker", timePicker);
-        setup.put("timePickerAdjacent", timePickerAdjacent);
-        setup.put("locale", request.getLocale().toString());
-        if (timePicker)
-            setup.put("dateTimeFormat", datePattern);
-        else
-            setup.put("dateFormat", datePattern);
-
-        support.addScript("new Control.DatePicker('%s', %s);", getClientId(), setup);
-    }
-
-    private void writeDisabled(MarkupWriter writer)
-    {
-        if (isDisabled()) writer.attributes("disabled", "disabled");
-    }
+	/**
+	 * Tapestry render phase method.
+	 * Initialize temporary instance variables here.
+	 */
+	void setupRender()
+	{
+		outputFormat = new SimpleDateFormat(datePattern, locale);
+	}
 
 
-    private String formatCurrentValue()
-    {
-        if (value == null) return "";
+	void beginRender(MarkupWriter writer)
+	{
+		Asset componentIcon;
+		String value = tracker.getInput(this);
 
-        return outputFormat.format(value);
-    }
+		if (value == null) value = formatCurrentValue();
 
-    @Override
-    protected void processSubmission(String elementName)
-    {
-        String value = request.getParameter(elementName);
+		String clientId = getClientId();
 
-        tracker.recordInput(this, value);
+		writer.element("input",
 
-        Date parsedValue = null;
+					   "type", "text",
 
-        try
-        {
-            if (InternalUtils.isNonBlank(value))
-            {
-                inputFormat = new SimpleDateFormat(datePattern);
-                parsedValue = inputFormat.parse(value);
-            }
+					   "class", "datepicker",
 
-        }
-        catch (ParseException ex)
-        {
-            tracker.recordError(this, "Date value is not parseable.");
-            return;
-        }
+					   "name", getControlName(),
 
-        try
-        {
-            fieldValidationSupport.validate(parsedValue, resources, validate);
+					   "id", clientId,
 
-            this.value = parsedValue;
-        }
-        catch (ValidationException ex)
-        {
-            tracker.recordError(this, ex.getMessage());
-        }
-    }
+					   "value", value);
 
-    void injectResources(ComponentResources resources)
-    {
-        this.resources = resources;
-    }
+		writeDisabled(writer);
 
-    void injectMessages(Messages messages)
-    {
-        this.messages = messages;
-    }
+		validate.render(writer);
 
-    @Override
-    public boolean isRequired()
-    {
-        return validate.isRequired();
-    }
+		resources.renderInformalParameters(writer);
+
+		decorateInsideField();
+
+		writer.end();
+
+		// The setup parameters passed to Calendar.setup():
+
+		JSONObject setup = new JSONObject();
+
+		if (!datePicker && !timePicker)
+			throw new RuntimeException("both date- and timePicker set to false, that is senseless!");
+
+		if (!datePicker && timePicker)
+			componentIcon = clockAsset;
+		else
+			componentIcon = icon;
+
+		setup.put("icon", componentIcon.toClientURL());
+		setup.put("datePicker", datePicker);
+		setup.put("timePicker", timePicker);
+		setup.put("timePickerAdjacent", timePickerAdjacent);
+		setup.put("use24hrs", use24hrs);
+		setup.put("locale", locale.toString());
+
+		if (afterUpdateElement != null)
+			setup.put("afterUpdateElement", afterUpdateElement);
+
+		if (datePicker && timePicker)
+			setup.put("dateTimeFormat", datePattern);
+		else if (datePicker)
+			setup.put("dateFormat", datePattern);
+		else
+			setup.put("timeFormat", datePattern);
+
+		support.addScript("new Control.DatePicker('%s', %s);", getClientId(), setup);
+	}
+
+	private void writeDisabled(MarkupWriter writer)
+	{
+		if (isDisabled()) writer.attributes("disabled", "disabled");
+	}
+
+
+	private String formatCurrentValue()
+	{
+		if (value == null) return "";
+
+		return outputFormat.format(value);
+	}
+
+	@Override
+	protected void processSubmission(String elementName)
+	{
+		String value = request.getParameter(elementName);
+
+		tracker.recordInput(this, value);
+
+		Date parsedValue = null;
+
+		try
+		{
+			if (InternalUtils.isNonBlank(value))
+			{
+				inputFormat = new SimpleDateFormat(datePattern, locale);
+				inputFormat.setLenient(lenient);
+				parsedValue = inputFormat.parse(value);
+			}
+
+		}
+		catch (ParseException ex)
+		{
+			tracker.recordError(this, messages.format("date.not.parseable", value));
+			return;
+		}
+
+		try
+		{
+			fieldValidationSupport.validate(parsedValue, resources, validate);
+
+			this.value = parsedValue;
+		}
+		catch (ValidationException ex)
+		{
+			tracker.recordError(this, ex.getMessage());
+		}
+	}
+
+	void injectResources(ComponentResources resources)
+	{
+		this.resources = resources;
+	}
+
+	void injectMessages(Messages messages)
+	{
+		this.messages = messages;
+	}
+
+	@Override
+	public boolean isRequired()
+	{
+		return validate.isRequired();
+	}
 }

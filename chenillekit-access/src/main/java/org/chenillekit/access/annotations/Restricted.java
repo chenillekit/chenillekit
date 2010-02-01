@@ -21,10 +21,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * this annotation holds the role ids and the group names the user
- * must have in his profile to access this marked page.
+ * Annotation to hold role weight and/or group names the user
+ * must fulfill in his profile to access a restricted page.
  *
- * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
  * @version $Id$
  */
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
@@ -32,7 +31,13 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Restricted
 {
-    int[] roles();
+	/**
+	 * @return the <em>minimum</em> role weight a user should own
+	 */
+	int role() default 0;
 
-    String[] groups() default {};
+	/**
+	 * @return the groups names (or ids if you like) a user should be listed in
+	 */
+	String[] groups() default {};
 }

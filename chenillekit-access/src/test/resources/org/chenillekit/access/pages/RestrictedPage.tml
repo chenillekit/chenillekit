@@ -24,7 +24,9 @@
 <body>
 
 <span id="has_access">Has Access</span>
+<span id="role_meta_value">${roleMetaValue}</span>
 
+<span id="activation_context">Context: ${activationContext}</span>
 
 </body>
 </html>

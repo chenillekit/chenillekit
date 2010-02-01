@@ -22,17 +22,11 @@ import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import org.chenillekit.reports.services.ReportsService;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @SubModule(value = {ChenilleKitReportsModule.class})
 public class ChenilleKitReportsTestModule
 {
-    /**
-     * wo liegen die Entities fuer das Masterdata5 Modul.
-     *
-     * @param configuration
-     */
     public static void contributeReportsService(MappedConfiguration<String, Resource> configuration)
     {
         configuration.add(ReportsService.CONFIG_RESOURCE_KEY, new ClasspathResource("jasperreports.properties"));

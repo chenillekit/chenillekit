@@ -25,7 +25,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 @Entity

@@ -2,3 +2,57 @@
  HowTo use chenillekit's report module
  ---
 
+Configure the report service
+
+  To configure the report service, insert the contribution into your application module like the sample.
+  If you want to use the default values, leave it.
+
++---+
+public static void contributeReportsService(MappedConfiguration<String, Resource> configuration)
+{
+	configuration.add(ReportsService.CONFIG_RESOURCE_KEY, new ClasspathResource("jasperreports.properties"));
+}
++---+
+
+Using the report service in a Tapestry page 
+
++---+
+public class BrowseOrderPage
+{
+	@Property
+	private ShipmentOrder gridRow;
+
+	@Component(parameters = {"event=printShipmentSticker", "context=gridRow.id"})
+	private EventLink printShipmentStickerLink;
+
+	@Inject
+	private ShipmentOrderDAO shipmentOrderDAO;
+
+	@Inject
+	private ReportsService reportsService;
+
+	@Inject
+	@Path(value = "context:WEB-INF/templates/RecipientEtiketts_A4.jrxml")
+	private Asset shipmentStickerForm;
+
+	@Inject
+	private Context context;
+
+	/**
+	 * print the shipment sticker.
+	 */
+	@OnEvent(value = "printShipmentSticker")
+	StreamResponse printShipmentSticker(long entityId) throws IOException
+	{
+		ByteArrayInputStream bais;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		Map parameterMap = new HashMap();
+
+		parameterMap.put("report_base_path", context.getRealFile("/").getAbsolutePath());
+		JRSingleBeanDataSource dataSource = new JRSingleBeanDataSource(shipmentOrderDAO.doRetrieve(entityId, false));
+		reportsService.fillAndExport(shipmentStickerForm.getResource(), ExportFormat.PDF, parameterMap, dataSource, baos);
+		ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+		return new PdfStreamResponse(bais, "ShipmentSticker", baos.size());
+	}
+}
++---+

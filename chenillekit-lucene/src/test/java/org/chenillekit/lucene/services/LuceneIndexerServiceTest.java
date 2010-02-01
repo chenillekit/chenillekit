@@ -26,7 +26,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-
 import org.chenillekit.lucene.ChenilleKitLuceneTestModule;
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeClass;
@@ -34,7 +33,6 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class LuceneIndexerServiceTest extends AbstractTestSuite
@@ -55,9 +53,9 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
         String[] fileNames = new String[]{"airbag.txt", "consp.txt", "aliens.txt"};
 
         Document document = new Document();
-        document.add(new Field("id", "", Field.Store.YES, Field.Index.UN_TOKENIZED));
-        document.add(new Field("url", "", Field.Store.YES, Field.Index.UN_TOKENIZED));
-        document.add(new Field("content", "", Field.Store.YES, Field.Index.TOKENIZED));
+        document.add(new Field("id", "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        document.add(new Field("url", "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        document.add(new Field("content", "", Field.Store.YES, Field.Index.ANALYZED));
 
         for (int i = 0; i < repeating; i++)
         {
@@ -78,6 +76,8 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
     {
         IndexerService service = registry.getService(IndexerService.class);
         assertEquals(service.getDocCount(), repeating * docAmount);
+
+        service.commit();
     }
 
     @Test(dependsOnMethods = {"indexed_records"})
@@ -85,8 +85,9 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
     {
         IndexerService service = registry.getService(IndexerService.class);
         service.delDocuments("id", "consp.txt_1");
-        service.optimizeIndex();
-        assertEquals(service.getDocCount(), (repeating * docAmount) - 1);
+        assertEquals(service.getDocCount(), (repeating * docAmount));
+        service.commit();
+
     }
 
     private String readFile(URL file)

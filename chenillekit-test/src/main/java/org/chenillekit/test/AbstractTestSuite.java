@@ -16,19 +16,17 @@ package org.chenillekit.test;
 
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
-
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class AbstractTestSuite extends Assert
 {
     protected static Registry registry;
 
-    public void setup_registry(Class... moduleClasses)
+    public void setup_registry(Class<?>... moduleClasses)
     {
         RegistryBuilder builder = new RegistryBuilder();
 
@@ -46,8 +44,11 @@ public class AbstractTestSuite extends Assert
     @AfterSuite
     public final void shutdown_registry()
     {
-        registry.cleanupThread();
-        registry.shutdown();
-        registry = null;
+    	if (registry != null)
+    	{
+    		registry.cleanupThread();
+    		registry.shutdown();
+    		registry = null;
+    	}
     }
 }

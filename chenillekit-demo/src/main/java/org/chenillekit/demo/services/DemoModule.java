@@ -14,31 +14,48 @@
 
 package org.chenillekit.demo.services;
 
+import freemarker.template.Configuration;
+import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.ObjectLocator;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
+import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.annotations.InjectService;
+import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
+import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
+import org.apache.tapestry5.services.AssetFactory;
+import org.apache.tapestry5.services.Context;
+import org.apache.tapestry5.services.Dispatcher;
+import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.RequestFilter;
+import org.apache.tapestry5.services.RequestHandler;
+import org.apache.tapestry5.services.Response;
+import org.chenillekit.demo.data.Track;
+import org.chenillekit.google.ChenilleKitGoogleConstants;
+import org.chenillekit.image.services.ImageService;
+import org.chenillekit.tapestry.core.services.ThumbNailService;
+import org.chenillekit.tapestry.core.services.impl.ThumbNailServiceImpl;
+import org.chenillekit.tapestry.core.services.impl.URIDispatcher;
+import org.chenillekit.template.services.impl.FreeMarkerServiceImpl;
+import org.chenillekit.template.services.impl.VelocityServiceImpl;
+import org.slf4j.Logger;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tapestry5.SymbolConstants;
-import org.apache.tapestry5.internal.services.ContextResource;
-import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.OrderedConfiguration;
-import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-import org.apache.tapestry5.services.Context;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.RequestFilter;
-import org.apache.tapestry5.services.RequestHandler;
-import org.apache.tapestry5.services.Response;
-
-import org.chenillekit.demo.data.Track;
-import org.slf4j.Logger;
-
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class DemoModule
 {
+    public void contributeMasterDispatcher(OrderedConfiguration<Dispatcher> configuration,
+                                           ObjectLocator locator)
+    {
+        configuration.add("URIAsset", locator.autobuild(URIDispatcher.class), "after:Asset");
+    }
+
     /**
      * Contributes factory defaults that map be overridden.
      *
@@ -47,18 +64,16 @@ public class DemoModule
     public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
     {
         configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
-        configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en_en,it_it,de_de");
-    }
+        configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en,it,de,fr");
+        configuration.add(ChenilleKitGoogleConstants.GOOGLE_REFERER, "www.chenillekit.org");
 
-    /**
-     * @param context       servlet context
-     * @param configuration configuration map
-     */
-    public static void contributeGoogleMapService(Context context, MappedConfiguration<String, Object> configuration)
-    {
-        configuration.add("google.map.key", new ContextResource(context, "WEB-INF/conf/googlemap.key"));
-        configuration.add("google.service.timeout", 30000);
-//        configuration.add("google.service.proxy", new ProxyConfig("proxy.depot120.dpd.de", 3128, null, null));
+        boolean isProductionMode = Boolean.valueOf(System.getProperty(SymbolConstants.PRODUCTION_MODE, "true"));
+        if (isProductionMode)
+            // Google-API Key "www.chenillekit.org"
+            configuration.add(ChenilleKitGoogleConstants.GOOGLE_KEY, "ABQIAAAAi_YFwIW0ZYz1tm9NA5dpjxQdr9K2fBzQ2nv81qbqohyufO_eixS_5MtSz15QdDu7FnDcaswUkcFzOQ");
+        else
+            // Google-API Key "localhost"
+            configuration.add(ChenilleKitGoogleConstants.GOOGLE_KEY, "ABQIAAAAi_YFwIW0ZYz1tm9NA5dpjxQgrEgu6vWt7HL-5aFrx0YLtTRf-hQe7xlPB5qe4SL3L7K1LcW221_now");
     }
 
     public static MusicLibrary buildMusicLibrary(Logger log)
@@ -114,7 +129,6 @@ public class DemoModule
      * this filter will only be invoked for Tapestry related requests.
      *
      * @param logger system logger
-     *
      * @return the request filter
      */
     public RequestFilter buildTimingFilter(final Logger logger)
@@ -161,4 +175,39 @@ public class DemoModule
         configuration.add("Timing", filter);
     }
 
+    public static ThumbNailService buildThumbnailService(Logger logger,
+                                                         ImageService imageService,
+                                                         Context context,
+                                                         @InjectService("ContextAssetFactory") AssetFactory assetFactory)
+    {
+        return new ThumbNailServiceImpl(logger, imageService, context, assetFactory);
+    }
+
+    /**
+     * contribute configuration to velocity template service.
+     */
+    public static void contributeVelocityService(MappedConfiguration<String, Resource> configuration)
+    {
+        configuration.add(VelocityServiceImpl.CONFIG_RESOURCE_KEY, new ClasspathResource("velocity.properties"));
+    }
+
+    /**
+     * contribute configuration to freemarker template service.
+     */
+    public static void contributeFreeMarkerService(MappedConfiguration<String, Configuration> configuration)
+    {
+        freemarker.template.Configuration config = new freemarker.template.Configuration();
+        configuration.add(FreeMarkerServiceImpl.CONFIG_RESOURCE_KEY, config);
+    }
+
+    /**
+     * overide the tapestry configuration, that is too restrictive (missing .swf).
+     *
+     * @param regex
+     */
+    public void contributeRegexAuthorizer(org.apache.tapestry5.ioc.Configuration<String> regex)
+    {
+        String pathPattern = "([^/.]+/)*[^/.]+\\.((swf)|(css)|(js)|(jpg)|(jpeg)|(png)|(gif))$";
+        regex.add("^org/chenillekit/demo/" + pathPattern);
+    }
 }

@@ -15,13 +15,36 @@
 
 package org.chenillekit.access.pages;
 
+import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
+ *
  * @version $Id$
  */
-@Restricted(roles = {1, 2})
+@Restricted(role = 2)
 public class RestrictedPage
 {
+	@Inject
+	private ComponentResources resources;
+	
+	private String activationContext = "";
+	
+	void onActivate(String value1, String value2)
+	{
+		activationContext = value1 + " " + value2;
+	}
+
+	public String getRoleMetaValue()
+	{
+		return resources.getComponentModel().getMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE);
+	}
+	
+	public String getActivationContext()
+	{
+		System.out.println("Activation Context: " +  activationContext);
+		return activationContext;
+	}
 }

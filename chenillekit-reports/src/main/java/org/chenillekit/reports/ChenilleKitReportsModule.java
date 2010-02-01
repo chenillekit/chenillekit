@@ -19,13 +19,12 @@ import java.util.Map;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.annotations.Marker;
 
+import org.chenillekit.reports.annotations.ChenilleKitReports;
 import org.chenillekit.reports.services.ReportsService;
 import org.chenillekit.reports.services.impl.ReportsServiceImpl;
-import org.chenillekit.reports.annotations.ChenilleKitReports;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitReportsModule

@@ -27,8 +27,7 @@ import org.chenillekit.tapestry.core.base.AbstractWindow;
 /**
  * creates a window based on jvascript <a href="http://prototype-window.xilinus.com/">window</a> library.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
- * @version $Id: Window.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class Window extends AbstractWindow
 {
@@ -79,6 +78,8 @@ public class Window extends AbstractWindow
         options.put("className", getClassName());
         options.put("width", getWidth());
         options.put("height", getHeight());
+        options.put("id", getClientId());
+        options.put("title", getTitle());
 
         //
         // Let subclasses do more.
@@ -89,8 +90,6 @@ public class Window extends AbstractWindow
 
         if (hasBody)
             renderSupport.addScript("%s.setContent('%sContent');", getClientId(), getClientId());
-
-        renderSupport.addScript("%s.setTitle('%s');", getClientId(), getTitle());
 
         if (isShow())
             renderSupport.addScript("%s.show%s(%s);", getClientId(), isCenter() ? "Center" : "", isModal());

@@ -20,7 +20,6 @@ import java.util.List;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class Start
@@ -71,6 +70,8 @@ public class Start
             new Item("InPlaceDemo", "InPlace", "tests InPlace components"),
             new Item("TabSetDemo", "TabSet", "tests TabSet component"),
             new Item("ThumbNailDemo", "ThumbNail", "tests ThumbNail component"),
+            new Item("SlideShowDemo", "SlideShow", "tests SlideShow component"),
+            new Item("UriAssetDemo", "UriAsset", "tests UriAsset"),
             new Item("DateTimeFieldDemo", "DateTimeField", "tests DateTimeField component")
     );
 

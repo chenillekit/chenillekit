@@ -14,32 +14,44 @@
 
 package org.chenillekit.google;
 
-import java.util.Map;
-
-import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 
 import org.chenillekit.google.services.GoogleGeoCoder;
 import org.chenillekit.google.services.impl.GoogleGeoCoderImpl;
 import org.slf4j.Logger;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitGoogleModule
 {
-    /**
-     * initialize the google map service.
-     *
-     * @param syslog        the logging service
-     * @param configuration google map configuration
-     *
-     * @return
-     */
-    public static GoogleGeoCoder buildGoogleGeoCoder(Logger syslog, Map<String, Object> configuration)
-    {
-        Resource configResource = (Resource) configuration.get(GoogleGeoCoder.CONFIG_KEY_PROPERTIES);
-        return new GoogleGeoCoderImpl(syslog, configResource);
-    }
+	/**
+	 * Contributes factory defaults that may be overridden.
+	 */
+	public static void contributeFactoryDefaults(MappedConfiguration<String, String> contribution)
+	{
+		contribution.add(ChenilleKitGoogleConstants.GOOGLE_KEY, "");
+		contribution.add(ChenilleKitGoogleConstants.GOOGLE_PROXY, "");
+		contribution.add(ChenilleKitGoogleConstants.GOOGLE_REFERER, "");
+		contribution.add(ChenilleKitGoogleConstants.GOOGLE_TIMEOUT, "30000");
+	}
 
+	public static GoogleGeoCoder buildGoogleGeoCoder(Logger logger,
+
+													 @Inject @Symbol(ChenilleKitGoogleConstants.GOOGLE_KEY)
+													 final String googleKey,
+
+													 @Inject @Symbol(ChenilleKitGoogleConstants.GOOGLE_TIMEOUT)
+													 final int timeout,
+
+													 @Inject @Symbol(ChenilleKitGoogleConstants.GOOGLE_PROXY)
+													 final String proxy,
+
+													 @Inject @Symbol(ChenilleKitGoogleConstants.GOOGLE_REFERER)
+													 final String referer)
+	{
+		return new GoogleGeoCoderImpl(logger, googleKey, timeout, referer, proxy);
+	}
 }

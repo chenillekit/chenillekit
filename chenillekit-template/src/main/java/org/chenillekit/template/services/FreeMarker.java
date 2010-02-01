@@ -24,7 +24,6 @@ import java.lang.annotation.Target;
 /**
  * marks a template service build as FreeMarker based.
  *
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 @Target({PARAMETER, FIELD})

@@ -25,8 +25,7 @@ import org.apache.tapestry5.ioc.Location;
  * Binding type for collection values.
  * This binding called by expression "list:".
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: ListBinding.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class ListBinding extends AbstractBinding
 {

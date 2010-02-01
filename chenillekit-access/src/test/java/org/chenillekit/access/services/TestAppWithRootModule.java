@@ -14,63 +14,50 @@
 
 package org.chenillekit.access.services;
 
+import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
+import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.services.ApplicationStateContribution;
-import org.apache.tapestry5.services.ApplicationStateCreator;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
-import org.chenillekit.access.services.impl.ShaPasswordEncoder;
-import org.chenillekit.access.utils.RootUser;
+import org.chenillekit.access.services.impl.NoOpAppServerLoginService;
+import org.chenillekit.access.services.impl.UserAuthServiceImpl;
+import org.chenillekit.access.services.impl.UserEqualPassCheck;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 @SubModule(ChenilleKitAccessModule.class)
 public class TestAppWithRootModule
 {
-    public static void contributeASOs(MappedConfiguration<Class, ApplicationStateContribution> configuration)
+    /**
+     * Bind extra services.
+     *
+     * @param binder object to bind services to
+     */
+    public static void bind(ServiceBinder binder)
     {
-        ApplicationStateCreator<RootUser> creator = new ApplicationStateCreator<RootUser>()
-        {
-            public RootUser create()
-            {
-                return new RootUser();
-            }
-        };
-
-        configuration.add(RootUser.class, new ApplicationStateContribution("session", creator));
-    }
-
-    public static void contributeAccessControllerDispatcher(MappedConfiguration<String, Class> configuration)
-    {
-        configuration.add(ChenilleKitAccessConstants.WEB_USER_IMPLEMENTATION, RootUser.class);
-    }
-
-    public static void contributeAccessValidator(MappedConfiguration<String, Class> configuration)
-    {
-        configuration.add(ChenilleKitAccessConstants.WEB_USER_IMPLEMENTATION, RootUser.class);
+        binder.bind(AppServerLoginService.class, NoOpAppServerLoginService.class);
     }
 
     /**
      * @param configuration
      */
-    public static void contributeApplicationDefaults(
-            MappedConfiguration<String, String> configuration)
+    public static void contributeAuthenticationService(OrderedConfiguration<AuthenticationServiceFilter> configuration)
+    {
+        configuration.add("SAMPLE", new UserAuthServiceImpl());
+        configuration.add("EQUALTEST", new UserEqualPassCheck(), "before:*");
+    }
+
+    /**
+     * @param configuration
+     */
+    public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
     {
         configuration.add(ChenilleKitAccessConstants.LOGIN_PAGE, "login");
-    }
-
-    /**
-     * @param configuration
-     */
-    public static void contributePasswordEncoder(MappedConfiguration<String, Class> configuration)
-    {
-//        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, PlaintextPasswordEncoder.class);
-//        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, Md5PasswordEncoder.class);
-        configuration.add(ChenilleKitAccessConstants.PASSWORD_ENCODER, ShaPasswordEncoder.class);
+        configuration.add(ChenilleKitAccessConstants.ACCESS_DENIED_ACTION, ChenilleKitAccessConstants.TRIGGER_EVENT);
+        configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
     }
 
 }

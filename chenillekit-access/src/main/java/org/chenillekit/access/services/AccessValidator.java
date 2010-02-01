@@ -14,21 +14,21 @@
 package org.chenillekit.access.services;
 
 /**
- * @author <a href="mailto:mlusetti@gmail.com">M.Lusetti</a>
+ *
  * @version $Id$
  *
  */
 public interface AccessValidator
 {
 	/**
-     * Check the rights of the user for the page requested
-     *
-     * @param pageName    name of the page
-     * @param componentId component id (not used yet)
-     * @param eventType   event type (not used yet)
-     *
-     * @return if true then leave the chain
-     */
+	 * Check the rights of the user for the page requested
+	 *
+	 * @param pageName    name of the page
+	 * @param componentId component id (not used yet)
+	 * @param eventType   event type (not used yet)
+	 *
+	 * @return if true then leave the chain
+	 */
 	public boolean hasAccess(String pageName, String componentId, String eventType);
 
 }

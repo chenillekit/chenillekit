@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2009 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,52 @@
 
 package org.chenillekit.ldap;
 
-import java.util.Map;
-
-import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.ServiceResources;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
-
-import org.chenillekit.core.services.ConfigurationService;
-import org.chenillekit.ldap.services.SearcherService;
-import org.chenillekit.ldap.services.impl.SimpleSearcherServiceImpl;
-import org.slf4j.Logger;
+import org.chenillekit.ldap.services.LDAPOperation;
+import org.chenillekit.ldap.services.impl.LDAPOperationImpl;
+import org.chenillekit.ldap.services.internal.LDAPSource;
+import org.chenillekit.ldap.services.internal.LDAPSourceImpl;
+import org.chenillekit.ldap.services.internal.ReadService;
+import org.chenillekit.ldap.services.internal.ReadServiceImpl;
+import org.chenillekit.ldap.services.internal.WriteService;
+import org.chenillekit.ldap.services.internal.WriteServiceImpl;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
- * @version $Id: ChenilleKitMailModule.java 132 2008-07-27 22:18:54Z homburgs@gmail.com $
+ * @version $Id$
  */
 public class ChenilleKitLDAPModule
 {
-    public static SearcherService buildSimpleLdapSearcherService(Logger logger,
-                                                                 ConfigurationService configurationService,
-                                                                 Map<String, Resource> configuration,
+	
+	public static void bind(ServiceBinder binder)
+	{
+		binder.bind(LDAPOperation.class, LDAPOperationImpl.class);
+		binder.bind(ReadService.class, ReadServiceImpl.class);
+		binder.bind(WriteService.class, WriteServiceImpl.class);
+	}
+	
+    public static LDAPSource buildLDAPSource(ServiceResources resources,
                                                                  RegistryShutdownHub shutdownHub)
     {
-        SimpleSearcherServiceImpl service =
-                new SimpleSearcherServiceImpl(logger,
-                                              configurationService.getConfiguration(configuration.get(SearcherService.CONFIG_KEY)));
+        LDAPSourceImpl service = resources.autobuild(LDAPSourceImpl.class);
         shutdownHub.addRegistryShutdownListener(service);
         return service;
+    }
+
+    /**
+     * Contributes factory defaults that may be overridden.
+     */
+    public static void contributeFactoryDefaults(MappedConfiguration<String, String> contribution)
+    {
+        contribution.add(ChenilleKitLDAPConstants.LDAP_VERSION, "3");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_HOSTNAME, "");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_HOSTPORT, "389");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_AUTHDN, "");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_AUTHPWD, "");
+        
+        contribution.add(ChenilleKitLDAPConstants.LDAP_SIZELIMIT, "1000");
+        contribution.add(ChenilleKitLDAPConstants.LDAP_TIMELIMIT, "60000");
     }
 }

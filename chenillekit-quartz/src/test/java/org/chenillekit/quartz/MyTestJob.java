@@ -15,17 +15,24 @@
 package org.chenillekit.quartz;
 
 import org.quartz.Job;
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class MyTestJob implements Job
 {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException
     {
+    	JobDataMap map = jobExecutionContext.getJobDetail().getJobDataMap();
+    	String testValue = map.getString(ChenilleKitQuartzTestModule.TEST_STRING_KEY);
+
+    	DummyService dummy = (DummyService) map.get(ChenilleKitQuartzTestModule.DUMMY_SERVICE);
+
+    	dummy.runMePlease(testValue);
+
         jobExecutionContext.setResult(String.format("Greetings from %s", this.getClass().getName()));
     }
 }

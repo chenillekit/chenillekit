@@ -14,19 +14,27 @@
 
 package org.chenillekit.image;
 
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.tapestry5.ioc.ServiceBinder;
 
+import org.chenillekit.image.services.CaptchaProducer;
 import org.chenillekit.image.services.impl.ImageServiceImpl;
+import org.chenillekit.image.services.impl.KaptchaProducerImpl;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChenilleKitImageModule
 {
-    public static void bind(ServiceBinder binder)
-    {
-        binder.bind(ImageServiceImpl.class);
-    }
+	public static void bind(ServiceBinder binder)
+	{
+		binder.bind(ImageServiceImpl.class);
+	}
 
+	public static CaptchaProducer buildKaptchaProducer(Map<String, Properties> configuration)
+	{
+		return new KaptchaProducerImpl(configuration.get(ChenilleKitImageConstants.KAPATCHA_CONFIG_KEY));
+	}
 }

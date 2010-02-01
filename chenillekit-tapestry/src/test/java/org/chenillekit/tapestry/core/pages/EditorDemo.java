@@ -22,15 +22,24 @@ import org.apache.tapestry5.annotations.Property;
 import org.chenillekit.tapestry.core.components.Editor;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class EditorDemo
 {
-    @Property
-    @Persist
-    private String testValue = "";
+	@Property
+	@Persist
+	private String testValue;
 
-    @Component(parameters = {"value=testValue", "width=100%"})
-    private Editor editor;
+	@Component(parameters = {"value=testValue", "width=100%"})
+	private Editor editor;
+
+	/**
+	 * Tapestry render phase method.
+	 * Initialize temporary instance variables here.
+	 */
+	void setupRender()
+	{
+		if (testValue == null)
+			testValue = "";
+	}
 }

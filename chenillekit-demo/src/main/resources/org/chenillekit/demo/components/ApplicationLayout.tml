@@ -13,36 +13,57 @@
   -->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+		"http://www.w3.org/TR/html4/loose.dtd">
 
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 <head>
-    <meta http-equiv="cache-control" content="no-cache"/>
-    <meta http-equiv="pragma" content="no-cache"/>
-    <link rel="stylesheet" type="text/css" href="${asset:../assets/styles/default.css}"/>
-    <title>Chenille Kit Demo Application</title>
+	<meta http-equiv="cache-control" content="no-cache"/>
+	<meta http-equiv="pragma" content="no-cache"/>
+	<link rel="stylesheet" type="text/css" href="${asset:../assets/styles/default.css}"/>
+	<title>Chenille Kit Demo Application</title>
 </head>
 <body>
 
 <div id="doc3">
-    <div id="hd">
-        <div class="yui-g" style="width:100%">
-            <div class="yui-u first">
-                <img style="float:left;" src="${asset:../assets/images/chenillekit-logo.png}"/>
-            </div>
+	<div id="hd" style="height:auto;">
+		<div class="yui-g" style="width:100%">
+			<div class="yui-u first">
+				<!--<a href="http://www.chenillekit.org/" title="back to project page">-->
+				<!--<img style="float:left;" alt="back to project page" src="${asset:../assets/images/chenillekit-logo.png}"/>-->
+				<!--</a>-->
+			</div>
 
-            <div class="yui-u">
-                <h2 style="padding-top:45px">ChenilleKit Demo V{demoVersion}</h2>
-            </div>
-        </div>
-    </div>
-    <div id="bd">
-        <t:body/>
-    </div>
-    <div id="ft">
-        Footer
-    </div>
+			<div class="yui-u">
+				<h2 style="padding-top:45px">ChenilleKit Demo V${project.version}</h2>
+			</div>
+		</div>
+
+		<div class="yui-b" style="width:100%; padding-top:65px;">
+			<span t:id="horizontalMenu"/>
+		</div>
+	</div>
+	<div id="bd" style="padding-top:12px;">
+		<t:body/>
+	</div>
+	<div id="ft">
+		Footer
+	</div>
 </div>
+
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+	try
+	{
+		var pageTracker = _gat._getTracker("UA-2876614-8");
+		pageTracker._trackPageview();
+	}
+	catch(err)
+	{
+	}
+</script>
 
 </body>
 </html>

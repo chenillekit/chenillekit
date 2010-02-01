@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 /**
  * template service based on <a href="http://velocity.apache.org">Velocity</a> framework.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
  * @version $Id$
  */
 public class VelocityServiceImpl implements TemplateService
@@ -44,8 +43,8 @@ public class VelocityServiceImpl implements TemplateService
     public static final String CONFIG_RESOURCE_KEY = "velocity.configuration";
     public static final String SERVICE_NAME = "VelocityService";
 
-    private Resource _configuration;
-    private Logger _serviceLog;
+    private Resource configuration;
+    private Logger serviceLog;
 
     /**
      * Standard-Konstruktor.
@@ -55,8 +54,8 @@ public class VelocityServiceImpl implements TemplateService
      */
     public VelocityServiceImpl(Logger serviceLog, Resource configuration)
     {
-        _serviceLog = serviceLog;
-        _configuration = configuration;
+        this.serviceLog = serviceLog;
+        this.configuration = configuration;
         configure();
     }
 
@@ -68,14 +67,16 @@ public class VelocityServiceImpl implements TemplateService
              * Configure the engine - as an example, we are using
              * ourselves as the logger - see logging examples
              */
-            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this);
+            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, this);
 
             /**
              * now get configuration and initialize the engine
              */
-            Properties properties = new Properties();
-            properties.load(_configuration.toURL().openStream());
-            Velocity.init(properties);
+			Properties properties = new Properties();
+			if(configuration != null)
+            	properties.load(configuration.toURL().openStream());
+
+			Velocity.init(properties);
         }
         catch (Exception e)
         {
@@ -148,8 +149,8 @@ public class VelocityServiceImpl implements TemplateService
         {
             VelocityContext context = buildContext(parameterMap, elements);
 
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("processing template resource '" + template.getPath() + "'");
+            if (serviceLog.isInfoEnabled())
+                serviceLog.info("processing template resource '" + template.getPath() + "'");
 
             /*
             *  get the Template object.  This is the parsed version of your
@@ -171,8 +172,8 @@ public class VelocityServiceImpl implements TemplateService
                 out.flush();
             }
 
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("processing template file '" + template.getPath() + "' finished");
+            if (serviceLog.isInfoEnabled())
+                serviceLog.info("processing template file '" + template.getPath() + "' finished");
 
         }
         catch (Exception e)
@@ -222,8 +223,8 @@ public class VelocityServiceImpl implements TemplateService
         {
             VelocityContext context = buildContext(parameterMap, elements);
 
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("processing template stream");
+            if (serviceLog.isInfoEnabled())
+                serviceLog.info("processing template stream");
 
             Writer out = new OutputStreamWriter(outputStream);
             Reader reader = new InputStreamReader(templateStream);
@@ -234,8 +235,8 @@ public class VelocityServiceImpl implements TemplateService
             */
             out.flush();
 
-            if (_serviceLog.isInfoEnabled())
-                _serviceLog.info("processing template finished");
+            if (serviceLog.isInfoEnabled())
+                serviceLog.info("processing template finished");
 
         }
         catch (Exception e)

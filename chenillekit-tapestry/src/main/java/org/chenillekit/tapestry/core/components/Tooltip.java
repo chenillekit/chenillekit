@@ -30,91 +30,86 @@ import org.apache.tapestry5.services.Environment;
 /**
  * shows an tooltip if mouse slides over the declared content.
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: Tooltip.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "Tooltip.js"})
 @IncludeStylesheet(value = {"Tooltip.css"})
 public class Tooltip
 {
-    /**
-     * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
-     * times, a suffix will be appended to the to id to ensure uniqueness.
-     */
-    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String clientId;
+	/**
+	 * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
+	 * times, a suffix will be appended to the to id to ensure uniqueness.
+	 */
+	@Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+	private String clientId;
 
-    /**
-     * the tooltip title.
-     */
-    @Parameter(value = "", required = false, defaultPrefix = "literal")
-    private String title;
+	/**
+	 * the tooltip title.
+	 */
+	@Parameter(value = "", required = false, defaultPrefix = "literal")
+	private String title;
 
-    /**
-     * the tooltip content.
-     */
-    @Parameter(value = "", required = false, defaultPrefix = "literal")
-    private String value;
+	/**
+	 * the tooltip content.
+	 */
+	@Parameter(value = "", required = false, defaultPrefix = "literal")
+	private String value;
 
-    /**
-     * the tooltip effect ("blind", "appear", "slide").
-     */
-    @Parameter(required = false, defaultPrefix = "literal")
-    private String effect;
+	/**
+	 * the tooltip effect ("blind", "appear", "slide").
+	 */
+	@Parameter(required = false, defaultPrefix = "literal")
+	private String effect;
 
-    @Inject
-    private ComponentResources resources;
+	@Inject
+	private ComponentResources resources;
 
-    @Environmental
-    private RenderSupport renderSupport;
+	@Environmental
+	private RenderSupport renderSupport;
 
-    @Inject
-    private Environment environment;
+	@Inject
+	private Environment environment;
 
-    private String assignedClientId;
+	private String assignedClientId;
 
-    void setupRender()
-    {
-        assignedClientId = renderSupport.allocateClientId(clientId);
-    }
+	void setupRender()
+	{
+		assignedClientId = renderSupport.allocateClientId(clientId);
+	}
 
-    @BeginRender
-    void doBeginRender(MarkupWriter writer)
-    {
-        writer.element("span",
-                       "id", assignedClientId);
-    }
+	@BeginRender
+	void doBeginRender(MarkupWriter writer)
+	{
+		writer.element("span",
+					   "id", assignedClientId);
+	}
 
-    @AfterRender
-    void doAfterRender(MarkupWriter writer)
-    {
-        writer.end();
+	@AfterRender
+	void doAfterRender(MarkupWriter writer)
+	{
+		writer.end();
 
-        String jsCommand = "new Ck.Tip('%s', '%s'";
-        jsCommand += ", {className: 'ck_tooltip'";
+		String jsCommand = "new Ck.Tip('%s', '%s'";
+		jsCommand += ", {className: 'ck_tooltip'";
 
-        if (title != null)
-            jsCommand += ", title: '" + replaceJSChar(title) + "'";
+		if (title != null)
+			jsCommand += ", title: '" + replaceJSChar(title) + "'";
 
-        if (effect != null)
-            jsCommand += ", effect: '" + effect + "'";
+		if (effect != null)
+			jsCommand += ", effect: '" + effect + "'";
 
-        jsCommand += "});";
-        renderSupport.addScript(jsCommand, assignedClientId, replaceJSChar(value));
-    }
+		jsCommand += "});";
+		renderSupport.addScript(jsCommand, assignedClientId, replaceJSChar(value));
+	}
 
-    /**
-     * replace the ' char with the " char.
-     *
-     * @param value
-     *
-     * @return
-     */
-    private String replaceJSChar(String value)
-    {
-        if (value == null)
-            return "";
+	/**
+	 * replace the ' char with the " char and '%' with '%%'.
+	 */
+	private String replaceJSChar(String value)
+	{
+		if (value == null)
+			return "";
 
-        return value.replaceAll("'", "\"");
-    }
+		return value.replaceAll("'", "\"").replaceAll("%", "%%");
+	}
 }

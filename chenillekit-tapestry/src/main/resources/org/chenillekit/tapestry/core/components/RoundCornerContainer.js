@@ -15,17 +15,21 @@
 Ck.Rounded = new Class.create();
 Ck.Rounded.prototype =
 {
-    initialize: function(elementId, bk, color, size)
+    initialize: function(elementId, bk, color, size, render)
     {
         this.selector = $(elementId);
         this.bk = bk;
         this.color = color;
         this.size = size;
+        this.render = render;
     },
     round:function()
     {
-        this.addTop(this.selector, this.bk, this.color, this.size);
-        this.addBottom(this.selector, this.bk, this.color, this.size);
+		if (this.render == "both" || this.render == "top")
+			this.addTop(this.selector, this.bk, this.color, this.size);
+
+		if (this.render == "both" || this.render == "bottom")
+			this.addBottom(this.selector, this.bk, this.color, this.size);
     },
     roundedTop:function ()
     {

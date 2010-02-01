@@ -1,0 +1,177 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <div class="yui-g">
+
+		<div class="yui-u first menu">
+
+			<span t:id="menu">the menu</span>
+
+		</div>
+
+		<div class="yui-u content">
+
+			<fieldset class="component">
+
+				<legend>Window component</legend>
+
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
+
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<ul>
+								<li>
+									<a href="#" onclick="window1.showCenter(true)">click here for modal window</a> (style=bluelighting)
+								</li>
+								<li>
+									<a href="#" onclick="window2.showCenter(false)">click here for normal window</a> (style=mac_os_x)
+								</li>
+								<li>
+									<a href="#" onclick="window3.showCenter(false)">click here for normal window</a> (style=nuncio)
+								</li>
+								<li>
+									<a href="#" onclick="window4.showCenter(false)">click here for normal window</a> (style=spread)
+								</li>
+								<li>
+									<a href="#" onclick="window5.showCenter(false)">click here for normal window</a> (style=alphacube)
+								</li>
+								<li>
+									<a href="#" onclick="window6.showCenter(false)">click here for normal window</a> (style=dialog)
+								</li>
+							</ul>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+				<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Component(parameters = {"style=bluelighting", "show=false", "title=literal:Window 1", "width=300", "height=200"})
+	private Window window1;
+
+	@Component(parameters = {"style=mac_os_x", "show=false", "title=literal:Window 2", "width=300", "height=200"})
+	private Window window2;
+
+	@Component(parameters = {"style=nuncio", "show=false", "title=literal:Window 3", "width=300", "height=200"})
+	private Window window3;
+
+	@Component(parameters = {"style=spread", "show=false", "title=literal:Window 4", "width=300", "height=200"})
+	private Window window4;
+
+	@Component(parameters = {"style=alphacube", "show=false", "title=literal:Window 5", "width=300", "height=200"})
+	private Window window5;
+
+	@Component(parameters = {"style=dialog", "show=false", "title=literal:Window 6", "width=300", "height=200"})
+	private Window window6;
+}
+
+...
+<ul>
+	<li>
+		<a href="#" onclick="window1.showCenter(true)">click here for modal window</a> (style=bluelighting)
+	</li>
+	<li>
+		<a href="#" onclick="window2.showCenter(false)">click here for normal window</a> (style=mac_os_x)
+	</li>
+	<li>
+		<a href="#" onclick="window3.showCenter(false)">click here for normal window</a> (style=nuncio)
+	</li>
+	<li>
+		<a href="#" onclick="window4.showCenter(false)">click here for normal window</a> (style=spread)
+	</li>
+	<li>
+		<a href="#" onclick="window5.showCenter(false)">click here for normal window</a> (style=alphacube)
+	</li>
+	<li>
+		<a href="#" onclick="window6.showCenter(false)">click here for normal window</a> (style=dialog)
+	</li>
+</ul>
+
+<div t:id="window1">
+	<h3>Test Window</h3>
+	<p>
+		This is the inlined content of a test window
+	</p>
+</div>
+
+<div t:id="window2">
+	<h3>Test Window</h3>
+	<p>
+		This is the inlined content of a test window
+	</p>
+</div>
+
+<div t:id="window3">
+</div>
+
+<div t:id="window4">
+</div>
+
+<div t:id="window5">
+</div>
+
+<div t:id="window6">
+</div>
+
+]]>
+				</pre>
+						</div>
+						<!-- source content end -->
+
+					</div>
+				</div>
+
+			</fieldset>
+
+		</div>
+	</div>
+
+	<div t:id="window1">
+		<h3>Test Window</h3>
+		<p>
+			This is the inlined content of a test window
+		</p>
+	</div>
+
+	<div t:id="window2">
+		<h3>Test Window</h3>
+		<p>
+			This is the inlined content of a test window
+		</p>
+	</div>
+
+	<div t:id="window3">
+	</div>
+
+	<div t:id="window4">
+	</div>
+
+	<div t:id="window5">
+	</div>
+
+	<div t:id="window6">
+	</div>
+
+</span>

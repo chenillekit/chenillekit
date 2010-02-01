@@ -15,19 +15,25 @@
 
 package org.chenillekit.tapestry.core.pages;
 
-import java.util.Date;
-
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
-
 import org.chenillekit.tapestry.core.components.DateFormat;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
+ * This test is very time-zone sensitive.
+ * 
  * @version $Id$
  */
 public class FormaterDemo
 {
+    static
+    {
+       TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"));
+    }
+
     @Property(write = false)
     private Date _dateValue;
 

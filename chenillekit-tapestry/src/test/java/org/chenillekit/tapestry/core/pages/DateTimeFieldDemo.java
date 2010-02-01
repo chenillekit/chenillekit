@@ -24,7 +24,6 @@ import org.apache.tapestry5.corelib.components.Form;
 import org.chenillekit.tapestry.core.components.DateTimeField;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class DateTimeFieldDemo

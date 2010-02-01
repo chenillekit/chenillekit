@@ -15,10 +15,96 @@
 
 package org.chenillekit.access.pages;
 
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.InjectPage;
+import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.Errors;
+import org.apache.tapestry5.corelib.components.Form;
+import org.apache.tapestry5.corelib.components.Submit;
+import org.apache.tapestry5.corelib.components.TextField;
+import org.chenillekit.access.annotations.Restricted;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class UnRestrictedPage
 {
+    @Property
+    private String testValue;
+
+    @Component
+    private Errors testErrors;
+
+    @Component
+    private Form testForm;
+
+    @Component(parameters = {"value=testValue"})
+    private TextField testInput;
+
+    @Component
+    private Submit testSubmit;
+
+    @InjectPage
+    private Invisible invisible;
+
+    private List<String> context = null;
+
+
+    void onActivate(List<String> context)
+    {
+        this.context = context;
+    }
+
+    @OnEvent(component = "testRightsRole", value = "action")
+    @Restricted(role = 8)
+    Object onActionFromTestRightsRole()
+    {
+        return invisible;
+    }
+
+    @Restricted(groups = {"ADMINS"})
+    Object onActionFromTestRights()
+    {
+        return invisible;
+    }
+
+    @Restricted(groups = {"ADMINS"})
+    @OnEvent(component = "testRightsOnEvent")
+    Object thisThrowRuntimeException()
+    {
+        return invisible;
+    }
+
+    @Restricted(groups = {"ADMINS"})
+    void onActionFromTestRightsContext(List<String> context)
+    {
+
+    }
+
+    @Restricted(groups = {"DUMMY"})
+    void onActionFromTestForm()
+    {
+    }
+
+    public List<String> getActionContext()
+    {
+        return Arrays.asList("first", "second", "third", "forth");
+    }
+
+    public String getContextIfPresent()
+    {
+        return this.context == null || this.context.isEmpty() ?
+                "NO CONTEXT" :
+                Arrays.toString(context.toArray());
+    }
+
+    void onNotEnoughAccessRights()
+    {
+        System.err.println("onNotEnoughAccessRights");
+        testForm.recordError("onNotEnoughAccessRights");
+    }
 }

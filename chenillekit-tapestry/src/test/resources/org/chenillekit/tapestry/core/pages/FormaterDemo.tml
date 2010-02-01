@@ -23,20 +23,20 @@
 
 <body>
 
-<div>
-    <span t:id="dateFormat1" id="test1">today is </span>
+<div id="test1">
+    <span t:id="dateFormat1">today is </span>
 </div>
 
 <p/>
 
-<div>
-    <span t:id="dateFormat2" id="test2"> is an US formated date</span>
+<div id="test2">
+    <span t:id="dateFormat2"> is an US formated date</span>
 </div>
 
 <p/>
 
-<div>
-    <span t:id="dateFormat3" id="test3">strips this text away</span>
+<div id="test3">
+    <span t:id="dateFormat3">strips this text away</span>
 </div>
 
 <p/>

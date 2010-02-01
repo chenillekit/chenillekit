@@ -1,0 +1,109 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  -->
+
+<span t:type="ApplicationLayout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+
+    <div class="yui-g">
+
+		<div class="yui-u first menu">
+
+			<span t:id="menu">the menu</span>
+
+		</div>
+
+		<div class="yui-u content">
+
+
+			<fieldset class="component">
+
+				<legend>Accordion component</legend>
+
+				<div t:type="YuiTabSet">
+					<ul class="yui-nav">
+						<li class="selected"><a href="#tab1"><em>Demo</em></a></li>
+						<li><a href="#tab2"><em>Sample Source</em></a></li>
+					</ul>
+					<div class="yui-content">
+
+						<!-- demo content start -->
+						<div style="padding:10px;">
+
+							<form t:id="form">
+								<label style="padding-right: 5px">click the box</label>
+								<input type="checkbox" t:id="ajaxCheckbox"/>
+							</form>
+
+							<div style="padding-top:15px;">
+								result is <span id="result1" style="color:red; font-weight:bolder;"></span>
+							</div>
+
+						</div>
+						<!-- demo content end -->
+
+						<!-- source content start -->
+						<div style="padding:10px;">
+
+						<pre>
+<![CDATA[
+public class DemoPage
+{
+	@Property
+	@Retain
+	private boolean selected;
+
+	@Component(parameters = {"value=selected", "onCompleteCallback=completeCallback"})
+	private AjaxCheckbox ajaxCheckbox;
+
+	@OnEvent(component = "ajaxCheckbox", value = "checkboxclicked")
+	public JSONObject onChangeEvent(boolean value)
+	{
+		JSONObject json = new JSONObject();
+		json.put("result", value);
+		return json;
+	}
+}
+
+<script type="text/javascript">
+	function completeCallback(response)
+	{
+		var result = response.evalJSON().result;
+		$('result1').innerHTML = result;
+	}
+</script>
+
+]]>
+
+						</pre>
+
+						</div>
+						<!-- source content end -->
+
+					</div>
+				</div>
+
+			</fieldset>
+
+		</div>
+	</div>
+
+		<script type="text/javascript">
+			function completeCallback(response)
+			{
+				var result = response.evalJSON().result;
+				$('result1').innerHTML = result;
+			}
+		</script>
+
+</span>

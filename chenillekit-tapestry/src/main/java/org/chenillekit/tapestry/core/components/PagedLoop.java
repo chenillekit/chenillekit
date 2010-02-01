@@ -35,7 +35,6 @@ import org.chenillekit.tapestry.core.internal.PagerPosition;
  * instead of a table by default. The list and its items are configurable via
  * parameters.
  *
- * @author Tod Orr
  * @version $Id$
  */
 public class PagedLoop implements ClientElement
@@ -79,7 +78,7 @@ public class PagedLoop implements ClientElement
     private int _rowsPerPage;
 
     @Persist
-    private int _currentPage = 1;
+    private int _currentPage;
 
     /**
      * The current value, set before the component renders its body.
@@ -181,10 +180,15 @@ public class PagedLoop implements ClientElement
         _currentPage = currentPage;
     }
 
-    @SuppressWarnings("unchecked")
+
+
+	@SuppressWarnings("unchecked")
     Object setupRender()
     {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+		if (_currentPage == 0)
+			_currentPage = 1;
+
+		_assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
         _internalPagerPosition = new StringToEnumCoercion<PagerPosition>(
                 PagerPosition.class).coerce(_pagerPosition);
 

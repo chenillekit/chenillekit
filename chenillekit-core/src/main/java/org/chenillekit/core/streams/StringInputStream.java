@@ -21,7 +21,6 @@ import java.io.StringReader;
  * <p/>
  * stolen from org.apache.tools.ant.filters.StringInputStream
  *
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class StringInputStream extends ReaderInputStream

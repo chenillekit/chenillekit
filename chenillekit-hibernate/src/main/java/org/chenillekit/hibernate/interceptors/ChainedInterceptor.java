@@ -30,7 +30,6 @@ import org.hibernate.type.Type;
  * interface that allows the chaining of several different
  * instances of the same interface.
  *
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class ChainedInterceptor extends EmptyInterceptor

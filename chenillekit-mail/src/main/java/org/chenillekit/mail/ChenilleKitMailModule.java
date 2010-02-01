@@ -14,22 +14,17 @@
 
 package org.chenillekit.mail;
 
-import java.util.Map;
-
-import org.apache.tapestry5.ioc.Resource;
-
-import org.chenillekit.mail.services.SmtpService;
-import org.chenillekit.mail.services.impl.SimpleSmtpServiceImpl;
-import org.slf4j.Logger;
+import org.apache.tapestry5.ioc.ServiceBinder;
+import org.chenillekit.mail.services.MailService;
+import org.chenillekit.mail.services.impl.MailServiceImpl;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class ChenilleKitMailModule
 {
-    public static SmtpService buildSmtpService(Logger logger, Map<String, Resource> configuration)
-    {
-        return new SimpleSmtpServiceImpl(logger, configuration.get(SmtpService.CONFIG_KEY));
-    }
+	public static void bind(ServiceBinder binder)
+	{
+		binder.bind(MailService.class, MailServiceImpl.class).withId("MailService");
+	}
 }

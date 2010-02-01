@@ -27,8 +27,7 @@ import org.apache.tapestry5.annotations.Parameter;
  * component is rendered. If not, the body is omitted and the else block
  * is rendered.
  *
- * @author <a href="mailto:florian.bw@gmail.com">F.Breitwieser</a>
- * @version $Id: Contains.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class Contains
 {

@@ -41,7 +41,6 @@ import org.apache.tapestry5.services.ApplicationGlobals;
 import org.apache.tapestry5.services.Context;
 
 /**
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class LeftSideMenu
@@ -87,7 +86,7 @@ public class LeftSideMenu
 
     @Component(parameters = {"page=prop:menuItem.pageName", "style=menuItem.styles",
             "context=menuItem.contextParameters"})
-    @Mixins({"OvalButton"})
+    @Mixins({"ck/yui/Button"})
     private PageLink pageLink;
 
 

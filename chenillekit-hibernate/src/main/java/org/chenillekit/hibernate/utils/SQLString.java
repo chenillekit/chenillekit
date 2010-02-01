@@ -16,7 +16,6 @@ package org.chenillekit.hibernate.utils;
 /**
  * SQL string helper class.
  *
- * @author <a href="mailto:shomburg@hsofttec.com">S.Homburg</a>
  * @version $Id$
  */
 public class SQLString

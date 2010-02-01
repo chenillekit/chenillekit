@@ -19,7 +19,6 @@ import org.apache.tapestry5.annotations.Component;
 import org.chenillekit.tapestry.core.components.FieldSet;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class FieldSetDemo

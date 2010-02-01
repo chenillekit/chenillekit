@@ -71,7 +71,7 @@ Zaphod Beeblebrox
                     <source><![CDATA[
 public class PassengerList
 {
-    @Inject @FreeMarkerMarker
+    @Inject @FreeMarker
     private TemplateService _templateService;
 
     public void afterThirdTryToLogin()

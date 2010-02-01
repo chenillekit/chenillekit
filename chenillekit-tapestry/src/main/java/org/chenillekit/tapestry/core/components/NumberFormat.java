@@ -17,8 +17,8 @@ package org.chenillekit.tapestry.core.components;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Service;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -29,8 +29,7 @@ import org.slf4j.Logger;
 /**
  * Formats a Number object with the given <em>mask<em>.
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
- * @version $Id: NumberFormat.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 public class NumberFormat
 {

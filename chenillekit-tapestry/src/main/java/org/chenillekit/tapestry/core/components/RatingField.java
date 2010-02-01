@@ -17,7 +17,6 @@ package org.chenillekit.tapestry.core.components;
 import java.util.List;
 
 import org.apache.tapestry5.Asset;
-import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.RenderSupport;
@@ -35,6 +34,7 @@ import org.apache.tapestry5.corelib.components.Radio;
 import org.apache.tapestry5.corelib.components.RadioGroup;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.services.PropertyAccess;
+import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Environment;
 
 import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
@@ -58,150 +58,165 @@ import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
  * By default the first value display image will be hidden as this typically
  * will indicate no value.
  *
- * @author Tod Orr
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"Rating.js"})
+@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "Rating.js"})
 @IncludeStylesheet(value = {"Rating.css"})
 public class RatingField<T> extends AbstractField
 {
-    /**
-     * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
-     * times, a suffix will be appended to the to id to ensure uniqueness. The uniqued value may be accessed via the
-     * {@link #getClientId() clientId property}.
-     */
-    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+	/**
+	 * The value to read or update.
+	 */
+	@Parameter(required = true)
+	@Property
+	private T value;
 
-    /**
-     * The value to read or update.
-     */
-    @Parameter(required = true)
-    @Property
-    private T _value;
+	/**
+	 * the rateable value list.
+	 */
+	@Parameter(required = true)
+	@Property
+	private List<T> source;
 
-    /**
-     * the rateable value list.
-     */
-    @Parameter(required = true)
-    @Property
-    private List<T> _source;
+	/**
+	 * Encoder used to translate between server-side objects
+	 * and client-side strings.
+	 */
+	@Parameter
+	private ValueEncoder encoder;
 
-    /**
-     * Encoder used to translate between server-side objects
-     * and client-side strings.
-     */
-    @Parameter
-    private ValueEncoder _encoder;
+	/**
+	 * the optional Selected-Image
+	 */
+	@Parameter(required = false)
+	private Asset selectedImage;
 
-    /**
-     * the optional Selected-Image
-     */
-    @Parameter(required = false)
-    private Asset _selectedImage;
+	/**
+	 * the optional UnSelected-Image
+	 */
+	@Parameter(required = false)
+	private Asset unselectedImage;
 
-    /**
-     * the optional UnSelected-Image
-     */
-    @Parameter(required = false)
-    private Asset _unselectedImage;
+	@Inject
+	@Path("rating_default_selected.gif")
+	private Asset defaultSelectedImage;
 
-    @Inject
-    @Path("rating_default_selected.gif")
-    private Asset _defaultSelectedImage;
+	@Inject
+	@Path("rating_default_unselected.gif")
+	private Asset defaultUnselectedImage;
 
-    @Inject
-    @Path("rating_default_unselected.gif")
-    private Asset _defaultUnselectedImage;
+	@Inject
+	private Environment environment;
 
-    @Inject
-    private Environment _environment;
+	@Inject
+	private RenderSupport renderSupport;
 
-    @Inject
-    private RenderSupport _pageRenderSupport;
+	@Inject
+	private ComponentResources componentResources;
 
-    @Inject
-    private ComponentResources _componentResources;
+	@Inject
+	private PropertyAccess propertyAccess;
 
-    @Inject
-    private PropertyAccess _propertyAccess;
+	@Component(parameters = {"value=prop:value", "encoder=encoder"})
+	private RadioGroup radioGroup;
 
-    @Component(parameters = {"value=prop:value", "encoder=encoder"})
-    private RadioGroup _radioGroup;
+	@Component(parameters = {"source=prop:source", "value=loopValue"})
+	private Loop loop;
 
-    @Component(parameters = {"source=prop:source", "value=loopValue"})
-    private Loop _loop;
+	@Property
+	private T loopValue;
 
-    @Property
-    private T _loopValue;
+	@Component(parameters = {"value=loopValue", "label=prop:radioLabel"})
+	private Radio radio;
 
-    @Component(parameters = {"value=loopValue", "label=prop:radioLabel"})
-    private Radio _radio;
+	@Component(parameters = {"for=radio"})
+	private Label label;
 
-    @Component(parameters = {"for=radio"})
-    private Label _label;
+	/**
+	 * Returns the image representing an unselected value.
+	 *
+	 * @return
+	 */
+	public Asset getUnselectedImage()
+	{
+		return (unselectedImage == null) ? defaultUnselectedImage : unselectedImage;
+	}
 
-    /**
-     * Returns the image representing an unselected value.
-     *
-     * @return
-     */
-    public Asset getUnselectedImage()
-    {
-        return (_unselectedImage == null) ? _defaultUnselectedImage : _unselectedImage;
-    }
+	/**
+	 * Returns the image representing a selected value.
+	 *
+	 * @return
+	 */
+	public Asset getSelectedImage()
+	{
+		return selectedImage == null ? defaultSelectedImage : selectedImage;
+	}
 
-    /**
-     * Returns the image representing a selected value.
-     *
-     * @return
-     */
-    public Asset getSelectedImage()
-    {
-        return _selectedImage == null ? _defaultSelectedImage : _selectedImage;
-    }
+	/**
+	 * Returns an appropriate ValueEncoder implementation based on the value
+	 * type.
+	 *
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public ValueEncoder getEncoder()
+	{
+		if (encoder == null)
+			encoder = new GenericValueEncoder(source);
 
-    /**
-     * Returns an appropriate ValueEncoder implementation based on the value
-     * type.
-     *
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public ValueEncoder getEncoder()
-    {
-        if (_encoder == null)
-            _encoder = new GenericValueEncoder(_source);
+		return encoder;
+	}
 
-        return _encoder;
-    }
+	/**
+	 * Returns a reasonable label for the radio value. If the value is primitive
+	 * it will be returned as is. Otherwise the toString() method will be called
+	 * on the value object.
+	 *
+	 * @return
+	 */
+	public String getRadioLabel()
+	{
+		return loopValue.toString();
+	}
 
-    /**
-     * Returns a reasonable label for the radio value. If the value is primitive
-     * it will be returned as is. Otherwise the toString() method will be called
-     * on the value object.
-     *
-     * @return
-     */
-    public String getRadioLabel()
-    {
-        return _loopValue.toString();
-    }
+	/**
+	 * Method implemented by subclasses to actually do the work of processing the submission of the form. The element's
+	 * elementName property will already have been set. This method is only invoked if the field is <strong>not {@link
+	 * #isDisabled() disabled}</strong>.
+	 *
+	 * @param elementName the name of the element (used to find the correct parameter in the request)
+	 */
+	protected void processSubmission(String elementName)
+	{
+	}
 
-    /**
-     * Method implemented by subclasses to actually do the work of processing the submission of the form. The element's
-     * elementName property will already have been set. This method is only invoked if the field is <strong>not {@link
-     * #isDisabled() disabled}</strong>.
-     *
-     * @param elementName the name of the element (used to find the correct parameter in the request)
-     */
-    protected void processSubmission(String elementName)
-    {
-    }
+	public void afterRender(MarkupWriter writer)
+	{
+		JSONObject options = new JSONObject();
 
-    public void afterRender(MarkupWriter writer)
-    {
-        _pageRenderSupport.addScript("new RatingField('%s', '%s', '%s');", _clientId,
-                                     getSelectedImage().toClientURL(), getUnselectedImage().toClientURL());
-    }
+		options.put("disabled", isDisabled());
+
+		//
+		// Let subclasses do more.
+		//
+		configure(options);
+
+		renderSupport.addScript("new Ck.RatingField('%s', '%s', '%s', %s);",
+								getClientId(),
+								getSelectedImage().toClientURL(),
+								getUnselectedImage().toClientURL(),
+								options);
+	}
+
+	/**
+	 * Invoked to allow subclasses to further configure the parameters passed to this component's javascript
+	 * options. Subclasses may override this method to configure additional features of the Window.
+	 * <p/>
+	 * This implementation does nothing.
+	 *
+	 * @param options windows option object
+	 */
+	protected void configure(JSONObject options)
+	{
+	}
 }

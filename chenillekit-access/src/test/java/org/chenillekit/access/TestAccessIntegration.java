@@ -14,42 +14,29 @@
 
 package org.chenillekit.access;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.test.PageTester;
-
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class TestAccessIntegration extends Assert
 {
     private PageTester pageTester;
 
-    @BeforeTest
+    @BeforeMethod
     public void initializeTests()
     {
         String appPackage = "org.chenillekit.access";
         String appName = "TestAppWithRoot";
         pageTester = new PageTester(appPackage, appName, "src/test/webapp");
-    }
-
-    @Test
-    public void test_restricted()
-    {
-        Document doc = pageTester.renderPage("Start");
-        Element link = doc.getElementById("Restricted");
-
-        doc = pageTester.clickLink(link);
-        Element element = doc.getElementById("has_access");
-        assertEquals(element.getChildMarkup(), "Has Access");
     }
 
     @Test
@@ -61,17 +48,13 @@ public class TestAccessIntegration extends Assert
         doc = pageTester.clickLink(link);
         Element element = doc.getElementById("has_access");
         assertEquals(element.getChildMarkup(), "everybody has access");
-    }
 
-    @Test
-    public void test_notEnoughRights()
-    {
-        Document doc = pageTester.renderPage("Start");
-        Element link = doc.getElementById("NotEnoughRights");
-
-        doc = pageTester.clickLink(link);
-        Element element = doc.getElementById("login_message");
-        assertEquals(element.getChildMarkup(), "Login Page");
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("testInput", "Sven");
+        Element submit = doc.getElementById("restrictedSubmit");
+        doc = pageTester.clickSubmit(submit, paramMap);
+        element = doc.getElementById("error");
+        assertTrue(element.getChildMarkup().contains("onNotEnoughAccessRights"));
     }
 
     @Test
@@ -86,20 +69,5 @@ public class TestAccessIntegration extends Assert
 
         Element element2 = doc.getElementById("simpleTextField2");
         assertNotNull(element2);
-    }
-
-    @Test
-    public void test_login()
-    {
-        Document doc = pageTester.renderPage("NotEnoughRights");
-
-        Element element = doc.getElementById("login_message");
-        assertEquals(element.getChildMarkup(), "Login Page");
-
-        Element form = doc.getElementById("form");
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("inputUserName", "homburgs");
-        fieldValues.put("inputPassword", "banane");
-        doc = pageTester.submitForm(form, fieldValues);
     }
 }

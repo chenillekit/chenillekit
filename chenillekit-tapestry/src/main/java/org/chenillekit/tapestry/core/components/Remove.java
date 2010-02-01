@@ -19,7 +19,6 @@ package org.chenillekit.tapestry.core.components;
  * <p/>
  * in memorial to tap3 component $remove$
  *
- * @author <a href="mailto:homburgs@gmail.com">S.Homburg</a>
  * @version $Id$
  */
 public class Remove

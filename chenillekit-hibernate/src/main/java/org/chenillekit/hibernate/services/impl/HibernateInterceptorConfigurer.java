@@ -20,7 +20,6 @@ import org.hibernate.Interceptor;
 import org.hibernate.cfg.Configuration;
 
 /**
- * @author <a href="mailto:homburgs@googlemail.com">shomburg</a>
  * @version $Id$
  */
 public class HibernateInterceptorConfigurer implements HibernateConfigurer

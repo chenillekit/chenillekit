@@ -18,8 +18,7 @@ package org.chenillekit.tapestry.core.mixins;
  * Helper mixin that will render a variable element type.
  * Similar to the Any component in Tapestry3.
  *
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
- * @version $Id: Element.java 367 2008-02-06 09:59:36Z homburgs $
+ * @version $Id$
  * @deprecated
  */
 public class Element extends org.chenillekit.tapestry.core.components.Element

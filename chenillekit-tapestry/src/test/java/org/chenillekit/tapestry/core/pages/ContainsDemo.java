@@ -24,7 +24,6 @@ import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.chenillekit.tapestry.core.components.Contains;
 
 /**
- * @author <a href="mailto:homburgs@gmail.com">shomburg</a>
  * @version $Id$
  */
 public class ContainsDemo

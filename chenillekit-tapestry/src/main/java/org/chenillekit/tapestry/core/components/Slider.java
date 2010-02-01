@@ -34,8 +34,7 @@ import org.apache.tapestry5.services.Request;
 /**
  * a slider component that dont must emmbedded in a form..
  *
- * @author <a href="mailto:homburgs@googlemail.com">S.Homburg</a>
- * @version $Id: Slider.java 682 2008-05-20 22:00:02Z homburgs $
+ * @version $Id$
  */
 @IncludeJavaScriptLibrary(value = {"${tapestry.scriptaculous}/controls.js", "${tapestry.scriptaculous}/slider.js"})
 @IncludeStylesheet(value = {"Slider.css"})
@@ -138,8 +137,8 @@ public class Slider implements ClientElement
         if (_disabled)
             jsCommand += ",disabled:true";
 
-        jsCommand += ", onChange:function(value){new Ajax.Request('%s/' + value,{method:'get', onFailure: function(){ alert('%s')}})}});";
-        jsCommand = String.format(Locale.US, jsCommand, getActionLink(), "Something went wrong...");
+        jsCommand += ", onChange:function(value){$('%s').innerHTML = value; new Ajax.Request('%s/' + value,{method:'get', onFailure: function(){ alert('%s')}})}});";
+        jsCommand = String.format(Locale.US, jsCommand, _ouputId, getActionLink(), "Something went wrong...");
 
         _pageRenderSupport.addScript(jsCommand);
     }
