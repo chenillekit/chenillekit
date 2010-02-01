@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2009 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>PropertiesHibernateConfigurer</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
+
+
+    <body>
+
+        <section name="why a new configurer">
+            <p>
+                to make it easier manage hibernate properties that differs between developing and production
+            </p>
+        </section>
+
+    </body>
+
+</document>

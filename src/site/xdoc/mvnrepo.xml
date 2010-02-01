@@ -15,32 +15,32 @@
   -->
 
 <!DOCTYPE document PUBLIC
-		"-//Apache Software Foundation//DTD XDOC 1.0//EN"
-		"http://maven.apache.org/dtd/xdoc_1_0.dtd">
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 
 <document>
 
-	<properties>
-		<title>Maven Repositories</title>
-		<author email="homburgs@gmail.com"/>
-	</properties>
+    <properties>
+        <title>Maven Repositories</title>
+        <author email="homburgs@gmail.com"/>
+    </properties>
 
-	<body>
+    <body>
 
-		<section name="Maven Repositories">
+        <section name="Maven Repositories">
 
-			<p>
-				implement the ChenilleKit dependencies into your project pom.xml
-			</p>
+            <p>
+                implement the ChenilleKit dependencies into your project pom.xml
+            </p>
 
-			<subsection name="Releases">
+            <subsection name="Releases">
 
-				<p>
-					download the latest mavenized snapshots at http://www.chenillekit.org/mvnrepo/release/
-				</p>
+                <p>
+                    download the latest mavenized snapshots at http://www.chenillekit.org/mvnrepo/release/
+                </p>
 
-				<source>
-					<![CDATA[
+                <source>
+                    <![CDATA[
 ...
 <repositories>
 	<repository>
@@ -53,23 +53,23 @@
 </repositories>
 ...
 ]]>
-				</source>
+                </source>
 
-			</subsection>
+            </subsection>
 
-			<subsection name="Snapshots">
+            <subsection name="Snapshots">
 
-				<p>
-					download the latest mavenized snapshots at http://www.chenillekit.org/mvnrepo/snapshot/
-				</p>
+                <p>
+                    download the latest mavenized snapshots at http://snapshots.repository.codehaus.org/
+                </p>
 
-				<source>
-					<![CDATA[
+                <source>
+                    <![CDATA[
 ...
 <repositories>
 	<repository>
 		<id>chenillekit</id>
-		<url>http://www.chenillekit.org/mvnrepo/snapshot</url>
+		<url>http://snapshots.repository.codehaus.org/</url>
 		<snapshots>
 			<enabled>true</enabled>
 		</snapshots>
@@ -77,12 +77,12 @@
 </repositories>
 ...
 ]]>
-				</source>
+                </source>
 
-			</subsection>
+            </subsection>
 
-		</section>
+        </section>
 
-	</body>
+    </body>
 
 </document>
