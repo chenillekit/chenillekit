@@ -4,7 +4,7 @@
   ~ Version 2.0, January 2004
   ~ http://www.apache.org/licenses/
   ~
-  ~ Copyright 2008 by chenillekit.org
+  ~ Copyright 2010 by chenillekit.org
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -34,6 +34,10 @@
 
     <category name="org.chenillekit.access.ChenilleKitAccessModule.AuthService">
         <priority value="trace"/>
+    </category>
+
+    <category name="org.apache.tapestry5.services.TapestryModule.ComponentClassTransformWorker">
+        <priority value="debug"/>
     </category>
 
     <root>

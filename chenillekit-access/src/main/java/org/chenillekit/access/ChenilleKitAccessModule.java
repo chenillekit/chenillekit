@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,10 @@ import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.Marker;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.services.PipelineBuilder;
 import org.apache.tapestry5.ioc.services.TypeCoercer;
 import org.apache.tapestry5.services.ApplicationStateContribution;
@@ -32,6 +34,8 @@ import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.apache.tapestry5.services.MetaDataLocator;
 import org.chenillekit.access.annotations.ChenilleKitAccess;
+import org.chenillekit.access.dao.IProtectionRuleDAO;
+import org.chenillekit.access.dao.JDBCProtectionRuleDAO;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.AuthenticationService;
 import org.chenillekit.access.services.AuthenticationServiceFilter;
@@ -39,11 +43,13 @@ import org.chenillekit.access.services.RedirectService;
 import org.chenillekit.access.services.impl.AccessValidatorImpl;
 import org.chenillekit.access.services.impl.ComponentRequestAccessFilter;
 import org.chenillekit.access.services.impl.CookieRedirectAccessFilter;
+import org.chenillekit.access.services.impl.ManagedRestrictedWorker;
 import org.chenillekit.access.services.impl.RedirectServiceImpl;
 import org.chenillekit.access.services.impl.RestrictedWorker;
 import org.slf4j.Logger;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -65,6 +71,12 @@ public class ChenilleKitAccessModule
     {
         binder.bind(ComponentRequestFilter.class, ComponentRequestAccessFilter.class).withMarker(ChenilleKitAccess.class);
         binder.bind(RedirectService.class, RedirectServiceImpl.class);
+    }
+
+    public static IProtectionRuleDAO buildJDBCProtectionRuleDAO(Connection connection,
+                                                                @Inject @Symbol("tableName") String tableName)
+    {
+        return new JDBCProtectionRuleDAO(connection, tableName);
     }
 
     /**
@@ -128,6 +140,7 @@ public class ChenilleKitAccessModule
             OrderedConfiguration<ComponentClassTransformWorker> configuration)
     {
         configuration.addInstance("Restricted", RestrictedWorker.class, "after:Secure");
+        configuration.addInstance("ManagedRestricted", ManagedRestrictedWorker.class, "after:Secure");
     }
 
     /**
