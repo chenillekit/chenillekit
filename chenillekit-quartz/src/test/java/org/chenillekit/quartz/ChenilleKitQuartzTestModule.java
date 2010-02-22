@@ -14,13 +14,11 @@
 
 package org.chenillekit.quartz;
 
-import org.apache.tapestry5.ioc.MappedConfiguration;
+import java.net.URL;
+
 import org.apache.tapestry5.ioc.OrderedConfiguration;
-import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.chenillekit.quartz.services.impl.DummyServiceImpl;
 import org.chenillekit.quartz.services.impl.SimpleJobSchedulingBundleImpl;
@@ -66,10 +64,11 @@ public class ChenilleKitQuartzTestModule
         configuration.add("MyFirstJob", new SimpleJobSchedulingBundleImpl(myTestDetail, myTestTrigger));
     }
 
-    public static void contributeSchedulerFactory(MappedConfiguration<String, Resource> configuration)
+    public static void contributeSchedulerFactory(OrderedConfiguration<URL> configuration)
     {
-        Resource configResource = new ClasspathResource("quartz.properties");
-        configuration.add(ChenilleKitQuartzConstants.CONFIG_RESOURCE_KEY, configResource);
+    	URL propfile = ChenilleKitQuartzTestModule.class.getResource("/quartz.properties");
+    	
+    	configuration.add("TestConfig", propfile);
     }
 
 

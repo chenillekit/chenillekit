@@ -65,26 +65,26 @@
 #============================================================================
 # Configure Main Scheduler Properties
 #============================================================================
-org.quartz.scheduler.instanceName = MasterScheduler
-org.quartz.scheduler.instanceId = AUTO
+org.quartz.scheduler.instanceName=MasterScheduler
+org.quartz.scheduler.instanceId=AUTO
 
 #============================================================================
 # Configure ThreadPool
 #============================================================================
-org.quartz.threadPool.class = org.quartz.simpl.SimpleThreadPool
-org.quartz.threadPool.threadCount = 3
-org.quartz.threadPool.threadPriority = 5
+org.quartz.threadPool.class=org.quartz.simpl.SimpleThreadPool
+org.quartz.threadPool.threadCount=3
+org.quartz.threadPool.threadPriority=5
 
 #============================================================================
 # Configure JobStore
 #============================================================================
-org.quartz.jobStore.misfireThreshold = 60000
-org.quartz.jobStore.class = org.quartz.simpl.RAMJobStore
+org.quartz.jobStore.misfireThreshold=60000
+org.quartz.jobStore.class=org.quartz.simpl.RAMJobStore
 
 #============================================================================
 # Configure Plugins
 #============================================================================
-org.quartz.plugin.triggHistory.class = org.quartz.plugins.history.LoggingJobHistoryPlugin
+org.quartz.plugin.triggHistory.class=org.quartz.plugins.history.LoggingJobHistoryPlugin
 ]]>
                 </source>
 
