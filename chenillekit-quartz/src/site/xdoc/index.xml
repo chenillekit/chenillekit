@@ -94,10 +94,10 @@ org.quartz.plugin.triggHistory.class=org.quartz.plugins.history.LoggingJobHistor
 
                 <source>
                     <![CDATA[
-public static void contributeSchedulerFactory(MappedConfiguration<String, Resource> configuration)
+public static void contributeSchedulerFactory(OrderedConfiguration<URL> configuration)
 {
-    Resource configResource = new ClasspathResource("scheduler.properties");
-    configuration.add("quartz.properties", configResource);
+    URL config  = this.getClass().getResource("/quartz.properties");
+    configuration.add("DefaultQuartzConfig", config);
 }
 ]]>
                 </source>
