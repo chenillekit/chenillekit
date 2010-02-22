@@ -31,6 +31,7 @@ import org.chenillekit.reports.utils.ExportFormat;
  */
 public interface ReportsService
 {
+	@Deprecated
     public final String CONFIG_RESOURCE_KEY = "jasperreports.properties";
 
     /**

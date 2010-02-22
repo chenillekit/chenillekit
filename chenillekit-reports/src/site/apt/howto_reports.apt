@@ -8,9 +8,10 @@ Configure the report service
   If you want to use the default values, leave it.
 
 +---+
-public static void contributeReportsService(MappedConfiguration<String, Resource> configuration)
+public static void contributeReportsService(OrderedConfiguration<URL> configuration)
 {
-	configuration.add(ReportsService.CONFIG_RESOURCE_KEY, new ClasspathResource("jasperreports.properties"));
+	URL config = this.getClass().getResource("/jasperreports.properties");
+	configuration.add("DefaultJasperConfig", config);
 }
 +---+
 

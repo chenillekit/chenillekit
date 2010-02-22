@@ -17,17 +17,14 @@ package org.chenillekit.reports.services.impl;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.internal.util.Defense;
-import org.apache.tapestry5.ioc.internal.util.InternalUtils;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -48,6 +45,8 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+
+import org.apache.tapestry5.ioc.Resource;
 import org.chenillekit.reports.services.ReportsService;
 import org.chenillekit.reports.utils.ExportFormat;
 import org.slf4j.Logger;
@@ -62,37 +61,34 @@ public class ReportsServiceImpl implements ReportsService
 {
 	private Logger logger;
 
-	public ReportsServiceImpl(Logger logger, Resource configuration)
+	public ReportsServiceImpl(Logger logger, List<URL> configurations)
 	{
-		Defense.notNull(configuration, "configuration");
-		InputStream is = null;
+		if (configurations.isEmpty())
+			throw new RuntimeException("Configurations for JasperReports needed");
+		
 		this.logger = logger;
 
 		try
 		{
 			JRProperties.setProperty(JRProperties.COMPILER_TEMP_DIR, System.getProperty("java.io.tmpdir"));
-
-			if (configuration != null)
+			
+			Properties properties = new Properties();
+			
+			for (URL url : configurations)
 			{
-				Properties properties = new Properties();
-
-				is = configuration.toURL().openStream();
-				properties.load(is);
-				Enumeration enumeration = properties.keys();
-				while (enumeration.hasMoreElements())
-				{
-					String key = (String) enumeration.nextElement();
-					JRProperties.setProperty(key.toUpperCase(), properties.getProperty(key));
-				}
+				properties.load(url.openStream());
+			}
+			
+			Enumeration enumeration = properties.keys();
+			while (enumeration.hasMoreElements())
+			{
+				String key = (String) enumeration.nextElement();
+				JRProperties.setProperty(key.toUpperCase(), properties.getProperty(key));
 			}
 		}
 		catch (IOException e)
 		{
 			throw new RuntimeException(e.getLocalizedMessage(), e);
-		}
-		finally
-		{
-			InternalUtils.close(is);
 		}
 	}
 
