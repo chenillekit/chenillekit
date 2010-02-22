@@ -74,13 +74,14 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 
 			private boolean hasCorrectPrefix(TransformMethod method)
 			{
-				return method.getName().startsWith("on");
+				return method.getName().startsWith("on") &&
+						method.getAnnotation(Restricted.class) != null;
 			}
 
 			private boolean hasAnnotation(TransformMethod method)
 			{
-				return method.getAnnotation(OnEvent.class) != null
-							&& method.getAnnotation(Restricted.class) != null;
+				return method.getAnnotation(OnEvent.class) != null &&
+							method.getAnnotation(Restricted.class) != null;
 			}
 		});
 	}
