@@ -18,12 +18,12 @@ import org.apache.tapestry5.test.SeleniumTestCase;
 import org.testng.annotations.Test;
 
 /**
- *
  * @version $Id$
  */
 @Test
-public class TestAccessIntegration2 extends SeleniumTestCase
+public class AccessIntegration extends SeleniumTestCase
 {
+	
     public void base_url_text_present() throws Exception
     {
         openBaseURL();
@@ -31,7 +31,7 @@ public class TestAccessIntegration2 extends SeleniumTestCase
         assertTextPresent("Restricted");
         assertTextPresent("UnRestricted");
     }
-	
+    
     public void un_restrcited_page() throws Exception
     {
         openBaseURL();
