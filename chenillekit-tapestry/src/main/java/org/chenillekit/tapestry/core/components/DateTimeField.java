@@ -27,7 +27,6 @@ import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.FieldValidationSupport;
 import org.apache.tapestry5.FieldValidator;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.ValidationException;
 import org.apache.tapestry5.ValidationTracker;
 import org.apache.tapestry5.annotations.Environmental;
@@ -43,6 +42,7 @@ import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.services.FieldValidatorDefaultSource;
 import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * A component used to collect a provided date/time from the user using a client-side JavaScript calendar. Non-JavaScript
@@ -119,7 +119,7 @@ public class DateTimeField extends AbstractField
 	private boolean lenient;
 
 	@Environmental
-	private RenderSupport support;
+	private JavascriptSupport javascriptSupport;
 
 	@Environmental
 	private ValidationTracker tracker;
@@ -247,7 +247,7 @@ public class DateTimeField extends AbstractField
 		else
 			setup.put("timeFormat", datePattern);
 
-		support.addScript("new Control.DatePicker('%s', %s);", getClientId(), setup);
+		javascriptSupport.addScript("new Control.DatePicker('%s', %s);", getClientId(), setup);
 	}
 
 	private void writeDisabled(MarkupWriter writer)

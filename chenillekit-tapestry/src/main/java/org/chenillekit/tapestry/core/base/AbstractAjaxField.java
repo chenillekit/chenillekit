@@ -17,7 +17,6 @@ package org.chenillekit.tapestry.core.base;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.ValidationDecorator;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Mixin;
@@ -26,6 +25,7 @@ import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.corelib.mixins.DiscardBody;
 import org.apache.tapestry5.corelib.mixins.RenderDisabled;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * @version $Id$
@@ -61,7 +61,7 @@ abstract public class AbstractAjaxField implements ClientElement
     private String assignedClientId;
 
     @Environmental
-    private RenderSupport renderSupport;
+    private JavascriptSupport javascriptSupport;
 
     @Inject
     private ComponentResources resources;
@@ -69,7 +69,7 @@ abstract public class AbstractAjaxField implements ClientElement
     @SetupRender
     void setupRender()
     {
-        assignedClientId = renderSupport.allocateClientId(clientId);
+        assignedClientId = javascriptSupport.allocateClientId(clientId);
     }
 
     public final String getClientId()

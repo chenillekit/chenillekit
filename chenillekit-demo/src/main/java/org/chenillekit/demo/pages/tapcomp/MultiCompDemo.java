@@ -17,6 +17,7 @@ package org.chenillekit.demo.pages.tapcomp;
 import java.util.Date;
 
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Mixins;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Form;
@@ -40,6 +41,10 @@ public class MultiCompDemo
     @Persist(value = "flash")
     @Property
     private String city;
+
+    @Persist(value = "flash")
+    @Property
+    private String maskedValue;
 
     @Persist(value = "flash")
     @Property
@@ -78,4 +83,11 @@ public class MultiCompDemo
 
     @Component(parameters = {"value=dateValue"})
     private DateSelector dateSelector;
+
+	@Component
+	private Form form4;
+
+    @Component(parameters = {"value=maskedValue", "MaskedInput.mask=(999)999-999-999"})
+	@Mixins({"ck/MaskedInput"})
+    private TextField maskedInput;
 }

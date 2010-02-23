@@ -18,7 +18,7 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
+import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
@@ -26,9 +26,9 @@ import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 import org.chenillekit.google.services.GoogleGeoCoder;
-import org.chenillekit.google.utils.geocode.GeoCodeResult;
 
 
 /**
@@ -55,8 +55,8 @@ public class GPlotter implements ClientElement
 	/**
 	 * RenderSupport to get unique client side id.
 	 */
-	@Inject
-	private RenderSupport renderSupport;
+	@Environmental
+	private JavascriptSupport javascriptSupport;
 
 	/**
 	 * inject our google map service.
@@ -90,7 +90,7 @@ public class GPlotter implements ClientElement
 
 	void setupRender()
 	{
-		assignedClientId = renderSupport.allocateClientId(clientId);
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 	}
 
 	public String getPlotterId()
@@ -135,14 +135,14 @@ public class GPlotter implements ClientElement
 
 		configure(configuration);
 
-		renderSupport.addScript("var %s = new Ck.GPlotter('%s_map', '%s', '%s', '%s', %s);",
+		javascriptSupport.addScript("var %s = new Ck.GPlotter('%s_map', '%s', '%s', '%s', %s);",
 				getClientId(), getClientId(),
 				geoCoder.getKey(),
 				errorCallbackFunction,
 				dragendCallbackFunction,
 				configuration.toString());
 
-		renderSupport.addScript("%s.setCenter(%s, %s);", getClientId(), lat, lng);
+		javascriptSupport.addScript("%s.setCenter(%s, %s);", getClientId(), lat, lng);
 
 	}
 

@@ -17,12 +17,12 @@ package org.chenillekit.tapestry.core.components;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.json.JSONObject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * A component for creating a slide show from a generic group of HTML
@@ -72,13 +72,13 @@ public class SlideShow implements ClientElement
 	private String clientId;
 
 	@Environmental
-	private RenderSupport renderSupport;
+	private JavascriptSupport javascriptSupport;
 
 	private String assignedClientId;
 
 	void setupRender()
 	{
-		assignedClientId = renderSupport.allocateClientId(clientId);
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 	}
 
 	void beginRender(final MarkupWriter writer)
@@ -90,7 +90,7 @@ public class SlideShow implements ClientElement
 		jsConfig.put("loop", loop);
 		jsConfig.put("pauseOnHover", pauseOnHover);
 		jsConfig.put("calculateElementSize", calculateElementSize);
-		renderSupport.addScript("new Ck.SlideShow('%s', %s);", getClientId(), jsConfig);
+		javascriptSupport.addScript("new Ck.SlideShow('%s', %s);", getClientId(), jsConfig);
 	}
 
 	public String getClientId()

@@ -19,13 +19,13 @@ import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.MarkupWriterListener;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.AfterRenderTemplate;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * @version $Id$
@@ -55,7 +55,7 @@ abstract public class AbstractYahooComponent implements ClientElement
 	 * RenderSupport to get unique client side id.
 	 */
 	@Environmental
-	private RenderSupport renderSupport;
+	private JavascriptSupport javascriptSupport;
 
 	/**
 	 * For blocks, messages, crete actionlink, trigger event.
@@ -72,7 +72,7 @@ abstract public class AbstractYahooComponent implements ClientElement
 	 */
 	void setupRender()
 	{
-		assignedClientId = renderSupport.allocateClientId(clientId);
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 	}
 
 	/**

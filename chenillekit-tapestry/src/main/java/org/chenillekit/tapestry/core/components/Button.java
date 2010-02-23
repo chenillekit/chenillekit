@@ -22,14 +22,15 @@ import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.corelib.components.PageLink;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * Render a button tag element and bind to it's "click" event an event on the server side.
@@ -83,6 +84,12 @@ public class Button implements ClientElement
     private String clientId;
 
     /**
+     * To ask for a confirmation or not
+     */
+    @Parameter(value = "literal:false")
+    private boolean confirm;
+
+    /**
      * The context for the link (optional parameter). This list of values will
      * be converted into strings and included in the URI. The strings will be
      * coerced back to whatever their values are and made available to event
@@ -93,13 +100,16 @@ public class Button implements ClientElement
     private List<?> context;
 
     @Environmental
-    private RenderSupport renderSupport;
+    private JavascriptSupport javascriptSupport;
 
     @Inject
     private ComponentResources resources;
-    
+
     @Inject
     private PageRenderLinkSource pageRenderResources;
+
+    @Inject
+    private Messages messages;
 
     private String assignedClientId;
 
@@ -107,7 +117,7 @@ public class Button implements ClientElement
 
     void setupRender()
     {
-        assignedClientId = renderSupport.allocateClientId(clientId);
+        assignedClientId = javascriptSupport.allocateClientId(clientId);
         contextArray = context == null ? new Object[0] : context.toArray();
     }
 
@@ -122,7 +132,7 @@ public class Button implements ClientElement
         if (!disabled && type.equalsIgnoreCase(TYPE_BUTTON))
         {
             Link link;
-            
+
             if (pageName != null)
             {
             	link = pageRenderResources.createPageRenderLinkWithContext(pageName, contextArray);
@@ -131,9 +141,14 @@ public class Button implements ClientElement
             {
             	link = resources.createEventLink(event, contextArray);
             }
-            
-            renderSupport.addScript("new Ck.ButtonEvent('%s', '%s');",
-                                    getClientId(), link.toAbsoluteURI());
+
+            String message = "";
+
+            if (this.confirm)
+            	message = messages.format("ck-button-confirm-message", clientId);
+
+            javascriptSupport.addScript("new Ck.ButtonEvent('%s', '%s', '%s');",
+                                    getClientId(), link.toAbsoluteURI(), message);
         }
 
         // Close the button tag

@@ -21,8 +21,8 @@ import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.Field;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.StreamResponse;
+import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.InjectContainer;
@@ -31,6 +31,7 @@ import org.apache.tapestry5.corelib.components.TextArea;
 import org.apache.tapestry5.internal.util.Holder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 import org.apache.tapestry5.upload.services.MultipartDecoder;
 import org.apache.tapestry5.upload.services.UploadedFile;
 import org.apache.tapestry5.util.TextStreamResponse;
@@ -61,8 +62,8 @@ public class SimpleEditor extends AbstractYahooComponent
 	/**
 	 * RenderSupport to get unique client side id.
 	 */
-	@Inject
-	private RenderSupport renderSupport;
+	@Environmental
+	private JavascriptSupport javascriptSupport;
 
 	/**
 	 * For blocks, messages, crete actionlink, trigger event.
@@ -107,7 +108,7 @@ public class SimpleEditor extends AbstractYahooComponent
 		if (allowUploads)
 			uploadEventLink = resources.createEventLink(INTERNAL_EVENT);
 
-		renderSupport.addScript("new Ck.YuiSimpleEditor('%s', '%s', %s);", clientElement.getClientId(), uploadEventLink, options);
+		javascriptSupport.addScript("new Ck.YuiSimpleEditor('%s', '%s', %s);", clientElement.getClientId(), uploadEventLink, options);
 	}
 
 	StreamResponse onInternalUploaded()

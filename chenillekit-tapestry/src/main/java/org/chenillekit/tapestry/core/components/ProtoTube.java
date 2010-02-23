@@ -20,7 +20,6 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
@@ -28,6 +27,7 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 import org.chenillekit.tapestry.core.utils.ProtoTubeIdHolder;
 
@@ -88,7 +88,7 @@ public class ProtoTube implements ClientElement
 	private List<ProtoTubeIdHolder> youtubeIds;
 
 	@Environmental
-	private RenderSupport renderSupport;
+	private JavascriptSupport javascriptSupport;
 
 	@Inject
 	private ComponentResources resources;
@@ -101,7 +101,7 @@ public class ProtoTube implements ClientElement
 	 */
 	void setupRender()
 	{
-		assignedClientId = renderSupport.allocateClientId(clientId);
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 	}
 
 
@@ -138,7 +138,7 @@ public class ProtoTube implements ClientElement
 		//
 		configure(config);
 
-		renderSupport.addScript("$$('div#%s a').each( function(el) {new ProtoTube(el, %s);});", getClientId(), config);
+		javascriptSupport.addScript("$$('div#%s a').each( function(el) {new ProtoTube(el, %s);});", getClientId(), config);
 	}
 
 	/**

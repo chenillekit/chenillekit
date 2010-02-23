@@ -23,6 +23,7 @@ import org.apache.tapestry5.ioc.annotations.EagerLoad;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
+
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.chenillekit.quartz.services.QuartzSchedulerManager;
 import org.chenillekit.quartz.services.impl.QuartzSchedulerManagerImpl;
@@ -47,7 +48,7 @@ public class ChenilleKitQuartzModule
      *
      * @return scheduler factory
      */
-    public static SchedulerFactory buildSchedulerFactory(Logger logger,
+    public SchedulerFactory buildSchedulerFactory(Logger logger,
                                                          RegistryShutdownHub shutdownHub,
                                                          List<URL> contributions)
     {
@@ -112,7 +113,7 @@ public class ChenilleKitQuartzModule
      * @return scheduler manager
      */
     @EagerLoad
-    public static QuartzSchedulerManager buildQuartzSchedulerManager(Logger logger, final SchedulerFactory schedulerFactory,
+    public QuartzSchedulerManager buildQuartzSchedulerManager(Logger logger, final SchedulerFactory schedulerFactory,
                                                                      final List<JobSchedulingBundle> jobSchedulingBundles)
     {
         return new QuartzSchedulerManagerImpl(logger, schedulerFactory, jobSchedulingBundles);

@@ -28,6 +28,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.AssetSource;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * creates a window based on jvascript <a href="http://prototype-window.xilinus.com/">window</a> library.
@@ -111,6 +112,9 @@ abstract public class AbstractWindow implements ClientElement
     private String assignedClientId;
 
     @Environmental
+    private JavascriptSupport javascriptSupport;
+
+    @Environmental
     private RenderSupport renderSupport;
 
     @Inject
@@ -133,7 +137,7 @@ abstract public class AbstractWindow implements ClientElement
         // Often, these controlName and clientId will end up as the same value. There are many
         // exceptions, including a form that renders inside a loop, or a form inside a component
         // that is used multiple times.
-        assignedClientId = renderSupport.allocateClientId(clientId);
+        assignedClientId = javascriptSupport.allocateClientId(clientId);
     }
 
     /**

@@ -60,25 +60,29 @@ Ck.OnEvent.prototype = {
     }
 }
 
-
-Ck.ButtonEvent = Class.create();
-Ck.ButtonEvent.prototype =
+Ck.ButtonEvent = Class.create(
 {
-    initialize: function(elementId, requestUrl)
-    {
-        if (!$(elementId))
-            throw(elementId + " doesn't exist!");
+  initialize: function(elementId, requestUrl, confirmMessage)
+  {
+      if (!$(elementId))
+          throw(elementId + " doesn't exist!");
 
-        this.element = $(elementId);
-        this.requestUrl = requestUrl;
+      this.element = $(elementId);
+      this.requestUrl = requestUrl;
 
-        Event.observe(this.element, "click",
-                this.fireEvent.bind(this, this.element),
-                false);
-    },
-    fireEvent: function(myEvent)
-    {
-        document.location = this.requestUrl;
-        return false;
-    }
-}
+      this.confirmMessage = confirmMessage;
+
+      Event.observe(this.element, "click",
+              this.fireEvent.bind(this),
+              false);
+  },
+  fireEvent: function(event)
+  {
+  	if (this.confirmMessage.length < 2 || confirm(this.confirmMessage))
+  		document.location = this.requestUrl;
+  	else
+  		event.stop();
+
+      return false;
+  }
+});

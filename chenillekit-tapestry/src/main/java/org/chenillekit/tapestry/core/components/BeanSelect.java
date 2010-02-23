@@ -20,7 +20,6 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Parameter;
@@ -29,6 +28,7 @@ import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.services.PropertyAccess;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 import org.chenillekit.tapestry.core.internal.GenericSelectionModel;
 import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
@@ -91,13 +91,13 @@ public class BeanSelect implements ClientElement
 	private GenericValueEncoder<Object> encoder;
 
 	@Environmental
-	private RenderSupport renderSupport;
+	private JavascriptSupport javascriptSupport;
 
 	private String assignedClientId;
 
 	void setupRender()
 	{
-		assignedClientId = renderSupport.allocateClientId(clientId);
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 	}
 
 	void beginRender(MarkupWriter writer)

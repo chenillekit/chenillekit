@@ -18,13 +18,13 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * displays a colored container with rounded corners without pics or any mozilla-css goodies.
@@ -76,13 +76,13 @@ public class RoundCornerContainer implements ClientElement
 	private ComponentResources resources;
 
 	@Environmental
-	private RenderSupport pageRenderSupport;
+	private JavascriptSupport javascriptSupport;
 
 	private String _assignedClientId;
 
 	void setupRender()
 	{
-		_assignedClientId = pageRenderSupport.allocateClientId(clientId);
+		_assignedClientId = javascriptSupport.allocateClientId(clientId);
 	}
 
 	void beginRender(MarkupWriter writer)
@@ -94,9 +94,9 @@ public class RoundCornerContainer implements ClientElement
 	void afterRender(MarkupWriter writer)
 	{
 		writer.end();
-		pageRenderSupport.addScript("var %s = new Ck.Rounded('%s', '%s', '%s', '%s', '%s');",
+		javascriptSupport.addScript("var %s = new Ck.Rounded('%s', '%s', '%s', '%s', '%s');",
 									getClientId(), getClientId(), bgcolor, fgcolor, size, renderPart);
-		pageRenderSupport.addScript("%s.round();", getClientId());
+		javascriptSupport.addScript("%s.round();", getClientId());
 	}
 
 	/**

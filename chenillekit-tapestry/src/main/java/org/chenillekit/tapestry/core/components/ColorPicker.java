@@ -16,13 +16,13 @@ package org.chenillekit.tapestry.core.components;
 
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
+import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.base.AbstractTextField;
-import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * A simple color picker component. Supports saving custom colors to the palette via cookies. To open the palette,
@@ -55,8 +55,8 @@ public class ColorPicker extends AbstractTextField
 	/**
 	 * RenderSupport to get unique client side id
 	 */
-	@Inject
-	private RenderSupport renderSupport;
+	@Environmental
+	private JavascriptSupport javascriptSupport;
 
 
 	/**
@@ -101,6 +101,6 @@ public class ColorPicker extends AbstractTextField
 		if (label != null)
 			setup.put("addLabel", label);
 
-		renderSupport.addScript("new Control.ColorPicker('%s', %s);", getClientId(), setup);
+		javascriptSupport.addScript("new Control.ColorPicker('%s', %s);", getClientId(), setup);
 	}
 }

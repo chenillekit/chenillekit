@@ -17,13 +17,13 @@ package org.chenillekit.tapestry.core.components;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * closeable fieldset.
@@ -52,7 +52,7 @@ public class FieldSet
     private String _assignedClientId;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private JavascriptSupport javascriptSupport;
 
     @Inject
     private ComponentResources _resources;
@@ -64,7 +64,7 @@ public class FieldSet
         // Often, these controlName and _clientId will end up as the same value. There are many
         // exceptions, including a form that renders inside a loop, or a form inside a component
         // that is used multiple times.
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        _assignedClientId = javascriptSupport.allocateClientId(_clientId);
     }
 
     void beginRender(MarkupWriter writer)
@@ -77,7 +77,7 @@ public class FieldSet
     {
         writer.end();
 
-        _pageRenderSupport.addScript("var %s = new Ck.FieldSet('%s', %s);", getClientId(), getClientId(), _closed);
+        javascriptSupport.addScript("var %s = new Ck.FieldSet('%s', %s);", getClientId(), getClientId(), _closed);
     }
 
     public String getClientId()

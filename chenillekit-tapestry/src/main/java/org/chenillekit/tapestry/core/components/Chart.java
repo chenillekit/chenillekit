@@ -20,12 +20,13 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
+import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 import org.chenillekit.tapestry.core.utils.XYDataItem;
 
@@ -55,8 +56,8 @@ public class Chart implements ClientElement
     /**
      * PageRenderSupport to get unique client side id.
      */
-    @Inject
-    private RenderSupport _renderSupport;
+    @Environmental
+    private JavascriptSupport javascriptSupport;
 
     /**
      * For blocks, messages, crete actionlink, trigger event.
@@ -72,7 +73,7 @@ public class Chart implements ClientElement
      */
     void setupRender()
     {
-        _assignedClientId = _renderSupport.allocateClientId(_clientId);
+        _assignedClientId = javascriptSupport.allocateClientId(_clientId);
     }
 
     /**
@@ -111,7 +112,7 @@ public class Chart implements ClientElement
                 List<XYDataItem> dataItems = _dataItemsList.get(i);
 
                 String dataVarName = String.format("d%d", i);
-                _renderSupport.addScript("var %s = %s;", dataVarName, buildDataValuesString(dataItems));
+                javascriptSupport.addScript("var %s = %s;", dataVarName, buildDataValuesString(dataItems));
                 dataArrayString += dataVarName;
                 if (i < _dataItemsList.size() - 1)
                     dataArrayString += ",";
@@ -136,7 +137,7 @@ public class Chart implements ClientElement
 
         javaScriptCall += ");";
 
-        _renderSupport.addScript(javaScriptCall, getClientId(), getClientId(), dataArrayString);
+        javascriptSupport.addScript(javaScriptCall, getClientId(), getClientId(), dataArrayString);
     }
 
     /**

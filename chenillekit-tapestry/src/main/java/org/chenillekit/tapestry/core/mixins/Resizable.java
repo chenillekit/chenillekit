@@ -18,7 +18,6 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
@@ -26,6 +25,7 @@ import org.apache.tapestry5.annotations.InjectContainer;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Cookies;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * Helper mixin that will render a variable element type.
@@ -48,7 +48,7 @@ public class Resizable implements ClientElement
     private ComponentResources _resources;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private JavascriptSupport javascriptSupport;
 
     @Inject
     private Cookies _cookies;
@@ -78,7 +78,7 @@ public class Resizable implements ClientElement
 
     void setupRender()
     {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        _assignedClientId = javascriptSupport.allocateClientId(_clientId);
     }
 
     /**
@@ -100,10 +100,10 @@ public class Resizable implements ClientElement
             int height = getIntValueFromCookie(_clientElement.getClientId() + ".height");
 
             if (width > 0)
-                _pageRenderSupport.addScript("$('%s').style.width = '%dpx';", _clientElement.getClientId(), width);
+                javascriptSupport.addScript("$('%s').style.width = '%dpx';", _clientElement.getClientId(), width);
 
             if (height > 0)
-                _pageRenderSupport.addScript("$('%s').style.height = '%dpx';", _clientElement.getClientId(), height);
+                javascriptSupport.addScript("$('%s').style.height = '%dpx';", _clientElement.getClientId(), height);
         }
 
         String jsString = "%s = new Resizable('%s', {handle:$('handle_%s')";
@@ -111,7 +111,7 @@ public class Resizable implements ClientElement
             jsString += String.format(",constraint:'%s'", _constraint);
         jsString += ", persist:%s});";
 
-        _pageRenderSupport.addScript(jsString, getClientId(), _clientElement.getClientId(), _clientElement.getClientId(), _persist);
+        javascriptSupport.addScript(jsString, getClientId(), _clientElement.getClientId(), _clientElement.getClientId(), _persist);
     }
 
     /**

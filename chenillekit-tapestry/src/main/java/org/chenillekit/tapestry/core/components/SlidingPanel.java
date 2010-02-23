@@ -18,13 +18,13 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * diplays a panel that can open/close its content.
@@ -67,13 +67,13 @@ public class SlidingPanel implements ClientElement
     private ComponentResources resources;
 
     @Environmental
-    private RenderSupport renderSupport;
+    private JavascriptSupport javascriptSupport;
 
     private String assignedClientId;
 
     void setupRender()
     {
-        assignedClientId = renderSupport.allocateClientId(clientId);
+        assignedClientId = javascriptSupport.allocateClientId(clientId);
     }
 
     /**
@@ -103,7 +103,7 @@ public class SlidingPanel implements ClientElement
         writer.end(); // Tag 'div.outer_panel'
         writer.end(); // Tag 'div.outer_panel'
         writer.end(); // main div
-        renderSupport.addScript("new Ck.SlidingPanel('%s', %s, %s);", getClientId(), closed, options);
+        javascriptSupport.addScript("new Ck.SlidingPanel('%s', %s, %s);", getClientId(), closed, options);
     }
 
     /**

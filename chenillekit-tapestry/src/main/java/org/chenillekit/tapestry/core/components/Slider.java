@@ -21,7 +21,6 @@ import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
@@ -29,6 +28,7 @@ import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 
 /**
@@ -40,78 +40,78 @@ import org.apache.tapestry5.services.Request;
 @IncludeStylesheet(value = {"Slider.css"})
 public class Slider implements ClientElement
 {
-    private final static String _handleCSS = "ck_slider-handle";
-    private final static String _trackCSS = "ck_slider-track";
-    private final static String _valueCSS = "ck_slider-value";
+    private final static String handleCSS = "ck_slider-handle";
+    private final static String trackCSS = "ck_slider-track";
+    private final static String valueCSS = "ck_slider-value";
 
     /**
      * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
      * times, a suffix will be appended to the to id to ensure uniqueness.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * The value to read or update.
      */
     @Parameter(required = true)
-    private Number _value;
+    private Number value;
 
     /**
      * min. slide-able value.
      */
     @Parameter(value = "0", required = false)
-    private Number _min;
+    private Number min;
 
     /**
      * max. slide-able value.
      */
     @Parameter(value = "100", required = false)
-    private Number _max;
+    private Number max;
 
     /**
      * increments x on every step.
      */
     @Parameter(value = "1", required = false)
-    private Number _inc;
+    private Number inc;
 
     /**
      * If true, then the field will render out with a disabled attribute (to turn off client-side behavior).
      * Further, a disabled field ignores any value in the request when the form is submitted.
      */
     @Parameter(value = "false", required = false)
-    private boolean _disabled;
+    private boolean disabled;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources componentResources;
 
     @Inject
-    private Request _request;
+    private Request request;
 
-    private String _handleId;
-    private String _tackId;
-    private String _ouputId;
+    private String handleId;
+    private String tackId;
+    private String ouputId;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private JavascriptSupport javascriptSupport;
 
-    private String _assignedClientId;
+    private String assignedClientId;
 
     void setupRender()
     {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        assignedClientId = javascriptSupport.allocateClientId(clientId);
     }
 
     void beginRender(MarkupWriter writer)
     {
-        _handleId = "handle_" + getClientId();
-        _tackId = "track_" + getClientId();
-        _ouputId = "ouput_" + getClientId();
+        handleId = "handle_" + getClientId();
+        tackId = "track_" + getClientId();
+        ouputId = "ouput_" + getClientId();
 
-        writer.element("div", "id", _tackId,
-                       "class", _trackCSS);
-        writer.element("div", "id", _handleId,
-                       "class", _handleCSS);
+        writer.element("div", "id", tackId,
+                       "class", trackCSS);
+        writer.element("div", "id", handleId,
+                       "class", handleCSS);
     }
 
     void afterRender(MarkupWriter writer)
@@ -119,49 +119,49 @@ public class Slider implements ClientElement
         writer.end();
         writer.end();
 
-        writer.element("div", "id", _ouputId, "class", _valueCSS);
+        writer.element("div", "id", ouputId, "class", valueCSS);
 
-        if (_value == null)
-            _value = 0;
+        if (value == null)
+            value = 0;
 
-        writer.write(_value.toString());
+        writer.write(value.toString());
 
         writer.end();
 
 
-        String jsCommand = "new Control.Slider('%s','%s',{sliderValue:" + getNumberPattern(_value) + ",range:" +
-                "$R(" + getNumberPattern(_min) + "," + getNumberPattern(_max) + "),increment:" + getNumberPattern(_inc) +
+        String jsCommand = "new Control.Slider('%s','%s',{sliderValue:" + getNumberPattern(value) + ",range:" +
+                "$R(" + getNumberPattern(min) + "," + getNumberPattern(max) + "),increment:" + getNumberPattern(inc) +
                 ",onSlide:function(v){$('%s').innerHTML = v}";
-        jsCommand = String.format(Locale.US, jsCommand, _handleId, _tackId, _value, _min, _max, _inc, _ouputId);
+        jsCommand = String.format(Locale.US, jsCommand, handleId, tackId, value, min, max, inc, ouputId);
 
-        if (_disabled)
+        if (disabled)
             jsCommand += ",disabled:true";
 
         jsCommand += ", onChange:function(value){$('%s').innerHTML = value; new Ajax.Request('%s/' + value,{method:'get', onFailure: function(){ alert('%s')}})}});";
-        jsCommand = String.format(Locale.US, jsCommand, _ouputId, getActionLink(), "Something went wrong...");
+        jsCommand = String.format(Locale.US, jsCommand, ouputId, getActionLink(), "Something went wrong...");
 
-        _pageRenderSupport.addScript(jsCommand);
+        javascriptSupport.addScript(jsCommand);
     }
 
     @OnEvent(value = "action")
     private void onAction(Number value)
     {
-        _value = value;
+        this.value = value;
     }
 
     public Number getValue()
     {
-        return _value;
+        return value;
     }
 
     public void setValue(Number value)
     {
-        _value = value;
+        this.value = value;
     }
 
     public String getActionLink()
     {
-        return _resources.createActionLink(EventConstants.ACTION, false).toURI();
+        return componentResources.createEventLink(EventConstants.ACTION).toURI();
     }
 
     private String getNumberPattern(Number value)
@@ -181,6 +181,6 @@ public class Slider implements ClientElement
      */
     public String getClientId()
     {
-        return _assignedClientId;
+        return assignedClientId;
     }
 }

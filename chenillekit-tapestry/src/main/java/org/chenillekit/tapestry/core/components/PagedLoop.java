@@ -17,7 +17,6 @@ package org.chenillekit.tapestry.core.components;
 import org.apache.tapestry5.Block;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.PrimaryKeyEncoder;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
@@ -25,6 +24,7 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.corelib.components.Delegate;
 import org.apache.tapestry5.corelib.components.Loop;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 import org.apache.tapestry5.util.StringToEnumCoercion;
 
 import org.chenillekit.tapestry.core.internal.PagedSource;
@@ -40,7 +40,7 @@ import org.chenillekit.tapestry.core.internal.PagerPosition;
 public class PagedLoop implements ClientElement
 {
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private JavascriptSupport javascriptSupport;
 
     @Parameter(value = "prop:componentResources.id", defaultPrefix = "literal")
     private String _clientId;
@@ -188,7 +188,7 @@ public class PagedLoop implements ClientElement
 		if (_currentPage == 0)
 			_currentPage = 1;
 
-		_assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+		_assignedClientId = javascriptSupport.allocateClientId(_clientId);
         _internalPagerPosition = new StringToEnumCoercion<PagerPosition>(
                 PagerPosition.class).coerce(_pagerPosition);
 

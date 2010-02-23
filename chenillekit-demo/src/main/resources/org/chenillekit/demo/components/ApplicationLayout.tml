@@ -15,7 +15,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 		"http://www.w3.org/TR/html4/loose.dtd">
 
-<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
 	<meta http-equiv="cache-control" content="no-cache"/>
 	<meta http-equiv="pragma" content="no-cache"/>

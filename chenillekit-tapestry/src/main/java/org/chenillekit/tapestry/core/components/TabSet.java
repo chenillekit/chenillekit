@@ -21,7 +21,6 @@ import org.apache.tapestry5.Block;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
@@ -34,6 +33,7 @@ import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ClientBehaviorSupport;
 import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * Simple tab controlled panel component.
@@ -80,7 +80,7 @@ public class TabSet implements ClientElement
 	private String activePanelId;
 
 	@Environmental
-	private RenderSupport renderSupport;
+	private JavascriptSupport javascriptSupport;
 
 	@Environmental
 	private ClientBehaviorSupport clientBehaviorSupport;
@@ -104,7 +104,7 @@ public class TabSet implements ClientElement
 
 	void setupRender()
 	{
-		assignedClientId = renderSupport.allocateClientId(clientId);
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 
 		if (activePanelId == null)
 			activePanelId = panelIds.get(0);
@@ -117,7 +117,7 @@ public class TabSet implements ClientElement
 	 */
 	void afterRender(MarkupWriter writer)
 	{
-		renderSupport.addScript("new Ck.TabSet('%s', '%s');", getClientId() + "_panel", activePanelId);
+		javascriptSupport.addScript("new Ck.TabSet('%s', '%s');", getClientId() + "_panel", activePanelId);
 	}
 
 

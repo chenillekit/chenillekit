@@ -20,7 +20,6 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
@@ -28,6 +27,7 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Environment;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * accordion component.
@@ -74,7 +74,7 @@ public class Accordion implements ClientElement
     private ComponentResources _resources;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private JavascriptSupport javascriptSupport;
 
     @Inject
     private Environment _environment;
@@ -83,7 +83,7 @@ public class Accordion implements ClientElement
 
     void setupRender()
     {
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        _assignedClientId = javascriptSupport.allocateClientId(_clientId);
     }
 
     void beginRender(MarkupWriter writer)
@@ -122,7 +122,7 @@ public class Accordion implements ClientElement
     void afterRender(MarkupWriter writer)
     {
         writer.end(); // main div
-        _pageRenderSupport.addScript("new Ck.Accordion('%s', {duration: %s});", getClientId(), duration);
+        javascriptSupport.addScript("new Ck.Accordion('%s', {duration: %s});", getClientId(), duration);
     }
 
     /**

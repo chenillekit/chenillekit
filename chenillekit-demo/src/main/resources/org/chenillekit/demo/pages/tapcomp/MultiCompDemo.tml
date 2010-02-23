@@ -128,6 +128,53 @@ cdfff
 				</div>
 			</div>
 
+
+
+			<div class="yui-g" style="width:100%">
+				<div class="yui-u first">
+
+					<fieldset class="snippet">
+						<legend>code snippet</legend>
+						<pre>
+							<![CDATA[
+@Component(parameters = {"value=maskedValue"})
+private TextField maskedInput;
+]]>
+						</pre>
+					</fieldset>
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+						<form t:id="form4">
+							<label style="margin-right:5px;">type your phone num.</label>
+							<input type="text" t:id="maskedInput"/>
+							<br/>
+							<input type="submit"/>
+							<p>
+								Your last input was: ${maskedValue}
+							</p>
+						</form>
+					</fieldset>
+
+				</div>
+				<div class="yui-u">
+
+					<fieldset class="snippet">
+						<legend>code snippet</legend>
+						<pre>
+							<![CDATA[
+cdfff
+]]>
+						</pre>
+					</fieldset>
+
+					<fieldset class="sample">
+						<legend>sample</legend>
+					</fieldset>
+
+				</div>
+			</div>
+
 		</div>
     </div>
 

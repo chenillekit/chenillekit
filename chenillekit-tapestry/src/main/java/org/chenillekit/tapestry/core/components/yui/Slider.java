@@ -24,7 +24,6 @@ import org.apache.tapestry5.FieldValidationSupport;
 import org.apache.tapestry5.FieldValidator;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.NullFieldStrategy;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.ValidationException;
 import org.apache.tapestry5.ValidationTracker;
 import org.apache.tapestry5.annotations.Environmental;
@@ -35,6 +34,7 @@ import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 import org.chenillekit.tapestry.core.base.AbstractYuiField;
 
@@ -111,8 +111,8 @@ public class Slider extends AbstractYuiField
 	/**
 	 * RenderSupport to get unique client side id.
 	 */
-	@Inject
-	private RenderSupport renderSupport;
+	@Environmental
+	private JavascriptSupport javascriptSupport;
 
 	@Environmental
 	private ValidationTracker tracker;
@@ -188,7 +188,7 @@ public class Slider extends AbstractYuiField
 
 	void afterRender(MarkupWriter writer)
 	{
-		renderSupport.addScript("new Ck.YuiSlider('%s', '%s', %d, 0, %d, %d, '%s');",
+		javascriptSupport.addScript("new Ck.YuiSlider('%s', '%s', %d, 0, %d, %d, '%s');",
 								getClientId(), (vertical ? "vert" : "horiz"), value, length, ticks, changeCallback);
 	}
 

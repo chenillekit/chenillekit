@@ -17,7 +17,6 @@ package org.chenillekit.tapestry.core.components;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.Environmental;
@@ -26,6 +25,7 @@ import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Environment;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
  * shows an tooltip if mouse slides over the declared content.
@@ -65,7 +65,7 @@ public class Tooltip
 	private ComponentResources resources;
 
 	@Environmental
-	private RenderSupport renderSupport;
+	private JavascriptSupport javascriptSupport;
 
 	@Inject
 	private Environment environment;
@@ -74,7 +74,7 @@ public class Tooltip
 
 	void setupRender()
 	{
-		assignedClientId = renderSupport.allocateClientId(clientId);
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 	}
 
 	@BeginRender
@@ -99,7 +99,7 @@ public class Tooltip
 			jsCommand += ", effect: '" + effect + "'";
 
 		jsCommand += "});";
-		renderSupport.addScript(jsCommand, assignedClientId, replaceJSChar(value));
+		javascriptSupport.addScript(jsCommand, assignedClientId, replaceJSChar(value));
 	}
 
 	/**

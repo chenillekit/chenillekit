@@ -19,13 +19,13 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.AssetSource;
+import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 import org.chenillekit.tapestry.core.services.ThumbNailService;
 
@@ -73,7 +73,7 @@ public class ThumbNail implements ClientElement
     private String _assignedClientId;
 
     @Environmental
-    private RenderSupport _pageRenderSupport;
+    private JavascriptSupport javascriptSupport;
 
     @Inject
     private ComponentResources _resources;
@@ -97,7 +97,7 @@ public class ThumbNail implements ClientElement
         // Often, these controlName and _clientId will end up as the same value. There are many
         // exceptions, including a form that renders inside a loop, or a form inside a component
         // that is used multiple times.
-        _assignedClientId = _pageRenderSupport.allocateClientId(_clientId);
+        _assignedClientId = javascriptSupport.allocateClientId(_clientId);
 
         if (_assetObject instanceof String)
             _asset = _assetSource.getAsset(_resources.getBaseResource(), (String) _assetObject, null);
@@ -129,7 +129,7 @@ public class ThumbNail implements ClientElement
         writer.end();
 
         if (_onClickAction)
-            _pageRenderSupport.addScript("new Ck.ThumbNail('%s', '%s');", getClientId(), _asset.toClientURL());
+            javascriptSupport.addScript("new Ck.ThumbNail('%s', '%s');", getClientId(), _asset.toClientURL());
     }
 
     private Asset generateThumbNail()
