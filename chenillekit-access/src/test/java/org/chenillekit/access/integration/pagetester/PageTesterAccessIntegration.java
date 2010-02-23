@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * @version $Id$
  */
-public class TestAccessIntegration extends Assert
+public class PageTesterAccessIntegration extends Assert
 {
     private PageTester pageTester;
 
