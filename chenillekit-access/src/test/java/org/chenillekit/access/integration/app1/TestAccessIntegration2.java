@@ -24,8 +24,6 @@ import org.testng.annotations.Test;
 @Test
 public class TestAccessIntegration2 extends SeleniumTestCase
 {
-	
-	
     public void base_url_text_present() throws Exception
     {
         openBaseURL();
