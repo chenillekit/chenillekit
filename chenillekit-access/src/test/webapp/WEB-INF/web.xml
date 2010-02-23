@@ -21,11 +21,11 @@
 <!--suppress WebProperties -->
 <web-app>
 
-    <display-name>ChenilleKit Access Test</display-name>
+    <display-name>ChenilleKit Access Integration Tests</display-name>
 
     <context-param>
         <param-name>tapestry.app-package</param-name>
-        <param-value>org.chenillekit.access</param-value>
+        <param-value>org.chenillekit.access.integration.app1</param-value>
     </context-param>
 
     <filter>

@@ -12,7 +12,7 @@
  *  http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access.services;
+package org.chenillekit.access.integration.app1.services;
 
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
@@ -21,9 +21,11 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
-import org.chenillekit.access.services.impl.NoOpAppServerLoginService;
-import org.chenillekit.access.services.impl.UserAuthServiceImpl;
-import org.chenillekit.access.services.impl.UserEqualPassCheck;
+import org.chenillekit.access.integration.app1.services.impl.NoOpAppServerLoginService;
+import org.chenillekit.access.integration.app1.services.impl.UserAuthServiceImpl;
+import org.chenillekit.access.integration.app1.services.impl.UserEqualPassCheck;
+import org.chenillekit.access.services.AppServerLoginService;
+import org.chenillekit.access.services.AuthenticationServiceFilter;
 
 /**
  * @version $Id$

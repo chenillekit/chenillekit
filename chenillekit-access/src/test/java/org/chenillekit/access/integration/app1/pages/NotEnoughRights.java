@@ -13,7 +13,7 @@
  *
  */
 
-package org.chenillekit.access.pages;
+package org.chenillekit.access.integration.app1.pages;
 
 import org.chenillekit.access.annotations.Restricted;
 

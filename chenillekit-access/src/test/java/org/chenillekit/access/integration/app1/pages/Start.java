@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access.pages;
+package org.chenillekit.access.integration.app1.pages;
 
 import java.util.Collections;
 import java.util.List;

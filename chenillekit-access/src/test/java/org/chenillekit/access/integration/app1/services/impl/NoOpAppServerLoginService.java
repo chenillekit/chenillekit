@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access.services.impl;
+package org.chenillekit.access.integration.app1.services.impl;
 
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AppServerLoginService;

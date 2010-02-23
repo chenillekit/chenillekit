@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.chenillekit.access.services.impl;
+package org.chenillekit.access.integration.app1.services.impl;
 
 import org.chenillekit.access.WebSessionUser;
 

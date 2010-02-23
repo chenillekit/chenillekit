@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.integration.pagetester;
 
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;

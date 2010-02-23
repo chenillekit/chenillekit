@@ -13,7 +13,7 @@
  *
  */
 
-package org.chenillekit.access.pages;
+package org.chenillekit.access.integration.app1.pages;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.InjectPage;

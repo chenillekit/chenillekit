@@ -12,9 +12,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access;
+package org.chenillekit.access.integration.app1;
 
-import org.apache.tapestry5.test.AbstractIntegrationTestSuite;
+import org.apache.tapestry5.test.SeleniumTestCase;
 import org.testng.annotations.Test;
 
 /**
@@ -22,17 +22,13 @@ import org.testng.annotations.Test;
  * @version $Id$
  */
 @Test
-public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
+public class TestAccessIntegration2 extends SeleniumTestCase
 {
 	
-	public TestAccessIntegration2()
-	{
-		super("src/test/webapp");
-	}
 	
     public void base_url_text_present() throws Exception
     {
-        open(BASE_URL);
+        openBaseURL();
         
         assertTextPresent("Restricted");
         assertTextPresent("UnRestricted");
@@ -40,7 +36,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
     public void un_restrcited_page() throws Exception
     {
-        open(BASE_URL);
+        openBaseURL();
         
         clickAndWait("link=UnRestricted");
         
@@ -49,7 +45,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void restricted() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=Restricted");
 		
@@ -69,7 +65,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 		
 		assertTextPresent("Context: yes present");
 		
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=Logout");
 		
@@ -97,7 +93,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 		
 		assertTextPresent("Context: yes present");
 		
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=Logout");
 		
@@ -108,7 +104,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void action_link_rights_restricted() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
         
         clickAndWait("link=UnRestricted");
         
@@ -119,7 +115,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void action_link_rights_role_restricted_login() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
         
         clickAndWait("link=UnRestricted");
         
@@ -130,14 +126,14 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void action_link_rights_role_restricted_invisible() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
         
         clickAndWait("link=UnRestricted");
         
         clickAndWait("link=only role 10");
         
         
-        open(BASE_URL);
+        openBaseURL();
 		
 		clickAndWait("link=UnRestricted");
 		
@@ -152,7 +148,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 		
 		assertTextPresent("You should be able to not see me!");
 		
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=Logout");
 		
@@ -164,7 +160,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void action_link_rights_restricted_on_event() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
         
         clickAndWait("link=UnRestricted");
         
@@ -175,7 +171,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void action_with_context_restricted() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=UnRestricted");
 		
@@ -190,7 +186,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 		
 		assertTextPresent("[first, second, third, forth]");
 		
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=Logout");
 		
@@ -201,7 +197,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void do_login_and_logout() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=Invisible");
 		
@@ -225,7 +221,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void not_enough_rights() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=NotEnoughRights");
 		
@@ -249,7 +245,7 @@ public class TestAccessIntegration2 extends AbstractIntegrationTestSuite
 	
 	public void equal_check() throws Exception
 	{
-		open(BASE_URL);
+		openBaseURL();
 		
 		clickAndWait("link=Invisible");
 		
