@@ -257,13 +257,14 @@ public class AccessIntegration extends SeleniumTestCase
 		
 		assertTextPresent("Login Page");
 	}
-
-	public void test_managedrestricted()
-	{
-		openBaseURL();
-
-		clickAndWait("link=ManagedRestricted");
-
-		assertTextPresent("Login Page");
-	}
+	
+//	TODO Re-enable when ManagedRestrictionWorker is hooked in the queue
+//	public void test_managedrestricted()
+//	{
+//		openBaseURL();
+//
+//		clickAndWait("link=ManagedRestricted");
+//
+//		assertTextPresent("Login Page");
+//	}
 }
