@@ -16,6 +16,8 @@ package org.chenillekit.lucene.services.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -26,8 +28,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
-import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
 import org.chenillekit.lucene.ChenilleKitLuceneConstants;
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
@@ -56,19 +56,21 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	 * @param logger
 	 * @param configResource
 	 */
-	public IndexSourceImpl(final Logger logger, final Resource configResource, Version version)
+	public IndexSourceImpl(final Logger logger, final List<URL> configuration, Version version)
 	{
-		Defense.notNull(configResource, "configResource");
         this.logger = logger;
 
-        if (!configResource.exists())
-            throw new ChenilleKitLuceneRuntimeException(String.format("config resource '%s' not found!", configResource.toURL().toString()));
+        if (configuration.isEmpty())
+            throw new ChenilleKitLuceneRuntimeException("At least one configuration is needed for IndexSource service");
         
         try
         {
         	Properties prop = new Properties();
         	
-        	prop.load(configResource.toURL().openStream());
+        	for (URL url : configuration)
+        	{
+				prop.load(url.openStream());
+			}
             
             File indexFolderFile = new File(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_IF));
             

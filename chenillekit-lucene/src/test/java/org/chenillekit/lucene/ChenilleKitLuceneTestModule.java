@@ -14,10 +14,10 @@
 
 package org.chenillekit.lucene;
 
-import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.Resource;
+import java.net.URL;
+
+import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 import org.apache.tapestry5.ioc.services.ClassFactory;
 
 /**
@@ -26,9 +26,9 @@ import org.apache.tapestry5.ioc.services.ClassFactory;
 @SubModule(value = {ChenilleKitLuceneModule.class})
 public class ChenilleKitLuceneTestModule
 {
-    public static void contributeIndexSource(ClassFactory classFactory, MappedConfiguration<String, Resource> configuration)
+    public static void contributeIndexSource(ClassFactory classFactory, OrderedConfiguration<URL> configuration)
     {
-        Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "lucene.properties");
-        configuration.add(ChenilleKitLuceneConstants.CONFIG_KEY_PROPERTIES, cpResource);
+        URL config = ChenilleKitLuceneTestModule.class.getResource("/lucene.properties");
+        configuration.add("DefaultChenilleKitLuceneConfig", config);
     }
 }

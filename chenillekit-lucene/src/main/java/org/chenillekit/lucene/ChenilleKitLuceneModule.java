@@ -14,6 +14,8 @@
 
 package org.chenillekit.lucene;
 
+import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.util.Version;
@@ -45,14 +47,13 @@ public class ChenilleKitLuceneModule
 	 * @param shutdownHub
 	 * @return
 	 */
-	public static IndexSource buildIndexSource(Logger logger, Map<String, Resource> configurationMap,
+	public static IndexSource buildIndexSource(Logger logger, List<URL> configuration,
 						RegistryShutdownHub shutdownHub,
 						@Inject
 						@Symbol(ChenilleKitLuceneConstants.LUCENE_COMPATIBILITY_VERSION)
 						String version)
 	{
-		Resource config = configurationMap.get(ChenilleKitLuceneConstants.CONFIG_KEY_PROPERTIES);
-		IndexSourceImpl service = new IndexSourceImpl(logger, config, Version.valueOf(version));
+		IndexSourceImpl service = new IndexSourceImpl(logger, configuration, Version.valueOf(version));
 
 		shutdownHub.addRegistryShutdownListener(service);
 
