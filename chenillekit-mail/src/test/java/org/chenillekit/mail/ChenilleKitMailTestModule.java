@@ -14,22 +14,34 @@
 
 package org.chenillekit.mail;
 
-import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
+import java.io.IOException;
+import java.util.Properties;
 
-import org.chenillekit.core.ChenilleKitCoreModule;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.annotations.SubModule;
 
 /**
  * @version $Id$
  */
-@SubModule(value = {ChenilleKitCoreModule.class, ChenilleKitMailModule.class})
+@SubModule(value = { ChenilleKitMailModule.class })
 public class ChenilleKitMailTestModule
 {
-	public static void contributeMailService(MappedConfiguration<String, Resource> contributions)
+	public static void contributeApplicationDefaults(MappedConfiguration<String, String> contributions)
 	{
-		Resource resource = new ClasspathResource("smtp.properties");
-		contributions.add(ChenilleKitMailConstants.PROPERTIES_KEY, resource);
+		Properties prop = new Properties();
+		
+		try {
+			prop.load(ChenilleKitMailTestModule.class.getResource("/smtp.properties").openStream());
+		} catch (IOException ioe)
+		{
+			throw new RuntimeException("Unable to load smtp.properties", ioe);
+		}
+		
+		for (Object key : prop.keySet())
+		{
+			String value = prop.getProperty(key.toString());
+			
+			contributions.add(key.toString(), value);
+		}
 	}
 }

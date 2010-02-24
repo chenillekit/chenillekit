@@ -74,22 +74,6 @@ public class TestMailService extends AbstractTestSuite
 	}
 
 	@Test
-	public void test_simpleemail_sending() throws EmailException
-	{
-		SimpleEmail email = new SimpleEmail();
-		email.setSubject("Test Mail 1");
-		email.addTo("homburgs@gmail.com");
-		email.setFrom("homburgs@gmail.com");
-		email.setMsg("This is a dummy message text!");
-
-		MailService mailService = registry.getService(MailService.class);
-
-		mailService.sendEmail(email);
-
-		assertTrue(smtpServer.getReceivedEmailSize() == 1);
-	}
-
-	@Test
 	public void test_multipartemail_sending() throws EmailException, MessagingException
 	{
 		MultiPartEmail email = new MultiPartEmail();
