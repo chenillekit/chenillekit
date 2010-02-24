@@ -18,19 +18,18 @@
 
 package org.chenillekit.access.services.impl;
 
-import java.util.List;
-
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.TransformMethod;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.ManagedRestricted;
-import org.chenillekit.access.dao.IProtectionRule;
-import org.chenillekit.access.dao.IProtectionRuleDAO;
+import org.chenillekit.access.dao.ProtectionRule;
+import org.chenillekit.access.dao.ProtectionRuleDAO;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
+
+import java.util.List;
 
 /**
  * @version $Id$
@@ -38,9 +37,9 @@ import org.slf4j.Logger;
 public class ManagedRestrictedWorker extends RestrictedWorker
 {
 	private final Logger logger;
-	private final IProtectionRuleDAO protectionRuleDAO;
+	private final ProtectionRuleDAO protectionRuleDAO;
 
-	public ManagedRestrictedWorker(Logger logger, IProtectionRuleDAO protectionRuleDAO)
+	public ManagedRestrictedWorker(Logger logger, ProtectionRuleDAO protectionRuleDAO)
 	{
 		super(logger);
 		this.logger = logger;
@@ -67,7 +66,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 		if (logger.isDebugEnabled())
 			logger.debug("searching permission for component {}", className);
 
-		IProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(className);
+		ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(className);
 		/**
 		 * there is no protection rule for that component
 		 */
@@ -116,7 +115,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 																					   eventType,
 																					   ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX);
 
-			IProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(String.format("%s.%s", componentId, eventType));
+			ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(String.format("%s.%s", componentId, eventType));
 
 			/**
 			 * there is no protection rule for that component

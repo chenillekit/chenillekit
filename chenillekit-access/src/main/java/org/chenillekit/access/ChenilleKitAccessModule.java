@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,12 +12,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 package org.chenillekit.access;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
 
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
@@ -39,10 +33,9 @@ import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.apache.tapestry5.services.MetaDataLocator;
-
 import org.chenillekit.access.annotations.ChenilleKitAccess;
-import org.chenillekit.access.dao.IProtectionRuleDAO;
 import org.chenillekit.access.dao.JDBCProtectionRuleDAO;
+import org.chenillekit.access.dao.ProtectionRuleDAO;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.AuthenticationService;
 import org.chenillekit.access.services.AuthenticationServiceFilter;
@@ -53,6 +46,12 @@ import org.chenillekit.access.services.impl.CookieRedirectAccessFilter;
 import org.chenillekit.access.services.impl.RedirectServiceImpl;
 import org.chenillekit.access.services.impl.RestrictedWorker;
 import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * Main Module class for ChenilleKitAccess, i mean T5 Module class.
@@ -73,7 +72,7 @@ public class ChenilleKitAccessModule
         binder.bind(RedirectService.class, RedirectServiceImpl.class);
     }
 
-	public static IProtectionRuleDAO buildJDBCProtectionRuleDAO(Connection connection,
+	public static ProtectionRuleDAO buildJDBCProtectionRuleDAO(Connection connection,
                                                                 @Inject @Symbol("tableName") String tableName)
     {
         return new JDBCProtectionRuleDAO(connection, tableName);

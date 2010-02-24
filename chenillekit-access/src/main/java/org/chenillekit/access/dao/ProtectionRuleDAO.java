@@ -18,7 +18,7 @@ package org.chenillekit.access.dao;
  * @author <a href="mailto:shomburg@depot120.dpd.de">S.Homburg</a>
  * @version $Id$
  */
-public interface IProtectionRuleDAO<E extends IProtectionRule>
+public interface ProtectionRuleDAO<E extends ProtectionRule>
 {
     /**
      * retrieve the record that holds the protection informations for a page/method.

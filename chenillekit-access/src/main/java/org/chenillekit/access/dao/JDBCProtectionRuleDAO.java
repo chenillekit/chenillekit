@@ -23,7 +23,7 @@ import java.sql.SQLException;
  * @author <a href="mailto:shomburg@depot120.dpd.de">S.Homburg</a>
  * @version $Id$
  */
-public class JDBCProtectionRuleDAO implements IProtectionRuleDAO<ProtectionRule>
+public class JDBCProtectionRuleDAO implements ProtectionRuleDAO<ProtectionRuleImpl>
 {
     private final String tableName;
     private final Connection connection;
@@ -50,9 +50,9 @@ public class JDBCProtectionRuleDAO implements IProtectionRuleDAO<ProtectionRule>
      * @param id ID of page/method
      * @return protection informations
      */
-    public ProtectionRule retrieveProtectionRule(String id)
+    public ProtectionRuleImpl retrieveProtectionRule(String id)
     {
-        ProtectionRule protectionRule = null;
+        ProtectionRuleImpl protectionRule = null;
 
         try
         {
@@ -60,7 +60,7 @@ public class JDBCProtectionRuleDAO implements IProtectionRuleDAO<ProtectionRule>
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
             {
-                protectionRule = new ProtectionRule();
+                protectionRule = new ProtectionRuleImpl();
                 protectionRule.setGroups(resultSet.getString(2));
                 protectionRule.setRoleWeight(resultSet.getInt(3));
             }
