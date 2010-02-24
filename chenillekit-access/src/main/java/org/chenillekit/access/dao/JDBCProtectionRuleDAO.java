@@ -14,6 +14,8 @@
 
 package org.chenillekit.access.dao;
 
+import org.slf4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,12 +27,14 @@ import java.sql.SQLException;
 public class JDBCProtectionRuleDAO implements ProtectionRuleDAO<ProtectionRuleImpl>
 {
     private final String tableName;
-    private final Connection connection;
+	private final Logger logger;
+	private final Connection connection;
     private final PreparedStatement preparedStatement;
 
-    public JDBCProtectionRuleDAO(Connection connection, String tableName)
+    public JDBCProtectionRuleDAO(Logger logger, Connection connection, String tableName)
     {
-        this.connection = connection;
+		this.logger = logger;
+		this.connection = connection;
         this.tableName = tableName;
 
         try
@@ -55,6 +59,9 @@ public class JDBCProtectionRuleDAO implements ProtectionRuleDAO<ProtectionRuleIm
 
         try
         {
+			if (logger.isDebugEnabled())
+				logger.debug("searching for component id {}", id);
+			
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
