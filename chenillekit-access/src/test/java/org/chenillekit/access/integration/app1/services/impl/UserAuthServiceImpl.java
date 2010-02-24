@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +33,11 @@ public class UserAuthServiceImpl implements AuthenticationServiceFilter
 	{
 		if ( "root".equals(userName) )
 		{
-			return new TestWebSessionUser("root", 10);
+			return new TestWebSessionUser("root", 10, "admin");
 		}
 		if ( "dummy".equals(userName) )
 		{
-			return new TestWebSessionUser("dummy", 0);
+			return new TestWebSessionUser("dummy", 0, "dummy");
 		}
 		return delegate.doAuthenticate(userName, password);
 	}
