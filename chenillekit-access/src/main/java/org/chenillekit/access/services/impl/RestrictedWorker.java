@@ -26,9 +26,8 @@ import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethod;
-import org.apache.tapestry5.services.TransformMethodSignature;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
-import org.chenillekit.access.ChenilleKitAccessException;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
@@ -63,7 +62,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 		// processComponentsRestrictions(transformation, model);
 	}
 	
-	private List<TransformMethod> getMatchedMethods(ClassTransformation transformation)
+	protected List<TransformMethod> getMatchedMethods(ClassTransformation transformation, final Class annotationClass)
 	{
 		return transformation.matchMethods(new Predicate<TransformMethod>()
 		{
@@ -75,13 +74,13 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 			private boolean hasCorrectPrefix(TransformMethod method)
 			{
 				return method.getName().startsWith("on") &&
-						method.getAnnotation(Restricted.class) != null;
+						method.getAnnotation(annotationClass) != null;
 			}
 
 			private boolean hasAnnotation(TransformMethod method)
 			{
 				return method.getAnnotation(OnEvent.class) != null &&
-							method.getAnnotation(Restricted.class) != null;
+							method.getAnnotation(annotationClass) != null;
 			}
 		});
 	}
@@ -94,7 +93,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 * @param model          Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
 	 *                       the transformation phase.
 	 */
-	private void processPageRestriction(ClassTransformation transformation, MutableComponentModel model)
+	protected void processPageRestriction(ClassTransformation transformation, MutableComponentModel model)
 	{
 		Restricted pageRestricted = transformation.getAnnotation(Restricted.class);
 		if (pageRestricted != null)
@@ -124,9 +123,9 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 * @param model          Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
 	 *                       the transformation phase.
 	 */
-	private void processEventHandlerRestrictions(ClassTransformation transformation, MutableComponentModel model)
+	protected void processEventHandlerRestrictions(ClassTransformation transformation, MutableComponentModel model)
 	{
-		List<TransformMethod> matchedMethods = getMatchedMethods(transformation);
+		List<TransformMethod> matchedMethods = getMatchedMethods(transformation, Restricted.class);
 		
 		for (TransformMethod method : matchedMethods)
 		{
@@ -186,7 +185,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 * the empty string if the event handler method is not associated to a
 	 * particular component.
 	 */
-	private String extractComponentId(TransformMethod method, OnEvent annotation)
+	protected String extractComponentId(TransformMethod method, OnEvent annotation)
     {
         if (annotation != null) return annotation.component();
 
@@ -212,7 +211,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 * @return the event type for which the method act as an 'handler method', it
 	 * could not be an empty string and defaults to <code>Action</code>.
 	 */
-	private String extractEventType(TransformMethod method, OnEvent annotation)
+	protected String extractEventType(TransformMethod method, OnEvent annotation)
     {
         if (annotation != null) return annotation.value();
 
