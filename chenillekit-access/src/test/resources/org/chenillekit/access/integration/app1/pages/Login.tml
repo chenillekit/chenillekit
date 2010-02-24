@@ -24,7 +24,7 @@
 
 <span id="login_message">Login Page</span>
 
-<t:login />
+<span t:id="login"/>
 
 <p><t:pagelink t:page="Start">Back to start</t:pagelink></p>
 

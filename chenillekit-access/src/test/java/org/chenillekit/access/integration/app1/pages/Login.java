@@ -14,6 +14,7 @@
 
 package org.chenillekit.access.integration.app1.pages;
 
+import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
@@ -35,6 +36,9 @@ public class Login
 
 	@Persist
 	private int loginAttempts;
+
+	@Component
+	private org.chenillekit.access.components.Login login; 
 
 	final public boolean isLoginAllowed()
 	{
