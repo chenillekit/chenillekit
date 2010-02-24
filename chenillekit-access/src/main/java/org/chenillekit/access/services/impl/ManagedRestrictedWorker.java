@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2010 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ package org.chenillekit.access.services.impl;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
+import org.apache.tapestry5.services.ComponentClassResolver;
 import org.apache.tapestry5.services.TransformMethod;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.ManagedRestricted;
@@ -37,12 +38,16 @@ import java.util.List;
 public class ManagedRestrictedWorker extends RestrictedWorker
 {
 	private final Logger logger;
+	private final ComponentClassResolver resolver;
 	private final ProtectionRuleDAO protectionRuleDAO;
 
-	public ManagedRestrictedWorker(Logger logger, ProtectionRuleDAO protectionRuleDAO)
+	public ManagedRestrictedWorker(Logger logger,
+								   ComponentClassResolver resolver,
+								   ProtectionRuleDAO protectionRuleDAO)
 	{
 		super(logger);
 		this.logger = logger;
+		this.resolver = resolver;
 		this.protectionRuleDAO = protectionRuleDAO;
 	}
 
@@ -61,12 +66,12 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 		if (restricted == null)
 			return;
 
-		String className = model.getComponentClassName();
+		String pagename = resolver.resolvePageClassNameToPageName(model.getComponentClassName());
 
 		if (logger.isDebugEnabled())
-			logger.debug("searching permission for component {}", className);
+			logger.debug("searching permission for component {}", pagename);
 
-		ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(className);
+		ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(pagename);
 		/**
 		 * there is no protection rule for that component
 		 */
@@ -74,7 +79,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 			return;
 
 		if (logger.isDebugEnabled())
-			logger.debug("found permission groups {} for component {}", protectionRule.getGroups(), className);
+			logger.debug("found permission groups {} for component {}", protectionRule.getGroups(), pagename);
 
 		String roleWeight = String.valueOf(protectionRule.getRoleWeight());
 		model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE, roleWeight);
@@ -100,10 +105,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 
 		for (TransformMethod method : matchedMethods)
 		{
-			String methodName = method.getName();
-
-			ManagedRestricted restricted = method.getAnnotation(ManagedRestricted.class);
-
+			String pagename = resolver.resolvePageClassNameToPageName(model.getComponentClassName());
 			String componentId = extractComponentId(method, method.getAnnotation(OnEvent.class));
 			String eventType = extractEventType(method, method.getAnnotation(OnEvent.class));
 
@@ -115,7 +117,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 																					   eventType,
 																					   ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX);
 
-			ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(String.format("%s.%s", componentId, eventType));
+			ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(String.format("%s.%s", pagename, eventType));
 
 			/**
 			 * there is no protection rule for that component
@@ -124,7 +126,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 				continue;
 
 			if (logger.isDebugEnabled())
-				logger.debug("found permission groups {} for event {}", protectionRule.getGroups(), String.format("%s.%s", componentId, eventType));
+				logger.debug("found permission groups {} for event {}", protectionRule.getGroups(), String.format("%s.%s", pagename, eventType));
 
 			String groupsString = ChenillekitAccessInternalUtils.getStringArrayAsString(protectionRule.getGroups());
 
