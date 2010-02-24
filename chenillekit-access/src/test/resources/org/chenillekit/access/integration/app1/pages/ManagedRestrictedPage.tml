@@ -3,7 +3,7 @@
   ~ Version 2.0, January 2004
   ~ http://www.apache.org/licenses/
   ~
-  ~ Copyright 2010 by chenillekit.org
+  ~ Copyright 2008-2010 by chenillekit.org
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -17,16 +17,19 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
-    <title>Restricted Page</title>
+    <title>Manageable Restricted Page</title>
 </head>
 
 <body>
 
-<span id="has_access">everybody has access</span>
+<span>Manageable Restricted Page</span>
 
 <a href="#" t:id="firstEventLink" id="firstEventLink">Event 1</a>
 <br/>
 <a href="#" t:id="secondEventLink" id="secondEventLink">Event 2</a>
+
+
+<span>${secureString}</span>
 
 </body>
 </html>
