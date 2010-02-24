@@ -66,7 +66,7 @@ public class TestAppWithRootModule
 	public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)
 	{
 		configuration.add(ChenilleKitAccessConstants.LOGIN_PAGE, "login");
-		configuration.add(ChenilleKitAccessConstants.ACCESS_DENIED_ACTION, ChenilleKitAccessConstants.TRIGGER_EVENT);
+		configuration.add(ChenilleKitAccessConstants.ACCESS_DENIED_ACTION, ChenilleKitAccessConstants.LOGIN_PAGE);
 		configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
 
 		configuration.add("jdbcDriverClassName", "org.h2.Driver");

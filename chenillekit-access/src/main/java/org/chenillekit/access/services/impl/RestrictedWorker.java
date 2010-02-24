@@ -18,6 +18,7 @@
 
 package org.chenillekit.access.services.impl;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 import org.apache.tapestry5.annotations.OnEvent;
@@ -26,7 +27,6 @@ import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethod;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
@@ -62,7 +62,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 		// processComponentsRestrictions(transformation, model);
 	}
 	
-	protected List<TransformMethod> getMatchedMethods(ClassTransformation transformation, final Class annotationClass)
+	protected List<TransformMethod> getMatchedMethods(ClassTransformation transformation, final Class<? extends Annotation> annotation)
 	{
 		return transformation.matchMethods(new Predicate<TransformMethod>()
 		{
@@ -73,14 +73,18 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 
 			private boolean hasCorrectPrefix(TransformMethod method)
 			{
-				return method.getName().startsWith("on") &&
-						method.getAnnotation(annotationClass) != null;
+				String methodName = method.getName();
+				
+				boolean res = methodName.startsWith("on") &&
+								method.getAnnotation(annotation) != null;
+				return res;
 			}
 
 			private boolean hasAnnotation(TransformMethod method)
 			{
-				return method.getAnnotation(OnEvent.class) != null &&
-							method.getAnnotation(annotationClass) != null;
+				boolean res = method.getAnnotation(OnEvent.class) != null &&
+								method.getAnnotation(annotation) != null; 
+				return res;
 			}
 		});
 	}
