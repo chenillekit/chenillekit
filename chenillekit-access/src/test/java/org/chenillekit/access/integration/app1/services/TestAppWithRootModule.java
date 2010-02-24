@@ -1,23 +1,18 @@
 /*
- *  Apache License
- *  Version 2.0, January 2004
- *  http://www.apache.org/licenses/
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
  *
- *  Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  */
 
 package org.chenillekit.access.integration.app1.services;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
@@ -26,7 +21,6 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
 import org.chenillekit.access.integration.app1.services.impl.NoOpAppServerLoginService;
@@ -34,6 +28,11 @@ import org.chenillekit.access.integration.app1.services.impl.UserAuthServiceImpl
 import org.chenillekit.access.integration.app1.services.impl.UserEqualPassCheck;
 import org.chenillekit.access.services.AppServerLoginService;
 import org.chenillekit.access.services.AuthenticationServiceFilter;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * @version $Id$
@@ -88,11 +87,12 @@ public class TestAppWithRootModule
 			Connection connection = DriverManager.getConnection(jdbcConnectionUrl, userName, passWord);
 
 			Statement statement = connection.createStatement();
-			statement.execute("DROP TABLE " + tableName);
+			statement.execute("DROP TABLE IF EXISTS " + tableName);
 			statement.execute("CREATE TABLE " + tableName + " (COMPONENT_ID VARCHAR(99), GROUPS VARCHAR(255), ROLE INTEGER)");
-			statement.execute("DELETE FROM " + tableName);
 			statement.execute("INSERT INTO " + tableName + " (COMPONENT_ID, GROUPS, ROLE) " +
-					"VALUES ('org.chenillekit.access.pages.ManagedRestrictedPage', 'admin,dummy', 10)");
+					"VALUES ('ManagedRestrictedPage', 'admin', 10)," +
+					"('ManagedRestrictedPage.event1', 'admin', 10)," +
+					"('ManagedRestrictedPage.event2', 'admin', 100)");
 
 			return connection;
 		}
