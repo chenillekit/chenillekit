@@ -191,6 +191,23 @@ public class TestComponentIntegration extends AbstractIntegrationTestSuite
 		assertEquals(getText("xpath=//div[@id='result1']"), "GREEN");
 	}
 
+
+	@Test
+	public void test_button()
+	{
+		open(BASE_URL);
+
+		start("Button");
+		waitforPageToLoad("5000");
+
+		click("xpath=//button[@id='theButton']");
+
+		waitForPageToLoad("5000");
+
+		assertEquals(getText("xpath=//div[@id='testButton']"), "Are you happy?");
+	}
+
+
 	@Test
 	public void test_thumbnail()
 	{

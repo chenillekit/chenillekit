@@ -73,6 +73,7 @@ public class Start
             new Item("SlideShowDemo", "SlideShow", "tests SlideShow component"),
             new Item("UriAssetDemo", "UriAsset", "tests UriAsset"),
             new Item("DateTimeFieldDemo", "DateTimeField", "tests DateTimeField component")
+            new Item("ButtonDemo", "Button", "tests Button component")
     );
 
     static
