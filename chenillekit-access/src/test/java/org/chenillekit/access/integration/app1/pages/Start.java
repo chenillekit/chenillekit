@@ -66,6 +66,7 @@ public class Start
 			new Item("NotEnoughRights", "NotEnoughRights", "test Restricted page without rights to access"),
 			new Item("Invisible", "Invisible", "Invisible page"),
 			new Item("Logout", "Logout", "Logout user"),
+			new Item("ManagedRestrictedPage", "ManagedRestricted", "test ManagedRestricted page"),
 			new Item("Login", "Login", "Login access form")
 	);
 

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package org.chenillekit.access.integration.app1;
 
 import org.apache.tapestry5.test.SeleniumTestCase;
+
 import org.testng.annotations.Test;
 
 /**
@@ -257,4 +258,12 @@ public class AccessIntegration extends SeleniumTestCase
 		assertTextPresent("Login Page");
 	}
 
+	public void test_managedrestricted()
+	{
+		openBaseURL();
+
+		clickAndWait("link=ManagedRestricted");
+
+		assertTextPresent("Login Page");
+	}
 }

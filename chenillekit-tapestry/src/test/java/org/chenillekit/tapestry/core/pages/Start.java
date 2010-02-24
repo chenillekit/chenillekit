@@ -72,7 +72,7 @@ public class Start
             new Item("ThumbNailDemo", "ThumbNail", "tests ThumbNail component"),
             new Item("SlideShowDemo", "SlideShow", "tests SlideShow component"),
             new Item("UriAssetDemo", "UriAsset", "tests UriAsset"),
-            new Item("DateTimeFieldDemo", "DateTimeField", "tests DateTimeField component")
+            new Item("DateTimeFieldDemo", "DateTimeField", "tests DateTimeField component"),
             new Item("ButtonDemo", "Button", "tests Button component")
     );
 
