@@ -5,7 +5,7 @@
   ~ Version 2.0, January 2004
   ~ http://www.apache.org/licenses/
   ~
-  ~ Copyright 2010 by chenillekit.org
+  ~ Copyright 2008-2010 by chenillekit.org
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -318,6 +318,13 @@
                 <groupId>commons-configuration</groupId>
                 <artifactId>commons-configuration</artifactId>
                 <version>1.6</version>
+				<exclusions>
+					<!-- we dont need logging from apache commons, we use slf4j -->
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
             </dependency>
 
             <!--
