@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,11 +78,11 @@ public class RoundCornerContainer implements ClientElement
 	@Environmental
 	private JavascriptSupport javascriptSupport;
 
-	private String _assignedClientId;
+	private String assignedClientId;
 
 	void setupRender()
 	{
-		_assignedClientId = javascriptSupport.allocateClientId(clientId);
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 	}
 
 	void beginRender(MarkupWriter writer)
@@ -106,6 +106,6 @@ public class RoundCornerContainer implements ClientElement
 	 */
 	public String getClientId()
 	{
-		return _assignedClientId;
+		return assignedClientId;
 	}
 }

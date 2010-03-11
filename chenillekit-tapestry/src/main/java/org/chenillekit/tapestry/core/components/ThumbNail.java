@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.AssetSource;
 import org.apache.tapestry5.services.javascript.JavascriptSupport;
-
 import org.chenillekit.tapestry.core.services.ThumbNailService;
 
 /**
@@ -44,47 +43,47 @@ public class ThumbNail implements ClientElement
      * {@link #getClientId() clientId property}.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * the asset path or asset itself, that converted to thumbnail.
      */
     @Parameter(name = "asset", required = true, defaultPrefix = BindingConstants.LITERAL)
-    private Object _assetObject;
+    private Object assetObject;
 
     /**
      * the height (pixel) of the thumbnail.
      */
     @Parameter(required = true, defaultPrefix = BindingConstants.PROP)
-    private int _thumbHeight;
+    private int thumbHeight;
 
     /**
      * output quality of the thumbnail.
      */
     @Parameter(value = "80", required = false, defaultPrefix = BindingConstants.PROP)
-    private float _quality;
+    private float quality;
 
     /**
      * if true, clicking mouse over the thumbnail show the original image.
      */
     @Parameter(value = "false", required = false, defaultPrefix = BindingConstants.PROP)
-    private boolean _onClickAction;
+    private boolean onClickAction;
 
-    private String _assignedClientId;
+    private String assignedClientId;
 
     @Environmental
     private JavascriptSupport javascriptSupport;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     @Inject
-    private AssetSource _assetSource;
+    private AssetSource assetSource;
 
     @Inject
-    private ThumbNailService _thumbNailService;
+    private ThumbNailService thumbNailService;
 
-    private Asset _asset;
+    private Asset asset;
 
     /**
      * Tapestry render phase method.
@@ -97,12 +96,12 @@ public class ThumbNail implements ClientElement
         // Often, these controlName and _clientId will end up as the same value. There are many
         // exceptions, including a form that renders inside a loop, or a form inside a component
         // that is used multiple times.
-        _assignedClientId = javascriptSupport.allocateClientId(_clientId);
+        assignedClientId = javascriptSupport.allocateClientId(clientId);
 
-        if (_assetObject instanceof String)
-            _asset = _assetSource.getAsset(_resources.getBaseResource(), (String) _assetObject, null);
-        else if (_assetObject instanceof Asset)
-            _asset = (Asset) _assetObject;
+        if (assetObject instanceof String)
+            asset = assetSource.getAsset(resources.getBaseResource(), (String) assetObject, null);
+        else if (assetObject instanceof Asset)
+            asset = (Asset) assetObject;
         else
             throw new RuntimeException("parameter 'asset' neither a string nor an asset object");
     }
@@ -116,7 +115,7 @@ public class ThumbNail implements ClientElement
     void beginRender(MarkupWriter writer)
     {
         writer.element("img", "id", getClientId(), "src", generateThumbNail().toClientURL());
-        _resources.renderInformalParameters(writer);
+        resources.renderInformalParameters(writer);
     }
 
     /**
@@ -128,13 +127,13 @@ public class ThumbNail implements ClientElement
     {
         writer.end();
 
-        if (_onClickAction)
-            javascriptSupport.addScript("new Ck.ThumbNail('%s', '%s');", getClientId(), _asset.toClientURL());
+        if (onClickAction)
+            javascriptSupport.addScript("new Ck.ThumbNail('%s', '%s');", getClientId(), asset.toClientURL());
     }
 
     private Asset generateThumbNail()
     {
-        return _thumbNailService.convertToThumbnail(_asset, _thumbHeight, _quality);
+        return thumbNailService.convertToThumbnail(asset, thumbHeight, quality);
     }
 
 
@@ -145,6 +144,6 @@ public class ThumbNail implements ClientElement
      */
     public String getClientId()
     {
-        return _assignedClientId;
+        return assignedClientId;
     }
 }

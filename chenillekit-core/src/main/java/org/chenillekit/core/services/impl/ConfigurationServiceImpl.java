@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,12 @@
 
 package org.chenillekit.core.services.impl;
 
-import javax.naming.Context;
-import javax.sql.DataSource;
-
 import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.commons.configuration.CombinedConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.DatabaseConfiguration;
-import org.apache.commons.configuration.INIConfiguration;
+import org.apache.commons.configuration.HierarchicalINIConfiguration;
 import org.apache.commons.configuration.JNDIConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
@@ -30,8 +27,10 @@ import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.plist.PropertyListConfiguration;
 import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.Defense;
-
 import org.chenillekit.core.services.ConfigurationService;
+
+import javax.naming.Context;
+import javax.sql.DataSource;
 
 /**
  * @version $Id$
@@ -80,7 +79,7 @@ public class ConfigurationServiceImpl implements ConfigurationService
             else if (configurationResource.getFile().endsWith(".plist"))
                 configuration = new PropertyListConfiguration(configurationResource.toURL());
             else if (configurationResource.getFile().endsWith(".ini"))
-                configuration = new INIConfiguration(configurationResource.toURL());
+                configuration = new HierarchicalINIConfiguration(configurationResource.toURL());
             else
                 throw new RuntimeException(String.format("cant resolve configuration type of resource '%s'", configurationResource.toString()));
 

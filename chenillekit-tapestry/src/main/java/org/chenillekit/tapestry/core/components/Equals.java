@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,24 +29,24 @@ public class Equals
      * If false, the body is omitted.
      */
     @Parameter(required = true)
-    private Object _left;
+    private Object left;
 
     @Parameter(required = true)
-    private Object _right;
+    private Object right;
 
     /**
      * Optional parameter to invert the test.
      * If true, then the body is rendered when the test parameter is false (not true).
      */
     @Parameter
-    private boolean _negate;
+    private boolean negate;
 
     /**
      * An alternate {@link org.apache.tapestry5.Block} to render if the test parameter is false.
      * The default, null, means render nothing in that situation.
      */
-    @Parameter
-    private Block _else;
+    @Parameter(name = "else")
+    private Block elseBlock;
 
     /**
      * Returns null if the test parameter is true, which allows normal
@@ -56,15 +56,15 @@ public class Equals
      */
     Object beginRender()
     {
-        if (_left == null)
+        if (left == null)
         {
-            if (_right == null)
+            if (right == null)
                 return null;
             else
-                return _else;
+                return elseBlock;
         }
 
-        return _left.equals(_right) != _negate ? null : _else;
+        return left.equals(right) != negate ? null : elseBlock;
     }
 
     /**
@@ -74,10 +74,10 @@ public class Equals
      */
     boolean beforeRenderBody()
     {
-        if (_left == null)
-            return _right == null;
+        if (left == null)
+            return right == null;
 
-        return _left.equals(_right) != _negate;
+        return left.equals(right) != negate;
     }
 
     /**
@@ -90,9 +90,9 @@ public class Equals
      */
     void setup(Object left, Object right, boolean negate, Block elseBlock)
     {
-        _left = left;
-        _right = right;
-        _negate = negate;
-        _else = elseBlock;
+        this.left = left;
+        this.right = right;
+        this.negate = negate;
+        this.elseBlock = elseBlock;
     }
 }

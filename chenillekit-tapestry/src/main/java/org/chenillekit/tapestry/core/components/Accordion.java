@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,6 @@
  */
 
 package org.chenillekit.tapestry.core.components;
-
-import java.util.List;
 
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
@@ -28,6 +26,8 @@ import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Environment;
 import org.apache.tapestry5.services.javascript.JavascriptSupport;
+
+import java.util.List;
 
 /**
  * accordion component.
@@ -44,25 +44,25 @@ public class Accordion implements ClientElement
      * times, a suffix will be appended to the to id to ensure uniqueness.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
     /**
      * array of strings to show as panels subject.
      */
     @Parameter(required = true)
-    private List<?> _subjects;
+    private List<?> subjects;
 
     /**
      * array of strings to show as details text.
      */
     @Parameter(required = true)
-    private List<?> _details;
+    private List<?> details;
 
     /**
      * output raw markup to the client if true.
      */
     @Parameter(value = "false", required = false)
-    private boolean _renderDetailsRaw;
+    private boolean renderDetailsRaw;
 
     /**
      * duration of slide animation.
@@ -71,29 +71,29 @@ public class Accordion implements ClientElement
     private String duration;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     @Environmental
     private JavascriptSupport javascriptSupport;
 
     @Inject
-    private Environment _environment;
+    private Environment environment;
 
-    private String _assignedClientId;
+    private String assignedClientId;
 
     void setupRender()
     {
-        _assignedClientId = javascriptSupport.allocateClientId(_clientId);
+        assignedClientId = javascriptSupport.allocateClientId(clientId);
     }
 
     void beginRender(MarkupWriter writer)
     {
         writer.element("div", "id", getClientId());
-        _resources.renderInformalParameters(writer);
+        resources.renderInformalParameters(writer);
 
 
-        Object[] subjectsArray = _subjects.toArray();
-        Object[] detailsArray = _details.toArray();
+        Object[] subjectsArray = subjects.toArray();
+        Object[] detailsArray = details.toArray();
 
         for (int i = 0; i < subjectsArray.length; i++)
         {
@@ -109,7 +109,7 @@ public class Accordion implements ClientElement
             writer.element("div", "id", getClientId() + "_content_" + i, "class", "ck_accordionContent", "style", "display: none;");
 
             writer.element("div");
-            if (_renderDetailsRaw)
+            if (renderDetailsRaw)
                 writer.writeRaw(detail);
             else
                 writer.write(detail);
@@ -132,6 +132,6 @@ public class Accordion implements ClientElement
      */
     public String getClientId()
     {
-        return _assignedClientId;
+        return assignedClientId;
     }
 }

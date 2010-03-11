@@ -1,20 +1,18 @@
 /*
- *  Apache License
- *  Version 2.0, January 2004
- *  http://www.apache.org/licenses/
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
  *
- *  Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  */
 
 package org.chenillekit.demo.pages.tapcomp;
-
-import java.util.List;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.OnEvent;
@@ -25,12 +23,13 @@ import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.BeanModelSource;
-
 import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.data.Track;
 import org.chenillekit.demo.services.MusicLibrary;
 import org.chenillekit.tapestry.core.components.InPlaceCheckbox;
 import org.chenillekit.tapestry.core.components.InPlaceEditor;
+
+import java.util.List;
 
 /**
  * @version $Id$
@@ -79,7 +78,7 @@ public class InPlaceDemo
 	 */
 	void pageLoaded()
 	{
-		beanModel = beanModelSource.create(Track.class, false, messages);
+		beanModel = beanModelSource.createDisplayModel(Track.class, messages);
 		beanModel.exclude("genre", "playCount", "rating", "album");
 		trackList = musicLibrary.getTracks();
 	}

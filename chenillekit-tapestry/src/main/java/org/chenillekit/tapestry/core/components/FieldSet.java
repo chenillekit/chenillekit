@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class FieldSet
      * let the Fieldset initialy displayed as closed/open,
      */
     @Parameter(value = "false", required = false)
-    private boolean _closed;
+    private boolean closed;
 
     /**
      * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
@@ -47,15 +47,15 @@ public class FieldSet
      * {@link #getClientId() clientId property}.
      */
     @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String _clientId;
+    private String clientId;
 
-    private String _assignedClientId;
+    private String assignedClientId;
 
     @Environmental
     private JavascriptSupport javascriptSupport;
 
     @Inject
-    private ComponentResources _resources;
+    private ComponentResources resources;
 
     void setupRender()
     {
@@ -64,24 +64,24 @@ public class FieldSet
         // Often, these controlName and _clientId will end up as the same value. There are many
         // exceptions, including a form that renders inside a loop, or a form inside a component
         // that is used multiple times.
-        _assignedClientId = javascriptSupport.allocateClientId(_clientId);
+        assignedClientId = javascriptSupport.allocateClientId(clientId);
     }
 
     void beginRender(MarkupWriter writer)
     {
         writer.element("fieldset", "id", getClientId(), "class", "ck_fieldset");
-        _resources.renderInformalParameters(writer);
+        resources.renderInformalParameters(writer);
     }
 
     void afterRender(MarkupWriter writer)
     {
         writer.end();
 
-        javascriptSupport.addScript("var %s = new Ck.FieldSet('%s', %s);", getClientId(), getClientId(), _closed);
+        javascriptSupport.addScript("var %s = new Ck.FieldSet('%s', %s);", getClientId(), getClientId(), closed);
     }
 
     public String getClientId()
     {
-        return _assignedClientId;
+        return assignedClientId;
     }
 }

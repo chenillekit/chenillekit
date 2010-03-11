@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.runtime.Component;
-
 import org.chenillekit.tapestry.core.internal.PagedSource;
 
 /**
@@ -60,8 +59,8 @@ public class Pager
 	 * If this pager is in a custom position it must provide the id of the
 	 * PagedLoop it is associated with.
 	 */
-	@Parameter(defaultPrefix = BindingConstants.LITERAL)
-	private String _for;
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, name = "for")
+	private String forId;
 
 	/**
 	 * Number of pages before and after the current page in the range. The pager
@@ -71,7 +70,7 @@ public class Pager
 	@Parameter("5")
 	private int range;
 
-	private int _lastIndex;
+	private int lastIndex;
 
 	private int maxPages;
 
@@ -87,7 +86,7 @@ public class Pager
 
 	void setupRender()
 	{
-		if (_for != null)
+		if (forId != null)
 		{
 			source = getPagedLoop().getPagedSource();
 			rowsPerPage = getPagedLoop().getRowsPerPage();
@@ -108,7 +107,7 @@ public class Pager
 		writer.element(resources.getContainer().getComponentResources().getElementName(), "class", "ck_paged_loop_pager");
 		writer.element("div", "class", "ck_paged_loop_pager");
 
-		_lastIndex = 0;
+		lastIndex = 0;
 
 		for (int i = 1; i <= 2; i++)
 			writePageLink(writer, i);
@@ -144,7 +143,7 @@ public class Pager
 	{
 		// TODO: Validate newPage in range
 		currentPage = newPage;
-		if (_for != null)
+		if (forId != null)
 		{
 			getPagedLoopComponent().getComponentResources().triggerEvent(
 					EventConstants.ACTION, new Integer[]{newPage},
@@ -154,15 +153,15 @@ public class Pager
 
 	private Component getPagedLoopComponent()
 	{
-		if (_for != null && pagedLoopComponent == null)
-			pagedLoopComponent = resources.getPage().getComponentResources().getEmbeddedComponent(_for);
+		if (forId != null && pagedLoopComponent == null)
+			pagedLoopComponent = resources.getPage().getComponentResources().getEmbeddedComponent(forId);
 
 		return pagedLoopComponent;
 	}
 
 	private PagedLoop getPagedLoop()
 	{
-		if (_for != null && pagedLoop == null)
+		if (forId != null && pagedLoop == null)
 			pagedLoop = (PagedLoop) getPagedLoopComponent();
 
 		return pagedLoop;
@@ -173,13 +172,13 @@ public class Pager
 		if (pageIndex < 1 || pageIndex > maxPages)
 			return;
 
-		if (pageIndex <= _lastIndex)
+		if (pageIndex <= lastIndex)
 			return;
 
-		if (pageIndex != _lastIndex + 1)
+		if (pageIndex != lastIndex + 1)
 			writer.write(" ... "); // &#8230; is ellipsis
 
-		_lastIndex = pageIndex;
+		lastIndex = pageIndex;
 
 		if (pageIndex == currentPage)
 		{

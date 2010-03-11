@@ -3,22 +3,21 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  */
 
 package org.chenillekit.tapestry.core.components;
 
-import java.util.List;
-
 import org.apache.tapestry5.Block;
 import org.apache.tapestry5.annotations.Parameter;
+
+import java.util.List;
 
 /**
  * Conditionally renders its body.
@@ -35,13 +34,13 @@ public class Contains
      * Value which might be contained in the list.
      */
     @Parameter(required = true)
-    private Object _value;
+    private Object value;
 
     /**
      * List, which might contain the object.
      */
     @Parameter(required = true)
-    private List<Object> _list;
+    private List<Object> list;
 
     /**
      * Optional parameter to invert the test. If true, then the body
@@ -49,15 +48,15 @@ public class Contains
      * parameter is false (not true).
      */
     @Parameter
-    private boolean _negate;
+    private boolean negate;
 
     /**
      * An alternate {@link org.apache.tapestry5.Block} to render if the test parameter is
      * false. The default, null, means
      * render nothing in that situation.
      */
-    @Parameter
-    private Block _else;
+    @Parameter(name = "else")
+    private Block elseBlock;
 
     /**
      * Returns null if the list contains the object, which allows
@@ -67,7 +66,7 @@ public class Contains
      */
     Object beginRender()
     {
-        return (_list != null && _list.contains(_value)) != _negate ? null : _else;
+        return (list != null && list.contains(value)) != negate ? null : elseBlock;
     }
 
     /**
@@ -77,14 +76,14 @@ public class Contains
      */
     boolean beforeRenderBody()
     {
-        return (_list != null && _list.contains(_value)) != _negate;
+        return (list != null && list.contains(value)) != negate;
     }
 
     void setup(Object value, List<Object> list, boolean negate, Block elseBlock)
     {
-        _value = value;
-        _list = list;
-        _negate = negate;
-        _else = elseBlock;
+        this.value = value;
+        this.list = list;
+        this.negate = negate;
+        this.elseBlock = elseBlock;
     }
 }
