@@ -69,7 +69,7 @@
 		<dependency>
 			<groupId>jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>3.5.3</version>
+			<version>3.7.1</version>
 			<exclusions>
 				<exclusion>
 					<groupId>eclipse</groupId>
@@ -117,5 +117,13 @@
 
 		</plugins>
 	</build>
+
+    <repositories>
+        <repository>
+            <id>jasperreports</id>
+            <name>JasperForge</name>
+            <url>http://jasperreports.sourceforge.net/maven2/</url>
+        </repository>
+    </repositories>
 
 </project>
