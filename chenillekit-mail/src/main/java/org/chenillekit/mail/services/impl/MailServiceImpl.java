@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 package org.chenillekit.mail.services.impl;
 
 import java.io.File;
-
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 
@@ -27,6 +26,7 @@ import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
+
 import org.chenillekit.mail.ChenilleKitMailConstants;
 import org.chenillekit.mail.MailMessageHeaders;
 import org.chenillekit.mail.services.MailService;
@@ -50,40 +50,40 @@ public class MailServiceImpl implements MailService<Email>
 	private final int smtpSslPort;
 
 	public MailServiceImpl(Logger logger,
-			@Inject
-    		@Symbol(ChenilleKitMailConstants.SMTP_HOST)
-    		String smtpServer,
+						   @Inject
+						   @Symbol(ChenilleKitMailConstants.SMTP_HOST)
+						   String smtpServer,
 
-    		@Inject
-    		@Symbol(ChenilleKitMailConstants.SMTP_PORT)
-    		int smtpPort,
-    		
-    		@Inject
-    		@Symbol(ChenilleKitMailConstants.SMTP_USER)
-    		String smtpUser,
-    		
-    		@Inject
-    		@Symbol(ChenilleKitMailConstants.SMTP_PASSWORD)
-    		String smtpPassword,
-    		
-    		@Inject
-    		@Symbol(ChenilleKitMailConstants.SMTP_DEBUG)
-    		boolean  smtpDebug,
-    		
-    		@Inject
-    		@Symbol(ChenilleKitMailConstants.SMTP_SSL)
-    		boolean  smtpSSL,
-    		
-    		@Inject
-    		@Symbol(ChenilleKitMailConstants.SMTP_TLS)
-    		boolean  smtpTLS,
-    		
-    		@Inject
-    		@Symbol(ChenilleKitMailConstants.SMTP_SSLPORT)
-    		int smtpSslPort)
+						   @Inject
+						   @Symbol(ChenilleKitMailConstants.SMTP_PORT)
+						   int smtpPort,
+
+						   @Inject
+						   @Symbol(ChenilleKitMailConstants.SMTP_USER)
+						   String smtpUser,
+
+						   @Inject
+						   @Symbol(ChenilleKitMailConstants.SMTP_PASSWORD)
+						   String smtpPassword,
+
+						   @Inject
+						   @Symbol(ChenilleKitMailConstants.SMTP_DEBUG)
+						   boolean smtpDebug,
+
+						   @Inject
+						   @Symbol(ChenilleKitMailConstants.SMTP_SSL)
+						   boolean smtpSSL,
+
+						   @Inject
+						   @Symbol(ChenilleKitMailConstants.SMTP_TLS)
+						   boolean smtpTLS,
+
+						   @Inject
+						   @Symbol(ChenilleKitMailConstants.SMTP_SSLPORT)
+						   int smtpSslPort)
 	{
 		this.logger = logger;
-		
+
 		this.smtpServer = smtpServer;
 		this.smtpPort = smtpPort;
 		this.smtpUser = smtpUser;
@@ -232,8 +232,11 @@ public class MailServiceImpl implements MailService<Email>
 
 			setMailMessageHeaders(email, headers);
 
-			for (DataSource dataSource : dataSources)
-				email.attach(dataSource, dataSource.getName(), dataSource.getName());
+			if (dataSources != null)
+			{
+				for (DataSource dataSource : dataSources)
+					email.attach(dataSource, dataSource.getName(), dataSource.getName());
+			}
 
 			email.setHtmlMsg(htmlBody);
 
