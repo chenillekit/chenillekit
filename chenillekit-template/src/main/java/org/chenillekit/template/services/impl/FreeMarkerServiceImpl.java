@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 1996-2008 by Sven Homburg
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,13 @@
 
 package org.chenillekit.template.services.impl;
 
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import org.apache.tapestry5.ioc.Resource;
+import org.chenillekit.template.services.TemplateService;
+import org.slf4j.Logger;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -21,14 +28,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Map;
-
-import org.apache.tapestry5.ioc.Resource;
-
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import org.chenillekit.template.services.TemplateService;
-import org.slf4j.Logger;
 
 /**
  * template service based on <a href="http://freemarker.sourceforge.net">FreeMarker</a> framework.
@@ -176,8 +175,8 @@ public class FreeMarkerServiceImpl implements TemplateService
             if (serviceLog.isInfoEnabled())
                 serviceLog.info("processing template stream");
 
-            Template freeMarkerTemplate = new Template("doedel", new InputStreamReader(templateStream), configuration);
-            Writer out = new OutputStreamWriter(outputStream);
+            Template freeMarkerTemplate = new Template("unknown", new InputStreamReader(templateStream), configuration);
+            Writer out = new OutputStreamWriter(outputStream, freeMarkerTemplate.getEncoding());
             freeMarkerTemplate.process(parameterMap, out);
             out.flush();
 
