@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2009 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Form;
-
 import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.tapestry.core.components.Kaptcha;
 
@@ -31,7 +30,7 @@ public class KaptchaDemo
 	@Property
 	private boolean inputValue;
 
-	@Component(parameters = {"menuName=demo"})
+	@Component(parameters = {"menuName=literal:demo"})
 	private LeftSideMenu menu;
 
 	@Component
