@@ -3,17 +3,35 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  */
 
 package org.chenillekit.demo.components;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Mixins;
+import org.apache.tapestry5.annotations.PageLoaded;
+import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.Retain;
+import org.apache.tapestry5.annotations.SetupRender;
+import org.apache.tapestry5.corelib.components.Loop;
+import org.apache.tapestry5.corelib.components.PageLink;
+import org.apache.tapestry5.internal.services.ContextResource;
+import org.apache.tapestry5.ioc.Resource;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
+import org.apache.tapestry5.services.ApplicationGlobals;
+import org.apache.tapestry5.services.Context;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,22 +42,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.tapestry5.BindingConstants;
-import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Mixins;
-import org.apache.tapestry5.annotations.Parameter;
-import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.components.Loop;
-import org.apache.tapestry5.corelib.components.PageLink;
-import org.apache.tapestry5.internal.services.ContextResource;
-import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-import org.apache.tapestry5.services.ApplicationGlobals;
-import org.apache.tapestry5.services.Context;
-
 /**
  * @version $Id$
  */
@@ -48,7 +50,7 @@ public class LeftSideMenu
     /**
      * base name of the menu to display.
      */
-    @Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
+    @Parameter(required = true, defaultPrefix = BindingConstants.LITERAL, allowNull = false)
     private String menuName;
 
     /**
@@ -73,6 +75,7 @@ public class LeftSideMenu
     @Inject
     private ApplicationGlobals applicationGlobals;
 
+	@Retain
     private Resource configFile;
 
     @Property(write = false)
@@ -95,6 +98,7 @@ public class LeftSideMenu
      * Called when the page is instantiated and added to the page pool.
      * Initialize components, and resources that are not request specific.
      */
+	@PageLoaded
     void pageLoaded()
     {
         String configFilePath = applicationGlobals.getServletContext().getInitParameter("leftsidemenu.config.path");
@@ -109,6 +113,7 @@ public class LeftSideMenu
      * Tapestry render phase method.
      * Initialize temporary instance variables here.
      */
+	@SetupRender
     void setupRender()
     {
         menuEntryList = buildMenuItemList();
