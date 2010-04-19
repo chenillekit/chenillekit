@@ -14,6 +14,8 @@
 
 package org.chenillekit.tapestry.core.components;
 
+import java.util.List;
+
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -25,9 +27,8 @@ import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.javascript.JavascriptSupport;
-import org.chenillekit.tapestry.core.utils.XYDataItem;
 
-import java.util.List;
+import org.chenillekit.tapestry.core.utils.XYDataItem;
 
 /**
  * chart component based on <a href="http://solutoire.com/flotr/">Flotr javascript library</a>.
@@ -119,7 +120,7 @@ public class Chart implements ClientElement
             dataArrayString += "]";
         }
 
-        String javaScriptCall = "var chart_%s = new Flotr.draw($('%s'), ";
+        String javaScriptCall = "new Flotr.draw($('%s'), ";
 
         //
         // if the user dont give us some chart values we add an empty value array.
@@ -136,7 +137,7 @@ public class Chart implements ClientElement
 
         javaScriptCall += ");";
 
-        javascriptSupport.addScript(javaScriptCall, getClientId(), getClientId(), dataArrayString);
+        javascriptSupport.addScript(javaScriptCall, getClientId(), dataArrayString);
     }
 
     /**
