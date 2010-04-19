@@ -20,6 +20,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.EncoderException;
+import org.apache.commons.codec.net.BCodec;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.Link;
@@ -123,13 +126,29 @@ public class Kaptcha extends AbstractField
 
 	private Link getImageLink()
 	{
-		return resources.createEventLink(EVENT_NAME, kaptchaProducer.createText());
+		BCodec bCodec = new BCodec();
+		try
+		{
+			return resources.createEventLink(EVENT_NAME, bCodec.encode(kaptchaProducer.createText()));
+		}
+		catch (EncoderException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	@OnEvent(value = EVENT_NAME)
 	public StreamResponse onKaptchaImage(String kaptchaValue)
 	{
-		this.kaptchaValue = kaptchaValue;
+		BCodec bCodec = new BCodec();
+		try
+		{
+			this.kaptchaValue = bCodec.decode(kaptchaValue);
+		}
+		catch (DecoderException e)
+		{
+			throw new RuntimeException(e);
+		}
 		BufferedImage kapatchImage = kaptchaProducer.createImage(this.kaptchaValue);
 
 		try
