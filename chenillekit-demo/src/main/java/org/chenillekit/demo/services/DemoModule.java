@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,11 @@
 
 package org.chenillekit.demo.services;
 
-import freemarker.template.Configuration;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ObjectLocator;
@@ -30,6 +34,8 @@ import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
+
+import freemarker.template.Configuration;
 import org.chenillekit.demo.data.Track;
 import org.chenillekit.google.ChenilleKitGoogleConstants;
 import org.chenillekit.image.services.ImageService;
@@ -39,11 +45,6 @@ import org.chenillekit.tapestry.core.services.impl.URIDispatcher;
 import org.chenillekit.template.services.impl.FreeMarkerServiceImpl;
 import org.chenillekit.template.services.impl.VelocityServiceImpl;
 import org.slf4j.Logger;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @version $Id$
@@ -198,16 +199,5 @@ public class DemoModule
     {
         freemarker.template.Configuration config = new freemarker.template.Configuration();
         configuration.add(FreeMarkerServiceImpl.CONFIG_RESOURCE_KEY, config);
-    }
-
-    /**
-     * overide the tapestry configuration, that is too restrictive (missing .swf).
-     *
-     * @param regex
-     */
-    public void contributeRegexAuthorizer(org.apache.tapestry5.ioc.Configuration<String> regex)
-    {
-        String pathPattern = "([^/.]+/)*[^/.]+\\.((swf)|(css)|(js)|(jpg)|(jpeg)|(png)|(gif))$";
-        regex.add("^org/chenillekit/demo/" + pathPattern);
     }
 }
