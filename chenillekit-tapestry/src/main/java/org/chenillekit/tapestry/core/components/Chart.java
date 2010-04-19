@@ -119,7 +119,7 @@ public class Chart implements ClientElement
             dataArrayString += "]";
         }
 
-        String javaScriptCall = "var chart_%s = new Flotr.draw($('%s'), ";
+        String javaScriptCall = "new Flotr.draw($('%s'), ";
 
         //
         // if the user dont give us some chart values we add an empty value array.
@@ -136,7 +136,7 @@ public class Chart implements ClientElement
 
         javaScriptCall += ");";
 
-        _renderSupport.addScript(javaScriptCall, getClientId(), getClientId(), dataArrayString);
+        _renderSupport.addScript(javaScriptCall, getClientId(), dataArrayString);
     }
 
     /**
