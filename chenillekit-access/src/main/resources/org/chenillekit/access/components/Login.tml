@@ -40,7 +40,7 @@
 						value="password" />
 				</div>
 
-				<t:submit id="chenillekitLoginSubmit" value="${message:chenillekit-access-login-submit}"/>
+				<t:submit t:id="chenillekitLoginSubmit" value="${message:chenillekit-access-login-submit}"/>
 			</div>
 		</div>
 

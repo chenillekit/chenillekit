@@ -130,7 +130,6 @@ public class AccessIntegration extends SeleniumTestCase
 
         clickAndWait("link=only role 10");
 
-
         openBaseURL();
 
 		clickAndWait("link=UnRestricted");
@@ -139,10 +138,29 @@ public class AccessIntegration extends SeleniumTestCase
 
 		assertTextPresent("Login Page");
 
+		type("chenillekitUsername", "massimo");
+		
+		Thread.sleep(2000l);
+		
+		type("chenillekitUsername", "sven");
+		
+		Thread.sleep(2000l);
+		
+		type("chenillekitUsername", "WOWOWOWOWOW");
+		
+		Thread.sleep(2000l);
+		
 		type("chenillekitUsername", "root");
+		
+		Thread.sleep(2000l);
+		
 		type("chenillekitPassword", "banane");
+		
+		Thread.sleep(2000l);
 
-		clickAndWait("chenillekitLoginSubmit");
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
+		
+		Thread.sleep(2000l);
 
 		assertTextPresent("You should be able to not see me!");
 
@@ -180,7 +198,7 @@ public class AccessIntegration extends SeleniumTestCase
 		type("chenillekitUsername", "root");
 		type("chenillekitPassword", "banane");
 
-		clickAndWait("chenillekitLoginSubmit");
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
 
 		assertTextPresent("[first, second, third, forth]");
 
@@ -204,7 +222,7 @@ public class AccessIntegration extends SeleniumTestCase
 		type("chenillekitUsername", "root");
 		type("chenillekitPassword", "banane");
 
-		clickAndWait("chenillekitLoginSubmit");
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
 
 		assertTextPresent("You should be able to not see me!");
 
@@ -228,7 +246,7 @@ public class AccessIntegration extends SeleniumTestCase
 		type("chenillekitUsername", "dummy");
 		type("chenillekitPassword", "pere");
 
-		clickAndWait("chenillekitLoginSubmit");
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
 
 		assertTextPresent("Login Page");
 
@@ -252,7 +270,7 @@ public class AccessIntegration extends SeleniumTestCase
 		type("chenillekitUsername", "root");
 		type("chenillekitPassword", "root");
 
-		clickAndWait("chenillekitLoginSubmit");
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
 
 		assertTextPresent("Login Page");
 	}
@@ -268,14 +286,14 @@ public class AccessIntegration extends SeleniumTestCase
 		type("chenillekitUsername", "dummy");
 		type("chenillekitPassword", "pere");
 
-		clickAndWait("chenillekitLoginSubmit");
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
 
 		assertTextPresent("Login Page");
 
 		type("chenillekitUsername", "root");
 		type("chenillekitPassword", "banane");
 
-		clickAndWait("chenillekitLoginSubmit");
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
 
 		assertTextPresent("Manageable Restricted Page");
 
