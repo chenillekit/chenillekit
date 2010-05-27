@@ -137,30 +137,11 @@ public class AccessIntegration extends SeleniumTestCase
 		clickAndWait("link=only role 10");
 
 		assertTextPresent("Login Page");
-
-		type("chenillekitUsername", "massimo");
-		
-		Thread.sleep(2000l);
-		
-		type("chenillekitUsername", "sven");
-		
-		Thread.sleep(2000l);
-		
-		type("chenillekitUsername", "WOWOWOWOWOW");
-		
-		Thread.sleep(2000l);
 		
 		type("chenillekitUsername", "root");
-		
-		Thread.sleep(2000l);
-		
 		type("chenillekitPassword", "banane");
-		
-		Thread.sleep(2000l);
 
 		clickAndWait("//input[@id='chenillekitLoginSubmit']");
-		
-		Thread.sleep(2000l);
 
 		assertTextPresent("You should be able to not see me!");
 
