@@ -22,8 +22,7 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 
 import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.ioc.util.func.AbstractPredicate;
-import org.apache.tapestry5.ioc.util.func.Predicate;
+import org.apache.tapestry5.func.Predicate;
 import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
@@ -65,14 +64,14 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	
 	protected List<TransformMethod> getMatchedMethods(ClassTransformation transformation, final Class<? extends Annotation> annotation)
 	{
-		
-		return transformation.matchMethods(new AbstractPredicate<TransformMethod>()
+		return transformation.matchMethods(new Predicate<TransformMethod>()
 		{
+			@Override
 			public boolean accept(TransformMethod method)
 			{
 				return (hasCorrectPrefix(method) || hasAnnotation(method)) && !method.isOverride();
 			}
-
+			
 			private boolean hasCorrectPrefix(TransformMethod method)
 			{
 				String methodName = method.getName();
