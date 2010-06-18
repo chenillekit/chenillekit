@@ -66,28 +66,16 @@
     <repositories>
 
         <repository>
-            <id>tapestry-formos</id>
-            <url>http://tapestry.formos.com/maven-repository</url>
+            <id>Apache Repository</id>
+            <url>https://repository.apache.org/content/groups/public/</url>
         </repository>
 
         <repository>
-            <id>tapestry-formos-snapshot</id>
-            <url>http://tapestry.formos.com/maven-snapshot-repository</url>
+            <id>Apache Snapshot Repository</id>
+            <url>https://repository.apache.org/content/groups/snapshots-group/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>
-
-        <repository>
-            <id>hlship-apache</id>
-            <name>HLShip People Repository at Apache</name>
-            <url>http://people.apache.org/~hlship/tapestry-ibiblio-rsynch-repository/</url>
-        </repository>
-
-        <repository>
-            <id>openqa-release</id>
-            <name>OpenQA Release Repository</name>
-            <url>http://nexus.openqa.org/content/repositories/releases</url>
         </repository>
 
     </repositories>
@@ -95,18 +83,19 @@
     <!-- we need this entry, to get the right components report library -->
     <pluginRepositories>
 
+		<pluginRepository>
+			<id>Apache Repository</id>
+			<url>https://repository.apache.org/content/groups/public/</url>
+		</pluginRepository>
+		
         <pluginRepository>
-            <id>tapestry-formos-snapshot</id>
-            <url>http://tapestry.formos.com/maven-snapshot-repository</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+			<id>Apache Snapshot Repository</id>
+			<url>https://repository.apache.org/content/groups/snapshots-group/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
         </pluginRepository>
 
-        <pluginRepository>
-            <id>tapestry-formos</id>
-            <url>http://tapestry.formos.com/maven-repository</url>
-        </pluginRepository>
         <!-- I believe the Cobertura plugin lives here. -->
         <pluginRepository>
             <id>codehaus.snapshots</id>
@@ -230,6 +219,13 @@
             <dependency>
                 <groupId>org.apache.tapestry</groupId>
                 <artifactId>tapestry-hibernate</artifactId>
+                <version>${tapestry-release-version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tapestry</groupId>
+                <artifactId>tapestry-func</artifactId>
                 <version>${tapestry-release-version}</version>
                 <scope>provided</scope>
             </dependency>
