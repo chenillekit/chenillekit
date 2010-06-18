@@ -17,18 +17,18 @@ package org.chenillekit.demo.components;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.BeginRender;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.javascript.JavascriptSupport;
+
 import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
 
 /**
  * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
-@IncludeStylesheet(value = {"${yahoo.yui}/assets/skins/sam/tabview.css"})
-@IncludeJavaScriptLibrary(value = {"${yahoo.yui}/tabview/tabview${yahoo.yui.mode}.js"})
+@Import(stylesheet = {"${yahoo.yui}/assets/skins/sam/tabview.css"},
+		library = {"${yahoo.yui}/tabview/tabview${yahoo.yui.mode}.js"})
 public class YuiTabSet extends AbstractYahooComponent
 {
 	/**

@@ -3,14 +3,13 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  */
 
 package org.chenillekit.tapestry.core.components.yui;
@@ -27,8 +26,7 @@ import org.apache.tapestry5.NullFieldStrategy;
 import org.apache.tapestry5.ValidationException;
 import org.apache.tapestry5.ValidationTracker;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -41,10 +39,10 @@ import org.chenillekit.tapestry.core.base.AbstractYuiField;
 /**
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"${yahoo.yui}/dragdrop/dragdrop${yahoo.yui.mode}.js",
+@Import(library = {"${yahoo.yui}/dragdrop/dragdrop${yahoo.yui.mode}.js",
 		"${yahoo.yui}/slider/slider${yahoo.yui.mode}.js",
-		"../../Chenillekit.js", "Slider.js"})
-@IncludeStylesheet(value = {"${yahoo.yui}/slider/assets/skins/sam/slider.css"})
+		"../../Chenillekit.js", "Slider.js"},
+		stylesheet = {"${yahoo.yui}/slider/assets/skins/sam/slider.css"})
 public class Slider extends AbstractYuiField
 {
 	/**
@@ -189,7 +187,7 @@ public class Slider extends AbstractYuiField
 	void afterRender(MarkupWriter writer)
 	{
 		javascriptSupport.addScript("new Ck.YuiSlider('%s', '%s', %d, 0, %d, %d, '%s');",
-								getClientId(), (vertical ? "vert" : "horiz"), value, length, ticks, changeCallback);
+									getClientId(), (vertical ? "vert" : "horiz"), value, length, ticks, changeCallback);
 	}
 
 

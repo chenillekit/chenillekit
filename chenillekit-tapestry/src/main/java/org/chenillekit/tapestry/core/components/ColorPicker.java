@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2009 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,7 @@ package org.chenillekit.tapestry.core.components;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.base.AbstractTextField;
 import org.apache.tapestry5.json.JSONObject;
@@ -30,8 +29,7 @@ import org.apache.tapestry5.services.javascript.JavascriptSupport;
  *
  * @version $Id$
  */
-@IncludeStylesheet("colorpicker/colorpicker.css")
-@IncludeJavaScriptLibrary({"colorpicker/colorpicker.js", "../prototype-base-extensions.js"})
+@Import(stylesheet = "colorpicker/colorpicker.css", library = {"colorpicker/colorpicker.js", "../prototype-base-extensions.js"})
 public class ColorPicker extends AbstractTextField
 {
 	/**

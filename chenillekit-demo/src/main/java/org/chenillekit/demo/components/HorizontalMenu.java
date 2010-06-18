@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 package org.chenillekit.demo.components;
 
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.corelib.components.PageLink;
 
 /**
  * @version $Id$
  */
-@IncludeStylesheet(value = {"HorizontalMenu.css"})
+@Import(stylesheet = {"HorizontalMenu.css"})
 public class HorizontalMenu extends LeftSideMenu
 {
 	@Component(parameters = {"page=prop:menuItem.pageName", "style=menuItem.styles",

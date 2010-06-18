@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@ import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.ValueEncoder;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.annotations.Property;
@@ -61,8 +60,7 @@ import org.chenillekit.tapestry.core.internal.GenericValueEncoder;
  *
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "Rating.js"})
-@IncludeStylesheet(value = {"Rating.css"})
+@Import(library = {"../Chenillekit.js", "Rating.js"}, stylesheet = {"Rating.css"})
 public class RatingField<T> extends AbstractField
 {
 	/**
@@ -203,10 +201,10 @@ public class RatingField<T> extends AbstractField
 		configure(options);
 
 		javascriptSupport.addScript("new Ck.RatingField('%s', '%s', '%s', %s);",
-								getClientId(),
-								getSelectedImage().toClientURL(),
-								getUnselectedImage().toClientURL(),
-								options);
+									getClientId(),
+									getSelectedImage().toClientURL(),
+									getUnselectedImage().toClientURL(),
+									options);
 	}
 
 	/**

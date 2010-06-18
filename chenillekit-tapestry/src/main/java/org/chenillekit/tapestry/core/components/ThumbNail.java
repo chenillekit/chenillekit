@@ -20,12 +20,13 @@ import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.AssetSource;
 import org.apache.tapestry5.services.javascript.JavascriptSupport;
+
 import org.chenillekit.tapestry.core.services.ThumbNailService;
 
 /**
@@ -34,116 +35,116 @@ import org.chenillekit.tapestry.core.services.ThumbNailService;
  * @version $Id$
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "ThumbNail.js"})
+@Import(library = {"../Chenillekit.js", "ThumbNail.js"})
 public class ThumbNail implements ClientElement
 {
-    /**
-     * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
-     * times, a suffix will be appended to the to id to ensure uniqueness. The uniqued value may be accessed via the
-     * {@link #getClientId() clientId property}.
-     */
-    @Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
-    private String clientId;
+	/**
+	 * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple
+	 * times, a suffix will be appended to the to id to ensure uniqueness. The uniqued value may be accessed via the
+	 * {@link #getClientId() clientId property}.
+	 */
+	@Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
+	private String clientId;
 
-    /**
-     * the asset path or asset itself, that converted to thumbnail.
-     */
-    @Parameter(name = "asset", required = true, defaultPrefix = BindingConstants.LITERAL)
-    private Object assetObject;
+	/**
+	 * the asset path or asset itself, that converted to thumbnail.
+	 */
+	@Parameter(name = "asset", required = true, defaultPrefix = BindingConstants.LITERAL)
+	private Object assetObject;
 
-    /**
-     * the height (pixel) of the thumbnail.
-     */
-    @Parameter(required = true, defaultPrefix = BindingConstants.PROP)
-    private int thumbHeight;
+	/**
+	 * the height (pixel) of the thumbnail.
+	 */
+	@Parameter(required = true, defaultPrefix = BindingConstants.PROP)
+	private int thumbHeight;
 
-    /**
-     * output quality of the thumbnail.
-     */
-    @Parameter(value = "80", required = false, defaultPrefix = BindingConstants.PROP)
-    private float quality;
+	/**
+	 * output quality of the thumbnail.
+	 */
+	@Parameter(value = "80", required = false, defaultPrefix = BindingConstants.PROP)
+	private float quality;
 
-    /**
-     * if true, clicking mouse over the thumbnail show the original image.
-     */
-    @Parameter(value = "false", required = false, defaultPrefix = BindingConstants.PROP)
-    private boolean onClickAction;
+	/**
+	 * if true, clicking mouse over the thumbnail show the original image.
+	 */
+	@Parameter(value = "false", required = false, defaultPrefix = BindingConstants.PROP)
+	private boolean onClickAction;
 
-    private String assignedClientId;
+	private String assignedClientId;
 
-    @Environmental
-    private JavascriptSupport javascriptSupport;
+	@Environmental
+	private JavascriptSupport javascriptSupport;
 
-    @Inject
-    private ComponentResources resources;
+	@Inject
+	private ComponentResources resources;
 
-    @Inject
-    private AssetSource assetSource;
+	@Inject
+	private AssetSource assetSource;
 
-    @Inject
-    private ThumbNailService thumbNailService;
+	@Inject
+	private ThumbNailService thumbNailService;
 
-    private Asset asset;
+	private Asset asset;
 
-    /**
-     * Tapestry render phase method.
-     * Initialize temporary instance variables here.
-     */
-    void setupRender()
-    {
-        // By default, use the component id as the (base) client id. If the clientid
-        // parameter is bound, then that is the value to use.
-        // Often, these controlName and _clientId will end up as the same value. There are many
-        // exceptions, including a form that renders inside a loop, or a form inside a component
-        // that is used multiple times.
-        assignedClientId = javascriptSupport.allocateClientId(clientId);
+	/**
+	 * Tapestry render phase method.
+	 * Initialize temporary instance variables here.
+	 */
+	void setupRender()
+	{
+		// By default, use the component id as the (base) client id. If the clientid
+		// parameter is bound, then that is the value to use.
+		// Often, these controlName and _clientId will end up as the same value. There are many
+		// exceptions, including a form that renders inside a loop, or a form inside a component
+		// that is used multiple times.
+		assignedClientId = javascriptSupport.allocateClientId(clientId);
 
-        if (assetObject instanceof String)
-            asset = assetSource.getAsset(resources.getBaseResource(), (String) assetObject, null);
-        else if (assetObject instanceof Asset)
-            asset = (Asset) assetObject;
-        else
-            throw new RuntimeException("parameter 'asset' neither a string nor an asset object");
-    }
+		if (assetObject instanceof String)
+			asset = assetSource.getAsset(resources.getBaseResource(), (String) assetObject, null);
+		else if (assetObject instanceof Asset)
+			asset = (Asset) assetObject;
+		else
+			throw new RuntimeException("parameter 'asset' neither a string nor an asset object");
+	}
 
-    /**
-     * Tapestry render phase method.
-     * Start a tag here, end it in afterRender
-     *
-     * @param writer the markup writer
-     */
-    void beginRender(MarkupWriter writer)
-    {
-        writer.element("img", "id", getClientId(), "src", generateThumbNail().toClientURL());
-        resources.renderInformalParameters(writer);
-    }
+	/**
+	 * Tapestry render phase method.
+	 * Start a tag here, end it in afterRender
+	 *
+	 * @param writer the markup writer
+	 */
+	void beginRender(MarkupWriter writer)
+	{
+		writer.element("img", "id", getClientId(), "src", generateThumbNail().toClientURL());
+		resources.renderInformalParameters(writer);
+	}
 
-    /**
-     * Tapestry render phase method. End a tag here.
-     *
-     * @param writer the markup writer
-     */
-    void afterRender(MarkupWriter writer)
-    {
-        writer.end();
+	/**
+	 * Tapestry render phase method. End a tag here.
+	 *
+	 * @param writer the markup writer
+	 */
+	void afterRender(MarkupWriter writer)
+	{
+		writer.end();
 
-        if (onClickAction)
-            javascriptSupport.addScript("new Ck.ThumbNail('%s', '%s');", getClientId(), asset.toClientURL());
-    }
+		if (onClickAction)
+			javascriptSupport.addScript("new Ck.ThumbNail('%s', '%s');", getClientId(), asset.toClientURL());
+	}
 
-    private Asset generateThumbNail()
-    {
-        return thumbNailService.convertToThumbnail(asset, thumbHeight, quality);
-    }
+	private Asset generateThumbNail()
+	{
+		return thumbNailService.convertToThumbnail(asset, thumbHeight, quality);
+	}
 
 
-    /**
-     * Returns a unique id for the element. This value will be unique for any given rendering of a
-     * page. This value is intended for use as the id attribute of the client-side element, and will
-     * be used with any DHTML/Ajax related JavaScript.
-     */
-    public String getClientId()
-    {
-        return assignedClientId;
-    }
+	/**
+	 * Returns a unique id for the element. This value will be unique for any given rendering of a
+	 * page. This value is intended for use as the id attribute of the client-side element, and will
+	 * be used with any DHTML/Ajax related JavaScript.
+	 */
+	public String getClientId()
+	{
+		return assignedClientId;
+	}
 }

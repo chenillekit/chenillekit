@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,7 @@ import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.ValidationException;
 import org.apache.tapestry5.ValidationTracker;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.base.AbstractField;
 import org.apache.tapestry5.internal.util.Holder;
@@ -48,9 +47,9 @@ import static org.apache.tapestry5.ioc.internal.util.CollectionFactory.newList;
  *
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"../../Chenillekit.js", "prototype-ui.js", "AutoComplete.js"})
-@IncludeStylesheet(value = {"themes/auto_complete/default.css", "themes/shadow/drop_shadow.css",
-		"themes/shadow/auto_complete.css"})
+@Import(library = {"../../Chenillekit.js", "prototype-ui.js", "AutoComplete.js"},
+		stylesheet = {"themes/auto_complete/default.css", "themes/shadow/drop_shadow.css",
+				"themes/shadow/auto_complete.css"})
 public class AutoComplete extends AbstractField
 {
 	static final String EVENT_NAME = "autocomplete";

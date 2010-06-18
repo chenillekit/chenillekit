@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,7 @@ import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -69,9 +68,9 @@ import org.chenillekit.tapestry.core.utils.ProtoTubeIdHolder;
  * @version $Id$
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"prototube/prototube.js", "prototube/swfobject.js",
-		"${tapestry.scriptaculous}/effects.js"})
-@IncludeStylesheet(value = {"prototube/prototube.css"})
+@Import(library = {"prototube/prototube.js", "prototube/swfobject.js",
+		"${tapestry.scriptaculous}/effects.js"},
+		stylesheet = {"prototube/prototube.css"})
 public class ProtoTube implements ClientElement
 {
 	/**

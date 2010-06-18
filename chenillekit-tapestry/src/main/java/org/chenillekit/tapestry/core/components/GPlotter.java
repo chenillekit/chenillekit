@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.dom.Element;
@@ -37,7 +37,7 @@ import org.chenillekit.google.services.GoogleGeoCoder;
  * @version $Id$
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "GPlotter.js"})
+@Import(library = {"../Chenillekit.js", "GPlotter.js"})
 public class GPlotter implements ClientElement
 {
 	/**
@@ -111,7 +111,7 @@ public class GPlotter implements ClientElement
 
 		head.element("script",
 					 "src", "http://maps.google.com/maps?file=api&v=2&key=" + geoCoder.getKey() + "&hl=" +
-				request.getLocale().getLanguage(),
+						request.getLocale().getLanguage(),
 					 "type", "text/javascript",
 					 "id", "gmap");
 
@@ -136,11 +136,11 @@ public class GPlotter implements ClientElement
 		configure(configuration);
 
 		javascriptSupport.addScript("var %s = new Ck.GPlotter('%s_map', '%s', '%s', '%s', %s);",
-				getClientId(), getClientId(),
-				geoCoder.getKey(),
-				errorCallbackFunction,
-				dragendCallbackFunction,
-				configuration.toString());
+									getClientId(), getClientId(),
+									geoCoder.getKey(),
+									errorCallbackFunction,
+									dragendCallbackFunction,
+									configuration.toString());
 
 		javascriptSupport.addScript("%s.setCenter(%s, %s);", getClientId(), lat, lng);
 

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.components.Checkbox;
@@ -33,7 +33,7 @@ import org.apache.tapestry5.services.javascript.JavascriptSupport;
  *
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "AjaxCheckbox.js"})
+@Import(library = {"../Chenillekit.js", "AjaxCheckbox.js"})
 public class AjaxCheckbox extends Checkbox
 {
 	/**

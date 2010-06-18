@@ -3,14 +3,13 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  */
 
 package org.chenillekit.tapestry.core.components;
@@ -19,7 +18,7 @@ import org.apache.tapestry5.Asset;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.base.AbstractTextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -49,7 +48,7 @@ import org.apache.tapestry5.services.javascript.JavascriptSupport;
  * @see <a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide">FCKeditor developer's guide</a>
  * @see <a href="http://docs.fckeditor.net/FCKeditor_2.x/Users_Guide">FCKeditor user's guide</a>
  */
-@IncludeJavaScriptLibrary("fckeditor/fckeditor.js")
+@Import(library = "fckeditor/fckeditor.js")
 public class Editor extends AbstractTextField
 {
 	/**
@@ -129,8 +128,8 @@ public class Editor extends AbstractTextField
 		if (customConfiguration != null)
 		{
 			javascriptSupport.addScript("%s.Config['CustomConfigurationsPath'] = '%s';",
-									editorVar,
-									getCustomizedConfigurationURL(customConfiguration));
+										editorVar,
+										getCustomizedConfigurationURL(customConfiguration));
 		}
 
 		if (toolbarSet != null)

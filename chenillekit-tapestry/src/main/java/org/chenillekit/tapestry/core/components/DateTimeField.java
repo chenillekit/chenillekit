@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,7 @@ import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.ValidationException;
 import org.apache.tapestry5.ValidationTracker;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.corelib.base.AbstractField;
@@ -50,9 +49,9 @@ import org.apache.tapestry5.services.javascript.JavascriptSupport;
  *
  * @version $Id$
  */
-@IncludeStylesheet("datetimefield/datepicker.css")
-@IncludeJavaScriptLibrary({"datetimefield/datepicker.js", "../prototype-base-extensions.js",
-		"../prototype-date-extensions.js"})
+@Import(stylesheet = "datetimefield/datepicker.css",
+		library = {"datetimefield/datepicker.js", "../prototype-base-extensions.js",
+				"../prototype-date-extensions.js"})
 public class DateTimeField extends AbstractField
 {
 	/**

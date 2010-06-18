@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2009 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.MarkupWriterListener;
 import org.apache.tapestry5.annotations.AfterRenderTemplate;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -30,7 +30,7 @@ import org.apache.tapestry5.services.javascript.JavascriptSupport;
 /**
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"${yahoo.yui}/yahoo-dom-event/yahoo-dom-event.js",
+@Import(library = {"${yahoo.yui}/yahoo-dom-event/yahoo-dom-event.js",
 		"${yahoo.yui}/element/element${yahoo.yui.mode}.js"})
 abstract public class AbstractYahooComponent implements ClientElement
 {

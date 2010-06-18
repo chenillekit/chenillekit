@@ -3,14 +3,13 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  */
 
 package org.chenillekit.tapestry.core.mixins.yui;
@@ -23,8 +22,7 @@ import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.StreamResponse;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectContainer;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.components.TextArea;
@@ -41,15 +39,15 @@ import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
 /**
  * @version $Id$
  */
-@IncludeStylesheet(value = {"${yahoo.yui}/assets/skins/sam/skin.css"})
-@IncludeJavaScriptLibrary(value = {"../../Chenillekit.js",
-		"${yahoo.yui}/container/container_core${yahoo.yui.mode}.js",
-		"${yahoo.yui}/menu/menu${yahoo.yui.mode}.js",
-		"${yahoo.yui}/button/button${yahoo.yui.mode}.js",
-		"${yahoo.yui}/connection/connection${yahoo.yui.mode}.js",
-		"${yahoo.yui}/editor/editor${yahoo.yui.mode}.js",
-		"yui-image-uploader26.js",
-		"Editor.js"})
+@Import(stylesheet = {"${yahoo.yui}/assets/skins/sam/skin.css"},
+		library = {"../../Chenillekit.js",
+				"${yahoo.yui}/container/container_core${yahoo.yui.mode}.js",
+				"${yahoo.yui}/menu/menu${yahoo.yui.mode}.js",
+				"${yahoo.yui}/button/button${yahoo.yui.mode}.js",
+				"${yahoo.yui}/connection/connection${yahoo.yui.mode}.js",
+				"${yahoo.yui}/editor/editor${yahoo.yui.mode}.js",
+				"yui-image-uploader26.js",
+				"Editor.js"})
 public class Editor extends AbstractYahooComponent
 {
 	private static String INTERNAL_EVENT = "internalUploaded";

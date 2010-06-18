@@ -1,15 +1,29 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2008-2010 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package org.chenillekit.tapestry.core.base;
 
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.MarkupWriterListener;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.corelib.base.AbstractField;
 import org.apache.tapestry5.dom.Element;
 
 /**
  * @version $Id$
  */
-@IncludeJavaScriptLibrary(value = {"${yahoo.yui}/yahoo-dom-event/yahoo-dom-event.js",
+@Import(library = {"${yahoo.yui}/yahoo-dom-event/yahoo-dom-event.js",
 		"${yahoo.yui}/element/element${yahoo.yui.mode}.js"})
 abstract public class AbstractYuiField extends AbstractField
 {

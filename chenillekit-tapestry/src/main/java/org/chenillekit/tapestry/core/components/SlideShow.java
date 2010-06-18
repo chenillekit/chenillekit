@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,7 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.javascript.JavascriptSupport;
@@ -30,8 +29,7 @@ import org.apache.tapestry5.services.javascript.JavascriptSupport;
  *
  * @version $Id$
  */
-@IncludeJavaScriptLibrary({"../Chenillekit.js", "SlideShow.js"})
-@IncludeStylesheet("SlideShow.css")
+@Import(library = {"../Chenillekit.js", "SlideShow.js"}, stylesheet = "SlideShow.css")
 public class SlideShow implements ClientElement
 {
 	/**
