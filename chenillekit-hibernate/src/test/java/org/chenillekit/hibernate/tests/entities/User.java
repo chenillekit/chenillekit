@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.hibernate.entities;
+package org.chenillekit.hibernate.tests.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +35,9 @@ import org.apache.tapestry5.beaneditor.Validate;
 
 import org.hibernate.annotations.Cascade;
 
+import org.chenillekit.hibernate.entities.Audit;
+import org.chenillekit.hibernate.entities.Auditable;
+
 /**
  * @version $Id$
  */
@@ -42,114 +45,123 @@ import org.hibernate.annotations.Cascade;
 @Table(name = "users")
 public class User implements Serializable, Auditable
 {
-	private long _id;
-	private String _loginName;
-	private String _password;
-	private boolean _active;
-	private Date _lastLogin;
-	private byte[] _properties;
-	private Address _address;
-	private List<Pseudonym> pseudonyms = new ArrayList<Pseudonym>();
-	private Audit _audit;
-
-	public User(String loginName, String password)
-	{
-		_loginName = loginName;
-		_password = password;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false, columnDefinition = "BIGINT")
-	public long getId()
-	{
-		return _id;
-	}
-
-	public void setId(long id)
-	{
-		_id = id;
-	}
+	private long id;
 
 	@Basic
 	@Column(name = "login_name", nullable = false, unique = true, columnDefinition = "VARCHAR(8)")
 	@Validate("required")
-	public String getLoginName()
-	{
-		return _loginName;
-	}
-
-	public void setLoginName(String loginName)
-	{
-		_loginName = loginName;
-	}
+	private String loginName;
 
 	@Basic
 	@Column(name = "password", nullable = false, columnDefinition = "VARCHAR(32)")
 	@Validate("required,minlength=4")
-	public String getPassword()
-	{
-		return _password;
-	}
-
-	public void setPassword(String password)
-	{
-		_password = password;
-	}
+	private String password;
 
 	@Basic
 	@Column(name = "active", columnDefinition = "CHAR(1)")
-	public boolean getActive()
-	{
-		return _active;
-	}
-
-	public void setActive(boolean active)
-	{
-		_active = active;
-	}
+	private boolean active;
 
 	@Basic
 	@Column(name = "last_login", length = 19, columnDefinition = "DATETIME")
-	public Date getLastLogin()
-	{
-		return _lastLogin;
-	}
-
-	public void setLastLogin(Date lastLogin)
-	{
-		_lastLogin = lastLogin;
-	}
+	private Date lastLogin;
 
 	@Basic(fetch = FetchType.LAZY)
 	@javax.persistence.Lob
 	@Column(name = "properties", length = 0)
-	public byte[] getProperties()
-	{
-		return _properties;
-	}
-
-	public void setProperties(byte[] properties)
-	{
-		_properties = properties;
-	}
+	private byte[] properties;
 
 	@ManyToOne(targetEntity = Address.class)
 	@Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-	@JoinColumn(name = "ref_address", nullable = false)
+	@JoinColumn(name = "id_address", nullable = false, columnDefinition = "BIGINT")
+	private Address address;
+
+	@OneToMany(mappedBy = "user")
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	private List<Pseudonym> pseudonyms = new ArrayList<Pseudonym>();
+
+	@Embedded
+	private Audit audit;
+
+	public User(String loginName, String password)
+	{
+		this.loginName = loginName;
+		this.password = password;
+	}
+
+	public long getId()
+	{
+		return id;
+	}
+
+	public void setId(long id)
+	{
+		this.id = id;
+	}
+
+	public String getLoginName()
+	{
+		return loginName;
+	}
+
+	public void setLoginName(String loginName)
+	{
+		this.loginName = loginName;
+	}
+
+	public String getPassword()
+	{
+		return password;
+	}
+
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+
+	public boolean getActive()
+	{
+		return active;
+	}
+
+	public void setActive(boolean active)
+	{
+		this.active = active;
+	}
+
+	public Date getLastLogin()
+	{
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin)
+	{
+		this.lastLogin = lastLogin;
+	}
+
+	public byte[] getProperties()
+	{
+		return properties;
+	}
+
+	public void setProperties(byte[] properties)
+	{
+		this.properties = properties;
+	}
+
 	public Address getAddress()
 	{
-		return _address;
+		return address;
 	}
 
 	public void setAddress(Address address)
 	{
-		_address = address;
+		this.address = address;
 	}
 
-	@OneToMany(mappedBy = "user")
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 	public List<Pseudonym> getPseudonyms()
 	{
 		return pseudonyms;
@@ -160,15 +172,14 @@ public class User implements Serializable, Auditable
 		this.pseudonyms = pseudonyms;
 	}
 
-	@Embedded
 	public Audit getAudit()
 	{
-		return _audit;
+		return audit;
 	}
 
 	public void setAudit(Audit audit)
 	{
-		_audit = audit;
+		this.audit = audit;
 	}
 
 	public boolean equals(Object o)
@@ -178,18 +189,18 @@ public class User implements Serializable, Auditable
 
 		User user = (User) o;
 
-		return _id == user.getId();
+		return id == user.getId();
 	}
 
 	public int hashCode()
 	{
 		int result;
-		result = (int) (_id ^ (_id >>> 32));
-		result = 31 * result + (_loginName != null ? _loginName.hashCode() : 0);
-		result = 31 * result + (_password != null ? _password.hashCode() : 0);
-		result = 31 * result + (_active ? 1 : 0);
-		result = 31 * result + (_lastLogin != null ? _lastLogin.hashCode() : 0);
-		result = 31 * result + (_address != null ? _address.hashCode() : 0);
+		result = (int) (id ^ (id >>> 32));
+		result = 31 * result + (loginName != null ? loginName.hashCode() : 0);
+		result = 31 * result + (password != null ? password.hashCode() : 0);
+		result = 31 * result + (active ? 1 : 0);
+		result = 31 * result + (lastLogin != null ? lastLogin.hashCode() : 0);
+		result = 31 * result + (address != null ? address.hashCode() : 0);
 		return result;
 	}
 
@@ -198,8 +209,8 @@ public class User implements Serializable, Auditable
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append("User");
-		sb.append("{_recId=").append(_id);
-		sb.append(", _loginName='").append(_loginName).append('\'');
+		sb.append("{_recId=").append(id);
+		sb.append(", _loginName='").append(loginName).append('\'');
 		sb.append('}');
 		return sb.toString();
 	}

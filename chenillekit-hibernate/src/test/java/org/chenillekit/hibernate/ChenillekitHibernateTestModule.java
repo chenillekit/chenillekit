@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2009 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,11 @@ import org.apache.tapestry5.hibernate.HibernateCoreModule;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.chenillekit.hibernate.daos.UserDAO;
-import org.chenillekit.hibernate.daos.UserDAOHibernate;
+
+import org.chenillekit.hibernate.tests.daos.AddressDAO;
+import org.chenillekit.hibernate.tests.daos.AddressDAOHibernate;
+import org.chenillekit.hibernate.tests.daos.UserDAO;
+import org.chenillekit.hibernate.tests.daos.UserDAOHibernate;
 
 /**
  * @version $Id$
@@ -30,6 +33,7 @@ public class ChenillekitHibernateTestModule
     public static void bind(ServiceBinder binder)
     {
         binder.bind(UserDAO.class, UserDAOHibernate.class);
+        binder.bind(AddressDAO.class, AddressDAOHibernate.class);
     }
 
     public void contributeApplicationDefaults(MappedConfiguration<String, String> configuration)

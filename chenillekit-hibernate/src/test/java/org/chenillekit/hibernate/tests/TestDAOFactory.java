@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,14 +12,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.hibernate.factories;
+package org.chenillekit.hibernate.tests;
 
 import org.hibernate.Session;
 
-import org.chenillekit.hibernate.daos.AddressDAO;
-import org.chenillekit.hibernate.daos.AddressDAOHibernate;
-import org.chenillekit.hibernate.daos.UserDAO;
-import org.chenillekit.hibernate.daos.UserDAOHibernate;
+import org.chenillekit.hibernate.factories.AbstractHibernateDAOFactory;
+import org.chenillekit.hibernate.tests.daos.AddressDAO;
+import org.chenillekit.hibernate.tests.daos.AddressDAOHibernate;
+import org.chenillekit.hibernate.tests.daos.UserDAO;
+import org.chenillekit.hibernate.tests.daos.UserDAOHibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
