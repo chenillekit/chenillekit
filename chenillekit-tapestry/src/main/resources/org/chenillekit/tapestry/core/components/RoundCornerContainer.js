@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,4 +83,9 @@ Ck.Rounded.prototype =
         }
         el.appendChild(d, el.firstChild);
     }
-}
+};
+
+Tapestry.Initializer.ckroundcornercontainer = function(options)
+{
+    new Ck.Rounded(options.clientId, options.bgcolor, options.color, options.size, options.render).round();
+};

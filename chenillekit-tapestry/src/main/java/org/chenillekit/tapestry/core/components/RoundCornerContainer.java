@@ -19,11 +19,11 @@ import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
-import org.apache.tapestry5.annotations.IncludeStylesheet;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.javascript.JavascriptSupport;
 
 /**
@@ -32,8 +32,7 @@ import org.apache.tapestry5.services.javascript.JavascriptSupport;
  * @version $Id$
  */
 @SupportsInformalParameters
-@IncludeJavaScriptLibrary(value = {"../Chenillekit.js", "RoundCornerContainer.js"})
-@IncludeStylesheet(value = {"RoundCornerContainer.css"})
+@Import(library = {"../Chenillekit.js", "RoundCornerContainer.js"}, stylesheet = {"RoundCornerContainer.css"})
 public class RoundCornerContainer implements ClientElement
 {
 	public final static String RENDER_BOTH = "both";
@@ -94,9 +93,15 @@ public class RoundCornerContainer implements ClientElement
 	void afterRender(MarkupWriter writer)
 	{
 		writer.end();
-		javascriptSupport.addScript("var %s = new Ck.Rounded('%s', '%s', '%s', '%s', '%s');",
-									getClientId(), getClientId(), bgcolor, fgcolor, size, renderPart);
-		javascriptSupport.addScript("%s.round();", getClientId());
+
+		JSONObject options = new JSONObject();
+		options.put("clientId", getClientId());
+		options.put("bgcolor", bgcolor);
+		options.put("color", fgcolor);
+		options.put("size", size);
+		options.put("render", renderPart);
+
+		javascriptSupport.addInitializerCall("ckroundcornercontainer", options);
 	}
 
 	/**
