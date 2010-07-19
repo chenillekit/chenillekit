@@ -16,8 +16,6 @@ package org.chenillekit.tapestry.core.utils;
 
 import java.io.Serializable;
 
-import org.apache.tapestry5.ioc.internal.util.Defense;
-
 /**
  * @version $Id$
  */
@@ -43,8 +41,8 @@ public class XYDataItem implements Serializable, Comparable
      */
     public XYDataItem(Number xValue, Number yValue)
     {
-        Defense.notNull(xValue, "xValue");
-        Defense.notNull(yValue, "yValue");
+        assert xValue != null;
+        assert yValue != null;
 
         _xValue = xValue;
         _yValue = yValue;
@@ -77,7 +75,7 @@ public class XYDataItem implements Serializable, Comparable
      */
     public void setYValue(Number yValue)
     {
-        Defense.notNull(yValue, "yValue");
+        assert yValue != null;
         _yValue = yValue;
     }
 
@@ -88,7 +86,7 @@ public class XYDataItem implements Serializable, Comparable
      */
     public void setXValue(Number xValue)
     {
-        Defense.notNull(xValue, "xValue");
+        assert xValue != null;
         _xValue = xValue;
     }
 

@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.tapestry5.StreamResponse;
-import static org.apache.tapestry5.ioc.internal.util.Defense.notNull;
 import org.apache.tapestry5.services.Response;
 
 /**
@@ -31,7 +30,7 @@ public class ScriptStreamResponse implements StreamResponse
 
     public ScriptStreamResponse(InputStream scriptStream)
     {
-        notNull(scriptStream, "scriptStream");
+        assert scriptStream != null;
 
         this.contentType = "text/plain";
         this.scriptStream = scriptStream;

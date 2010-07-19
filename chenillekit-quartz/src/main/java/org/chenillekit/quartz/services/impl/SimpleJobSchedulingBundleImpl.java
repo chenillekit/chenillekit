@@ -14,8 +14,6 @@
 
 package org.chenillekit.quartz.services.impl;
 
-import org.apache.tapestry5.ioc.internal.util.Defense;
-
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
@@ -38,8 +36,8 @@ public class SimpleJobSchedulingBundleImpl implements JobSchedulingBundle
 
     public SimpleJobSchedulingBundleImpl(String schedulerId, JobDetail jobDetail, Trigger trigger)
     {
-        Defense.notNull(jobDetail, "jobDetail");
-        Defense.notNull(trigger, "trigger");
+        assert jobDetail != null;
+        assert trigger != null;
 
         this.schedulerId = schedulerId;
         this.jobDetail = jobDetail;

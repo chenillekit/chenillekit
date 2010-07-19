@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.apache.tapestry5.ValueEncoder;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.apache.tapestry5.ioc.services.PropertyAccess;
 
 /**
@@ -37,7 +36,7 @@ public class GenericValueEncoder<T> implements ValueEncoder<T>
 
     public GenericValueEncoder(List<T> objectList, String valueFieldName, PropertyAccess propertyAccess)
     {
-        Defense.notNull(objectList, "objectlist");
+        assert objectList != null;
 
         // more carfully i think, so we copy the object list
         _objectList = CollectionFactory.newList(objectList);

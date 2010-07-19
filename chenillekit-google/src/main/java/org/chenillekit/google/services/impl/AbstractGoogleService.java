@@ -14,7 +14,6 @@
 
 package org.chenillekit.google.services.impl;
 
-import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.slf4j.Logger;
 
 import java.io.UnsupportedEncodingException;
@@ -41,7 +40,7 @@ abstract public class AbstractGoogleService
 	 */
 	protected AbstractGoogleService(Logger logger, String googleKey, int timeout, String referer, String proxy)
 	{
-		Defense.notNull(googleKey, "googleKey");
+		assert googleKey != null;
 
 		this.googleKey = googleKey;
 		this.timeout = timeout;

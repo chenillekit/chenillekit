@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.tapestry5.OptionGroupModel;
 import org.apache.tapestry5.OptionModel;
 import org.apache.tapestry5.internal.OptionModelImpl;
-import org.apache.tapestry5.ioc.internal.util.Defense;
+import org.apache.tapestry5.ioc.internal.util.InternalUtils;
 import org.apache.tapestry5.ioc.services.PropertyAccess;
 import org.apache.tapestry5.ioc.services.PropertyAdapter;
 import org.apache.tapestry5.util.AbstractSelectModel;
@@ -39,7 +39,7 @@ public class GenericMultipleSelectModel<T> extends AbstractSelectModel implement
 
     public GenericMultipleSelectModel(List<T> selectables, Class clasz, String labelPropertyName, String valuePropertyName, PropertyAccess access)
     {
-        Defense.notBlank(labelPropertyName, "labelField");
+        assert InternalUtils.isNonBlank(labelPropertyName);
         _selectables = selectables;
 
         if (valuePropertyName != null)

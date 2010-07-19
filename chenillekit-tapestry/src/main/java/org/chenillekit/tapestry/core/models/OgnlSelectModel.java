@@ -11,7 +11,7 @@ import org.apache.tapestry5.OptionGroupModel;
 import org.apache.tapestry5.OptionModel;
 import org.apache.tapestry5.internal.OptionModelImpl;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-import org.apache.tapestry5.ioc.internal.util.Defense;
+import org.apache.tapestry5.ioc.internal.util.InternalUtils;
 import org.apache.tapestry5.util.AbstractSelectModel;
 
 import ognl.Ognl;
@@ -55,7 +55,7 @@ public class OgnlSelectModel<T> extends AbstractSelectModel
      */
     public OgnlSelectModel(List<T> objectList, String labelExpression)
     {
-        Defense.notBlank(labelExpression, "labelExpression");
+        assert InternalUtils.isNonBlank(labelExpression);
 
         _labelExpression = labelExpression;
 

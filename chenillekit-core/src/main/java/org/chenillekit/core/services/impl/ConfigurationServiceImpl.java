@@ -26,7 +26,6 @@ import org.apache.commons.configuration.SystemConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.plist.PropertyListConfiguration;
 import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.internal.util.Defense;
 import org.chenillekit.core.services.ConfigurationService;
 
 import javax.naming.Context;
@@ -63,7 +62,7 @@ public class ConfigurationServiceImpl implements ConfigurationService
     {
         Configuration configuration;
 
-        Defense.notNull(configurationResource, "configurationResource");
+        assert configurationResource != null;
 
         if (!configurationResource.exists())
             throw new RuntimeException(String.format("configuration resource '%s' not found", configurationResource.toString()));
@@ -109,7 +108,7 @@ public class ConfigurationServiceImpl implements ConfigurationService
      */
     public Configuration getConfiguration(Context context)
     {
-        Defense.notNull(context, "context");
+        assert context != null;
         return new JNDIConfiguration(context);
     }
 
