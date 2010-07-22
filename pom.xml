@@ -35,9 +35,14 @@
         A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
         and many more ...
     </description>
-    <inceptionYear>2008-2009</inceptionYear>
+    <inceptionYear>2008-2010</inceptionYear>
+	<parent>
+		<groupId>org.codehaus</groupId>
+		<artifactId>codehaus-parent</artifactId>
+		<version>1</version>
+	</parent>
 
-    <url>http://www.chenillekit.org/</url>
+    <url>http://chenillekit.codehaus.org</url>
 
     <ciManagement>
         <system>bamboo</system>
@@ -78,6 +83,14 @@
             </snapshots>
         </repository>
 
+        <repository>
+            <id>Codehaus Nexus Repository</id>
+            <url>https://nexus.codehaus.org/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
     </repositories>
 
     <!-- we need this entry, to get the right components report library -->
@@ -106,14 +119,15 @@
 
     <distributionManagement>
         <repository>
-            <id>codehaus.org</id>
+            <id>codehaus-nexus-staging</id>
             <name>ChenilleKit Central Reposiroty</name>
-            <url>dav:https://dav.codehaus.org/repository/chenillekit/</url>
+            <!-- dav:https://dav.codehaus.org/repository/chenillekit/ -->
+            <url>dav:https://nexus.codehaus.org/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
-            <id>codehaus.org</id>
+            <id>codehaus-nexus-snapshots</id>
             <name>ChenilleKit Central Development Reposiroty</name>
-            <url>dav:https://dav.codehaus.org/snapshots.repository/chenillekit/</url>
+            <url>dav:https://nexus.codehaus.org/content/repositories/snapshots/</url>
         </snapshotRepository>
         <site>
             <id>codehaus.org</id>
