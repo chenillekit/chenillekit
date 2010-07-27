@@ -1,16 +1,16 @@
 <!--
-	~ Apache License
-	~ Version 2.0, January 2004
-	~ http://www.apache.org/licenses/
-	~
-	~ Copyright 2008 by chenillekit.org
-	~
-	~ Licensed under the Apache License, Version 2.0 (the "License");
-	~ you may not use this file except in compliance with the License.
-	~ You may obtain a copy of the License at
-	~
-	~ http://www.apache.org/licenses/LICENSE-2.0
-	-->
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008-2010 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -32,6 +32,13 @@
 </ul>
 
 <span id="no_access">no access</span>
+<span t:id="ifNotAuthenticated">
+	<span id="not_authenticated">not authenticated</span>
+</span>
+
+<span t:id="ifAuthenticated">
+	<span id="authenticated">is authenticated</span>
+</span>
 
 </body>
 </html>

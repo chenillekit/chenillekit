@@ -14,6 +14,8 @@
 
 package org.chenillekit.access.integration.app1.services.impl;
 
+import org.apache.tapestry5.services.ApplicationStateManager;
+
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
 import org.chenillekit.access.services.AuthenticationServiceFilter;
@@ -25,20 +27,37 @@ import org.chenillekit.access.services.AuthenticationServiceFilter;
  */
 public class UserAuthServiceImpl implements AuthenticationServiceFilter
 {
+	final private ApplicationStateManager stateManager;
+
+	public UserAuthServiceImpl(ApplicationStateManager stateManager)
+	{
+		this.stateManager = stateManager;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.chenillekit.access.services.AuthenticationServiceFilter#doAuthenticate(java.lang.String, java.lang.String, org.chenillekit.access.services.AuthenticationService)
 	 */
+
 	public WebSessionUser doAuthenticate(String userName, String password,
-			AuthenticationService delegate)
+										 AuthenticationService delegate)
 	{
-		if ( "root".equals(userName) )
+		if ("root".equals(userName))
 		{
 			return new TestWebSessionUser("root", 10, "admin");
 		}
-		if ( "dummy".equals(userName) )
+		if ("dummy".equals(userName))
 		{
 			return new TestWebSessionUser("dummy", 0, "dummy");
 		}
 		return delegate.doAuthenticate(userName, password);
+	}
+
+	/**
+	 * check for user is authenticated.
+	 */
+	public boolean isAuthenticate(AuthenticationService delegate)
+	{
+		WebSessionUser webSessionUser = stateManager.getIfExists(WebSessionUser.class);
+		return webSessionUser != null && delegate.isAuthenticate();
 	}
 }

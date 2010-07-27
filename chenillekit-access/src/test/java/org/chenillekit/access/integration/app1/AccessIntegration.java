@@ -15,6 +15,7 @@
 package org.chenillekit.access.integration.app1;
 
 import org.apache.tapestry5.test.SeleniumTestCase;
+
 import org.testng.annotations.Test;
 
 /**
@@ -196,6 +197,8 @@ public class AccessIntegration extends SeleniumTestCase
 	{
 		openBaseURL();
 
+		assertTextPresent("not authenticated");
+		
 		clickAndWait("link=Invisible");
 
 		assertTextPresent("Login Page");
@@ -208,6 +211,8 @@ public class AccessIntegration extends SeleniumTestCase
 		assertTextPresent("You should be able to not see me!");
 
 		clickAndWait("link=Back to start");
+
+		assertTextPresent("is authenticated");
 
 		clickAndWait("link=Logout");
 

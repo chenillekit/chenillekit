@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2009 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,4 +31,8 @@ public interface AuthenticationServiceFilter
 	 */
 	WebSessionUser doAuthenticate(String userName, String password, AuthenticationService delegate);
 
+	/**
+	 * check for user is authenticated.
+	 */
+	boolean isAuthenticate(AuthenticationService delegate);
 }

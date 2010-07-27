@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,15 @@ package org.chenillekit.access.integration.app1.pages;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.SessionState;
+import org.apache.tapestry5.corelib.components.If;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
+
+import org.chenillekit.access.WebSessionUser;
+import org.chenillekit.access.services.AuthenticationService;
 
 /**
  *
@@ -25,6 +33,19 @@ import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
  */
 public class Start
 {
+	@Inject
+	@Local
+	private AuthenticationService authenticationService;
+
+	@SessionState
+	private WebSessionUser webSessionUser;
+
+	@Component(parameters = {"test=authenticated", "negate=true"})
+	private If ifNotAuthenticated;
+
+	@Component(parameters = {"test=authenticated"})
+	private If ifAuthenticated;
+
 	public static class Item implements Comparable<Item>
 	{
 		private final String _pageName;
@@ -91,6 +112,9 @@ public class Start
 	{
 		_item = item;
 	}
-	
-	
+
+	public boolean isAuthenticated()
+	{
+		return authenticationService.isAuthenticate();
+	}
 }
