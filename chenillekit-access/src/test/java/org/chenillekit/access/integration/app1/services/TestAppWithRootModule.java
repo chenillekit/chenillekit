@@ -91,8 +91,8 @@ public class TestAppWithRootModule
 
 			Statement statement = connection.createStatement();
 			statement.execute("DROP TABLE IF EXISTS " + tableName);
-			statement.execute("CREATE TABLE " + tableName + " (COMPONENT_ID VARCHAR(99), GROUPS VARCHAR(255), ROLE INTEGER)");
-			statement.execute("INSERT INTO " + tableName + " (COMPONENT_ID, GROUPS, ROLE) " +
+			statement.execute("CREATE TABLE " + tableName + " (COMPONENT_ID VARCHAR(99), GROUPS VARCHAR(255), ROLE_WEIGHT INTEGER)");
+			statement.execute("INSERT INTO " + tableName + " (COMPONENT_ID, GROUPS, ROLE_WEIGHT) " +
 					"VALUES ('ManagedRestrictedPage', 'admin', 10)," +
 					"('ManagedRestrictedPage.event1', 'admin', 10)," +
 					"('ManagedRestrictedPage.event2', 'admin', 100)");

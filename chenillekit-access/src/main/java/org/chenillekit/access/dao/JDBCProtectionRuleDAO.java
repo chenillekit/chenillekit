@@ -14,12 +14,12 @@
 
 package org.chenillekit.access.dao;
 
-import org.slf4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.slf4j.Logger;
 
 /**
  * @version $Id$
@@ -39,7 +39,7 @@ public class JDBCProtectionRuleDAO implements ProtectionRuleDAO<ProtectionRuleIm
 
         try
         {
-            preparedStatement = connection.prepareStatement(String.format("SELECT * FROM %s WHERE component_id = ?", tableName));
+            preparedStatement = connection.prepareStatement(String.format("SELECT * FROM %s WHERE COMPONENT_ID = ?", tableName));
         }
         catch (SQLException e)
         {
@@ -67,8 +67,8 @@ public class JDBCProtectionRuleDAO implements ProtectionRuleDAO<ProtectionRuleIm
             if (resultSet.next())
             {
                 protectionRule = new ProtectionRuleImpl();
-                protectionRule.setGroups(resultSet.getString(2));
-                protectionRule.setRoleWeight(resultSet.getInt(3));
+                protectionRule.setGroups(resultSet.getString("GROUPS"));
+                protectionRule.setRoleWeight(resultSet.getInt("ROLE_WEIGHT"));
             }
 
             return protectionRule;
