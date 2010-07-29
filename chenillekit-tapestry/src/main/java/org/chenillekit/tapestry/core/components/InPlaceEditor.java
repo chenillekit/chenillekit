@@ -14,9 +14,6 @@
 
 package org.chenillekit.tapestry.core.components;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -31,8 +28,11 @@ import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.apache.tapestry5.util.TextStreamResponse;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 
 /**
@@ -84,7 +84,7 @@ public class InPlaceEditor implements ClientElement
 	private Messages messages;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	@Inject
 	private Request request;

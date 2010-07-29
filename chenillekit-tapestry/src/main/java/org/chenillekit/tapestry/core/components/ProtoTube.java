@@ -14,8 +14,6 @@
 
 package org.chenillekit.tapestry.core.components;
 
-import java.util.List;
-
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -26,9 +24,10 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
-
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.chenillekit.tapestry.core.utils.ProtoTubeIdHolder;
+
+import java.util.List;
 
 /**
  * ProtoTube can be used to embed YouTube videos and the respective thumbnails in pages of any web site.
@@ -87,7 +86,7 @@ public class ProtoTube implements ClientElement
 	private List<ProtoTubeIdHolder> youtubeIds;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	@Inject
 	private ComponentResources resources;

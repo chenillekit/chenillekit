@@ -14,8 +14,6 @@
 
 package org.chenillekit.tapestry.core.components;
 
-import java.util.List;
-
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -31,7 +29,9 @@ import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.corelib.mixins.DiscardBody;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
+
+import java.util.List;
 
 /**
  * a "just in place" checkbox component that dont must emmbedded in a form.
@@ -95,7 +95,7 @@ public class InPlaceCheckbox implements ClientElement
 	 * RenderSupport to get unique client side id.
 	 */
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	private String assignedClientId;
 

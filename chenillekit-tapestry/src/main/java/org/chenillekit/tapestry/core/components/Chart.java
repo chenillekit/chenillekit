@@ -14,8 +14,6 @@
 
 package org.chenillekit.tapestry.core.components;
 
-import java.util.List;
-
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -26,9 +24,10 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
-
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.chenillekit.tapestry.core.utils.XYDataItem;
+
+import java.util.List;
 
 /**
  * chart component based on <a href="http://solutoire.com/flotr/">Flotr javascript library</a>.
@@ -56,7 +55,7 @@ public class Chart implements ClientElement
 	 * PageRenderSupport to get unique client side id.
 	 */
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	/**
 	 * For blocks, messages, crete actionlink, trigger event.

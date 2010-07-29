@@ -25,7 +25,7 @@ import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
  * @version $Id$
@@ -55,7 +55,7 @@ abstract public class AbstractYahooComponent implements ClientElement
 	 * RenderSupport to get unique client side id.
 	 */
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	/**
 	 * For blocks, messages, crete actionlink, trigger event.

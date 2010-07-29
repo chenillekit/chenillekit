@@ -32,8 +32,7 @@ import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ComponentDefaultProvider;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
-
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.chenillekit.tapestry.core.base.AbstractYuiField;
 
 /**
@@ -110,7 +109,7 @@ public class Slider extends AbstractYuiField
 	 * RenderSupport to get unique client side id.
 	 */
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	@Environmental
 	private ValidationTracker tracker;

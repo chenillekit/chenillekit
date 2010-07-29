@@ -25,7 +25,7 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.corelib.mixins.RenderInformals;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
  * ClickSubmit allows arbitrary page (DOM) elements to submit a form.
@@ -40,7 +40,7 @@ public class ClickSubmit implements ClientElement
 	private ComponentResources resources;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	@Mixin
 	private RenderInformals renderInformals;

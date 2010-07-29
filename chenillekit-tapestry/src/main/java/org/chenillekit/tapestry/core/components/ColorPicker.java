@@ -21,7 +21,7 @@ import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.base.AbstractTextField;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
  * A simple color picker component. Supports saving custom colors to the palette via cookies. To open the palette,
@@ -54,7 +54,7 @@ public class ColorPicker extends AbstractTextField
 	 * RenderSupport to get unique client side id
 	 */
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 
 	/**

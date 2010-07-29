@@ -26,8 +26,7 @@ import org.apache.tapestry5.corelib.mixins.RenderDisabled;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
-
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.chenillekit.tapestry.core.base.AbstractYuiField;
 
 /**
@@ -65,7 +64,7 @@ public class StateButton extends AbstractYuiField
 	 * RenderSupport to get unique client side id.
 	 */
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	/**
 	 * Tapestry render phase method.

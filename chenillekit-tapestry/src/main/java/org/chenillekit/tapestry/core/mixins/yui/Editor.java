@@ -29,11 +29,10 @@ import org.apache.tapestry5.corelib.components.TextArea;
 import org.apache.tapestry5.internal.util.Holder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.apache.tapestry5.upload.services.MultipartDecoder;
 import org.apache.tapestry5.upload.services.UploadedFile;
 import org.apache.tapestry5.util.TextStreamResponse;
-
 import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
 
 /**
@@ -63,7 +62,7 @@ public class Editor extends AbstractYahooComponent
 	 * RenderSupport to get unique client side id.
 	 */
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	/**
 	 * For blocks, messages, crete actionlink, trigger event.

@@ -14,10 +14,6 @@
 
 package org.chenillekit.mail.services.impl;
 
-import java.io.File;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
@@ -26,11 +22,14 @@ import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-
 import org.chenillekit.mail.ChenilleKitMailConstants;
 import org.chenillekit.mail.MailMessageHeaders;
 import org.chenillekit.mail.services.MailService;
 import org.slf4j.Logger;
+
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import java.io.File;
 
 /**
  * simple SMTP tool for sending emails based on <a href="http://jakarta.apache.org/commons/email">commons-email</a>.
@@ -238,6 +237,7 @@ public class MailServiceImpl implements MailService<Email>
 					email.attach(dataSource, dataSource.getName(), dataSource.getName());
 			}
 
+			email.setCharset(headers.getCharset());
 			email.setHtmlMsg(htmlBody);
 
 			String msgId = email.send();
@@ -317,6 +317,7 @@ public class MailServiceImpl implements MailService<Email>
 
 			setMailMessageHeaders(email, headers);
 
+			email.setCharset(headers.getCharset());
 			email.setMsg(body);
 
 			String msgId = email.send();

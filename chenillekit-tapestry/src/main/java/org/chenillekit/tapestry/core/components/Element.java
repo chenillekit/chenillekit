@@ -11,6 +11,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package org.chenillekit.tapestry.core.components;
 
 import org.apache.tapestry5.BindingConstants;
@@ -21,7 +22,7 @@ import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
  * Helper component that will render a variable element type.
@@ -37,7 +38,7 @@ public class Element implements ClientElement
     private ComponentResources resources;
 
     @Environmental
-    private JavascriptSupport javascriptSupport;
+    private JavaScriptSupport javascriptSupport;
 
     /**
      * The id used to generate a page-unique client-side identifier for the component. If a component renders multiple

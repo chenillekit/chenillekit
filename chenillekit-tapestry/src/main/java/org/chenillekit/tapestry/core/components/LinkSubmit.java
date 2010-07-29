@@ -23,7 +23,7 @@ import org.apache.tapestry5.annotations.Mixin;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.corelib.mixins.RenderInformals;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
  * LinkSubmit allows arbitrary page (DOM) elements to submit a form.
@@ -42,7 +42,7 @@ public class LinkSubmit implements ClientElement
 	private ComponentResources resources;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	/**
 	 * The client-side id.

@@ -14,8 +14,6 @@
 
 package org.chenillekit.tapestry.core.components;
 
-import java.util.List;
-
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -29,7 +27,9 @@ import org.apache.tapestry5.corelib.components.PageLink;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
+
+import java.util.List;
 
 /**
  * Render a button tag element and bind to it's "click" event an event on the server side.
@@ -99,7 +99,7 @@ public class Button implements ClientElement
 	private List<?> context;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	@Inject
 	private ComponentResources resources;

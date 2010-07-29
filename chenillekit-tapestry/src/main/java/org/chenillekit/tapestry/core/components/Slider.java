@@ -14,8 +14,6 @@
 
 package org.chenillekit.tapestry.core.components;
 
-import java.util.Locale;
-
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -27,7 +25,9 @@ import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
+
+import java.util.Locale;
 
 
 /**
@@ -92,7 +92,7 @@ public class Slider implements ClientElement
 	private String ouputId;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	private String assignedClientId;
 

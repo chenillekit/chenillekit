@@ -26,8 +26,7 @@ import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
-
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.chenillekit.google.services.GoogleGeoCoder;
 
 
@@ -56,7 +55,7 @@ public class GPlotter implements ClientElement
 	 * RenderSupport to get unique client side id.
 	 */
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	/**
 	 * inject our google map service.

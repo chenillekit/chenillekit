@@ -14,8 +14,6 @@
 
 package org.chenillekit.tapestry.core.base;
 
-import java.util.List;
-
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentEventCallback;
 import org.apache.tapestry5.ComponentResources;
@@ -28,7 +26,9 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.internal.util.Holder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
+
+import java.util.List;
 
 /**
  * @version $Id$
@@ -72,7 +72,7 @@ abstract public class AbstractEventMixin implements EventMixin
 	private List<?> context;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	private Object[] contextArray;
 

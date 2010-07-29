@@ -19,8 +19,7 @@ import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
-
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
 
 /**
@@ -35,7 +34,7 @@ public class YuiTabSet extends AbstractYahooComponent
 	 * RenderSupport to get unique client side id.
 	 */
 	@Inject
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	/**
 	 * Tapestry render phase method.

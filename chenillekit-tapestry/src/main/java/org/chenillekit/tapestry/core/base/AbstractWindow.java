@@ -27,7 +27,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.AssetSource;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
  * creates a window based on jvascript <a href="http://prototype-window.xilinus.com/">window</a> library.
@@ -110,7 +110,7 @@ abstract public class AbstractWindow implements ClientElement
 	private String assignedClientId;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	@Environmental
 	private RenderSupport renderSupport;

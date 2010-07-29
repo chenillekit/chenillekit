@@ -27,7 +27,7 @@ import org.apache.tapestry5.corelib.components.Delegate;
 import org.apache.tapestry5.corelib.components.Loop;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ComponentDefaultProvider;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.apache.tapestry5.util.StringToEnumCoercion;
 import org.chenillekit.tapestry.core.internal.PagedSource;
 import org.chenillekit.tapestry.core.internal.PagerPosition;
@@ -42,7 +42,7 @@ import org.chenillekit.tapestry.core.internal.PagerPosition;
 public class PagedLoop implements ClientElement
 {
     @Environmental
-    private JavascriptSupport javascriptSupport;
+    private JavaScriptSupport javascriptSupport;
 
     @Parameter(value = "prop:componentResources.id", defaultPrefix = "literal")
     private String clientId;

@@ -14,9 +14,6 @@
 
 package org.chenillekit.tapestry.core.components.prototype_ui;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentEventCallback;
@@ -37,7 +34,10 @@ import org.apache.tapestry5.json.JSONArray;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.ResponseRenderer;
-import org.apache.tapestry5.services.javascript.JavascriptSupport;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.apache.tapestry5.ioc.internal.util.CollectionFactory.newList;
 
@@ -89,7 +89,7 @@ public class AutoComplete extends AbstractField
 	private ComponentResources resources;
 
 	@Environmental
-	private JavascriptSupport javascriptSupport;
+	private JavaScriptSupport javascriptSupport;
 
 	@Inject
 	private PropertyAccess propertyAccess;
