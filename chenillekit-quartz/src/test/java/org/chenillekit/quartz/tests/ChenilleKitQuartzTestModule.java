@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,20 +12,22 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.quartz;
-
-import java.net.URL;
+package org.chenillekit.quartz.tests;
 
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.SubModule;
+import org.chenillekit.quartz.ChenilleKitQuartzModule;
 import org.chenillekit.quartz.services.JobSchedulingBundle;
-import org.chenillekit.quartz.services.impl.DummyServiceImpl;
 import org.chenillekit.quartz.services.impl.SimpleJobSchedulingBundleImpl;
+import org.chenillekit.quartz.tests.services.DummyService;
+import org.chenillekit.quartz.tests.services.impl.DummyServiceImpl;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.quartz.TriggerUtils;
+
+import java.net.URL;
 
 /**
  * @version $Id$
@@ -67,7 +69,7 @@ public class ChenilleKitQuartzTestModule
     public static void contributeSchedulerFactory(OrderedConfiguration<URL> configuration)
     {
     	URL propfile = ChenilleKitQuartzTestModule.class.getResource("/quartz.properties");
-    	
+
     	configuration.add("TestConfig", propfile);
     }
 
