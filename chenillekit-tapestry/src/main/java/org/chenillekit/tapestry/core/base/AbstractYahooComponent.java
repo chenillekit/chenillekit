@@ -21,7 +21,6 @@ import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.MarkupWriterListener;
 import org.apache.tapestry5.annotations.AfterRenderTemplate;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -30,8 +29,8 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 /**
  * @version $Id$
  */
-@Import(library = {"${yahoo.yui}/yahoo-dom-event/yahoo-dom-event.js",
-		"${yahoo.yui}/element/element${yahoo.yui.mode}.js"})
+//@Import(library = {"${yahoo.yui}/yahoo-dom-event/yahoo-dom-event.js",
+//		"${yahoo.yui}/element/element${yahoo.yui.mode}.js"})
 abstract public class AbstractYahooComponent implements ClientElement
 {
 	private static final String YUI_CSS_CLASS = "yui-skin-sam";

@@ -27,7 +27,7 @@ import org.apache.tapestry5.services.BindingFactory;
 import org.apache.tapestry5.services.BindingSource;
 import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.LibraryMapping;
-
+import org.apache.tapestry5.services.javascript.JavaScriptStack;
 import org.chenillekit.tapestry.core.factories.ListBindingFactory;
 import org.chenillekit.tapestry.core.factories.LoopBindingFactory;
 import org.chenillekit.tapestry.core.factories.MessageFormatBindingFactory;
@@ -37,6 +37,7 @@ import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 import org.chenillekit.tapestry.core.services.URIProvider;
 import org.chenillekit.tapestry.core.services.impl.URIAssetAliasManagerImpl;
 import org.chenillekit.tapestry.core.services.impl.URIDispatcher;
+import org.chenillekit.tapestry.core.services.impl.YahooStack;
 
 /**
  * module for chenillekit web module.
@@ -109,5 +110,13 @@ public class ChenilleKitCoreModule
 	{
 		configuration.add("Uri", locator.autobuild(URIDispatcher.class), "before:Asset");
 
+	}
+
+	/**
+	 * Contributes the "yahoo" {@link org.apache.tapestry5.services.javascript.JavaScriptStack}s
+	 */
+	public static void contributeJavaScriptStackSource(MappedConfiguration<String, JavaScriptStack> configuration)
+	{
+		configuration.addInstance("yahoo", YahooStack.class);
 	}
 }

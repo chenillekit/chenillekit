@@ -26,7 +26,7 @@ import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
  * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
-@Import(stylesheet = {"${yahoo.yui}/assets/skins/sam/tabview.css"},
+@Import(stack = {"yahoo"}, stylesheet = {"${yahoo.yui}/assets/skins/sam/tabview.css"},
 		library = {"${yahoo.yui}/tabview/tabview${yahoo.yui.mode}.js"})
 public class YuiTabSet extends AbstractYahooComponent
 {

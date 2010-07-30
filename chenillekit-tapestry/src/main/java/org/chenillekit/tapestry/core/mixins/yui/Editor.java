@@ -38,7 +38,7 @@ import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
 /**
  * @version $Id$
  */
-@Import(stylesheet = {"${yahoo.yui}/assets/skins/sam/skin.css"},
+@Import(stack = {"yahoo"}, stylesheet = {"${yahoo.yui}/assets/skins/sam/skin.css"},
 		library = {"../../Chenillekit.js",
 				"${yahoo.yui}/container/container_core${yahoo.yui.mode}.js",
 				"${yahoo.yui}/menu/menu${yahoo.yui.mode}.js",

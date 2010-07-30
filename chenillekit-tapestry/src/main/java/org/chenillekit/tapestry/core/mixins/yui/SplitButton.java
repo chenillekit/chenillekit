@@ -30,7 +30,7 @@ import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
  * @author <a href="mailto:homburgs@googlemail.com">sven</a>
  * @version $Id$
  */
-@Import(stylesheet = {"${yahoo.yui}/button/assets/skins/sam/button.css"},
+@Import(stack = {"yahoo"}, stylesheet = {"${yahoo.yui}/button/assets/skins/sam/button.css"},
 		library = {"${yahoo.yui}/button/button${yahoo.yui.mode}.js"})
 public class SplitButton extends AbstractYahooComponent
 {
