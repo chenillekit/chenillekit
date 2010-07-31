@@ -18,19 +18,19 @@
 
 package org.chenillekit.access.services.impl;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassResolver;
 import org.apache.tapestry5.services.TransformMethod;
-import org.chenillekit.access.ChenilleKitAccessConstants;
+
 import org.chenillekit.access.annotations.ManagedRestricted;
 import org.chenillekit.access.dao.ProtectionRule;
 import org.chenillekit.access.dao.ProtectionRuleDAO;
-import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
-
-import java.util.List;
 
 /**
  * @version $Id$
@@ -72,6 +72,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 			logger.debug("searching permission for component {}", pagename);
 
 		ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(pagename);
+
 		/**
 		 * there is no protection rule for that component
 		 */
@@ -81,13 +82,8 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 		if (logger.isDebugEnabled())
 			logger.debug("found permission groups {} for component {}", protectionRule.getGroups(), pagename);
 
-		String roleWeight = String.valueOf(protectionRule.getRoleWeight());
-		model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE, roleWeight);
 
-		if (protectionRule.getGroups().length > 0)
-			model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP,
-						  ChenillekitAccessInternalUtils.getStringArrayAsString(protectionRule.getGroups()));
-
+		setGroupRoleMeta(true, model, null, null, protectionRule.getGroups(), protectionRule.getRoleWeight());
 	}
 
 	/**
@@ -109,13 +105,6 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 			String componentId = extractComponentId(method, method.getAnnotation(OnEvent.class));
 			String eventType = extractEventType(method, method.getAnnotation(OnEvent.class));
 
-			String groupMeta = ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
-																						eventType,
-																						ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX);
-
-			String roleMeta = ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
-																					   eventType,
-																					   ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX);
 
 			ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(String.format("%s.%s", pagename, eventType));
 
@@ -126,14 +115,10 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 				continue;
 
 			if (logger.isDebugEnabled())
-				logger.debug("found permission groups {} for event {}", protectionRule.getGroups(), String.format("%s.%s", pagename, eventType));
+				logger.debug("found permission groups {} for event {}",
+							 Arrays.toString(protectionRule.getGroups()), String.format("%s.%s", pagename, eventType));
 
-			String groupsString = ChenillekitAccessInternalUtils.getStringArrayAsString(protectionRule.getGroups());
-
-			if (groupsString.trim().length() > 0)
-				model.setMeta(groupMeta, groupsString);
-
-			model.setMeta(roleMeta, Integer.toString(protectionRule.getRoleWeight()));
+			setGroupRoleMeta(false, model, componentId, eventType, protectionRule.getGroups(), protectionRule.getRoleWeight());
 		}
 	}
 }
