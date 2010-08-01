@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 package org.chenillekit.access.services.impl;
+
+import java.io.IOException;
 
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.EventContext;
@@ -22,12 +24,11 @@ import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.RedirectService;
 import org.slf4j.Logger;
-
-import java.io.IOException;
 
 /**
  * It the main responsable for checking every incoming request, beeing for a
@@ -78,13 +79,15 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
         if (accessValidator.hasAccess(parameters.getActivePageName(),
                 parameters.getNestedComponentId(), parameters.getEventType()))
         {
+			if (logger.isDebugEnabled())
+				logger.debug("User can access event '{}' on page '{}'", parameters.getEventType(), parameters.getActivePageName());
+
             handler.handleComponentEvent(parameters);
         }
         else
         {
             if (logger.isDebugEnabled())
-                logger.debug("User hasn't rights to access " + parameters.getEventType()
-                        + " event on " + parameters.getActivePageName() + " page");
+                logger.debug("User has not enough rights to access event '{}' on  page '{}'", parameters.getEventType(), parameters.getActivePageName());
 
             ComponentEventRequestParameters event = null;
             String accessDeniedAction = symbols.valueForSymbol(ChenilleKitAccessConstants.ACCESS_DENIED_ACTION);

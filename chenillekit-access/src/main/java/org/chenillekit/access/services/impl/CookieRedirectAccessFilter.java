@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,17 @@ package org.chenillekit.access.services.impl;
 import java.io.IOException;
 
 import org.apache.tapestry5.EventContext;
+import org.apache.tapestry5.Link;
+import org.apache.tapestry5.internal.services.LinkSource;
 import org.apache.tapestry5.ioc.services.TypeCoercer;
+import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentRequestHandler;
+import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.RedirectService;
@@ -40,7 +45,9 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 	private final RedirectService redirect;
 	
 	private final TypeCoercer coercer;
-	
+	private final ComponentSource componentSource;
+	private final LinkSource linkSource;
+
 	/**
 	 * Default main construction with injection fields.
 	 * 
@@ -49,11 +56,15 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 	 * @param redirect {@link RedirectService} to apply redirections
 	 */
 	public CookieRedirectAccessFilter(Cookies cookies,
-				RedirectService redirect, TypeCoercer coercer)
+				RedirectService redirect, TypeCoercer coercer,
+				ComponentSource componentSource,
+				LinkSource linkSource)
 	{
 		this.cookies = cookies;
 		this.redirect = redirect;
 		this.coercer = coercer;
+		this.componentSource = componentSource;
+		this.linkSource = linkSource;
 	}
 	
 	/**
@@ -89,19 +100,23 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 		String activationContextString = cookies.readCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVATION_CONTEXT);
 		String eventContextString = cookies.readCookieValue(ChenilleKitAccessConstants.REMEMBERED_EVENT_CONTEXT);
 		
-		EventContext activationContext = ChenillekitAccessInternalUtils.getContextFromString(coercer, activationContextString);
-		EventContext eventContext = ChenillekitAccessInternalUtils.getContextFromString(coercer, eventContextString);
-		
 		removeAllCookies();
 		
 		if (rememberedType.equals(ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE_PAGERENDER_VALUE))
 		{
+			EventContext activationContext = ChenillekitAccessInternalUtils.getContextFromString(coercer, activationContextString);
 			redirect.redirectTo(activePageName, activationContext);
 		}
 		else if (rememberedType.equals(ChenilleKitAccessConstants.REMEMBERED_PARAMS_TYPE_ACTIONEVENT_VALUE))
 		{
-			// XXX This one is missing stuff and is not completely right!
-			redirect.redirectTo(activePageName, eventContext);
+			Component pageOrComponent = componentSource.getPage(activePageName);
+			if (ChenillekitAccessInternalUtils.isNotBlank(nestedComponentId))
+				pageOrComponent = pageOrComponent.getComponentResources().getEmbeddedComponent(nestedComponentId);
+
+			Link link = pageOrComponent.getComponentResources().createEventLink(eventType);
+
+			EventContext eventContext = ChenillekitAccessInternalUtils.getContextFromString(coercer, eventContextString);
+			redirect.redirectTo(link.toAbsoluteURI(), eventContext);
 		}
 		else
 		{

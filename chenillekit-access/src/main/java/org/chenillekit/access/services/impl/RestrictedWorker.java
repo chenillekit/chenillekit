@@ -28,7 +28,6 @@ import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethod;
 
-import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
@@ -205,64 +204,13 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 * @param groups	  groups for access
 	 * @param roleWeight  role weight for access
 	 */
-	protected void setGroupRoleMeta(boolean metaForPage, MutableComponentModel model, String componentId, String eventType, String[] groups, Integer roleWeight)
+	protected void setGroupRoleMeta(boolean metaForPage, MutableComponentModel model, String componentId, String eventType, String[] groups, int roleWeight)
 	{
 		String groupsString = ChenillekitAccessInternalUtils.getStringArrayAsString(groups);
 
 		if (groupsString.trim().length() > 0)
-			model.setMeta(getGroupsMetaId(metaForPage, componentId, eventType), groupsString);
+			model.setMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(metaForPage, componentId, eventType), groupsString);
 
-		model.setMeta(getRoleMetaId(metaForPage, componentId, eventType), Integer.toString(roleWeight));
-
-	}
-
-	/**
-	 * get the meta id for the role weight.
-	 *
-	 * @param metaForPage if true, we set meta for a page, otherwise for an event
-	 * @param componentId id of the component
-	 * @param eventType   event type
-	 *
-	 * @return the meta id
-	 */
-	private String getRoleMetaId(boolean metaForPage, String componentId, String eventType)
-	{
-		String metaId = ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE;
-		if (!metaForPage)
-			metaId = ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX;
-
-		return metaForPage ? metaId : buildMetaIdForHandler(componentId, eventType, metaId);
-	}
-
-	/**
-	 * get the meta id for the groups.
-	 *
-	 * @param metaForPage if true, we set meta for a page, otherwise for an event
-	 * @param componentId id of the component
-	 * @param eventType   event type
-	 *
-	 * @return the meta id
-	 */
-	private String getGroupsMetaId(boolean metaForPage, String componentId, String eventType)
-	{
-		String metaId = ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP;
-		if (!metaForPage)
-			metaId = ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX;
-
-		return metaForPage ? metaId : buildMetaIdForHandler(componentId, eventType, metaId);
-	}
-
-	/**
-	 * get the meta id.
-	 *
-	 * @param componentId id of the component
-	 * @param eventType   event type
-	 * @param metaSuffix  meta suffix
-	 *
-	 * @return the meta id
-	 */
-	private String buildMetaIdForHandler(String componentId, String eventType, String metaSuffix)
-	{
-		return ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId, eventType, metaSuffix);
+		model.setMeta(ChenillekitAccessInternalUtils.getRoleMetaId(metaForPage, componentId, eventType), Integer.toString(roleWeight));
 	}
 }

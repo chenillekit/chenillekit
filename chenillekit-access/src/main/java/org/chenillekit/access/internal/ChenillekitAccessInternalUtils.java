@@ -1,3 +1,17 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2008-2010 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 /**
  *
  */
@@ -5,6 +19,7 @@ package org.chenillekit.access.internal;
 
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.ioc.services.TypeCoercer;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
 
 /**
@@ -13,7 +28,7 @@ import org.chenillekit.access.ChenilleKitAccessConstants;
 public class ChenillekitAccessInternalUtils
 {
 	private static final String[] NO_GROUPS = new String[0];
-	
+
 	private static final String CK_EVENT_CONTEXT_PREFIX = "ckEventContext";
 	private static final String CK_EVENT_CONTEXT_DELIMITER = "####";
 
@@ -28,14 +43,14 @@ public class ChenillekitAccessInternalUtils
 	public static final String getContextAsString(EventContext context)
 	{
 		String res = "";
-		
+
 		if (context == null)
 			return res;
-		
+
 		int parametersCount = context.getCount();
-		
+
 		res = CK_EVENT_CONTEXT_PREFIX;
-		
+
 		for (int i = 0; i < parametersCount; i++)
 		{
 			res = res + context.get(String.class, i) + CK_EVENT_CONTEXT_DELIMITER;
@@ -43,27 +58,27 @@ public class ChenillekitAccessInternalUtils
 
 		return res;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param coercer
 	 * @param contextString
 	 * @return
 	 */
 	public static final EventContext getContextFromString(TypeCoercer coercer, String contextString)
-	{	
+	{
 		if (contextString == null || !contextString.startsWith(CK_EVENT_CONTEXT_PREFIX))
 		{
 			throw new RuntimeException("Cannot parse the contextString: " + contextString);
 		}
-		
+
 		String actual = contextString.substring(CK_EVENT_CONTEXT_PREFIX.length(), contextString.length());
-		
+
 		String[] elements = actual.split(CK_EVENT_CONTEXT_DELIMITER);
-		
+
 		return new ChenilleKitAccessEventContext(coercer, elements);
 	}
-	
+
 	/**
 	 * check if user has required role to access page/component/event.
 	 *
@@ -155,16 +170,70 @@ public class ChenillekitAccessInternalUtils
 
 	/**
 	 * Split the {@link String} array into a CSV {@link String}.
-	 * 
+	 *
 	 * @param groups the array to split
 	 * @return the CSV {@link String}
 	 */
 	public static final String[] getStringAsStringArray(String groups)
 	{
 		if ( groups == null ||
-				ChenilleKitAccessConstants.NO_RESTRICTION.equals(groups)) return NO_GROUPS;
-		
+				ChenilleKitAccessConstants.NO_GROUP_RESTRICTION.equals(groups)) return NO_GROUPS;
+
 		return groups.split(",");
 	}
-	
+
+	/**
+	 * get the meta id for the role weight.
+	 *
+	 * @param metaForPage if true, we set meta for a page, otherwise for an event
+	 * @param componentId id of the component
+	 * @param eventType   event type
+	 *
+	 * @return the meta id
+	 */
+	public static String getRoleMetaId(boolean metaForPage, String componentId, String eventType)
+	{
+		String metaId = ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE;
+		if (!metaForPage)
+			metaId = ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX;
+
+		return metaForPage ? metaId : buildMetaIdForHandler(componentId, eventType, metaId);
+	}
+
+	/**
+	 * get the meta id for the groups.
+	 *
+	 * @param metaForPage if true, we set meta for a page, otherwise for an event
+	 * @param componentId id of the component
+	 * @param eventType   event type
+	 *
+	 * @return the meta id
+	 */
+	public static String getGroupsMetaId(boolean metaForPage, String componentId, String eventType)
+	{
+		String metaId = ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP;
+		if (!metaForPage)
+			metaId = ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX;
+
+		return metaForPage ? metaId : buildMetaIdForHandler(componentId, eventType, metaId);
+	}
+
+	/**
+	 * get the meta id.
+	 *
+	 * @param componentId id of the component
+	 * @param eventType   event type
+	 * @param metaSuffix  meta suffix
+	 *
+	 * @return the meta id
+	 */
+	public static String buildMetaIdForHandler(String componentId, String eventType, String metaSuffix)
+	{
+		return ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId, eventType, metaSuffix);
+	}
+
+	public static boolean isNotBlank(String value)
+	{
+		return value != null && value.length() > 0;
+	}
 }

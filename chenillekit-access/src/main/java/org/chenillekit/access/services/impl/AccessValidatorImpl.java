@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,12 @@
  */
 package org.chenillekit.access.services.impl;
 
+import java.util.Arrays;
+
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentSource;
-import org.apache.tapestry5.services.MetaDataLocator;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
@@ -24,21 +26,17 @@ import org.chenillekit.access.services.AccessValidator;
 import org.slf4j.Logger;
 
 /**
- *
  * @version $Id$
  */
 public class AccessValidatorImpl implements AccessValidator
 {
 	private final ComponentSource componentSource;
-	private final MetaDataLocator locator;
 	private final Logger logger;
 	private final ApplicationStateManager manager;
 
-	public AccessValidatorImpl(ComponentSource componentSource, MetaDataLocator locator,
-							Logger logger, ApplicationStateManager manager)
+	public AccessValidatorImpl(Logger logger, ComponentSource componentSource, ApplicationStateManager manager)
 	{
 		this.componentSource = componentSource;
-		this.locator = locator;
 		this.logger = logger;
 		this.manager = manager;
 	}
@@ -56,18 +54,18 @@ public class AccessValidatorImpl implements AccessValidator
 	{
 		boolean hasAccess = true;
 
+		Component page = getPage(pageName);
+		if (page == null || !isPageRestricted(page, componentId, eventType))
+			return hasAccess;
+
 		if (logger.isDebugEnabled())
 			logger.debug(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS, "check access for pageName/componentId/eventType: {}/{}/{}",
-						new Object[]{pageName, componentId, eventType});
+						 new Object[]{pageName, componentId, eventType});
 
-		Component page = getPage(pageName);
-
-		if (page != null)
+		hasAccess = checkForPageAccess(page);
+		if (hasAccess)
 		{
-			hasAccess = checkForPageAccess(page);
-			if (hasAccess)
-			{
-				hasAccess = checkForComponentEventHandlerAccess(page, componentId, eventType);
+			hasAccess = checkForComponentEventHandlerAccess(page, componentId, eventType);
 
 //				if (hasAccess)
 //				{
@@ -84,36 +82,48 @@ public class AccessValidatorImpl implements AccessValidator
 //						}
 //					}
 //				}
-			}
 		}
 
 		return hasAccess;
 	}
 
+	private boolean isPageRestricted(Component page, String componentId, String eventType)
+	{
+		String groupPageValue =
+				page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(true, null, null));
+		String rolePageValue =
+				page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getRoleMetaId(true, null, null));
+
+		String groupEventValue =
+				page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(false, componentId, eventType));
+		String roleEventValue =
+				page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getRoleMetaId(false, componentId, eventType));
+
+		return groupPageValue != null || rolePageValue != null || groupEventValue != null || roleEventValue != null;
+	}
+
 	private boolean checkForComponentEventHandlerAccess(Component page,
-							String componentId,String eventType)
+														String componentId, String eventType)
 	{
 		boolean hasAccess = true;
 		if (componentId != null && eventType != null)
 		{
-			try {
-				String groupMeta = ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
-						eventType,
-						ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX);
+			String groups =
+					page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(false, componentId, eventType));
+			String role =
+					page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getRoleMetaId(false, componentId, eventType));
 
-				String roleMeta = ChenillekitAccessInternalUtils.buildMetaForHandlerMethod(componentId,
-						eventType,
-						ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX);
+			if (groups == null)
+				groups = ChenilleKitAccessConstants.NO_GROUP_RESTRICTION;
 
-				String groups = locator.findMeta(groupMeta, page.getComponentResources(), String.class);
-				Integer role = locator.findMeta(roleMeta, page.getComponentResources(), Integer.class);
+			if (role == null)
+				role = "0";
 
-				hasAccess = hasAccess(groups, role, page);
+			if (logger.isDebugEnabled())
+				logger.debug("user needs group(s) {} and roleWeight {} for accessing {}/{}/{}",
+							 new String[]{groups, role, page.getComponentResources().getPageName(), componentId, eventType});
 
-			} catch (RuntimeException re)
-			{
-				// FIXME Swallow?
-			}
+			hasAccess = hasAccess(groups, Integer.parseInt(role), page);
 		}
 
 		return hasAccess;
@@ -129,72 +139,58 @@ public class AccessValidatorImpl implements AccessValidator
 	 */
 	private boolean checkForPageAccess(Component page)
 	{
-		String groups = locator.findMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_GROUP, page.getComponentResources(), String.class);
-		Integer role = locator.findMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE, page.getComponentResources(), Integer.class);
+		String groups = page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(true, null, null));
+		String role = page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getRoleMetaId(true, null, null));
+
+		if (groups == null)
+			groups = ChenilleKitAccessConstants.NO_GROUP_RESTRICTION;
+
+		if (role == null)
+			role = "0";
 
 		if (logger.isDebugEnabled())
-		{
-			logger.debug("Page  : " + page.getComponentResources().getPageName());
-			logger.debug("Groups: " + groups);
-			logger.debug("Role  : " + role);
-		}
+			logger.debug("user needs group(s) {} and roleWeight {} for accessing {}",
+						 new String[]{groups, role, page.getComponentResources().getPageName()});
 
-		return hasAccess(groups, role, page);
+		return hasAccess(groups, Integer.parseInt(role), page);
 	}
 
 	private boolean hasAccess(String groups, Integer role, Component page)
 	{
-		if (groups.equals(ChenilleKitAccessConstants.NO_RESTRICTION) && role.equals(Integer.valueOf(0)))
-		{
-			return true;
-		}
-
 		boolean hasAccess = true;
+		boolean hasGroup = true;
+		boolean hasRole = true;
 
-		if (groups != null || role != null)
+		if (groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION) && role.equals(Integer.valueOf(0)))
+			return hasAccess;
+
+		WebSessionUser webSessionUser = manager.getIfExists(WebSessionUser.class);
+		if (webSessionUser == null)
 		{
-			WebSessionUser webSessionUser = manager.getIfExists(WebSessionUser.class);
-
-			if (webSessionUser == null)
-			{
-				if (logger.isDebugEnabled())
-					logger.debug( "No user defined just yet" );
-				return false;
-			}
-
-			boolean hasGroup = true;
-			if (groups != null)
-			{
-				if (logger.isDebugEnabled())
-					logger.debug("groups "+webSessionUser.getGroups()+" section "+groups);
-				hasGroup = ChenillekitAccessInternalUtils.hasUserRequiredGroup(webSessionUser.getGroups(),
-								ChenillekitAccessInternalUtils.getStringAsStringArray(groups));
-			}
-
-			boolean hasRole = true;
-			if (role != null)
-			{
-				if (logger.isDebugEnabled())
-					logger.debug("role "+webSessionUser.getRoleWeight()+">="+role);
-				hasRole = ChenillekitAccessInternalUtils.hasUserRequiredRole(webSessionUser.getRoleWeight(),
-								role);
-			}
-
-			hasAccess = hasGroup && hasRole;
-
 			if (logger.isDebugEnabled())
-			{
-				logger.debug("Page '{}' - hasRole = {} / hasGroup = {}",
-						new Object[]{page.getComponentResources().getPageName(), hasRole, hasGroup});
-			}
+				logger.debug("No user defined just yet, break group and role checking!");
+
+			return false;
 		}
-		else
+
+		if (!groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION))
 		{
-			// XXX Notify?
+			if (logger.isDebugEnabled())
+				logger.debug("user has groups: " + Arrays.toString(webSessionUser.getGroups()) + " and needs " + groups);
+
+			hasGroup = ChenillekitAccessInternalUtils.hasUserRequiredGroup(webSessionUser.getGroups(),
+																		   ChenillekitAccessInternalUtils.getStringAsStringArray(groups));
 		}
 
-		return hasAccess;
+		if (role > 0)
+		{
+			if (logger.isDebugEnabled())
+				logger.debug("user has roleWeight: " + webSessionUser.getRoleWeight() + " and needs roleWeight: " + role);
 
+			hasRole = ChenillekitAccessInternalUtils.hasUserRequiredRole(webSessionUser.getRoleWeight(), role);
+		}
+
+		return hasGroup && hasRole;
 	}
 
 	/**

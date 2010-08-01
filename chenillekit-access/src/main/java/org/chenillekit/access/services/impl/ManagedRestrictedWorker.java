@@ -30,6 +30,7 @@ import org.apache.tapestry5.services.TransformMethod;
 import org.chenillekit.access.annotations.ManagedRestricted;
 import org.chenillekit.access.dao.ProtectionRule;
 import org.chenillekit.access.dao.ProtectionRuleDAO;
+import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
 
 /**
@@ -104,9 +105,18 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 			String pagename = resolver.resolvePageClassNameToPageName(model.getComponentClassName());
 			String componentId = extractComponentId(method, method.getAnnotation(OnEvent.class));
 			String eventType = extractEventType(method, method.getAnnotation(OnEvent.class));
+			StringBuilder builder = new StringBuilder();
+			if (ChenillekitAccessInternalUtils.isNotBlank(pagename))
+				builder.append(pagename);
+			if (ChenillekitAccessInternalUtils.isNotBlank(componentId))
+				builder.append(".").append(componentId);
+			if (ChenillekitAccessInternalUtils.isNotBlank(eventType))
+				builder.append(":").append(eventType);
 
+			if (logger.isDebugEnabled())
+				logger.debug("searching permissions for event {}", builder.toString());
 
-			ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(String.format("%s.%s", pagename, eventType));
+			ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(builder.toString());
 
 			/**
 			 * there is no protection rule for that component
@@ -116,7 +126,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 
 			if (logger.isDebugEnabled())
 				logger.debug("found permission groups {} for event {}",
-							 Arrays.toString(protectionRule.getGroups()), String.format("%s.%s", pagename, eventType));
+							 Arrays.toString(protectionRule.getGroups()), builder.toString());
 
 			setGroupRoleMeta(false, model, componentId, eventType, protectionRule.getGroups(), protectionRule.getRoleWeight());
 		}

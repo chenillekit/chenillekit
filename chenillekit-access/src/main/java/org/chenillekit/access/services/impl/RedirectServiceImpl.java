@@ -1,7 +1,23 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2008-2010 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 /**
  *
  */
 package org.chenillekit.access.services.impl;
+
+import java.io.IOException;
 
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
@@ -9,12 +25,11 @@ import org.apache.tapestry5.services.ContextPathEncoder;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.apache.tapestry5.services.Response;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.RedirectService;
 import org.slf4j.Logger;
-
-import java.io.IOException;
 
 /**
  * @author massimo
@@ -49,6 +64,8 @@ public class RedirectServiceImpl implements RedirectService
         String contextPath = contextPathEncoder.encodeIntoPath(context);
 
         String redirectURL = response.encodeRedirectURL(String.format("%s/%s", pageName, contextPath));
+		if (logger.isDebugEnabled())
+			logger.debug("redirect to: {}", redirectURL);
 
         response.sendRedirect(redirectURL);
     }

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.tapestry5.internal.services.LinkSource;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
@@ -39,7 +40,6 @@ import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.LibraryMapping;
-import org.apache.tapestry5.services.MetaDataLocator;
 
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.dao.JDBCProtectionRuleDAO;
@@ -67,7 +67,6 @@ public class ChenilleKitAccessModule
 	 * Binding via fluent API by T5 {@link ServiceBinder}
 	 *
 	 * @param binder
-	 * @noinspection UnusedDeclaration
 	 */
 	public static void bind(ServiceBinder binder)
 	{
@@ -89,9 +88,9 @@ public class ChenilleKitAccessModule
 	 * @param configuration {@link List} of filters to insert into the pipeline
 	 * @param builder	   {@link PipelineBuilder} from Tapestr5 IoC
 	 * @param logger		{@link Logger} configured by the Tapestry5 IoC
+	 *
 	 * @return the facade service acting as a pipeline through the contributed
 	 *         implementations
-	 * @noinspection UnusedDeclaration
 	 */
 	public static AuthenticationService build(@InjectService("PipelineBuilder") PipelineBuilder builder,
 											  final ApplicationStateManager stateManager,
@@ -119,7 +118,6 @@ public class ChenilleKitAccessModule
 
 	/**
 	 * @param configuration
-	 * @noinspection UnusedDeclaration
 	 */
 	public static void contributeApplicationStateManager(
 			MappedConfiguration<Class, ApplicationStateContribution> configuration)
@@ -144,7 +142,6 @@ public class ChenilleKitAccessModule
 	 * loaded classes
 	 *
 	 * @param configuration component class transformer configuration
-	 * @noinspection UnusedDeclaration
 	 */
 	public static void contributeComponentClassTransformWorker(
 			OrderedConfiguration<ComponentClassTransformWorker> configuration)
@@ -157,7 +154,6 @@ public class ChenilleKitAccessModule
 	 * Contribute our virtual folder to {@link ComponentClassResolver} service
 	 *
 	 * @param configuration configuration for the service where we contribute to
-	 * @noinspection UnusedDeclaration
 	 */
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration)
 	{
@@ -165,39 +161,37 @@ public class ChenilleKitAccessModule
 	}
 
 	/**
-	 * @param componentSource component source
-	 * @param locator		 meta data locator
 	 * @param logger		  system logger
+	 * @param componentSource component source
+	 * @param manager		 application state manager
+	 *
 	 * @return build access validator
-	 * @noinspection UnusedDeclaration
 	 */
 	@Marker(ChenilleKitAccess.class)
 	public static AccessValidator buildAccessValidator(ComponentSource componentSource,
-													   MetaDataLocator locator,
 													   Logger logger, ApplicationStateManager manager)
 	{
-		return new AccessValidatorImpl(componentSource, locator, logger, manager);
+		return new AccessValidatorImpl(logger, componentSource, manager);
 	}
 
 	/**
 	 * @param configuration
 	 * @param accessFilter
-	 * @noinspection UnusedDeclaration
 	 */
 	public static void contributeComponentRequestHandler(OrderedConfiguration<ComponentRequestFilter> configuration,
 														 @ChenilleKitAccess ComponentRequestFilter accessFilter,
-														 Cookies cookies, RedirectService redirect, TypeCoercer coercer)
+														 Cookies cookies, RedirectService redirect, TypeCoercer coercer,
+														 ComponentSource componentSource, LinkSource linkSource)
 	{
 		configuration.add("AccessControl", accessFilter, "before:*");
 
-		CookieRedirectAccessFilter cookieFilter = new CookieRedirectAccessFilter(cookies, redirect, coercer);
+		CookieRedirectAccessFilter cookieFilter = new CookieRedirectAccessFilter(cookies, redirect, coercer, componentSource, linkSource);
 
 		configuration.add("CookieRedirect", cookieFilter, "after:AccessControl");
 	}
 
 	/**
 	 * @param configuration
-	 * @noinspection UnusedDeclaration
 	 */
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration)
 	{

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ public final class ChenilleKitAccessConstants
     public static final String RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX = "role";
     public static final String RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX = "groups";
 
-    public static final String NO_RESTRICTION = "NONE";
+    public static final String NO_GROUP_RESTRICTION = "NONE";
 
     /**
      * contribution key for password encoder.

@@ -3,17 +3,19 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  */
 
 package org.chenillekit.access.integration.app1.pages;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.InjectPage;
@@ -23,10 +25,8 @@ import org.apache.tapestry5.corelib.components.Errors;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.Submit;
 import org.apache.tapestry5.corelib.components.TextField;
-import org.chenillekit.access.annotations.Restricted;
 
-import java.util.Arrays;
-import java.util.List;
+import org.chenillekit.access.annotations.Restricted;
 
 /**
  * @version $Id$
@@ -56,7 +56,13 @@ public class UnRestrictedPage
 
     void onActivate(List<String> context)
     {
-        this.context = context;
+		if (context != null && context.size() > 0)
+        	this.context = context;
+    }
+
+    List<String> onPassivate()
+    {
+		return this.context;
     }
 
     @OnEvent(component = "testRightsRole", value = "action")
@@ -79,10 +85,10 @@ public class UnRestrictedPage
         return invisible;
     }
 
-    @Restricted(groups = {"ADMINS"})
+    @Restricted(groups = {"ADMIN"})
     void onActionFromTestRightsContext(List<String> context)
     {
-
+		this.context = context;
     }
 
     @Restricted(groups = {"DUMMY"})

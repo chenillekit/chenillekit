@@ -24,7 +24,6 @@ import org.testng.annotations.Test;
 @Test
 public class AccessIntegration extends SeleniumTestCase
 {
-
     public void base_url_text_present() throws Exception
     {
         openBaseURL();
@@ -125,12 +124,6 @@ public class AccessIntegration extends SeleniumTestCase
 
 	public void action_link_rights_role_restricted_invisible() throws Exception
 	{
-		openBaseURL();
-
-        clickAndWait("link=UnRestricted");
-
-        clickAndWait("link=only role 10");
-
         openBaseURL();
 
 		clickAndWait("link=UnRestricted");
@@ -138,7 +131,7 @@ public class AccessIntegration extends SeleniumTestCase
 		clickAndWait("link=only role 10");
 
 		assertTextPresent("Login Page");
-		
+
 		type("chenillekitUsername", "root");
 		type("chenillekitPassword", "banane");
 
@@ -198,7 +191,7 @@ public class AccessIntegration extends SeleniumTestCase
 		openBaseURL();
 
 		assertTextPresent("not authenticated");
-		
+
 		clickAndWait("link=Invisible");
 
 		assertTextPresent("Login Page");
@@ -290,5 +283,31 @@ public class AccessIntegration extends SeleniumTestCase
 		clickAndWait("secondEventLink");
 
 		assertTextPresent("Login Page");
+
+		clickAndWait("link=Back to start");
+		clickAndWait("link=ManagedRestricted");
+
+		clickAndWait("firstActionLink");
+
+		assertTextPresent("action1 triggered");
+
+		clickAndWait("secondActionLink");
+
+		assertTextPresent("Login Page");
+
+		clickAndWait("link=Back to start");
+		clickAndWait("link=ManagedRestricted");
+
+		clickAndWait("thirdActionLink");
+
+		assertTextPresent("action3 triggered");
+
+		assertTextPresent("Hey Dude From Action 3");
+
+		clickAndWait("thirdEventLink");
+
+		assertTextPresent("event3 triggered");
+
+		assertTextPresent("Hey Dude From Event 3");
 	}
 }
