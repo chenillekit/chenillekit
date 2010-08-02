@@ -11,6 +11,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package org.chenillekit.access.services.impl;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
 
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.RedirectService;
 import org.slf4j.Logger;
@@ -43,8 +45,9 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
     private final Logger logger;
 
     private final AccessValidator accessValidator;
+	private final ApplicationStateManager stateManager;
 
-    private final String loginPage;
+	private final String loginPage;
 
     private final RedirectService redirect;
 
@@ -58,12 +61,14 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
      * @param logger
      */
     public ComponentRequestAccessFilter(AccessValidator accessValidator,
-                                        SymbolSource symbols, Logger logger, RedirectService redirect, ApplicationStateManager stateManager)
+                                        SymbolSource symbols, Logger logger, RedirectService redirect,
+										ApplicationStateManager stateManager)
     {
         this.symbols = symbols;
         this.logger = logger;
         this.accessValidator = accessValidator;
-        this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
+		this.stateManager = stateManager;
+		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
         this.redirect = redirect;
         this.emptyEventContext = new EmptyEventContext();
 
@@ -76,6 +81,8 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
     public void handleComponentEvent(ComponentEventRequestParameters parameters,
                                      ComponentRequestHandler handler) throws IOException
     {
+		boolean isUserLoggedIn = stateManager.exists(WebSessionUser.class);
+
         if (accessValidator.hasAccess(parameters.getActivePageName(),
                 parameters.getNestedComponentId(), parameters.getEventType()))
         {
@@ -92,13 +99,13 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
             ComponentEventRequestParameters event = null;
             String accessDeniedAction = symbols.valueForSymbol(ChenilleKitAccessConstants.ACCESS_DENIED_ACTION);
 
-            if (accessDeniedAction.equalsIgnoreCase(ChenilleKitAccessConstants.JUMP_TO_LOGIN_PAGE))
+            if (!isUserLoggedIn && accessDeniedAction.equalsIgnoreCase(ChenilleKitAccessConstants.JUMP_TO_LOGIN_PAGE))
             {
                 redirect.rememberComponentEventParameters(parameters);
                 event = new ComponentEventRequestParameters(this.loginPage,
                         this.loginPage, "", EventConstants.ACTIVATE, emptyEventContext, emptyEventContext);
             }
-            else if (accessDeniedAction.equalsIgnoreCase(ChenilleKitAccessConstants.TRIGGER_EVENT))
+            else if (isUserLoggedIn || accessDeniedAction.equalsIgnoreCase(ChenilleKitAccessConstants.TRIGGER_EVENT))
             {
                 event = new ComponentEventRequestParameters(parameters.getActivePageName(),
                         parameters.getActivePageName(), parameters.getNestedComponentId(),

@@ -88,6 +88,7 @@ public class Start
 			new Item("Invisible", "Invisible", "Invisible page"),
 			new Item("Logout", "Logout", "Logout user"),
 			new Item("ManagedRestrictedPage", "ManagedRestricted", "test ManagedRestricted page"),
+			new Item("ManagedRestrictedPage2", "ManagedRestricted2", "test logged in user but no access page"),
 			new Item("Login", "Login", "Login access form")
 	);
 

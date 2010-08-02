@@ -17,33 +17,21 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
-	<title>Manageable Restricted Page</title>
+	<title>Logged in but no access</title>
 </head>
 
 <body>
 
-<span>Manageable Restricted Page</span>
+<span>Logged in but no access</span>
 
 <p>
 	<a href="#" t:id="firstEventLink" id="firstEventLink">Event 1</a>
 	<br/>
 	<a href="#" t:id="secondEventLink" id="secondEventLink">Event 2</a>
-	<br/>
-	<a href="#" t:id="thirdEventLink" id="thirdEventLink">Event 3</a>
-	<br/>
-	<a href="#" t:id="firstActionLink" id="firstActionLink">Action 1</a>
-	<br/>
-	<a href="#" t:id="secondActionLink" id="secondActionLink">Action 2</a>
-	<br/>
-	<a href="#" t:id="thirdActionLink" id="thirdActionLink">Action 3</a>
 </p>
 
 <p>
 	<span>${secureString}</span>
-</p>
-
-<p>
-	<span>${contextString}</span>
 </p>
 
 <p>

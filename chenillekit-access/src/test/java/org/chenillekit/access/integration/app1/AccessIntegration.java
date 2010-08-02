@@ -282,10 +282,7 @@ public class AccessIntegration extends SeleniumTestCase
 
 		clickAndWait("secondEventLink");
 
-		assertTextPresent("Login Page");
-
-		clickAndWait("link=Back to start");
-		clickAndWait("link=ManagedRestricted");
+		assertTextPresent("you have no access");
 
 		clickAndWait("firstActionLink");
 
@@ -293,10 +290,7 @@ public class AccessIntegration extends SeleniumTestCase
 
 		clickAndWait("secondActionLink");
 
-		assertTextPresent("Login Page");
-
-		clickAndWait("link=Back to start");
-		clickAndWait("link=ManagedRestricted");
+		assertTextPresent("you have no access");
 
 		clickAndWait("thirdActionLink");
 
@@ -309,5 +303,44 @@ public class AccessIntegration extends SeleniumTestCase
 		assertTextPresent("event3 triggered");
 
 		assertTextPresent("Hey Dude From Event 3");
+	}
+
+	public void test_managedrestricted_loggedin_but_no_access()
+	{
+		openBaseURL();
+
+		clickAndWait("link=ManagedRestricted2");
+
+		assertTextPresent("Login Page");
+
+		type("chenillekitUsername", "root");
+		type("chenillekitPassword", "banane");
+
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
+
+		assertTextPresent("Logged in but no access");
+
+		clickAndWait("firstEventLink");
+
+		assertTextPresent("event1 triggered");
+
+		clickAndWait("secondEventLink");
+
+		assertTextPresent("you have no access");
+
+		openBaseURL();
+
+		clickAndWait("link=Logout");
+
+		assertTextPresent("Logout Page");
+
+		assertTextPresent("User logged in: NO");
+
+		openBaseURL();
+
+		clickAndWait("link=ManagedRestricted2");
+
+		assertTextPresent("Login Page");
+		
 	}
 }

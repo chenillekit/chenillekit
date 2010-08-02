@@ -94,6 +94,9 @@ public class TestAppWithRootModule
 			statement.execute("CREATE TABLE " + tableName + " (COMPONENT_ID VARCHAR(99), GROUPS VARCHAR(255), ROLE_WEIGHT INTEGER)");
 			statement.execute("INSERT INTO " + tableName + " (COMPONENT_ID, GROUPS, ROLE_WEIGHT) " +
 					"VALUES ('ManagedRestrictedPage', 'admin', 10)," +
+					"('ManagedRestrictedPage2', 'admin', 10)," +
+					"('ManagedRestrictedPage2:event1', 'admin', 10)," +
+					"('ManagedRestrictedPage2:event2', 'admin', 100)," +
 					"('ManagedRestrictedPage:event1', 'admin', 10)," +
 					"('ManagedRestrictedPage:event2', 'admin', 100)," +
 					"('ManagedRestrictedPage:event3', 'admin', 10)," +
