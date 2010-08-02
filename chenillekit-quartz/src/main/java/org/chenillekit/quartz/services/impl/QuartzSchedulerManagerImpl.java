@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,7 @@
 
 package org.chenillekit.quartz.services.impl;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.chenillekit.quartz.services.QuartzSchedulerManager;
 import org.quartz.CronTrigger;
@@ -28,6 +24,9 @@ import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
 import org.slf4j.Logger;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * manages the Quartz schedulers.
@@ -74,9 +73,9 @@ public class QuartzSchedulerManagerImpl implements QuartzSchedulerManager
     }
 
     /**
-     * get a scheduler by his id.
+     * get a scheduler by its id.
      * <p/>
-     * if <em>schedulerId</em> is null or length == 0, than returns the default scheduler.
+     * if <em>schedulerId</em> is null or length == 0, then return the default scheduler.
      *
      * @param schedulerId id of the scheduler
      *
@@ -119,7 +118,7 @@ public class QuartzSchedulerManagerImpl implements QuartzSchedulerManager
     }
 
     /**
-     * shutdown a scheduler by his id.
+     * shutdown a scheduler by its id.
      *
      * @param schedulerId id of the scheduler
      */
