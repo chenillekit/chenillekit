@@ -1,3 +1,17 @@
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008-2010 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="ChenilleKit Access Tests" annotations="1.5" verbose="2">
@@ -9,7 +23,7 @@
   </test>
 
   <test name="Main Integration Tests" enabled="true">
-    <parameter name="tapestry.web-app-folder" value="src/test/webapp"/>
+    <parameter name="tapestry.web-app-folder" value="src/test/webapp1"/>
     <packages>
       <package name="org.chenillekit.access.integration.app1"/>
     </packages>
@@ -17,11 +31,21 @@
       <class name="org.apache.tapestry5.test.SeleniumLauncher"/>
     </classes>
   </test>
-  
+
+  <test name="Main Integration Tests" enabled="true">
+    <parameter name="tapestry.web-app-folder" value="src/test/webapp2"/>
+    <packages>
+      <package name="org.chenillekit.access.integration.app2"/>
+    </packages>
+    <classes>
+      <class name="org.apache.tapestry5.test.SeleniumLauncher"/>
+    </classes>
+  </test>
+
   <test name="Main PageTester Tests" enabled="true">
     <packages>
       <package name="org.chenillekit.access.pagetester"/>
     </packages>
   </test>
-  
+
 </suite>

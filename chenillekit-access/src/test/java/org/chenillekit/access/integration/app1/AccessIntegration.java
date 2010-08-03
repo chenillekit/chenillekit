@@ -15,7 +15,6 @@
 package org.chenillekit.access.integration.app1;
 
 import org.apache.tapestry5.test.SeleniumTestCase;
-
 import org.testng.annotations.Test;
 
 /**
@@ -303,6 +302,14 @@ public class AccessIntegration extends SeleniumTestCase
 		assertTextPresent("event3 triggered");
 
 		assertTextPresent("Hey Dude From Event 3");
+
+		openBaseURL();
+
+		clickAndWait("link=Logout");
+
+		assertTextPresent("Logout Page");
+
+		assertTextPresent("User logged in: NO");
 	}
 
 	public void test_managedrestricted_loggedin_but_no_access()
@@ -341,6 +348,13 @@ public class AccessIntegration extends SeleniumTestCase
 		clickAndWait("link=ManagedRestricted2");
 
 		assertTextPresent("Login Page");
-		
+
+		openBaseURL();
+
+		clickAndWait("link=Logout");
+
+		assertTextPresent("Logout Page");
+
+		assertTextPresent("User logged in: NO");
 	}
 }
