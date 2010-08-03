@@ -35,7 +35,7 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport;
  * @version $Id$
  */
 @Import(library = {"${tapestry.scriptaculous}/effects.js", "../components/window/window.js",
-		"../components/window/window_effects.js"}, stylesheet = {"../components/window/themes/default.css"})
+		"../components/window/window_effects.js", "../components/Window.js"}, stylesheet = {"../components/window/themes/default.css"})
 abstract public class AbstractWindow implements ClientElement
 {
 	/**

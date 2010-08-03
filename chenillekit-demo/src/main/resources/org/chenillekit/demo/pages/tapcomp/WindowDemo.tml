@@ -3,7 +3,7 @@
   ~ Version 2.0, January 2004
   ~ http://www.apache.org/licenses/
   ~
-  ~ Copyright 2008 by chenillekit.org
+  ~ Copyright 2008-2010 by chenillekit.org
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -40,22 +40,22 @@
 
 							<ul>
 								<li>
-									<a href="#" onclick="window1.showCenter(true)">click here for modal window</a> (style=bluelighting)
+									<a href="#" onclick="$T('window1').ck_window.showCenter(true);">click here for modal window</a> (style=bluelighting)
 								</li>
 								<li>
-									<a href="#" onclick="window2.showCenter(false)">click here for normal window</a> (style=mac_os_x)
+									<a href="#" onclick="$T('window2').ck_window.showCenter(false)">click here for normal window</a> (style=mac_os_x)
 								</li>
 								<li>
-									<a href="#" onclick="window3.showCenter(false)">click here for normal window</a> (style=nuncio)
+									<a href="#" onclick="$T('window3').ck_window.showCenter(false)">click here for normal window</a> (style=nuncio)
 								</li>
 								<li>
-									<a href="#" onclick="window4.showCenter(false)">click here for normal window</a> (style=spread)
+									<a href="#" onclick="$T('window4').ck_window.showCenter(false)">click here for normal window</a> (style=spread)
 								</li>
 								<li>
-									<a href="#" onclick="window5.showCenter(false)">click here for normal window</a> (style=alphacube)
+									<a href="#" onclick="$T('window5').ck_window.showCenter(false)">click here for normal window</a> (style=alphacube)
 								</li>
 								<li>
-									<a href="#" onclick="window6.showCenter(false)">click here for normal window</a> (style=dialog)
+									<a href="#" onclick="$T('window6').ck_window.showCenter(false)">click here for normal window</a> (style=dialog)
 								</li>
 							</ul>
 
@@ -90,22 +90,22 @@ public class DemoPage
 ...
 <ul>
 	<li>
-		<a href="#" onclick="window1.showCenter(true)">click here for modal window</a> (style=bluelighting)
+		<a href="#" onclick="$T('window1').ck_window.showCenter(true)">click here for modal window</a> (style=bluelighting)
 	</li>
 	<li>
-		<a href="#" onclick="window2.showCenter(false)">click here for normal window</a> (style=mac_os_x)
+		<a href="#" onclick="$T('window3').ck_window.showCenter(false)">click here for normal window</a> (style=mac_os_x)
 	</li>
 	<li>
-		<a href="#" onclick="window3.showCenter(false)">click here for normal window</a> (style=nuncio)
+		<a href="#" onclick="$T('window3').ck_window.showCenter(false)">click here for normal window</a> (style=nuncio)
 	</li>
 	<li>
-		<a href="#" onclick="window4.showCenter(false)">click here for normal window</a> (style=spread)
+		<a href="#" onclick="$T('window4').ck_window.showCenter(false)">click here for normal window</a> (style=spread)
 	</li>
 	<li>
-		<a href="#" onclick="window5.showCenter(false)">click here for normal window</a> (style=alphacube)
+		<a href="#" onclick="$T('window5').ck_window.showCenter(false)">click here for normal window</a> (style=alphacube)
 	</li>
 	<li>
-		<a href="#" onclick="window6.showCenter(false)">click here for normal window</a> (style=dialog)
+		<a href="#" onclick="$T('window6').ck_window.showCenter(false)">click here for normal window</a> (style=dialog)
 	</li>
 </ul>
 

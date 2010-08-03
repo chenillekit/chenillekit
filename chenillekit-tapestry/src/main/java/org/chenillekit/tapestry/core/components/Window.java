@@ -41,12 +41,16 @@ public class Window extends AbstractWindow
      *
      * @param writer the markup writer
      */
+
+    private String contentDivId;
+
     @BeforeRenderBody
     void beforeRenderBody(MarkupWriter writer)
     {
+        contentDivId = javascriptSupport.allocateClientId(getClientId() + "Content");
         hasBody = true;
         writer.element("div",
-                       "id", getClientId() + "Content",
+                       "id", contentDivId,
                        "style", "display:none;");
     }
 
@@ -85,12 +89,15 @@ public class Window extends AbstractWindow
         //
         configure(options);
 
-        javascriptSupport.addScript("%s = new Window(%s);", getClientId(), options);
+        JSONObject ckOptions = new JSONObject();
+        ckOptions.put("windowoptions", options);
+        ckOptions.put("hasbody", hasBody);
+        ckOptions.put("show", isShow());
+        ckOptions.put("center", isCenter());
+        ckOptions.put("modal", isModal());
+        ckOptions.put("clientid", getClientId());
+        ckOptions.put("contentid", contentDivId);
 
-        if (hasBody)
-            javascriptSupport.addScript("%s.setContent('%sContent');", getClientId(), getClientId());
-
-        if (isShow())
-            javascriptSupport.addScript("%s.show%s(%s);", getClientId(), isCenter() ? "Center" : "", isModal());
+        javascriptSupport.addInitializerCall("ckwindow", ckOptions);
     }
 }
