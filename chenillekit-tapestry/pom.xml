@@ -30,22 +30,15 @@
 	</parent>
 
 	<name>Chenillekit Tapestry</name>
-	<version>${project.parent.version}</version>
 	<description>
 		A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
 		and many more ...
 	</description>
 
 	<scm>
-		<connection>
-			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
-		</connection>
-		<developerConnection>
-			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
-		</developerConnection>
-		<url>
-			http://tapestry.formos.com/cgi-bin/viewvc.cgi/chenillekit/trunk/${artifactId}/
-		</url>
+		<connection>scm:svn:http://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</developerConnection>
+		<url>http://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</url>
 	</scm>
 
 	<!--
@@ -132,10 +125,10 @@
 		<plugins>
 
 			<!--
-					 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-					 + pack the jar archive
-					 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-					 -->
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			+ pack the jar archive
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -152,6 +145,14 @@
 							</Implementation-Version>
 						</manifestEntries>
 					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 

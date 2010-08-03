@@ -5,7 +5,7 @@
   ~ Version 2.0, January 2004
   ~ http://www.apache.org/licenses/
   ~
-  ~ Copyright 2008 by chenillekit.org
+  ~ Copyright 2008-2010 by chenillekit.org
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -31,9 +31,9 @@
 
     <scm>
 		<tag>HEAD</tag>
-        <url>http://chenillekit.googlecode.com/svn/trunk/maven-site</url>
-        <connection>scm:svn:http://chenillekit.googlecode.com/svn/trunk/maven-site</connection>
-        <developerConnection>scm:svn:https://chenillekit.googlecode.com/svn/trunk/maven-site</developerConnection>
+		<connection>scm:svn:http://svn.codehaus.org/chenillekit/trunk/maven-site/</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/chenillekit/trunk/maven-site/</developerConnection>
+		<url>http://svn.codehaus.org/chenillekit/trunk/maven-site/</url>
     </scm>
 
 </project>

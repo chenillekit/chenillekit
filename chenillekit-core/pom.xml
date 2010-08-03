@@ -30,21 +30,14 @@
 	</parent>
 
 	<name>Chenillekit Core</name>
-	<version>${project.parent.version}</version>
 	<description>
 		This library contains some basic classes we need for other chenillekit modules.
 	</description>
 
 	<scm>
-		<connection>
-			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
-		</connection>
-		<developerConnection>
-			scm:svn:https://tapestry.formos.com/svn/chenillekit/trunk/${artifactId}/
-		</developerConnection>
-		<url>
-			http://tapestry.formos.com/cgi-bin/viewvc.cgi/chenillekit/trunk/${artifactId}/
-		</url>
+		<connection>scm:svn:http://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</developerConnection>
+		<url>http://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</url>
 	</scm>
 
 	<!--
