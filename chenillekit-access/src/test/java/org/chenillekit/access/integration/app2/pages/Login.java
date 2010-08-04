@@ -36,7 +36,7 @@ public class Login
 	@Persist
 	private int loginAttempts;
 
-	@Component
+	@Component @SuppressWarnings("unused")
 	private org.chenillekit.access.components.Login login;
 
 	final public boolean isLoginAllowed()

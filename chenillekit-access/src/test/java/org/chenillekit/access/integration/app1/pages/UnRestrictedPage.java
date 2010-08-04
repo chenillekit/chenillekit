@@ -25,7 +25,6 @@ import org.apache.tapestry5.corelib.components.Errors;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.Submit;
 import org.apache.tapestry5.corelib.components.TextField;
-
 import org.chenillekit.access.annotations.Restricted;
 
 /**
@@ -33,19 +32,20 @@ import org.chenillekit.access.annotations.Restricted;
  */
 public class UnRestrictedPage
 {
-    @Property
+    @Property @SuppressWarnings("unused")
     private String testValue;
 
-    @Component
+    @Component @SuppressWarnings("unused")
     private Errors testErrors;
 
     @Component
     private Form testForm;
 
     @Component(parameters = {"value=testValue"})
+    @SuppressWarnings("unused")
     private TextField testInput;
 
-    @Component
+    @Component @SuppressWarnings("unused")
     private Submit testSubmit;
 
     @InjectPage

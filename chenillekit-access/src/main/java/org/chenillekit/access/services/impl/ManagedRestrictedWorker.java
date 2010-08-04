@@ -40,11 +40,11 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 {
 	private final Logger logger;
 	private final ComponentClassResolver resolver;
-	private final ProtectionRuleDAO protectionRuleDAO;
+	private final ProtectionRuleDAO<?> protectionRuleDAO;
 
 	public ManagedRestrictedWorker(Logger logger,
 								   ComponentClassResolver resolver,
-								   ProtectionRuleDAO protectionRuleDAO)
+								   ProtectionRuleDAO<?> protectionRuleDAO)
 	{
 		super(logger);
 		this.logger = logger;

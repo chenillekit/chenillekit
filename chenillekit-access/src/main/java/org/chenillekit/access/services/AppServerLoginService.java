@@ -23,5 +23,5 @@ import org.chenillekit.access.WebSessionUser;
  */
 public interface AppServerLoginService
 {
-	void appServerLogin( WebSessionUser user );
+	void appServerLogin( WebSessionUser<?> user );
 }

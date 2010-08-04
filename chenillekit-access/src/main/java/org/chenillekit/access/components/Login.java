@@ -22,7 +22,6 @@ import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.services.Cookies;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
@@ -36,7 +35,7 @@ public class Login
 {
 	@SuppressWarnings("unused")
 	@SessionState
-	private WebSessionUser webSessionUser;
+	private WebSessionUser<?> webSessionUser;
 
 	@Inject
 	private Messages messages;
@@ -57,7 +56,7 @@ public class Login
 	@Property
 	private String password;
 
-	private WebSessionUser tmpUser;
+	private WebSessionUser<?> tmpUser;
 
 	void onValidateForm()
 	{

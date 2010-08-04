@@ -30,34 +30,31 @@ import org.chenillekit.access.ChenilleKitAccessConstants;
 @org.chenillekit.access.annotations.ManagedRestricted
 public class ManagedRestrictedPage
 {
-	@Component(parameters = {"event=event1"})
+	@Component(parameters = {"event=event1"}) @SuppressWarnings("unused")
 	private EventLink firstEventLink;
 
-	@Component(parameters = {"event=event2"})
+	@Component(parameters = {"event=event2"}) @SuppressWarnings("unused")
 	private EventLink secondEventLink;
 
-	@Component(parameters = {"event=event3", "context=literal:Hey Dude From Event 3"})
+	@Component(parameters = {"event=event3", "context=literal:Hey Dude From Event 3"}) @SuppressWarnings("unused")
 	private EventLink thirdEventLink;
 
-	@Component
+	@Component @SuppressWarnings("unused")
 	private ActionLink firstActionLink;
 
-	@Component
+	@Component @SuppressWarnings("unused")
 	private ActionLink secondActionLink;
 
-	@Component(parameters = {"context=literal:Hey Dude From Action 3"})
+	@Component(parameters = {"context=literal:Hey Dude From Action 3"}) @SuppressWarnings("unused")
 	private ActionLink thirdActionLink;
 
-	@Persist
-	@Property
+	@Persist @Property @SuppressWarnings("unused")
 	private String contextString;
 
-	@Persist
-	@Property
+	@Persist @Property @SuppressWarnings("unused")
 	private String secureString;
 
-	@Persist("flash")
-	@Property
+	@Persist("flash") @Property @SuppressWarnings("unused")
 	private String errorMessage;
 
 	@OnEvent(value = "event1")

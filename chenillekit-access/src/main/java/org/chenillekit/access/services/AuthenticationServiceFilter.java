@@ -29,7 +29,7 @@ public interface AuthenticationServiceFilter
 	 * @param delegate
 	 * @return
 	 */
-	WebSessionUser doAuthenticate(String userName, String password, AuthenticationService delegate);
+	WebSessionUser<?> doAuthenticate(String userName, String password, AuthenticationService delegate);
 
 	/**
 	 * check for user is authenticated.

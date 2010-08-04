@@ -164,7 +164,7 @@ public class AccessValidatorImpl implements AccessValidator
 		if (groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION) && role.equals(Integer.valueOf(0)))
 			return hasAccess;
 
-		WebSessionUser webSessionUser = manager.getIfExists(WebSessionUser.class);
+		WebSessionUser<?> webSessionUser = manager.getIfExists(WebSessionUser.class);
 		if (webSessionUser == null)
 		{
 			if (logger.isDebugEnabled())

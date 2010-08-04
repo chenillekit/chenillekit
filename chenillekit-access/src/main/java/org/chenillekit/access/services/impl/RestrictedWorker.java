@@ -27,7 +27,6 @@ import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethod;
-
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
@@ -126,19 +125,6 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 
 			setGroupRoleMeta(false, model, componentId, eventType, restricted.groups(), restricted.role());
 		}
-	}
-
-	/**
-	 * Inject meta datas about annotated methods
-	 *
-	 * @param transformation Contains class-specific information used when transforming a raw component class
-	 *                       into an executable component class.
-	 * @param model		  Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
-	 *                       the transformation phase.
-	 */
-	private void processComponentsRestrictions(ClassTransformation transformation, MutableComponentModel model)
-	{
-		logger.warn("Component restriction is not yet implemented");
 	}
 
 	/**

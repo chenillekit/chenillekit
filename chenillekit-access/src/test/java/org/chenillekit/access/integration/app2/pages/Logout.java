@@ -33,7 +33,7 @@ public class Logout
 
 	@SuppressWarnings("unused")
 	@SessionState
-	private WebSessionUser user;
+	private WebSessionUser<?> user;
 	@Property
 	private boolean userExists;
 

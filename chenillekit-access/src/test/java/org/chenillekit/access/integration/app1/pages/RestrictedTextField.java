@@ -29,24 +29,22 @@ import org.chenillekit.access.annotations.Restricted;
  */
 public class RestrictedTextField
 {
-	@Persist
-	@Property
+	@Persist @Property @SuppressWarnings("unused")
 	private String simpleText1;
 
-	@Persist
-	@Property
+	@Persist @Property @SuppressWarnings("unused")
 	private String simpleText2;
 
-	@Component
+	@Component @SuppressWarnings("unused")
 	private Form simpleForm;
 
 	@Component(parameters = {"value=simpleText1"})
-	@Restricted(role = 1)
+	@Restricted(role = 1) @SuppressWarnings("unused")
 	private TextField simpleTextField1;
 
-	@Component(parameters = {"value=simpleText2"})
+	@Component(parameters = {"value=simpleText2"}) @SuppressWarnings("unused")
 	private TextField simpleTextField2;
 
-	@Component
+	@Component @SuppressWarnings("unused")
 	private Submit simpleSubmit;
 }

@@ -14,6 +14,9 @@
 
 package org.chenillekit.access.integration.app2.pages;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
@@ -21,20 +24,16 @@ import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
  * @version $Id$
  */
 public class Start
 {
-	@Inject
-	@Local
+	@Inject @Local @SuppressWarnings("unused")
 	private AuthenticationService authenticationService;
 
-	@SessionState
-	private WebSessionUser webSessionUser;
+	@SessionState @SuppressWarnings("unused")
+	private WebSessionUser<?> webSessionUser;
 
 	public static class Item implements Comparable<Item>
 	{

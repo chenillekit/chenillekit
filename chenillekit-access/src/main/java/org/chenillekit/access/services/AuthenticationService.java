@@ -29,7 +29,7 @@ public interface AuthenticationService
 	 * @param userName name of the user
 	 * @param password users password
 	 */
-	WebSessionUser doAuthenticate(String userName, String password);
+	WebSessionUser<?> doAuthenticate(String userName, String password);
 
 	/**
 	 * check for user is authenticated.

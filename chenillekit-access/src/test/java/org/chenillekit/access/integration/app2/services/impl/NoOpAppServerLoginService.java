@@ -27,9 +27,9 @@ public class NoOpAppServerLoginService implements AppServerLoginService
 	/* (non-Javadoc)
 	 * @see org.chenillekit.access.services.AppServerLoginService#appServerLogin(org.chenillekit.access.WebSessionUser)
 	 */
-	public void appServerLogin(WebSessionUser user)
+	public void appServerLogin(WebSessionUser<?> user)
 	{
-		// To nothing...
+		// Do nothing...
 	}
 
 }

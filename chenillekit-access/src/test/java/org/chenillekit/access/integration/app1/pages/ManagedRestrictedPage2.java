@@ -19,7 +19,6 @@ import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.EventLink;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 
 /**
@@ -28,18 +27,16 @@ import org.chenillekit.access.ChenilleKitAccessConstants;
 @org.chenillekit.access.annotations.ManagedRestricted
 public class ManagedRestrictedPage2
 {
-	@Component(parameters = {"event=event1"})
+	@Component(parameters = {"event=event1"}) @SuppressWarnings("unused")
 	private EventLink firstEventLink;
 
-	@Component(parameters = {"event=event2"})
+	@Component(parameters = {"event=event2"}) @SuppressWarnings("unused")
 	private EventLink secondEventLink;
 
-	@Persist("flash")
-	@Property
+	@Persist("flash") @Property @SuppressWarnings("unused")
 	private String secureString;
 
-	@Persist("flash")
-	@Property
+	@Persist("flash") @Property @SuppressWarnings("unused")
 	private String errorMessage;
 
 	@OnEvent(value = "event1")

@@ -15,7 +15,6 @@
 package org.chenillekit.access.integration.app1.services.impl;
 
 import org.apache.tapestry5.services.ApplicationStateManager;
-
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
 import org.chenillekit.access.services.AuthenticationServiceFilter;
@@ -36,7 +35,7 @@ public class UserEqualPassCheck implements AuthenticationServiceFilter
 	/* (non-Javadoc)
 		 * @see org.chenillekit.access.services.AuthenticationServiceFilter#doAuthenticate(java.lang.String, java.lang.String, org.chenillekit.access.services.AuthenticationService)
 		 */
-	public WebSessionUser doAuthenticate(String userName, String password,
+	public WebSessionUser<?> doAuthenticate(String userName, String password,
 			AuthenticationService delegate)
 	{
 		// Just to show how the pipeline can operate
@@ -53,7 +52,7 @@ public class UserEqualPassCheck implements AuthenticationServiceFilter
 	 */
 	public boolean isAuthenticate(AuthenticationService delegate)
 	{
-		WebSessionUser webSessionUser = stateManager.getIfExists(WebSessionUser.class);
+		WebSessionUser<?> webSessionUser = stateManager.getIfExists(WebSessionUser.class);
 		return webSessionUser != null && delegate.isAuthenticate();
 	}
 }

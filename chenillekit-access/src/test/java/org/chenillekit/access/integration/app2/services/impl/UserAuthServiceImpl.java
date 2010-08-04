@@ -37,7 +37,7 @@ public class UserAuthServiceImpl implements AuthenticationServiceFilter
 	 * @see org.chenillekit.access.services.AuthenticationServiceFilter#doAuthenticate(java.lang.String, java.lang.String, org.chenillekit.access.services.AuthenticationService)
 	 */
 
-	public WebSessionUser doAuthenticate(String userName, String password,
+	public WebSessionUser<?> doAuthenticate(String userName, String password,
 										 AuthenticationService delegate)
 	{
 		if ("root".equals(userName))
@@ -56,7 +56,7 @@ public class UserAuthServiceImpl implements AuthenticationServiceFilter
 	 */
 	public boolean isAuthenticate(AuthenticationService delegate)
 	{
-		WebSessionUser webSessionUser = stateManager.getIfExists(WebSessionUser.class);
+		WebSessionUser<?> webSessionUser = stateManager.getIfExists(WebSessionUser.class);
 		return webSessionUser != null && delegate.isAuthenticate();
 	}
 }

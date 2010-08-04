@@ -26,17 +26,13 @@ import org.slf4j.Logger;
  */
 public class JDBCProtectionRuleDAO implements ProtectionRuleDAO<ProtectionRuleImpl>
 {
-    private final String tableName;
 	private final Logger logger;
-	private final Connection connection;
     private final PreparedStatement preparedStatement;
 
     public JDBCProtectionRuleDAO(Logger logger, Connection connection, String tableName)
     {
 		this.logger = logger;
-		this.connection = connection;
-        this.tableName = tableName;
-
+		
         try
         {
             preparedStatement = connection.prepareStatement(String.format("SELECT * FROM %s WHERE COMPONENT_ID = ?", tableName));

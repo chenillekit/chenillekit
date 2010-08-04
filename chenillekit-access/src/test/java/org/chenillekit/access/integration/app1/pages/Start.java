@@ -23,7 +23,6 @@ import org.apache.tapestry5.corelib.components.If;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
-
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
 
@@ -37,13 +36,15 @@ public class Start
 	@Local
 	private AuthenticationService authenticationService;
 
-	@SessionState
-	private WebSessionUser webSessionUser;
+	@SessionState @SuppressWarnings("unused")
+	private WebSessionUser<?> webSessionUser;
 
 	@Component(parameters = {"test=authenticated", "negate=true"})
+	@SuppressWarnings("unused")
 	private If ifNotAuthenticated;
 
 	@Component(parameters = {"test=authenticated"})
+	@SuppressWarnings("unused")
 	private If ifAuthenticated;
 
 	public static class Item implements Comparable<Item>

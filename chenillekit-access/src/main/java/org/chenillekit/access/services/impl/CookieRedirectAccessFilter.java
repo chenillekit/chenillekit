@@ -18,7 +18,6 @@ import java.io.IOException;
 
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.Link;
-import org.apache.tapestry5.internal.services.LinkSource;
 import org.apache.tapestry5.ioc.services.TypeCoercer;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
@@ -27,7 +26,7 @@ import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
-
+import org.apache.tapestry5.services.Response;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.RedirectService;
@@ -46,7 +45,6 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 	
 	private final TypeCoercer coercer;
 	private final ComponentSource componentSource;
-	private final LinkSource linkSource;
 
 	/**
 	 * Default main construction with injection fields.
@@ -57,14 +55,12 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 	 */
 	public CookieRedirectAccessFilter(Cookies cookies,
 				RedirectService redirect, TypeCoercer coercer,
-				ComponentSource componentSource,
-				LinkSource linkSource)
+				ComponentSource componentSource)
 	{
 		this.cookies = cookies;
 		this.redirect = redirect;
 		this.coercer = coercer;
 		this.componentSource = componentSource;
-		this.linkSource = linkSource;
 	}
 	
 	/**
@@ -94,7 +90,7 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 			return false;
 		
 		String activePageName = cookies.readCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVE_PAGE_NAME);
-		String containingPageName = cookies.readCookieValue(ChenilleKitAccessConstants.REMEMBERED_CONTAINING_PAGE_NAME);
+		// String containingPageName = cookies.readCookieValue(ChenilleKitAccessConstants.REMEMBERED_CONTAINING_PAGE_NAME);
 		String eventType = cookies.readCookieValue(ChenilleKitAccessConstants.REMEMBERED_EVENT_TYPE);
 		String nestedComponentId = cookies.readCookieValue(ChenilleKitAccessConstants.REMEMBERED_NESTED_COMPONENT_ID);
 		String activationContextString = cookies.readCookieValue(ChenilleKitAccessConstants.REMEMBERED_ACTIVATION_CONTEXT);

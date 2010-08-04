@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.tapestry5.internal.services.LinkSource;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
@@ -40,7 +39,6 @@ import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.LibraryMapping;
-
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.dao.JDBCProtectionRuleDAO;
 import org.chenillekit.access.dao.ProtectionRuleDAO;
@@ -68,13 +66,14 @@ public class ChenilleKitAccessModule
 	 *
 	 * @param binder
 	 */
+	@SuppressWarnings("unchecked")
 	public static void bind(ServiceBinder binder)
 	{
 		binder.bind(ComponentRequestFilter.class, ComponentRequestAccessFilter.class).withMarker(ChenilleKitAccess.class);
 		binder.bind(RedirectService.class, RedirectServiceImpl.class);
 	}
 
-	public static ProtectionRuleDAO buildJDBCProtectionRuleDAO(Logger logger,
+	public static ProtectionRuleDAO<?> buildJDBCProtectionRuleDAO(Logger logger,
 															   Connection connection,
 															   @Inject @Symbol("tableName") String tableName)
 	{
@@ -99,7 +98,7 @@ public class ChenilleKitAccessModule
 	{
 		AuthenticationService terminator = new AuthenticationService()
 		{
-			public WebSessionUser doAuthenticate(String userName, String password)
+			public WebSessionUser<?> doAuthenticate(String userName, String password)
 			{
 				// Return a null so the service can fail if no other contributions are made
 				return null;
@@ -108,7 +107,7 @@ public class ChenilleKitAccessModule
 			public boolean isAuthenticate()
 			{
 				// Return false so the service can fail if no other contributions are made
-				WebSessionUser webSessionUser = stateManager.getIfExists(WebSessionUser.class);
+				WebSessionUser<?> webSessionUser = stateManager.getIfExists(WebSessionUser.class);
 				return webSessionUser != null;
 			}
 		};
@@ -120,11 +119,11 @@ public class ChenilleKitAccessModule
 	 * @param configuration
 	 */
 	public static void contributeApplicationStateManager(
-			MappedConfiguration<Class, ApplicationStateContribution> configuration)
+			MappedConfiguration<Class<?>, ApplicationStateContribution> configuration)
 	{
-		ApplicationStateCreator<WebSessionUser> creator = new ApplicationStateCreator<WebSessionUser>()
+		ApplicationStateCreator<WebSessionUser<?>> creator = new ApplicationStateCreator<WebSessionUser<?>>()
 		{
-			public WebSessionUser create()
+			public WebSessionUser<?> create()
 			{
 				// It sounds better to throw an IllegaAccess
 				// but Error and Exceptions are for other use case
@@ -181,11 +180,11 @@ public class ChenilleKitAccessModule
 	public static void contributeComponentRequestHandler(OrderedConfiguration<ComponentRequestFilter> configuration,
 														 @ChenilleKitAccess ComponentRequestFilter accessFilter,
 														 Cookies cookies, RedirectService redirect, TypeCoercer coercer,
-														 ComponentSource componentSource, LinkSource linkSource)
+														 ComponentSource componentSource)
 	{
 		configuration.add("AccessControl", accessFilter, "before:*");
 
-		CookieRedirectAccessFilter cookieFilter = new CookieRedirectAccessFilter(cookies, redirect, coercer, componentSource, linkSource);
+		CookieRedirectAccessFilter cookieFilter = new CookieRedirectAccessFilter(cookies, redirect, coercer, componentSource);
 
 		configuration.add("CookieRedirect", cookieFilter, "after:AccessControl");
 	}
