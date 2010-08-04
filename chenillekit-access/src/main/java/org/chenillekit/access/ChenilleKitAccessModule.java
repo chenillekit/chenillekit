@@ -55,7 +55,7 @@ import org.chenillekit.access.services.impl.RestrictedWorker;
 import org.slf4j.Logger;
 
 /**
- * Main Module class for ChenilleKitAccess, i mean T5 Module class.
+ * Main Module class for ChenilleKitAccess.
  *
  * @version $Id$
  */
