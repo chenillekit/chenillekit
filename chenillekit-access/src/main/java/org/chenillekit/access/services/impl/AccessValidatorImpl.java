@@ -11,6 +11,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package org.chenillekit.access.services.impl;
 
 import java.util.Arrays;
@@ -33,12 +34,17 @@ public class AccessValidatorImpl implements AccessValidator
 	private final ComponentSource componentSource;
 	private final Logger logger;
 	private final ApplicationStateManager manager;
+	private final boolean hasAccessIfNoRestrictionEventNotLoggedin;
 
-	public AccessValidatorImpl(Logger logger, ComponentSource componentSource, ApplicationStateManager manager)
+	public AccessValidatorImpl(Logger logger,
+							   ComponentSource componentSource,
+							   ApplicationStateManager manager,
+							   boolean hasAccessIfNoRestrictionEventNotLoggedin)
 	{
 		this.componentSource = componentSource;
 		this.logger = logger;
 		this.manager = manager;
+		this.hasAccessIfNoRestrictionEventNotLoggedin = hasAccessIfNoRestrictionEventNotLoggedin;
 	}
 
 
@@ -160,11 +166,26 @@ public class AccessValidatorImpl implements AccessValidator
 		boolean hasAccess = true;
 		boolean hasGroup = true;
 		boolean hasRole = true;
-
-		if (groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION) && role.equals(Integer.valueOf(0)))
-			return hasAccess;
-
 		WebSessionUser<?> webSessionUser = manager.getIfExists(WebSessionUser.class);
+
+		//
+		// if the the page/event/action is restricted, but has no group and role parameters ...
+		//
+		if (groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION) && role.equals(Integer.valueOf(0)))
+		{
+			//
+			// if the hasAccessIfNoRestrictionEventNotLoggedin is set to false and the user is NOT logged in,
+			// the user has NO access, otherwise he has (default).
+			//
+			if (!hasAccessIfNoRestrictionEventNotLoggedin && webSessionUser == null)
+				return false;
+			else
+				return hasAccess;
+		}
+
+		//
+		// if the user NOT logged in, he has no access.
+		//
 		if (webSessionUser == null)
 		{
 			if (logger.isDebugEnabled())
@@ -173,6 +194,9 @@ public class AccessValidatorImpl implements AccessValidator
 			return false;
 		}
 
+		//
+		// has the restriction annotation a group value ...
+		//
 		if (!groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION))
 		{
 			if (logger.isDebugEnabled())
@@ -182,6 +206,9 @@ public class AccessValidatorImpl implements AccessValidator
 																		   ChenillekitAccessInternalUtils.getStringAsStringArray(groups));
 		}
 
+		//
+		// has the restriction annotation a roleWeight value ...
+		//
 		if (role > 0)
 		{
 			if (logger.isDebugEnabled())

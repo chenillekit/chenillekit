@@ -77,6 +77,11 @@ public final class ChenilleKitAccessConstants
     public static final String FALLBACK_PAGE = "chenillekit.access-fallback-page";
 
     /**
+     * The logical name of the fallback page
+     */
+    public static final String HAS_ACCESS_IF_NORESTRICTION_EVEN_NOT_LOGGEDIN = "chenillekit.access-has-access-if-no-restriction-even-not-loggedin";
+
+    /**
      * wich action should execute if user have no access rights.
      */
     public static final String ACCESS_DENIED_ACTION = "chenillekit.access-denied-action";

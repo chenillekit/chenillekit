@@ -22,6 +22,7 @@
     </packages>
   </test>
 
+	<!--
   <test name="Main Integration Tests" enabled="true">
     <parameter name="tapestry.web-app-folder" value="src/test/webapp1"/>
     <packages>
@@ -36,6 +37,17 @@
     <parameter name="tapestry.web-app-folder" value="src/test/webapp2"/>
     <packages>
       <package name="org.chenillekit.access.integration.app2"/>
+    </packages>
+    <classes>
+      <class name="org.apache.tapestry5.test.SeleniumLauncher"/>
+    </classes>
+  </test>
+  -->
+
+  <test name="Main Integration Tests" enabled="true">
+    <parameter name="tapestry.web-app-folder" value="src/test/webapp3"/>
+    <packages>
+      <package name="org.chenillekit.access.integration.app3"/>
     </packages>
     <classes>
       <class name="org.apache.tapestry5.test.SeleniumLauncher"/>

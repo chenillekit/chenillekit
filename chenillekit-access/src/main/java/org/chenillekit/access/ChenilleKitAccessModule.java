@@ -39,6 +39,7 @@ import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.LibraryMapping;
+
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.dao.JDBCProtectionRuleDAO;
 import org.chenillekit.access.dao.ProtectionRuleDAO;
@@ -168,9 +169,11 @@ public class ChenilleKitAccessModule
 	 */
 	@Marker(ChenilleKitAccess.class)
 	public static AccessValidator buildAccessValidator(ComponentSource componentSource,
-													   Logger logger, ApplicationStateManager manager)
+													   Logger logger,
+													   ApplicationStateManager manager,
+													   @Symbol(ChenilleKitAccessConstants.HAS_ACCESS_IF_NORESTRICTION_EVEN_NOT_LOGGEDIN) boolean hasAccessIfNoRestrictionEventNotLoggedin)
 	{
-		return new AccessValidatorImpl(logger, componentSource, manager);
+		return new AccessValidatorImpl(logger, componentSource, manager, hasAccessIfNoRestrictionEventNotLoggedin);
 	}
 
 	/**
