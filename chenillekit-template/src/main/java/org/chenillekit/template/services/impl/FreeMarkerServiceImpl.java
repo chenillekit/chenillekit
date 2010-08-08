@@ -14,20 +14,22 @@
 
 package org.chenillekit.template.services.impl;
 
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import org.apache.tapestry5.ioc.Resource;
-import org.chenillekit.template.services.TemplateService;
-import org.slf4j.Logger;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
+
+import org.apache.tapestry5.ioc.Resource;
+
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import org.chenillekit.template.services.TemplateService;
+import org.slf4j.Logger;
 
 /**
  * template service based on <a href="http://freemarker.sourceforge.net">FreeMarker</a> framework.
@@ -175,8 +177,12 @@ public class FreeMarkerServiceImpl implements TemplateService
             if (serviceLog.isInfoEnabled())
                 serviceLog.info("processing template stream");
 
-            Template freeMarkerTemplate = new Template("unknown", new InputStreamReader(templateStream), configuration);
-            Writer out = new OutputStreamWriter(outputStream, freeMarkerTemplate.getEncoding());
+            Template freeMarkerTemplate = new Template("Freemarker Template", new InputStreamReader(templateStream), configuration);
+			String encoding = freeMarkerTemplate.getEncoding();
+			if (encoding == null)
+				encoding = Charset.defaultCharset().name();
+
+            Writer out = new OutputStreamWriter(outputStream, encoding);
             freeMarkerTemplate.process(parameterMap, out);
             out.flush();
 
@@ -185,7 +191,7 @@ public class FreeMarkerServiceImpl implements TemplateService
         }
         catch (Exception e)
         {
-            throw new RuntimeException(e.getLocalizedMessage());
+            throw new RuntimeException(e.getLocalizedMessage(), e);
         }
     }
 }

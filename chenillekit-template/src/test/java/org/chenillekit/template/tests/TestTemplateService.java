@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.template.services;
+package org.chenillekit.template.tests;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
 import org.chenillekit.core.streams.StringInputStream;
 import org.chenillekit.template.ChenilleKitTemplateTestModule;
+import org.chenillekit.template.services.TemplateService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -61,7 +64,6 @@ public class TestTemplateService extends Assert
         service.mergeDataWithResource(new ClasspathResource("test1.vm"), baos, parameterMap);
 
         String result = baos.toString();
-        System.err.println(result);
 
         assertTrue(result.contains("tried 3"));
         assertTrue(result.contains("Athur Dent"));
@@ -80,7 +82,6 @@ public class TestTemplateService extends Assert
         service.mergeDataWithStream(new StringInputStream("this is a ${var} test string"), baos, parameterMap);
 
         String result = baos.toString();
-        System.err.println(result);
 
         assertTrue(result.contains("fine short"));
     }
@@ -100,7 +101,36 @@ public class TestTemplateService extends Assert
         service.mergeDataWithResource(new ClasspathResource("test1.fmt"), baos, parameterMap);
 
         String result = baos.toString();
-        System.err.println(result);
+
+        assertTrue(result.contains("tried 3"));
+        assertTrue(result.contains("Athur Dent"));
+        assertFalse(result.contains("block_date"));
+    }
+
+    @Test
+    public void test_freemarker_stream()
+    {
+        TemplateService service = _registry.getService("FreeMarkerService", TemplateService.class);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        Map<String, Serializable> parameterMap = new HashMap<String, Serializable>();
+        parameterMap.put("user_name", "Athur Dent");
+        parameterMap.put("login_tries", 3);
+        parameterMap.put("block_date", new Date());
+        parameterMap.put("sysadm_email", "Zaphod.Beeblebrox@beteigeuze.moon");
+
+		InputStream is;
+		try
+		{
+			is = new ClasspathResource("test1.fmt").openStream();
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+		service.mergeDataWithStream(is, baos, parameterMap);
+
+        String result = baos.toString();
 
         assertTrue(result.contains("tried 3"));
         assertTrue(result.contains("Athur Dent"));
