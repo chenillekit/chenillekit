@@ -14,12 +14,6 @@
 
 package org.chenillekit.access;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
@@ -39,7 +33,6 @@ import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.LibraryMapping;
-
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.dao.JDBCProtectionRuleDAO;
 import org.chenillekit.access.dao.ProtectionRuleDAO;
@@ -47,13 +40,21 @@ import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.AuthenticationService;
 import org.chenillekit.access.services.AuthenticationServiceFilter;
 import org.chenillekit.access.services.RedirectService;
+import org.chenillekit.access.services.SecurityService;
 import org.chenillekit.access.services.impl.AccessValidatorImpl;
 import org.chenillekit.access.services.impl.ComponentRequestAccessFilter;
 import org.chenillekit.access.services.impl.CookieRedirectAccessFilter;
 import org.chenillekit.access.services.impl.ManagedRestrictedWorker;
 import org.chenillekit.access.services.impl.RedirectServiceImpl;
 import org.chenillekit.access.services.impl.RestrictedWorker;
+import org.chenillekit.access.services.impl.SecurityServiceImpl;
 import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * Main Module class for ChenilleKitAccess.
@@ -72,6 +73,7 @@ public class ChenilleKitAccessModule
 	{
 		binder.bind(ComponentRequestFilter.class, ComponentRequestAccessFilter.class).withMarker(ChenilleKitAccess.class);
 		binder.bind(RedirectService.class, RedirectServiceImpl.class);
+		binder.bind(SecurityService.class, SecurityServiceImpl.class);
 	}
 
 	public static ProtectionRuleDAO<?> buildJDBCProtectionRuleDAO(Logger logger,
