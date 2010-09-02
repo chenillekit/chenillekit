@@ -17,6 +17,8 @@ package org.chenillekit.tapestry.core.mixins.yui;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.MarkupWriter;
+import org.apache.tapestry5.annotations.AfterRender;
+import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectContainer;
 import org.apache.tapestry5.annotations.Parameter;
@@ -31,7 +33,7 @@ import org.chenillekit.tapestry.core.base.AbstractYahooComponent;
  * @version $Id$
  */
 @Import(stack = {"yahoo"}, stylesheet = {"${yahoo.yui}/button/assets/skins/sam/button.css"},
-		library = {"${yahoo.yui}/button/button${yahoo.yui.mode}.js"})
+		library = {"${yahoo.yui}/button/button${yahoo.yui.mode}.js", "Button.js"})
 //@MixinAfter
 public class Button extends AbstractYahooComponent
 {
@@ -56,19 +58,17 @@ public class Button extends AbstractYahooComponent
 	 *
 	 * @param writer the markup writer
 	 */
+	@BeginRender
 	void beginRender(MarkupWriter writer)
 	{
-		writer.element("span", "id", getClientId(), "class", "yui-button");
-		writer.element("span", "class", "first-child");
-
-		if (type != null && type.length() > 0)
-		{
-			if (type.equalsIgnoreCase("menu"))
-			{
-				writer.element("input", "type", "button", "id", clientElement.getClientId() + "Button");
-				writer.end();
-			}
-		}
+//		if (type != null && type.length() > 0)
+//		{
+//			if (type.equalsIgnoreCase("menu"))
+//			{
+//				writer.element("input", "type", "button", "id", clientElement.getClientId() + "Button");
+//				writer.end();
+//			}
+//		}
 	}
 
 
@@ -77,12 +77,10 @@ public class Button extends AbstractYahooComponent
 	 *
 	 * @param writer the markup writer
 	 */
+	@AfterRender
 	void afterRender(MarkupWriter writer)
 	{
 		JSONObject options = new JSONObject();
-
-		writer.end();
-		writer.end();
 
 		options.put("label", label);
 		options.put("id", clientElement.getClientId());
@@ -92,15 +90,15 @@ public class Button extends AbstractYahooComponent
 		else
 			options.put("disabled", isDisabled());
 
-		if (type != null && type.length() > 0)
-		{
-			if (type.equalsIgnoreCase("menu"))
-				options.put("menu", clientElement.getClientId() + "Button");
-		}
+//		if (type != null && type.length() > 0)
+//		{
+//			if (type.equalsIgnoreCase("menu"))
+//				options.put("menu", clientElement.getClientId() + "Button");
+//		}
 
 		configure(options);
 
-		javascriptSupport.addScript("new YAHOO.widget.Button('%s', %s);", getClientId(), options);
+		javascriptSupport.addScript("new Button('%s', %s);", clientElement.getClientId(), options);
 	}
 
 	/**
