@@ -18,17 +18,18 @@ Button.prototype = {
 	{
 		this.elementId = elementId;
 		this.options = options;
-		YAHOO.util.Event.onContentReady(elementId, this.createButton.bindAsEventListener(this));
+		this.createButton();
 	},
 	createButton:function()
 	{
 		var button = new YAHOO.widget.Button(this.elementId, this.options);
-		this.swapIdValues();
+		if (button)
+			this.swapIdValues();
 	},
 	/**
 	 * swap the id from by YUI generated span tag back to the original Tapestry5 tag.
 	 * i realy don understand, why the YUI devel team change the id of the given tag.
-	 * .... impossible! 
+	 * .... impossible!
 	 */
 	swapIdValues:function()
 	{
