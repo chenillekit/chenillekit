@@ -18,7 +18,6 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.AfterRender;
-import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectContainer;
 import org.apache.tapestry5.annotations.Parameter;
@@ -53,26 +52,6 @@ public class Button extends AbstractYahooComponent
 	private ClientElement clientElement;
 
 	/**
-	 * Tapestry render phase method.
-	 * Start a tag here, end it in afterRender
-	 *
-	 * @param writer the markup writer
-	 */
-	@BeginRender
-	void beginRender(MarkupWriter writer)
-	{
-//		if (type != null && type.length() > 0)
-//		{
-//			if (type.equalsIgnoreCase("menu"))
-//			{
-//				writer.element("input", "type", "button", "id", clientElement.getClientId() + "Button");
-//				writer.end();
-//			}
-//		}
-	}
-
-
-	/**
 	 * Tapestry render phase method. End a tag here.
 	 *
 	 * @param writer the markup writer
@@ -83,18 +62,11 @@ public class Button extends AbstractYahooComponent
 		JSONObject options = new JSONObject();
 
 		options.put("label", label);
-		options.put("id", clientElement.getClientId());
 
 		if (clientElement instanceof AbstractField)
 			options.put("disabled", ((AbstractField) clientElement).isDisabled());
 		else
 			options.put("disabled", isDisabled());
-
-//		if (type != null && type.length() > 0)
-//		{
-//			if (type.equalsIgnoreCase("menu"))
-//				options.put("menu", clientElement.getClientId() + "Button");
-//		}
 
 		configure(options);
 
