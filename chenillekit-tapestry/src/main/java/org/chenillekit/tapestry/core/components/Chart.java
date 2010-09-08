@@ -18,11 +18,15 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
+import org.apache.tapestry5.annotations.AfterRender;
+import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.json.JSONArray;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.chenillekit.tapestry.core.utils.XYDataItem;
@@ -35,7 +39,7 @@ import java.util.List;
  * @version $Id$
  */
 @SupportsInformalParameters
-@Import(library = {"../excanvas.js", "chart/flotr.debug-0.2.0-test.js"})
+@Import(library = {"../excanvas.js", "chart/flotr.debug-0.2.0-test.js", "Chart.js"})
 public class Chart implements ClientElement
 {
 	/**
@@ -58,7 +62,7 @@ public class Chart implements ClientElement
 	private JavaScriptSupport javascriptSupport;
 
 	/**
-	 * For blocks, messages, crete actionlink, trigger event.
+	 * For blocks, messages, create actionlink, trigger event.
 	 */
 	@Inject
 	private ComponentResources resources;
@@ -69,6 +73,7 @@ public class Chart implements ClientElement
 	 * Tapestry render phase method.
 	 * Initialize temporary instance variables here.
 	 */
+	@SetupRender
 	void setupRender()
 	{
 		assignedClientId = javascriptSupport.allocateClientId(clientId);
@@ -78,6 +83,7 @@ public class Chart implements ClientElement
 	 * Tapestry render phase method.
 	 * Start a tag here, end it in afterRender
 	 */
+	@BeginRender
 	void beginRender(MarkupWriter writer)
 	{
 		writer.element("div", "id", getClientId());
@@ -88,10 +94,12 @@ public class Chart implements ClientElement
 	/**
 	 * Tapestry render phase method. End a tag here.
 	 */
-	void afterRender(MarkupWriter writer)
+	@AfterRender
+	void afterRender()
 	{
+		JSONObject spec = new JSONObject();
 		JSONObject config = new JSONObject();
-		String dataArrayString = null;
+		JSONArray dataArray = null;
 
 		//
 		// Let subclasses do more.
@@ -103,39 +111,32 @@ public class Chart implements ClientElement
 		//
 		if (dataItemsList != null && dataItemsList.size() > 0)
 		{
-			dataArrayString = "[";
+			dataArray = new JSONArray();
 
-			for (int i = 0; i < dataItemsList.size(); i++)
+			for (List<XYDataItem> dataItems : dataItemsList)
 			{
-				List<XYDataItem> dataItems = dataItemsList.get(i);
-
-				String dataVarName = String.format("d%d", i);
-				javascriptSupport.addScript("var %s = %s;", dataVarName, buildDataValuesString(dataItems));
-				dataArrayString += dataVarName;
-				if (i < dataItemsList.size() - 1)
-					dataArrayString += ",";
+				JSONArray data = buildDataValues(dataItems);
+				dataArray.put(data);
 			}
-			dataArrayString += "]";
 		}
 
-		String javaScriptCall = "new Flotr.draw($('%s'), ";
 
 		//
-		// if the user dont give us some chart values we add an empty value array.
+		// if the user doesn't give us some chart values we add an empty value array.
 		//
-		if (dataArrayString != null)
-			javaScriptCall += "%s ";
+		if (dataArray != null)
+		    spec.put("data", dataArray);
 		else if (config.has("data"))
-			javaScriptCall += config.get("data") + " ";
+		    spec.put("data", config.get("data"));
 		else
-			javaScriptCall += "[[]] ";
+		    spec.put("data", new JSONArray(new JSONArray()));
 
 		if (config.has("options"))
-			javaScriptCall += ", " + config.get("options");
+		    spec.put("options", config.get("options"));
 
-		javaScriptCall += ");";
+		spec.put("element", getClientId());
 
-		javascriptSupport.addScript(javaScriptCall, getClientId(), dataArrayString);
+		javascriptSupport.addInitializerCall("ckflotrchart",spec);
 	}
 
 	/**
@@ -143,21 +144,16 @@ public class Chart implements ClientElement
 	 *
 	 * @param dataItems a list of data items
 	 *
-	 * @return data value string
+	 * @return a JSON array containing the data items
 	 */
-	private String buildDataValuesString(List<XYDataItem> dataItems)
+	private static JSONArray buildDataValues(List<XYDataItem> dataItems)
 	{
-		String dataValuesString = "[";
+		JSONArray data = new JSONArray();
 
-		for (int i = 0; i < dataItems.size(); i++)
-		{
-			XYDataItem dataItem = dataItems.get(i);
-			dataValuesString += String.format("%s", dataItem.toString());
-			if (i < dataItems.size() - 1)
-				dataValuesString += ",";
-		}
+		for (XYDataItem dataItem : dataItems)
+			data.put(new JSONArray(dataItem.getXValue(), dataItem.getYValue()));
 
-		return dataValuesString + "]";
+		return data;
 	}
 
 	/**
