@@ -22,7 +22,6 @@
     </packages>
   </test>
 
-	<!--
   <test name="Main Integration Tests" enabled="true">
     <parameter name="tapestry.web-app-folder" value="src/test/webapp1"/>
     <packages>
@@ -42,7 +41,6 @@
       <class name="org.apache.tapestry5.test.SeleniumLauncher"/>
     </classes>
   </test>
-  -->
 
   <test name="Main Integration Tests" enabled="true">
     <parameter name="tapestry.web-app-folder" value="src/test/webapp3"/>

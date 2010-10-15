@@ -61,6 +61,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.chenillekit</groupId>
+			<artifactId>chenillekit-test</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-ioc</artifactId>
 		</dependency>
