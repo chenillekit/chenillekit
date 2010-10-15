@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.core.services;
+package org.chenillekit.core.tests;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
 
 import org.chenillekit.core.ChenilleKitCoreTestModule;
+import org.chenillekit.core.services.ConfigurationService;
 import org.chenillekit.test.AbstractTestSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
