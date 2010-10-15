@@ -14,6 +14,12 @@
 
 package org.chenillekit.tapestry.core.components;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import org.apache.tapestry5.Asset;
 import org.apache.tapestry5.Binding;
 import org.apache.tapestry5.BindingConstants;
@@ -37,12 +43,6 @@ import org.apache.tapestry5.services.FieldValidatorDefaultSource;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 /**
  * A component used to collect a provided date/time from the user using a client-side JavaScript calendar. Non-JavaScript
  * clients can simply type into a text field.
@@ -50,8 +50,12 @@ import java.util.Locale;
  * @version $Id$
  */
 @Import(stylesheet = "datetimefield/datepicker.css",
-		library = {"datetimefield/datepicker.js", "../prototype-base-extensions.js",
-				"../prototype-date-extensions.js"})
+		library = {
+				"datetimefield/datepicker.js",
+				"datetimefield/datepicker_lang.js",
+				"../prototype-base-extensions.js",
+				"../prototype-date-extensions.js"
+		})
 public class DateTimeField extends AbstractField
 {
 	/**
