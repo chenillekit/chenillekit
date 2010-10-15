@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tapestry5.internal.services.RequestPathOptimizer;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.services.Request;
 
@@ -32,8 +31,6 @@ import org.chenillekit.tapestry.core.services.URIAssetAliasManager;
 public class URIAssetAliasManagerImpl implements URIAssetAliasManager
 {
     private final Request request;
-
-    private final RequestPathOptimizer optimizer;
 
     /**
      * Map from alias to path.
@@ -54,10 +51,9 @@ public class URIAssetAliasManagerImpl implements URIAssetAliasManager
      * one will be provided as necessary, so don't both.
      */
     @SuppressWarnings({"JavaDoc"})
-    public URIAssetAliasManagerImpl(Request request, RequestPathOptimizer optimizer, Map<String, String> configuration)
+    public URIAssetAliasManagerImpl(Request request, Map<String, String> configuration)
     {
         this.request = request;
-        this.optimizer = optimizer;
 
         for (Map.Entry<String, String> e : configuration.entrySet())
         {
@@ -92,9 +88,7 @@ public class URIAssetAliasManagerImpl implements URIAssetAliasManager
 
     public String toClientURL(String resourcePath)
     {
-        String path = toCompleteClientURI(resourcePath);
-
-        return optimizer.optimizePath(path);
+        return toCompleteClientURI(resourcePath);
     }
 
     private String toCompleteClientURI(String resourcePath)
