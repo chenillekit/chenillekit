@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,45 +14,30 @@
 
 Ck.InPlaceCheckbox = Class.create();
 Ck.InPlaceCheckbox.prototype = {
-    initialize: function(elementId, requestUrl, onCompleteCallback)
-    {
-        this.elementId = elementId;
-        this.requestUrl = requestUrl;
-        this.onCompleteCallback = onCompleteCallback;
+	initialize: function(elementId, requestUrl, onCompleteCallback)
+	{
+		this.element = $(elementId);
+		this.requestUrl = requestUrl;
+		this.onCompleteCallback = onCompleteCallback;
 
-        Event.observe($(this.elementId), 'click', this._click.bindAsEventListener(this));
-    },
-    _click: function(theEvent)
-    {
-        new Ajax.Request(this.reBuildURL(this.requestUrl, $(this.elementId).checked), {
-            method: 'post',
-            onFailure: function(t)
-            {
-                alert('Error communication with the server: ' + t.responseText.stripTags());
-            },
-            onException: function(t, exception)
-            {
-                alert('Error communication with the server: ' + exception.message);
-            },
-            onSuccess: function(t)
-            {
-                if (this.onCompleteCallback != "undefined")
-                    eval(this.onCompleteCallback + "('" + t.responseText + "')");
-            }.bind(this)
-        });
-    },
-    reBuildURL:function(url, checked)
-    {
-        var newUrl = "";
-        var result = url.split(/\?/);
-        for (var i = 0; i < result.length; i++)
-        {
-            if (i == 0)
-                newUrl = result[i] + "/" + checked;
-            else
-                newUrl += "?" + result[i];
-        }
+		Event.observe(this.element, 'click', this._click.bind(this));
+	},
+	_click: function()
+	{
+		var successHandler = function(t)
+		{
+			if (this.onCompleteCallback != undefined)
+				this.onCompleteCallback.call(this, t.responseText);
+		}.bind(this);
 
-        return newUrl;
-    }
-}
+		Tapestry.ajaxRequest(this.requestUrl, {
+			onSuccess : successHandler,
+			parameters : {checked : this.element.checked}
+		});
+	}
+};
+
+Tapestry.Initializer.ckinplacecheckbox = function(spec)
+{
+	new Ck.InPlaceCheckbox(spec.elementId, spec.requestUrl, spec.onCompleteCallback);
+};

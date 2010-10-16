@@ -14,6 +14,9 @@
 
 package org.chenillekit.tapestry.core.components;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -27,12 +30,10 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.apache.tapestry5.util.TextStreamResponse;
-
-import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 
 /**
@@ -41,7 +42,7 @@ import java.util.List;
  * @version $Id$
  */
 @SupportsInformalParameters
-@Import(library = {"${tapestry.scriptaculous}/controls.js"})
+@Import(library = {"${tapestry.scriptaculous}/controls.js", "InPlaceEditor.js"})
 public class InPlaceEditor implements ClientElement
 {
 	public final static String SAVE_EVENT = "save";
@@ -67,8 +68,8 @@ public class InPlaceEditor implements ClientElement
 	/**
 	 * Size of the input text tag.
 	 */
-	@Parameter(value = "20", required = false, defaultPrefix = BindingConstants.LITERAL)
-	private String size;
+	@Parameter(value = "20", required = false, defaultPrefix = BindingConstants.PROP)
+	private int size;
 
 	/**
 	 * The context for the link (optional parameter). This list of values will be converted into strings and included in
@@ -111,17 +112,26 @@ public class InPlaceEditor implements ClientElement
 
 	void afterRender(MarkupWriter writer)
 	{
+		Link link = resources.createEventLink(EventConstants.ACTION, contextArray);
+		JSONObject spec = new JSONObject();
+
 		writer.end();
 
-		Link link = resources.createEventLink(EventConstants.ACTION, contextArray);
-		javascriptSupport.addScript("new Ajax.InPlaceEditor('%s', '%s', {cancelControl: 'button', cancelText: '%s', " +
-				"clickToEditText: '%s', savingText: '%s', okText: '%s', htmlResponse: true, size: %s, stripLoadedTextTags: true});",
-									getClientId(), link.toAbsoluteURI(),
-									messages.get("cancelbutton"),
-									messages.get("title"),
-									messages.get("saving"),
-									messages.get("savebutton"),
-									size);
+		spec.put("clientId", getClientId());
+		spec.put("href", link.toURI());
+		JSONObject opts = new JSONObject();
+		opts.put("cancelControl", "button");
+		opts.put("cancelText", messages.get("cancelbutton"));
+		opts.put("clickToEditText", messages.get("title"));
+		opts.put("savingText", messages.get("saving"));
+		opts.put("okText", messages.get("savebutton"));
+		opts.put("okText", messages.get("savebutton"));
+		opts.put("htmlResponse", Boolean.TRUE);
+		opts.put("size", size);
+		opts.put("stripLoadedTextTags", Boolean.TRUE);
+		spec.put("options", opts);
+
+		javascriptSupport.addInitializerCall("ckinplaceeditor", spec);
 	}
 
 	StreamResponse onAction(String value) throws UnsupportedEncodingException

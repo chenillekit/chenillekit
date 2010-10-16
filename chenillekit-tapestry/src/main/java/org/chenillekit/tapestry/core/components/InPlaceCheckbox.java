@@ -14,6 +14,8 @@
 
 package org.chenillekit.tapestry.core.components;
 
+import java.util.List;
+
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
@@ -25,17 +27,17 @@ import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Mixin;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.RequestParameter;
 import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.corelib.mixins.DiscardBody;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.json.JSONLiteral;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
-import java.util.List;
-
 /**
- * a "just in place" checkbox component that dont must emmbedded in a form.
- * sends an event after click named "checkboxclicked".
+ * a "just in place" checkbox component that does not have to be embedded in a form.
+ * sends an event after click named "clicked".
  *
  * @version $Id$
  */
@@ -56,7 +58,7 @@ public class InPlaceCheckbox implements ClientElement
 	/**
 	 * The id used to generate a page-unique client-side identifier for the component. If a
 	 * component renders multiple times, a suffix will be appended to the to id to ensure
-	 * uniqueness. The uniqued value may be accessed via the
+	 * uniqueness. The unique value may be accessed via the
 	 * {@link #getClientId() clientId property}.
 	 */
 	@Parameter(value = "prop:componentResources.id", defaultPrefix = BindingConstants.LITERAL)
@@ -86,7 +88,7 @@ public class InPlaceCheckbox implements ClientElement
 	private DiscardBody discardBody;
 
 	/**
-	 * For blocks, messages, crete actionlink, trigger event.
+	 * For blocks, messages, create actionlink, trigger event.
 	 */
 	@Inject
 	private ComponentResources resources;
@@ -133,30 +135,27 @@ public class InPlaceCheckbox implements ClientElement
 		writer.end(); // input
 
 		Link link = resources.createEventLink(EventConstants.ACTION, contextArray);
-		String ajaxString = "new Ck.InPlaceCheckbox('%s', '%s'";
 
-		if (onCompleteCallback != null)
-			ajaxString += ",'" + onCompleteCallback + "'";
+		JSONObject spec = new JSONObject();
+		spec.put("elementId", getClientId());
+		spec.put("requestUrl", link.toURI());
 
-		ajaxString += ");";
-
-		javascriptSupport.addScript(ajaxString, getClientId(), link.toAbsoluteURI());
+ 		if (onCompleteCallback != null)
+		      spec.put("onCompleteCallback", new JSONLiteral(onCompleteCallback));
+ 
+		javascriptSupport.addInitializerCall("ckinplacecheckbox", spec);
 	}
 
-	JSONObject onAction(EventContext context)
+	JSONObject onAction(EventContext context, @RequestParameter("checked") boolean checked)
 	{
-		Object[] eventContextArray = new Object[context.getCount()];
+		Object[] eventContextArray = new Object[context.getCount()+1];
 		for (int x = 0; x < context.getCount(); x++)
-		{
-			if (x < context.getCount() - 1)
-				eventContextArray[x] = context.get(String.class, x);
-			else
-				eventContextArray[x] = context.get(Boolean.class, x);
-		}
+			eventContextArray[x] = context.get(String.class, x);
 
+		eventContextArray[context.getCount()] = checked;
 		resources.triggerEvent(EVENT_NAME, eventContextArray, null);
 
-		return new JSONObject().put("value", eventContextArray[context.getCount() - 1]);
+		return new JSONObject().put("value", checked);
 	}
 
 	/**

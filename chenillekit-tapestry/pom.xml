@@ -37,7 +37,8 @@
 
 	<scm>
 		<connection>scm:svn:http://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</connection>
-		<developerConnection>scm:svn:https://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</developerConnection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/
+		</developerConnection>
 		<url>http://svn.codehaus.org/chenillekit/trunk/${project.artifactId}/</url>
 	</scm>
 
@@ -77,6 +78,7 @@
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-test</artifactId>
+			<version>${tapestry-release-version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -89,21 +91,25 @@
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-ioc</artifactId>
+			<version>${tapestry-release-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-func</artifactId>
+			<version>${tapestry-release-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-core</artifactId>
+			<version>${tapestry-release-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-upload</artifactId>
+			<version>${tapestry-release-version}</version>
 		</dependency>
 
 		<dependency>
@@ -153,6 +159,16 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<configuration>
 					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/conf/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
 				</configuration>
 			</plugin>
 

@@ -15,6 +15,7 @@
 package org.chenillekit.tapestry.core;
 
 import org.apache.tapestry5.test.SeleniumTestCase;
+
 import org.testng.annotations.Test;
 
 /**
@@ -30,12 +31,11 @@ public class TestComponentIntegration extends SeleniumTestCase
 		openBaseURL();
 
 		clickAndWait("link=Accordion");
-		waitForPageToLoad("5000");
+		
 		click("xpath=//div[@id='accordion_toggle_1']");
 //		Thread.sleep(2000);
-
-		assertEquals(getAttribute("xpath=//div[@id='accordion_content_0']@style"), "display: none;");
-		assertEquals(getAttribute("xpath=//div[@id='accordion_content_1']@style"), "overflow: hidden;");
+		waitForCondition("selenium.browserbot.getCurrentWindow().$('accordion_content_0').style.display == 'none'", "1000");
+		waitForCondition("selenium.browserbot.getCurrentWindow().$('accordion_content_1').style.overflow == 'hidden'", "1000");
 //
 //		click("xpath=//div[@id='accordion_toggle_3']");
 //		Thread.sleep(2000);
@@ -44,12 +44,11 @@ public class TestComponentIntegration extends SeleniumTestCase
 	}
 
 	@Test
-	public void test_datetimefield() throws InterruptedException
+	public void test_datetimefield()
 	{
 		openBaseURL();
 
-		start("DateTimeField");
-		waitForPageToLoad("5000");
+		clickAndWait("link=DateTimeField");
 
 		type("xpath=//input[@id='dateTimeField1']", "10-12-2008 15:12");
 		type("xpath=//input[@id='dateTimeField2']", "11/31/2007");
@@ -61,12 +60,11 @@ public class TestComponentIntegration extends SeleniumTestCase
 	}
 
 	@Test
-	public void test_formater() throws InterruptedException
+	public void test_formater() 
 	{
 		openBaseURL();
 
-		start("Formater");
-		waitForPageToLoad("5000");
+		clickAndWait("link=Formater");
 
 		assertEquals(getText("xpath=//div[@id='test1']"), "today is 01.01.1970");
 		assertEquals(getText("xpath=//div[@id='test2']"), "01/01/1970 is an US formated date");
@@ -79,54 +77,48 @@ public class TestComponentIntegration extends SeleniumTestCase
 	}
 
 	@Test
-	public void test_contains() throws InterruptedException
+	public void test_contains()
 	{
 		openBaseURL();
 
-		start("Contains");
-		waitForPageToLoad("5000");
+		clickAndWait("link=Contains");
 
 		assertEquals(getText("xpath=//div[@id='test1']"), "list contains 'test1'");
 		assertEquals(getText("xpath=//div[@id='test4']"), "list doesnt contains 'test6'");
 	}
 
 	@Test
-	public void test_equals() throws InterruptedException
+	public void test_equals()
 	{
 		openBaseURL();
 
-		start("Equals");
-		waitForPageToLoad("5000");
+		clickAndWait("link=Equals");
 
 		assertEquals(getText("xpath=//div[@id='test2']"), "'testLeft' dont equals 'testRight'");
 		assertEquals(getText("xpath=//div[@id='test3']"), "'testLeft' dont equals 'testRight'");
 	}
 
 	@Test
-	public void test_fieldset() throws InterruptedException
+	public void test_fieldset()
 	{
 		String style;
 
 		openBaseURL();
 
-		start("FieldSet");
-		waitForPageToLoad("5000");
+		clickAndWait("link=FieldSet");
 		click("xpath=//fieldset[@id='fieldSet1']//legend");
-		Thread.sleep(2000);
-		assertEquals(getAttribute("xpath=//fieldset[@id='fieldSet1']//div[@class='ck_fieldset_content']@style"), "overflow: visible;");
+		waitForCondition("selenium.browserbot.getCurrentWindow().$('fieldSet1').select('div.ck_fieldset_content').first().readAttribute('style') == 'overflow: visible;'", "2000");
 
 		click("xpath=//fieldset[@id='fieldSet2']//legend");
-		Thread.sleep(2000);
-		assertEquals(getAttribute("xpath=//fieldset[@id='fieldSet2']//div[@class='ck_fieldset_content']@style"), "overflow: visible; display: none;");
+                waitForCondition("selenium.browserbot.getCurrentWindow().$('fieldSet2').select('div.ck_fieldset_content').first().readAttribute('style') == 'overflow: visible; display: none;'", "2000");
 	}
 
 	@Test
-	public void test_element() throws InterruptedException
+	public void test_element() 
 	{
 		openBaseURL();
 
-		start("Element");
-		waitForPageToLoad("5000");
+		clickAndWait("link=Element");
 
 		assertEquals(getText("xpath=//strong[@id='element']"), "BlaBla");
 	}
@@ -136,8 +128,7 @@ public class TestComponentIntegration extends SeleniumTestCase
 	{
 		openBaseURL();
 
-		start("Hidden");
-		waitForPageToLoad("5000");
+		clickAndWait("link=Hidden");
 
 		float floatValue = 200.12f;
 
@@ -153,36 +144,30 @@ public class TestComponentIntegration extends SeleniumTestCase
 	}
 
 	@Test
-	public void test_inplace() throws InterruptedException
+    public void test_inplace()
 	{
 		openBaseURL();
 
-		start("InPlace");
-		waitForPageToLoad("5000");
+		clickAndWait("link=InPlace");
 
 		click("xpath=//input[@id='inPlaceCheckbox']");
 //        click("xpath=//span[@id='inPlaceEditor']");
 //		Thread.sleep(1000);
 //        type("xpath=//form[@id='inPlaceEditor-inplaceeditor']//input", "BlaBla");
 //        click("xpath=//form[@id='inPlaceEditor-inplaceeditor']//input[@class='editor_ok_button']");
-		Thread.sleep(1000);
-
-		assertEquals(getText("xpath=//strong[@id='inPlaceCheckboxValue']"), "checked");
+		waitForCondition("selenium.browserbot.getCurrentWindow().$('inPlaceCheckboxValue').innerHTML == 'checked'", "2000");
 //        assertEquals(getText("xpath=//span[@id='inPlaceEditor']"), "BlaBla");
 	}
 
 	@Test
-	public void test_onevent() throws InterruptedException
+	public void test_onevent()
 	{
 		openBaseURL();
 
-		start("OnEvent");
-		waitForPageToLoad("5000");
+		clickAndWait("link=OnEvent");
 		select("xpath=//select[@id='select1']", "BLACK");
 		select("xpath=//select[@id='select1']", "GREEN");
-		Thread.sleep(2000);
-
-		assertEquals(getText("xpath=//div[@id='result1']"), "GREEN");
+		waitForCondition("selenium.browserbot.getCurrentWindow().$('result1').innerHTML == 'GREEN'", "3000");
 	}
 
 
@@ -191,8 +176,7 @@ public class TestComponentIntegration extends SeleniumTestCase
 	{
 		openBaseURL();
 
-		start("Button");
-//		waitforPageToLoad("5000");
+		clickAndWait("link=Button");
 
 		click("xpath=//button[@id='theButton']");
 
@@ -207,15 +191,15 @@ public class TestComponentIntegration extends SeleniumTestCase
 	{
 		openBaseURL();
 
-		start("ThumbNail");
-		waitForPageToLoad("5000");
+		clickAndWait("link=ThumbNail");
+
 		String iconUrl = getAttribute("xpath=//img@src");
 
 		click("xpath=//img[@id='thumbNail']");
-		assertAttribute("xpath=//img[@id='thumbNail']@src", "/assets/ctx/1.0-test/assets/images/sven.jpg");
+		assertAttribute("xpath=//img[@id='thumbNail']@src", "/assets/1.0-test/ctx/assets/images/sven.jpg");
 
 		mouseOut("xpath=//img[@id='thumbNail']");
-		assertAttribute("xpath=//img[@id='thumbNail']@src", "http://localhost:9999" + iconUrl);
+		assertAttribute("xpath=//img[@id='thumbNail']@src", getBaseURL() + iconUrl.substring(1));
 	}
 
 	@Test
@@ -223,8 +207,7 @@ public class TestComponentIntegration extends SeleniumTestCase
 	{
 		openBaseURL();
 
-		start("TabSet");
-		waitForPageToLoad("5000");
+		clickAndWait("link=TabSet");
 
 		click("xpath=//span[@id='stuff2']");
 
@@ -236,8 +219,7 @@ public class TestComponentIntegration extends SeleniumTestCase
 	{
 		openBaseURL();
 
-		start("SlideShow");
-		waitForPageToLoad("5000");
+		clickAndWait("link=SlideShow");
 
 		assertTrue(this.isVisible("xpath=//img[@class='ck-slide']"));
 	}
@@ -247,9 +229,8 @@ public class TestComponentIntegration extends SeleniumTestCase
 	{
 		openBaseURL();
 
-		start("UriAsset");
-		waitForPageToLoad("5000");
+		clickAndWait("link=UriAsset");
 
-		assertEquals(this.getAttribute("xpath=//img[@id='test1']@src"), "uri/http%3A%2F%2Fwww.heise.de%2Fct%2Fmotive%2Fimage%2F1476%2Fp800_de.jpg");
+		assertEquals(this.getAttribute("xpath=//img[@id='test1']@src"), "/uri/http%3A%2F%2Fwww.heise.de%2Fct%2Fmotive%2Fimage%2F1476%2Fp800_de.jpg");
 	}
 }
