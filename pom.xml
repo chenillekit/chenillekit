@@ -100,6 +100,11 @@
 			</snapshots>
 		</repository>
 
+		<repository>
+			<id>Tapestry at Formos</id>
+			<url>http://tapestry.formos.com/maven-repository/</url>
+		</repository>
+
 	</repositories>
 
 	<!-- we need this entry, to get the right components report library -->
