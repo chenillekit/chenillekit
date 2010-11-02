@@ -715,6 +715,17 @@
 			</reporting>
 
 		</profile>
+		
+		<profile>
+			<id>ci-codehaus</id>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>chenillekit-ci-codehaus</id>
+					<name>Snapshot repository used from Bamboo at the Haus</name>
+					<url>file:///opt/ci.repository.codehaus.org/</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
 
 	</profiles>
 
