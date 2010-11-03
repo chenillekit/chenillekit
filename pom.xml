@@ -35,7 +35,7 @@
 		A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
 		and many more ...
 	</description>
-	<inceptionYear>2008-2010</inceptionYear>
+	<inceptionYear>2008</inceptionYear>
 	<parent>
 		<groupId>org.codehaus</groupId>
 		<artifactId>codehaus-parent</artifactId>
@@ -61,7 +61,7 @@
 		<name>ChenilleKit</name>
 		<url>http://www.chenillekit.org</url>
 	</organization>
-	
+
 	<prerequisites>
 		<maven>2.2.1</maven>
 	</prerequisites>
@@ -295,8 +295,7 @@
 			<dependency>
 				<groupId>org.testng</groupId>
 				<artifactId>testng</artifactId>
-				<version>5.10</version>
-				<classifier>jdk15</classifier>
+				<version>5.13.1</version>
 			</dependency>
 
 			<dependency>
@@ -453,7 +452,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>cobertura-maven-plugin</artifactId>
-					<version>${cobertura-plugin-version}</version>
+					<version>2.3</version>
 				</plugin>
 
 				<plugin>
@@ -597,10 +596,10 @@
 						<link>http://commons.apache.org/logging/apidocs/</link>
 						<link>http://tapestry.apache.org/tapestry5/apidocs/</link>
 						<link>http://docs.jboss.org/hibernate/stable/core/api/</link>
-						<link>http://freemarker.sourceforge.net/docs/api/index.html</link>
-						<link>http://velocity.apache.org/engine/devel/apidocs/index.html</link>
-						<link>http://jasperreports.sourceforge.net/api/index.html</link>
-						<link>http://www.slf4j.org/apidocs/index.html</link>
+						<link>http://freemarker.sourceforge.net/docs/api/</link>
+						<link>http://velocity.apache.org/engine/devel/apidocs/</link>
+						<link>http://jasperreports.sourceforge.net/api/</link>
+						<link>http://www.slf4j.org/apidocs/</link>
 					</links>
 					<!--
 					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -727,7 +726,7 @@
 			</reporting>
 
 		</profile>
-		
+
 		<profile>
 			<id>ci-codehaus</id>
 			<distributionManagement>
