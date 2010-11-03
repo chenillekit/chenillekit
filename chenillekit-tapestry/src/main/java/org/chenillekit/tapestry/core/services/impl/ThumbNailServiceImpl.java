@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,7 +91,7 @@ public class ThumbNailServiceImpl implements ThumbNailService
             else
             {
                 if (logger.isDebugEnabled())
-                    logger.debug("cached thumbnail '{}'", outputFile.toURL().toExternalForm());
+                    logger.debug("cached thumbnail '{}'", outputFile.toURI().toASCIIString());
             }
 
             Resource thumbRes = new ContextResource(context, ChenilleKitCoreConstants.__THUMBNAL_DIRECTORY__ + "/" + thumbnailFileName);
