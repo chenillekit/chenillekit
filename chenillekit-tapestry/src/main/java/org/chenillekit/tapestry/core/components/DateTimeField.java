@@ -169,7 +169,7 @@ public class DateTimeField extends AbstractField
 	 */
 	final Binding defaultValue()
 	{
-		return createDefaultParameterBinding("value");
+		return defaultProvider.defaultBinding("value", resources);
 	}
 
 	/**
