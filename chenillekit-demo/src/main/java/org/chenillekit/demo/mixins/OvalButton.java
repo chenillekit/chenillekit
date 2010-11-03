@@ -17,11 +17,10 @@ package org.chenillekit.demo.mixins;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
-import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
  * @version $Id$
@@ -40,8 +39,8 @@ public class OvalButton
 	/**
 	 * RenderSupport to get unique client side id.
 	 */
-	@Environmental
-	private RenderSupport renderSupport;
+	@Inject
+	private JavaScriptSupport javaScriptSupport;
 
 	/**
 	 * set the link text.
