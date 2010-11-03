@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,21 @@ package org.chenillekit.demo.pages.tapcomp;
 
 import java.util.List;
 
-import org.apache.tapestry5.RenderSupport;
-import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.ActionLink;
-import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
+import org.apache.tapestry5.services.Request;
 
 import org.chenillekit.demo.components.LeftSideMenu;
 import org.chenillekit.demo.utils.GMapAddress;
-import org.chenillekit.tapestry.core.components.GPlotter;
 import org.chenillekit.google.services.GoogleGeoCoder;
 import org.chenillekit.google.utils.geocode.GeoCodeResult;
-import org.chenillekit.google.utils.geocode.Placemark;
 import org.chenillekit.google.utils.geocode.LatLng;
+import org.chenillekit.google.utils.geocode.Placemark;
+import org.chenillekit.tapestry.core.components.GPlotter;
 
 /**
  * @version $Id$
@@ -100,8 +99,8 @@ public class GPlotterDemo
 			{
 				selectedAddress = a_addressList;
 				geoCodeResult = geoCoder.getGeoCode(request.getLocale(), selectedAddress.getStreet(),
-						selectedAddress.getCountry(), selectedAddress.getState(), selectedAddress.getZipCode(),
-						selectedAddress.getCity());
+													selectedAddress.getCountry(), selectedAddress.getState(), selectedAddress.getZipCode(),
+													selectedAddress.getCity());
 			}
 		}
 	}
@@ -123,7 +122,8 @@ public class GPlotterDemo
 		if (geoCodeResult.getPlacemarks().size() > 0)
 		{
 			return geoCodeResult.getPlacemarks().get(0).getLatLng();
-		} else
+		}
+		else
 		{
 			return new LatLng(41.387918, 2.169929);
 		}
