@@ -52,9 +52,10 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
     private final Version version;
 
     /**
-     *
+     * 
      * @param logger
      * @param indexSource
+     * @param version
      */
     public SearcherServiceImpl(Logger logger, IndexSource indexSource, Version version)
     {
@@ -66,8 +67,11 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 
     	this.indexSearcher = indexSource.createIndexSearcher();
     }
-
-
+    
+    /*
+     * (non-Javadoc)
+     * @see org.chenillekit.lucene.services.SearcherService#search(java.lang.String, java.lang.String, java.lang.Integer)
+     */
     public List<Document> search(String fieldName, String queryString, Integer howMany)
     {
     	QueryParser parser = new QueryParser(this.version, fieldName, this.analyzer);
@@ -83,11 +87,21 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 			this.logger.error(String.format("Unable to parse the query string: '%s'", pe.getMessage()), pe);
 			throw new ChenilleKitLuceneRuntimeException(pe);
 		}
-
+		
+		return search(fieldName, query, howMany);
+    	
+	}
+    
+    /*
+     * (non-Javadoc)
+     * @see org.chenillekit.lucene.services.SearcherService#search(java.lang.String, org.apache.lucene.search.Query, java.lang.Integer)
+     */
+    public List<Document> search(String fieldName, Query query, Integer howMany)
+    {
     	ScoreDoc[] scores;
 
     	int total = howMany != null ? howMany.intValue() : MAX_SCORE_DOC;
-
+    	
     	TopScoreDocCollector collector = TopScoreDocCollector.create(total, true);
 		try
 		{
@@ -125,7 +139,8 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 		return docs;
 	}
 
-    /*
+
+	/*
      * (non-Javadoc)
      * @see org.apache.tapestry5.ioc.services.ThreadCleanupListener#threadDidCleanup()
      */

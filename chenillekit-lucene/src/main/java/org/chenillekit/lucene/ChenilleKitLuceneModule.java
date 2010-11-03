@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,9 @@ package org.chenillekit.lucene;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.lucene.util.Version;
 import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.Resource;
 import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Scope;
@@ -87,6 +85,7 @@ public class ChenilleKitLuceneModule
      *
      * @return searcher engine
      */
+    @Scope(ScopeConstants.PERTHREAD)
     public static SearcherService buildSearcherService(Logger logger, IndexSource source,
                                                        PerthreadManager threadManager,
                                                        @Inject
@@ -102,6 +101,6 @@ public class ChenilleKitLuceneModule
     
     public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration)
     {
-        configuration.add(ChenilleKitLuceneConstants.LUCENE_COMPATIBILITY_VERSION, Version.LUCENE_CURRENT.toString());
+        configuration.add(ChenilleKitLuceneConstants.LUCENE_COMPATIBILITY_VERSION, Version.LUCENE_30.toString());
     }
 }

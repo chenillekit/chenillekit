@@ -69,6 +69,8 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
                 service.addDocument(document);
             }
         }
+        
+        service.commit();
     }
 
     @Test
@@ -76,8 +78,6 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
     {
         IndexerService service = registry.getService(IndexerService.class);
         assertEquals(service.getDocCount(), repeating * docAmount);
-
-        service.commit();
     }
 
     @Test(dependsOnMethods = {"indexed_records"})
@@ -86,8 +86,8 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
         IndexerService service = registry.getService(IndexerService.class);
         service.delDocuments("id", "consp.txt_1");
         assertEquals(service.getDocCount(), (repeating * docAmount));
+        
         service.commit();
-
     }
 
     private String readFile(URL file)

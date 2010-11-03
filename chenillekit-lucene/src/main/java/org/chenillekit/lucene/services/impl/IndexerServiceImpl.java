@@ -27,7 +27,7 @@ import org.chenillekit.lucene.services.IndexerService;
 import org.slf4j.Logger;
 
 /**
- * implements indexer based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
+ * Implements indexer based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
  * @version $Id$
  */

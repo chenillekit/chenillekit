@@ -17,21 +17,21 @@ package org.chenillekit.lucene.services;
 import org.apache.lucene.document.Document;
 
 /**
- * implements indexer based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
+ * Implements indexer based on <a href="http://lucene.apache.org/java/docs/index.html">lucene</a>.
  *
  * @version $Id$
  */
 public interface IndexerService
 {
     /**
-     * add a document to the standard index.
+     * Add a document to the standard index.
      *
      * @param document
      */
     void addDocument(Document document);
 
     /**
-     * delete documents by the given field name and the query.
+     * Delete documents by the given field name and the query.
      *
      * @param field       name of the field
      * @param queryString
