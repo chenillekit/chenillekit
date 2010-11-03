@@ -19,7 +19,6 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.RenderSupport;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
@@ -112,8 +111,8 @@ abstract public class AbstractWindow implements ClientElement
 	@Environmental
 	private JavaScriptSupport javascriptSupport;
 
-	@Environmental
-	private RenderSupport renderSupport;
+	@Inject
+	private JavaScriptSupport javaScriptSupport;
 
 	@Inject
 	private ComponentResources resources;
@@ -158,7 +157,7 @@ abstract public class AbstractWindow implements ClientElement
 			cssStyleFile = className + ".css";
 
 		Asset cssAsset = assetSource.getClasspathAsset(scriptPathSymbolValue + "/" + cssStyleFile);
-		renderSupport.addStylesheetLink(cssAsset, "screen");
+		javaScriptSupport.importStylesheet(cssAsset);
 	}
 
 	/**
