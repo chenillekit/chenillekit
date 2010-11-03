@@ -14,17 +14,17 @@
 
 package org.chenillekit.access.services.impl;
 
-import java.util.Arrays;
-
+import org.apache.tapestry5.model.ComponentModel;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentSource;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.AccessValidator;
 import org.slf4j.Logger;
+
+import java.util.Arrays;
 
 /**
  * @version $Id$
@@ -61,7 +61,7 @@ public class AccessValidatorImpl implements AccessValidator
 		boolean hasAccess = true;
 
 		Component page = getPage(pageName);
-		if (page == null || !isPageRestricted(page, componentId, eventType))
+		if (page == null || !isPageRestricted(page))
 			return hasAccess;
 
 		if (logger.isDebugEnabled())
@@ -93,19 +93,11 @@ public class AccessValidatorImpl implements AccessValidator
 		return hasAccess;
 	}
 
-	private boolean isPageRestricted(Component page, String componentId, String eventType)
+	private boolean isPageRestricted(Component page)
 	{
-		String groupPageValue =
-				page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(true, null, null));
-		String rolePageValue =
-				page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getRoleMetaId(true, null, null));
-
-		String groupEventValue =
-				page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(false, componentId, eventType));
-		String roleEventValue =
-				page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getRoleMetaId(false, componentId, eventType));
-
-		return groupPageValue != null || rolePageValue != null || groupEventValue != null || roleEventValue != null;
+		ComponentModel componentModel = page.getComponentResources().getComponentModel();
+		String isRestricted = componentModel.getMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE);
+		return Boolean.parseBoolean(isRestricted);
 	}
 
 	private boolean checkForComponentEventHandlerAccess(Component page,
@@ -178,7 +170,12 @@ public class AccessValidatorImpl implements AccessValidator
 			// the user has NO access, otherwise he has (default).
 			//
 			if (!hasAccessIfNoRestrictionEventNotLoggedin && webSessionUser == null)
+			{
+				if (logger.isDebugEnabled())
+					logger.debug("No user defined just yet, but must authenticated to access page '{}'!", page.getComponentResources().getPageName());
+
 				return false;
+			}
 			else
 				return hasAccess;
 		}

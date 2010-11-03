@@ -92,6 +92,7 @@ public final class ChenilleKitAccessConstants
     /**
      * Meta data key applied to pages that may only be accessed after a succesfull login.
      */
+    public static final String RESTRICTED_PAGE = "chenillekit.access-restricted-page";
     public static final String RESTRICTED_PAGE_ROLE = "chenillekit.access-restricted-page-role"; // are these too verbose?
     public static final String RESTRICTED_PAGE_GROUP = "chenillekit.access-restricted-page-group";
     public static final String RESTRICTED_EVENT_HANDLER_PREFIX = "chenillekit.access-restricted-handler";
@@ -99,6 +100,8 @@ public final class ChenilleKitAccessConstants
     public static final String RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX = "groups";
 
     public static final String NO_GROUP_RESTRICTION = "NONE";
+
+	public static final String CHECK_LOGIN_IF_NO_GROUP_OR_NO_ROLEWEIGHT_IS_SET = "chenillekit.access-checkLogin-if-nogroup-and-noroleweight";
 
     /**
      * contribution key for password encoder.

@@ -18,18 +18,19 @@
 
 package org.chenillekit.access.services.impl;
 
-import java.lang.annotation.Annotation;
-import java.util.List;
-
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.func.Predicate;
 import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethod;
+import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
+
+import java.lang.annotation.Annotation;
+import java.util.List;
 
 /**
  * @version $Id$
@@ -193,6 +194,11 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	protected void setGroupRoleMeta(boolean metaForPage, MutableComponentModel model, String componentId, String eventType, String[] groups, int roleWeight)
 	{
 		String groupsString = ChenillekitAccessInternalUtils.getStringArrayAsString(groups);
+
+		/**
+		 * mark the page as restricted, even if the no group or role weight set.
+		 */
+		model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE, "true");
 
 		if (groupsString.trim().length() > 0)
 			model.setMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(metaForPage, componentId, eventType), groupsString);
