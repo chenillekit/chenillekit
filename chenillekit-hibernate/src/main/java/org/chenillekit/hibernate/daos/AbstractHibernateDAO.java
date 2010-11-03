@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2010 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -102,7 +102,7 @@ public abstract class AbstractHibernateDAO<T, ID extends Serializable> implement
         if (id == null) throw new IllegalArgumentException("Parameter id was null!");
 
         if (lock)
-            entity = (T) session.load(getPersistentClass(), id, LockMode.UPGRADE);
+            entity = (T) session.load(getPersistentClass(), id, LockOptions.UPGRADE);
         else
             entity = (T) session.load(getPersistentClass(), id);
 
