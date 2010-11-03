@@ -14,6 +14,20 @@
 
 package org.chenillekit.reports.services.impl;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.tapestry5.ioc.Resource;
+
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -33,22 +47,9 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
-import org.apache.tapestry5.ioc.Resource;
 import org.chenillekit.reports.services.ReportsService;
 import org.chenillekit.reports.utils.ExportFormat;
 import org.slf4j.Logger;
-
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * reporting tool that has the ability to deliver rich content to the screen or printer or into PDF, HTML, XLS, CSV and XML files
@@ -327,7 +328,7 @@ public class ReportsServiceImpl implements ReportsService
 			if (sourceMustCompile)
 			{
 				if (logger.isDebugEnabled())
-					logger.debug("compiling jasper template {} ...", sourceFile.toURL());
+					logger.debug("compiling jasper template {} ...", sourceFile.toURI().toURL());
 
 				long startCompile = System.currentTimeMillis();
 
