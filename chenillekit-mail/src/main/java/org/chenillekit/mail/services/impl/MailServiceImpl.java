@@ -29,7 +29,9 @@ import org.slf4j.Logger;
 
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.internet.MimeUtility;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 /**
  * simple SMTP tool for sending emails based on <a href="http://jakarta.apache.org/commons/email">commons-email</a>.
@@ -125,7 +127,14 @@ public class MailServiceImpl implements MailService<Email>
 	{
 		email.setFrom(headers.getFrom());
 
-		email.setSubject(headers.getSubject());
+		try
+		{
+			email.setSubject(MimeUtility.encodeText(headers.getSubject(), headers.getCharset(), null));
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new RuntimeException(e);
+		}
 
 		for (String to : headers.getTo())
 		{
@@ -318,7 +327,14 @@ public class MailServiceImpl implements MailService<Email>
 			setMailMessageHeaders(email, headers);
 
 			email.setCharset(headers.getCharset());
-			email.setMsg(body);
+			try
+			{
+				email.setMsg(new String(body.getBytes(), headers.getCharset()));
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				throw new RuntimeException(e);
+			}
 
 			String msgId = email.send();
 
