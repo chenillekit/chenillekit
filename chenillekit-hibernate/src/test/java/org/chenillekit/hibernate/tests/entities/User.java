@@ -14,10 +14,11 @@
 
 package org.chenillekit.hibernate.tests.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.apache.tapestry5.beaneditor.Validate;
+import org.chenillekit.hibernate.entities.Audit;
+import org.chenillekit.hibernate.entities.Auditable;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -27,16 +28,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.apache.tapestry5.beaneditor.Validate;
-
-import org.hibernate.annotations.Cascade;
-
-import org.chenillekit.hibernate.entities.Audit;
-import org.chenillekit.hibernate.entities.Auditable;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @version $Id$
@@ -73,14 +71,13 @@ public class User implements Serializable, Auditable
 	@Column(name = "properties", length = 0)
 	private byte[] properties;
 
-	@ManyToOne(targetEntity = Address.class)
-	@Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE,
-			org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	@OneToOne(targetEntity = Address.class, orphanRemoval = true)
+	@Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@JoinColumn(name = "id_address", nullable = false, columnDefinition = "BIGINT")
 	private Address address;
 
-	@OneToMany(mappedBy = "user")
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	@OneToMany(mappedBy = "user", orphanRemoval = true)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private List<Pseudonym> pseudonyms = new ArrayList<Pseudonym>();
 
 	@Embedded
