@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Apache License
+  ~ Version 2.0, January 2004
+  ~ http://www.apache.org/licenses/
+  ~
+  ~ Copyright 2008 by chenillekit.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+
+<document>
+
+    <properties>
+        <title>IndexSource service</title>
+    </properties>
+
+
+    <body>
+
+        <section name="IndexSource Service">
+            <subsection name="contribute the service">
+            	<p>
+            		This service is responsabile to be the primary, and most inner,
+            		interface with the Lucene's index'
+            	</p>
+            	<p>
+            		Contribution to customize some aspects of Lucene.
+            	</p>
+                <source>
+                    <![CDATA[
+public static void contributeIndexSource(ClassFactory classFactory, OrderedConfiguration<URL> configuration)
+{
+	URL config = ChenilleKitLuceneTestModule.class.getResource("/lucene.properties");
+	configuration.add("DefaultChenilleKitLuceneConfig", config);
+}
+]]>
+                </source>
+
+            </subsection>
+
+            <subsection name="configure the service">
+                <p>
+                    content of sample lucene.properties
+                </p>
+                <source>
+                    <![CDATA[
+# folder, where lucene should store its index files
+search.index.folder = ./target/lucene
+
+# true = create the index or overwrite the existing one
+# false = append to the existing index
+search.overwrite.index.folder = true
+
+# set our compatibility version
+ck.lucene.compatibility.version = LUCENE_30
+
+# max legth for each search field.
+search.max.field.length = 250000
+
+# optimize the disk loacated index files, after ram index writer closed.
+optimize.after.ramwriter.closed = false
+
+# if true, enable the lucene log output
+enable.lucene.log.output = true
+]]>
+                </source>
+
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>

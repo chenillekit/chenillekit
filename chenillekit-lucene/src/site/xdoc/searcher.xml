@@ -22,43 +22,16 @@
 
     <properties>
         <title>SearcherService</title>
-        <author email="homburgs@gmail.com"/>
     </properties>
 
 
     <body>
 
         <section name="Searcher Service">
-            <subsection name="contribute the service">
-                <source>
-                    <![CDATA[
-public static void contributeSearcherService(ClassFactory classFactory,
-                                            MappedConfiguration<String, Resource> configuration)
-{
-    Resource cpResource = new ClasspathResource(classFactory.getClassLoader(), "lucene.properties");
-    configuration.add(IndexerService.CONFIG_KEY_PROPERTIES, cpResource);
-}
-]]>
-                </source>
-
-            </subsection>
-
-            <subsection name="configure the service">
-                <p>
-                    content of sample lucene.properties
-                </p>
-                <source>
-                    <![CDATA[
-# folder, where lucene should store its index files
-search.index.folder = ./target/lucene
-
-# set the yout favourity stop word analyzer
-# if not set, org.apache.lucene.analysis.standard.StandardAnalyzer is used
-search.analyzer.class.name = org.apache.lucene.analysis.de.GermanAnalyzer
-]]>
-                </source>
-
-            </subsection>
+            
+            <p>
+        		No configuration is needed for this service...
+        	</p>
 
             <subsection name="using the service">
 
