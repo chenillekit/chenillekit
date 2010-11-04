@@ -175,6 +175,7 @@
 		</plugins>
 	</build>
 
+	<!--
 	<reporting>
 		<plugins>
 
@@ -184,12 +185,12 @@
 				<version>${tapestry-release-version}</version>
 				<configuration>
 					<rootPackage>org.chenillekit.tapestry.core</rootPackage>
-					<!--<apidocs>../apidocs</apidocs>-->
 				</configuration>
 			</plugin>
 
 		</plugins>
 	</reporting>
+	-->
 
 	<profiles>
 		<profile>
