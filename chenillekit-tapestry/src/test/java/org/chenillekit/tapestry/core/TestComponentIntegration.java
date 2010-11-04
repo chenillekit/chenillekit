@@ -15,7 +15,6 @@
 package org.chenillekit.tapestry.core;
 
 import org.apache.tapestry5.test.SeleniumTestCase;
-
 import org.testng.annotations.Test;
 
 /**
@@ -33,14 +32,8 @@ public class TestComponentIntegration extends SeleniumTestCase
 		clickAndWait("link=Accordion");
 		
 		click("xpath=//div[@id='accordion_toggle_1']");
-//		Thread.sleep(2000);
 		waitForCondition("selenium.browserbot.getCurrentWindow().$('accordion_content_0').style.display == 'none'", "1000");
 		waitForCondition("selenium.browserbot.getCurrentWindow().$('accordion_content_1').style.overflow == 'hidden'", "1000");
-//
-//		click("xpath=//div[@id='accordion_toggle_3']");
-//		Thread.sleep(2000);
-//		assertEquals(getAttribute("xpath=//div[@id='accordion_content_3']@style"), "overflow: hidden;");
-//		assertEquals(getAttribute("xpath=//div[@id='accordion_content_1']@style"), "overflow: hidden; display: none;");
 	}
 
 	@Test
@@ -101,8 +94,6 @@ public class TestComponentIntegration extends SeleniumTestCase
 	@Test
 	public void test_fieldset()
 	{
-		String style;
-
 		openBaseURL();
 
 		clickAndWait("link=FieldSet");
@@ -129,8 +120,6 @@ public class TestComponentIntegration extends SeleniumTestCase
 		openBaseURL();
 
 		clickAndWait("link=Hidden");
-
-		float floatValue = 200.12f;
 
 		this.runScript("$(hidden1).value = 'BlaBla';");
 		this.runScript("$(hidden2).value = '200';");
@@ -167,7 +156,7 @@ public class TestComponentIntegration extends SeleniumTestCase
 		clickAndWait("link=OnEvent");
 		select("xpath=//select[@id='select1']", "BLACK");
 		select("xpath=//select[@id='select1']", "GREEN");
-		waitForCondition("selenium.browserbot.getCurrentWindow().$('result1').innerHTML == 'GREEN'", "3000");
+		waitForCondition("selenium.browserbot.getCurrentWindow().$('result1').innerHTML == 'GREEN'", "30000");
 	}
 
 
@@ -231,6 +220,6 @@ public class TestComponentIntegration extends SeleniumTestCase
 
 		clickAndWait("link=UriAsset");
 
-		assertEquals(this.getAttribute("xpath=//img[@id='test1']@src"), "/uri/http%3A%2F%2Fwww.heise.de%2Fct%2Fmotive%2Fimage%2F1476%2Fp800_de.jpg");
+		assertEquals(this.getAttribute("xpath=//img[@id='test1']@src"), "/uri/http%3A%2F%2Fwww.heise.de%2Fct%2Fmotive%2Fimage%2F1476%2Fp800_en.jpg");
 	}
 }
