@@ -1,3 +1,17 @@
+/*
+ * Apache License
+ * Version 2.0, January 2004
+ * http://www.apache.org/licenses/
+ *
+ * Copyright 2008-2010 by chenillekit.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 //Flotr 0.2.0-test Copyright (c) 2009 Bas Wenneker, <http://solutoire.com>, MIT License.
 /* $Id$ */
 
@@ -875,7 +889,7 @@ Flotr.Graph = Class.create({
     
 		if(o.max == null && margin != 0){
 			max += axis.tickSize * margin;
-			if(max > 0 && axis.datamax <= 0) max = 0;				
+			if(max > 0 && axis.datamax <= 0 && axis.datamax != axis.datamin) max = 0;				
 			max = axis.tickSize * Math.ceil(max / axis.tickSize);
 		}
 		axis.min = min;
