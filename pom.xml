@@ -29,7 +29,7 @@
 	<groupId>org.chenillekit</groupId>
 	<artifactId>chenillekit-project</artifactId>
 	<packaging>pom</packaging>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.3.0</version>
 	<name>ChenilleKit Project</name>
 	<description>
 		A collection of sophisticated Ajax-enabled components based on the prototype/script.aculo.us JavaScript library
@@ -138,6 +138,10 @@
 			<!-- dav:https://dav.codehaus.org/repository/chenillekit/ -->
 			<url>dav:https://nexus.codehaus.org/service/local/staging/deploy/maven2/</url>
 		</repository>
+		<!--
+		     This is not used now, we prefer to use ci.repository.codehaus.org where we
+		     deploy from bamboo.ci.codehaus.org automagically
+		-->
 		<snapshotRepository>
 			<id>codehaus-nexus-snapshots</id>
 			<name>ChenilleKit Central Development Reposiroty</name>
@@ -544,6 +548,11 @@
 				</configuration>
 			</plugin>
 
+			<!--
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			+ prepare and perform a release
+			++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -615,7 +624,8 @@
 					+ extra css config, because maven forgett it, if not used the "default-site.vm"
 					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 					-->
-					<stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css</stylesheetfile>
+					<!-- <stylesheetfile>${project.parent.basedir}/src/site/resources/css/jdstyle.css</stylesheetfile> -->
+					<stylesheetfile>src/site/resources/css/jdstyle.css</stylesheetfile>
 					<aggregate>true</aggregate>
 				</configuration>
 				<reportSets>
@@ -636,14 +646,31 @@
 			<id>release</id>
 			<activation>
 				<property>
-					<name>release</name>
+					<name>performRelease</name>
 					<value>true</value>
 				</property>
 			</activation>
 
 			<build>
 				<plugins>
-
+					<!--
+					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					+ sign a release
+					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					-->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 					<!--
 					++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 					+ attach all javadocs
@@ -658,7 +685,7 @@
 								<goals>
 									<goal>aggregate-jar</goal>
 								</goals>
-								<phase>site</phase>
+								<!-- <phase>site</phase> -->
 							</execution>
 						</executions>
 					</plugin>

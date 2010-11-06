@@ -26,7 +26,7 @@
 	<parent>
 		<groupId>org.chenillekit</groupId>
 		<artifactId>chenillekit-project</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+		<version>1.3.0</version>
 	</parent>
 
 	<name>Chenillekit Template</name>
