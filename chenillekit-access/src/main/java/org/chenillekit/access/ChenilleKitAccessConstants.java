@@ -101,8 +101,6 @@ public final class ChenilleKitAccessConstants
 
     public static final String NO_GROUP_RESTRICTION = "NONE";
 
-	public static final String CHECK_LOGIN_IF_NO_GROUP_OR_NO_ROLEWEIGHT_IS_SET = "chenillekit.access-checkLogin-if-nogroup-and-noroleweight";
-
     /**
      * contribution key for password encoder.
      */

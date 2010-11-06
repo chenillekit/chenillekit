@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
  * @version $Id$
  */
 @Test
-public class AccessIntegration extends SeleniumTestCase
+public class AccessIntegration1 extends SeleniumTestCase
 {
     public void base_url_text_present() throws Exception
     {

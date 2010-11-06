@@ -23,11 +23,13 @@ import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 
 import org.chenillekit.access.WebSessionUser;
+import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.services.AuthenticationService;
 
 /**
  * @version $Id: Start.java 686 2010-08-04 15:42:29Z mlusetti $
  */
+@Restricted
 public class Start
 {
 	@Inject @Local @SuppressWarnings("unused")

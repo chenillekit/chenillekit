@@ -12,38 +12,44 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.access.integration.app2;
+package org.chenillekit.access.integration.app3;
 
 import org.apache.tapestry5.test.SeleniumTestCase;
+
 import org.testng.annotations.Test;
 
 /**
- * @version $Id$
+ * @version $Id: AccessIntegration.java 685 2010-08-03 16:54:50Z homburgs $
  */
 @Test
-public class AccessIntegration extends SeleniumTestCase
+public class AccessIntegration3 extends SeleniumTestCase
 {
-	public void restricted_not_logged_in() throws Exception
+	public void root_restricted() throws Exception
 	{
 		openBaseURL();
-		clickAndWait("link=Restricted");
+		
 		assertTextPresent("Login Page");
+		
+		loginAs("root", "banane");
+		
+		clickAndWait("link=Restricted");
+		
+		assertTextPresent("Has Access");
+		
+		logout();
+		
+		assertTextPresent("User logged in: NO");
 	}
 
-	public void restricted_but_logged_in() throws Exception
+	private void loginAs(String userName, String password)
 	{
-		openBaseURL();
-
-		clickAndWait("link=Restricted");
-
-		assertTextPresent("Login Page");
-
-		type("chenillekitUsername", "root");
-		type("chenillekitPassword", "banane");
+		type("chenillekitUsername", userName);
+		type("chenillekitPassword", password);
 		clickAndWait("//input[@id='chenillekitLoginSubmit']");
+	}
 
-		assertTextPresent("start page");
-
+	private void logout()
+	{
 		openBaseURL();
 
 		clickAndWait("link=Logout");
