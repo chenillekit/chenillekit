@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 /**
  * @version $Id$
  */
-//@Test
+@Test
 public class AccessIntegration1 extends SeleniumTestCase
 {
     public void base_url_text_present() throws Exception
@@ -358,7 +358,6 @@ public class AccessIntegration1 extends SeleniumTestCase
 		assertTextPresent("User logged in: NO");
 	}
 	
-	@Test
 	public void secure_rescricted() throws Exception
 	{
 		openBaseURL();
