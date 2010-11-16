@@ -33,7 +33,9 @@ import javax.sql.DataSource;
 
 /**
  * @version $Id$
+ * @deprecated to be removed in future release (soon)
  */
+@Deprecated
 public class ConfigurationServiceImpl implements ConfigurationService
 {
     /**

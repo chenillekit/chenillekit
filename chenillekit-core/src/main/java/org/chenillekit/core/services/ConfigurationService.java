@@ -22,7 +22,9 @@ import org.apache.tapestry5.ioc.Resource;
 
 /**
  * @version $Id$
+ * @deprecated to be removed in future release (soon)
  */
+@Deprecated
 public interface ConfigurationService
 {
     /**
