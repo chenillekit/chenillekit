@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 /**
  * @version $Id$
  */
-@Test
+//@Test
 public class AccessIntegration1 extends SeleniumTestCase
 {
     public void base_url_text_present() throws Exception
@@ -357,4 +357,30 @@ public class AccessIntegration1 extends SeleniumTestCase
 
 		assertTextPresent("User logged in: NO");
 	}
+	
+	@Test
+	public void secure_rescricted() throws Exception
+	{
+		openBaseURL();
+
+		clickAndWait("link=SecureRestricted");
+
+		assertTextPresent("Login Page");
+
+		type("chenillekitUsername", "root");
+		type("chenillekitPassword", "banane");
+
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
+
+		assertTextPresent("This page is Secure");
+		
+		openBaseURL();
+
+		clickAndWait("link=Logout");
+
+		assertTextPresent("Logout Page");
+
+		assertTextPresent("User logged in: NO");
+	}
+
 }
