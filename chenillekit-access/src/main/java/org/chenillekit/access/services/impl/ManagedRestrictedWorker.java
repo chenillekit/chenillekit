@@ -73,18 +73,23 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 			logger.debug("searching permission for component {}", pagename);
 
 		ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(pagename);
+		String[] groups = {};
+		int roleWeight = 0;
 
 		/**
 		 * there is no protection rule for that component
 		 */
-		if (protectionRule == null)
-			return;
+		if (protectionRule != null)
+		{
+			groups = protectionRule.getGroups();
+			roleWeight = protectionRule.getRoleWeight();
+		}
 
 		if (logger.isDebugEnabled())
-			logger.debug("found permission groups {} for component {}", protectionRule.getGroups(), pagename);
+			logger.debug("found permission groups {} for component {}", groups, pagename);
 
 
-		setGroupRoleMeta(true, model, null, null, protectionRule.getGroups(), protectionRule.getRoleWeight());
+		setGroupRoleMeta(true, model, null, null, groups, roleWeight);
 	}
 
 	/**
@@ -116,19 +121,25 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 			if (logger.isDebugEnabled())
 				logger.debug("searching permissions for event {}", builder.toString());
 
+
 			ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(builder.toString());
+			String[] groups = {};
+			int roleWeight = 0;
 
 			/**
 			 * there is no protection rule for that component
 			 */
-			if (protectionRule == null)
-				continue;
+			if (protectionRule != null)
+			{
+				groups = protectionRule.getGroups();
+				roleWeight = protectionRule.getRoleWeight();
+			}
 
 			if (logger.isDebugEnabled())
 				logger.debug("found permission groups {} for event {}",
-							 Arrays.toString(protectionRule.getGroups()), builder.toString());
+							 Arrays.toString(groups), builder.toString());
 
-			setGroupRoleMeta(false, model, componentId, eventType, protectionRule.getGroups(), protectionRule.getRoleWeight());
+			setGroupRoleMeta(false, model, componentId, eventType, groups, roleWeight);
 		}
 	}
 }
