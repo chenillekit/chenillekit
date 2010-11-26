@@ -14,17 +14,19 @@
 
 package org.chenillekit.access.services.impl;
 
+import java.util.Arrays;
+
 import org.apache.tapestry5.model.ComponentModel;
 import org.apache.tapestry5.runtime.Component;
 import org.apache.tapestry5.services.ApplicationStateManager;
+import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.ComponentSource;
+import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.AccessValidator;
 import org.slf4j.Logger;
-
-import java.util.Arrays;
 
 /**
  * @version $Id$
@@ -34,29 +36,49 @@ public class AccessValidatorImpl implements AccessValidator
 	private final ComponentSource componentSource;
 	private final Logger logger;
 	private final ApplicationStateManager manager;
-	private final boolean hasAccessIfNoRestrictionEventNotLoggedin;
 
 	public AccessValidatorImpl(Logger logger,
 							   ComponentSource componentSource,
-							   ApplicationStateManager manager,
-							   boolean hasAccessIfNoRestrictionEventNotLoggedin)
+							   ApplicationStateManager manager)
 	{
 		this.componentSource = componentSource;
 		this.logger = logger;
 		this.manager = manager;
-		this.hasAccessIfNoRestrictionEventNotLoggedin = hasAccessIfNoRestrictionEventNotLoggedin;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.chenillekit.access.services.AccessValidator#hasAccessToPageRender(org.apache.tapestry5.services.PageRenderRequestParameters)
+	 */
+	public boolean hasAccessToPageRender(PageRenderRequestParameters renderParameters)
+	{
+		String pageName = renderParameters.getLogicalPageName();
+		
+		logger.debug(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS, "check access for rendering page: {}", new Object[]{pageName});
+		
+		Component page = getPage(pageName);
+		
+		if (page == null || !isPageRestricted(page))
+			return true;
+		
+		return checkForPageAccess(page);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.chenillekit.access.services.AccessValidator#hasAccessToComponentEvent(org.apache.tapestry5.services.ComponentEventRequestParameters)
+	 */
+	public boolean hasAccessToComponentEvent(ComponentEventRequestParameters eventParameters)
+	{
+		// I should just change this to not replicate the behavior of the hasAccessToPageRender method
+		return hasAccess(eventParameters.getActivePageName(), eventParameters.getNestedComponentId(), eventParameters.getEventType());
 	}
 
-
-	/**
-	 * We check for page/component and event type access rights.
-	 * <p/>
-	 * first we check the access rights for the requested page,
-	 * if access granted, we step down to the next level, the components.
-	 *
-	 * @see org.chenillekit.access.services.AccessValidator#hasAccess(java.lang.String, java.lang.String, java.lang.String)
+	/*
+	 * Actually check access to specific resource
 	 */
-	public boolean hasAccess(String pageName, String componentId, String eventType)
+	@Deprecated
+	private boolean hasAccess(String pageName, String componentId, String eventType)
 	{
 		boolean hasAccess = true;
 
@@ -93,6 +115,9 @@ public class AccessValidatorImpl implements AccessValidator
 		return hasAccess;
 	}
 
+	/*
+	 * Check if the page as some kind of restriction
+	 */
 	private boolean isPageRestricted(Component page)
 	{
 		ComponentModel componentModel = page.getComponentResources().getComponentModel();
@@ -100,8 +125,10 @@ public class AccessValidatorImpl implements AccessValidator
 		return Boolean.parseBoolean(isRestricted);
 	}
 
-	private boolean checkForComponentEventHandlerAccess(Component page,
-														String componentId, String eventType)
+	/*
+	 * 
+	 */
+	private boolean checkForComponentEventHandlerAccess(Component page, String componentId, String eventType)
 	{
 		boolean hasAccess = true;
 		if (componentId != null && eventType != null)
@@ -121,7 +148,7 @@ public class AccessValidatorImpl implements AccessValidator
 				logger.debug("user needs group(s) {} and roleWeight {} for accessing {}/{}/{}",
 							 new String[]{groups, role, page.getComponentResources().getPageName(), componentId, eventType});
 
-			hasAccess = hasAccess(groups, Integer.parseInt(role), page);
+			hasAccess = enoughRights(groups, Integer.parseInt(role), page);
 		}
 
 		return hasAccess;
@@ -150,36 +177,16 @@ public class AccessValidatorImpl implements AccessValidator
 			logger.debug("user needs group(s) {} and roleWeight {} for accessing {}",
 						 new String[]{groups, role, page.getComponentResources().getPageName()});
 
-		return hasAccess(groups, Integer.parseInt(role), page);
+		return enoughRights(groups, Integer.parseInt(role), page);
 	}
 
-	private boolean hasAccess(String groups, Integer role, Component page)
+	private boolean enoughRights(String groups, Integer role, Component page)
 	{
-		boolean hasAccess = true;
 		boolean hasGroup = true;
 		boolean hasRole = true;
+		
 		WebSessionUser<?> webSessionUser = manager.getIfExists(WebSessionUser.class);
-
-		//
-		// if the the page/event/action is restricted, but has no group and role parameters ...
-		//
-		if (groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION) && role.equals(Integer.valueOf(0)))
-		{
-			//
-			// if the hasAccessIfNoRestrictionEventNotLoggedin is set to false and the user is NOT logged in,
-			// the user has NO access, otherwise he has (default).
-			//
-			if (!hasAccessIfNoRestrictionEventNotLoggedin && webSessionUser == null)
-			{
-				if (logger.isDebugEnabled())
-					logger.debug("No user defined just yet, but must authenticated to access page '{}'!", page.getComponentResources().getPageName());
-
-				return false;
-			}
-			else
-				return hasAccess;
-		}
-
+		
 		//
 		// if the user NOT logged in, he has no access.
 		//
@@ -228,7 +235,6 @@ public class AccessValidatorImpl implements AccessValidator
 	{
 		Component component = null;
 
-		// This should be unnecessary...
 		boolean found = false;
 		while (!found)
 		{

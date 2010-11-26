@@ -14,6 +14,8 @@
 
 package org.chenillekit.access.services.impl;
 
+import java.io.IOException;
+
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.internal.EmptyEventContext;
@@ -28,8 +30,6 @@ import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AccessValidator;
 import org.chenillekit.access.services.RedirectService;
 import org.slf4j.Logger;
-
-import java.io.IOException;
 
 /**
  * It the main responsable for checking every incoming request, beeing for a
@@ -103,8 +103,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	{
 		boolean isUserLoggedIn = stateManager.exists(WebSessionUser.class);
 
-		if (accessValidator.hasAccess(parameters.getActivePageName(),
-				parameters.getNestedComponentId(), parameters.getEventType()))
+		if (accessValidator.hasAccessToComponentEvent(parameters))
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("User can access event '{}' on page '{}'", parameters.getEventType(), parameters.getActivePageName());
@@ -147,7 +146,7 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 	public void handlePageRender(PageRenderRequestParameters parameters,
 								 ComponentRequestHandler handler) throws IOException
 	{
-		if (accessValidator.hasAccess(parameters.getLogicalPageName(), null, null))
+		if (accessValidator.hasAccessToPageRender(parameters))
 		{
 			handler.handlePageRender(parameters);
 		}

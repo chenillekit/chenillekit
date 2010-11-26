@@ -194,7 +194,8 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	protected void setGroupRoleMeta(boolean metaForPage, MutableComponentModel model, String componentId, String eventType, String[] groups, int roleWeight)
 	{
 		// mark the page as restricted, even if the no group or role weight set.
-		model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE, Boolean.TRUE.toString());
+		if (metaForPage)
+			model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE, Boolean.TRUE.toString());
 		
 		String groupsString = ChenillekitAccessInternalUtils.getStringArrayAsString(groups);
 

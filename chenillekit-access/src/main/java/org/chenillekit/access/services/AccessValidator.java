@@ -13,22 +13,32 @@
  */
 package org.chenillekit.access.services;
 
+import org.apache.tapestry5.services.ComponentEventRequestParameters;
+import org.apache.tapestry5.services.PageRenderRequestParameters;
+
 /**
  *
  * @version $Id$
  *
  */
 public interface AccessValidator
-{
+{	
 	/**
-	 * Check the rights of the user for the page requested
-	 *
-	 * @param pageName    name of the page
-	 * @param componentId component id (not used yet)
-	 * @param eventType   event type (not used yet)
-	 *
-	 * @return if true then leave the chain
+	 * Check the rights of the user to render the requested page instance.
+	 * 
+	 * @param renderParameters the {@link PageRenderRequestParameters} requested
+	 * @return <code>true</code> where the user has enough rights or the page
+	 * isn't restricted, <code>false</code> otherwise
 	 */
-	public boolean hasAccess(String pageName, String componentId, String eventType);
+	public boolean hasAccessToPageRender(PageRenderRequestParameters renderParameters);
+	
+	/**
+	 * Check the rights of the user to execute/fire the corresponding event on components.
+	 * 
+	 * @param eventParameters the {@link ComponentEventRequestParameters} requested
+	 * @return <code>true</code> where the user has enough rights or the event isn't
+	 * restricted, <code>false</code> otherwise.
+	 */
+	public boolean hasAccessToComponentEvent(ComponentEventRequestParameters eventParameters);
 
 }

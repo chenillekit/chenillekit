@@ -149,7 +149,7 @@ public class ChenilleKitAccessModule
 			OrderedConfiguration<ComponentClassTransformWorker> configuration)
 	{
 		configuration.addInstance("Restricted", RestrictedWorker.class, "after:Secure");
-		configuration.addInstance("ManagedRestricted", ManagedRestrictedWorker.class, "after:Secure");
+		configuration.addInstance("ManagedRestricted", ManagedRestrictedWorker.class, "after:Restricted");
 	}
 
 	/**
@@ -172,10 +172,9 @@ public class ChenilleKitAccessModule
 	@Marker(ChenilleKitAccess.class)
 	public static AccessValidator buildAccessValidator(ComponentSource componentSource,
 													   Logger logger,
-													   ApplicationStateManager manager,
-													   @Symbol(ChenilleKitAccessConstants.HAS_ACCESS_IF_NORESTRICTION_EVEN_NOT_LOGGEDIN) boolean hasAccessIfNoRestrictionEventNotLoggedin)
+													   ApplicationStateManager manager)
 	{
-		return new AccessValidatorImpl(logger, componentSource, manager, hasAccessIfNoRestrictionEventNotLoggedin);
+		return new AccessValidatorImpl(logger, componentSource, manager);
 	}
 
 	/**
@@ -199,8 +198,6 @@ public class ChenilleKitAccessModule
 	 */
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration)
 	{
-		configuration.add(ChenilleKitAccessConstants.ACCESS_DENIED_ACTION, ChenilleKitAccessConstants.JUMP_TO_LOGIN_PAGE);
-
 		Properties prop = new Properties();
 		try
 		{

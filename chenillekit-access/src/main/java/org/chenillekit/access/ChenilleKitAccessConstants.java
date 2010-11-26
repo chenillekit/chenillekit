@@ -62,11 +62,6 @@ public final class ChenilleKitAccessConstants
     public static final String LOGIN_SUCCESSFUL_COOKIE_NAME_KO = "KO";
 
     /**
-     *
-     */
-    public static final String WEB_USER_AUTH_SERVICE = "webuser.authservice";
-
-    /**
      * The logical name of the login page
      */
     public static final String LOGIN_PAGE = "chenillekit.access-login-page";
@@ -77,17 +72,12 @@ public final class ChenilleKitAccessConstants
     public static final String FALLBACK_PAGE = "chenillekit.access-fallback-page";
 
     /**
-     * The logical name of the fallback page
-     */
-    public static final String HAS_ACCESS_IF_NORESTRICTION_EVEN_NOT_LOGGEDIN = "chenillekit.access-has-access-if-no-restriction-even-not-loggedin";
-
-    /**
      * wich action should execute if user have no access rights.
      */
     public static final String ACCESS_DENIED_ACTION = "chenillekit.access-denied-action";
-    public static final String JUMP_TO_LOGIN_PAGE = "chenillekit.jump-to-login-page";
-    public static final String SEND_ERROR_401 = "chenillekit.send-error-401";
-    public static final String TRIGGER_EVENT = "chenillekit.trigger-event";
+    public static final String JUMP_TO_LOGIN_PAGE = "chenillekit.access-jump-to-login-page";
+    public static final String SEND_ERROR_401 = "chenillekit.access-send-error-401";
+    public static final String TRIGGER_EVENT = "chenillekit.access-trigger-event";
 
     /**
      * Meta data key applied to pages that may only be accessed after a succesfull login.

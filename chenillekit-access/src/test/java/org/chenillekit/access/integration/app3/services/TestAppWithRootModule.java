@@ -19,7 +19,6 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.services.ApplicationStateManager;
-
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.ChenilleKitAccessModule;
 import org.chenillekit.access.integration.app1.services.impl.UserAuthServiceImpl;
@@ -48,7 +47,6 @@ public class TestAppWithRootModule
 		configuration.add(ChenilleKitAccessConstants.LOGIN_PAGE, "login");
 		configuration.add(ChenilleKitAccessConstants.FALLBACK_PAGE, "start");
 		configuration.add(ChenilleKitAccessConstants.ACCESS_DENIED_ACTION, ChenilleKitAccessConstants.JUMP_TO_LOGIN_PAGE);
-		configuration.add(ChenilleKitAccessConstants.HAS_ACCESS_IF_NORESTRICTION_EVEN_NOT_LOGGEDIN, "false");
 		configuration.add(ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE, "-1");
 		configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
 	}
