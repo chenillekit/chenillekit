@@ -28,5 +28,7 @@
 
 <p><t:pagelink t:page="Start">Back to start</t:pagelink></p>
 
+<p>User already logged in as: ${userLoggedIn}</p>
+
 </body>
 </html>

@@ -70,31 +70,28 @@ public class AccessValidatorImpl implements AccessValidator
 	 */
 	public boolean hasAccessToComponentEvent(ComponentEventRequestParameters eventParameters)
 	{
-		// I should just change this to not replicate the behavior of the hasAccessToPageRender method
-		return hasAccess(eventParameters.getActivePageName(), eventParameters.getNestedComponentId(), eventParameters.getEventType());
-	}
-
-	/*
-	 * Actually check access to specific resource
-	 */
-	@Deprecated
-	private boolean hasAccess(String pageName, String componentId, String eventType)
-	{
-		boolean hasAccess = true;
-
-		Component page = getPage(pageName);
-		if (page == null || !isPageRestricted(page))
-			return hasAccess;
-
+		String pageName = eventParameters.getActivePageName();
+		String componentId = eventParameters.getNestedComponentId();
+		String eventType = eventParameters.getEventType();
+		
 		if (logger.isDebugEnabled())
 			logger.debug(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS, "check access for pageName/componentId/eventType: {}/{}/{}",
 						 new Object[]{pageName, componentId, eventType});
 
-		hasAccess = checkForPageAccess(page);
+		Component page = getPage(pageName);
+		
+		if (page == null)
+			return true;
+		
+		boolean hasAccess = checkForComponentEventHandlerAccess(page, componentId, eventType);
+
 		if (hasAccess)
 		{
-			hasAccess = checkForComponentEventHandlerAccess(page, componentId, eventType);
-
+			
+			// XXX Should we check for more restriction on page?!
+			
+//			hasAccess = checkForPageAccess(page);
+//
 //				if (hasAccess)
 //				{
 //					Field[] fields = page.getClass().getDeclaredFields();
@@ -113,6 +110,7 @@ public class AccessValidatorImpl implements AccessValidator
 		}
 
 		return hasAccess;
+		
 	}
 
 	/*
@@ -131,6 +129,7 @@ public class AccessValidatorImpl implements AccessValidator
 	private boolean checkForComponentEventHandlerAccess(Component page, String componentId, String eventType)
 	{
 		boolean hasAccess = true;
+		
 		if (componentId != null && eventType != null)
 		{
 			String groups =
@@ -147,6 +146,9 @@ public class AccessValidatorImpl implements AccessValidator
 			if (logger.isDebugEnabled())
 				logger.debug("user needs group(s) {} and roleWeight {} for accessing {}/{}/{}",
 							 new String[]{groups, role, page.getComponentResources().getPageName(), componentId, eventType});
+			
+			if (groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION) && role.equals("0"))
+				return true;
 
 			hasAccess = enoughRights(groups, Integer.parseInt(role), page);
 		}

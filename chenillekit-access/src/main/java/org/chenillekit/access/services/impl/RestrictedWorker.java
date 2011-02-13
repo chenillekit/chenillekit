@@ -69,7 +69,16 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 			@Override
 			public boolean accept(TransformMethod method)
 			{
-				return (hasCorrectPrefix(method) || hasAnnotation(method)) && !method.isOverride();
+				boolean correctPrefix = hasCorrectPrefix(method);
+				boolean hasAnnotation = hasAnnotation(method);
+				boolean notOverride = !method.isOverride();
+				
+				logger.debug("Method: {}", method.getName());
+				logger.debug(" correctPrefix: ", correctPrefix);
+				logger.debug(" hasAnnotation: ", hasAnnotation);
+				logger.debug(" notOverride:   ", notOverride);
+				
+				return (correctPrefix || hasAnnotation) && notOverride;
 			}
 
 			private boolean hasCorrectPrefix(TransformMethod method)

@@ -130,7 +130,7 @@ public class CookieRedirectAccessFilter implements ComponentRequestFilter
 	public void handleComponentEvent(
 			ComponentEventRequestParameters parameters,
 			ComponentRequestHandler handler) throws IOException
-	{
+	{	
 		// We don't need to interfere here since we do redirect just after a successful
 		// login from our own component which after all do a page render redirect
 		handler.handleComponentEvent(parameters);

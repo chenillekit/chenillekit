@@ -16,7 +16,9 @@ package org.chenillekit.access.integration.app1.pages;
 
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.chenillekit.access.WebSessionUser;
 
 import org.slf4j.Logger;
 
@@ -39,6 +41,10 @@ public class Login
 
 	@Component @SuppressWarnings("unused")
 	private org.chenillekit.access.components.Login login; 
+	
+	@SessionState
+	private WebSessionUser<?> webSessionUser;
+	private boolean webSessionUserExists;
 
 	final public boolean isLoginAllowed()
 	{
@@ -47,5 +53,10 @@ public class Login
 
 	void onActivate()
 	{
+	}
+	
+	public String getUserLoggedIn()
+	{
+		return webSessionUserExists ? webSessionUser.getName() : "NONE";
 	}
 }

@@ -21,7 +21,7 @@
       <package name="org.chenillekit.access.internal"/>
     </packages>
   </test>
-
+  
   <test name="Main Integration Tests" enabled="true">
     <parameter name="tapestry.web-app-folder" value="src/test/webapp1"/>
     <packages>
