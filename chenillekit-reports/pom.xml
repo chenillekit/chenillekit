@@ -5,7 +5,7 @@
   ~ Version 2.0, January 2004
   ~ http://www.apache.org/licenses/
   ~
-  ~ Copyright 2008-2010 by chenillekit.org
+  ~ Copyright 2008-2011 by chenillekit.org
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -59,9 +59,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jasperreports</groupId>
+			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>3.7.1</version>
+			<version>3.7.6</version>
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>eclipse</groupId>
