@@ -198,7 +198,8 @@ public class ReportsServiceImpl implements ReportsService
 	 */
 	public void fillAndExport(URL inputResource, ExportFormat format, Map parameterMap, JRDataSource dataSource, OutputStream outputStream)
 	{
-		//To change body of implemented methods use File | Settings | File Templates.
+		JasperPrint jasperPrint = fillReport(inputResource, parameterMap, dataSource);
+		export(jasperPrint, format, outputStream);
 	}
 
 	/**
