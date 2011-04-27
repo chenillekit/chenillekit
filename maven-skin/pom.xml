@@ -5,7 +5,7 @@
   ~ Version 2.0, January 2004
   ~ http://www.apache.org/licenses/
   ~
-  ~ Copyright 2008-2010 by chenillekit.org
+  ~ Copyright 2008-2011 by chenillekit.org
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
     <packaging>jar</packaging>
 
     <name>Chenillekit Site</name>
-	<version>1.0</version>
+	<version>2.0</version>
     <description>
         all resources for the chenillekit site
     </description>
