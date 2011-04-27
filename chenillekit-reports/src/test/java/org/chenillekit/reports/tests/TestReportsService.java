@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,6 @@
 
 package org.chenillekit.reports.tests;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JasperPrint;
-import org.apache.tapestry5.ioc.Registry;
-import org.apache.tapestry5.ioc.RegistryBuilder;
-import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
-import org.chenillekit.reports.ChenilleKitReportsTestModule;
-import org.chenillekit.reports.services.ReportsService;
-import org.chenillekit.reports.utils.ExportFormat;
-import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -33,6 +21,19 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.tapestry5.ioc.Registry;
+import org.apache.tapestry5.ioc.RegistryBuilder;
+import org.apache.tapestry5.ioc.internal.util.ClasspathResource;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperPrint;
+import org.chenillekit.reports.ChenilleKitReportsTestModule;
+import org.chenillekit.reports.services.ReportsService;
+import org.chenillekit.reports.utils.ExportFormat;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 /**
  * @version $Id$
@@ -86,12 +87,12 @@ public class TestReportsService extends Assert
 		FileOutputStream fos = new FileOutputStream(pdfFile);
 
 		JasperPrint jasperPrint = null;
-		jasperPrint = service.fillReport(jasperPrint, new ClasspathResource("TestReport.jrxml"), parameterMap, new JREmptyDataSource());
+		jasperPrint = service.fillReport(jasperPrint, new ClasspathResource("TestReport.jrxml").toURL(), parameterMap, new JREmptyDataSource());
 
 		parameterMap.put("testString", "this is a test string for page 2");
 		parameterMap.put("myDate", new Date());
 
-		jasperPrint = service.fillReport(jasperPrint, new ClasspathResource("TestReport.jrxml"), parameterMap, new JREmptyDataSource());
+		jasperPrint = service.fillReport(jasperPrint, new ClasspathResource("TestReport.jrxml").toURL(), parameterMap, new JREmptyDataSource());
 
 		service.export(jasperPrint, ExportFormat.PDF, fos);
 
@@ -116,7 +117,7 @@ public class TestReportsService extends Assert
 		JasperPrint jasperPrint = null;
 		try
 		{
-			jasperPrint = service.fillReport(jasperPrint, new ClasspathResource("TestReport.j"), parameterMap, new JREmptyDataSource());
+			jasperPrint = service.fillReport(jasperPrint, new ClasspathResource("TestReport.j").toURL(), parameterMap, new JREmptyDataSource());
 		}
 		catch (RuntimeException ex)
 		{
