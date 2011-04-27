@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package org.chenillekit.reports.services;
 
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.Resource;
@@ -44,6 +45,17 @@ public interface ReportsService
      * @param outputStream  the output stream
      */
     void fillAndExport(Resource inputResource, ExportFormat format, Map parameterMap, JRDataSource dataSource, OutputStream outputStream);
+
+    /**
+     * export the report.
+     *
+     * @param inputResource the input resource (report template file ".jrxml")
+     * @param format        the output format
+     * @param parameterMap  the parameter map
+     * @param dataSource    the datasource, maybe null or empty.
+     * @param outputStream  the output stream
+     */
+    void fillAndExport(URL inputResource, ExportFormat format, Map parameterMap, JRDataSource dataSource, OutputStream outputStream);
 
     /**
      * export the report.
@@ -88,5 +100,5 @@ public interface ReportsService
      *
      * @return document that can be viewed, printed or exported to other formats.
      */
-    JasperPrint fillReport(JasperPrint jasperPrint, Resource inputResource, Map parameterMap, JRDataSource dataSource);
+    JasperPrint fillReport(JasperPrint jasperPrint, URL inputResource, Map parameterMap, JRDataSource dataSource);
 }
