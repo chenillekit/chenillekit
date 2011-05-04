@@ -17,11 +17,11 @@ package org.chenillekit.lucene.services.impl;
 import java.io.IOException;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Fieldable;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
-import org.apache.tapestry5.json.JSONObject;
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
 import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.IndexerService;
@@ -51,20 +51,27 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
      */
     public void addDocument(Document document)
     {
-        addDocument(this.indexWriter, document);
+        addDocument(indexWriter, document);
     }
     
-    /*
-     * (non-Javadoc)
-     * @see org.chenillekit.lucene.services.IndexerService#addDocument(java.lang.String)
-     */
-    public void addDocument(String jsonDocument)
-    {
-    	JSONObject json = new JSONObject(jsonDocument);
-    	
-    	throw new RuntimeException("NOT YET IMPLEMENTED: " + json);
+	/*
+	 * (non-Javadoc)
+	 * @see org.chenillekit.lucene.services.IndexerService#addDocument(float, org.apache.lucene.document.Fieldable[])
+	 */
+	public void addDocument(Float boost, Fieldable... fields)
+	{
+		Document document = new Document();
+		
+		if (boost != null)
+			document.setBoost(boost.floatValue());
+		
+		for (Fieldable field : fields)
+		{
+			document.add(field);
+		}
+		
+		addDocument(indexWriter, document);
 	}
-
 
 	/**
      * delete documents by the given field name and the query.
