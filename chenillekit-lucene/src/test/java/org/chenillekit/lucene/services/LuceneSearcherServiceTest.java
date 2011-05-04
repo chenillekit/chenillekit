@@ -142,7 +142,8 @@ public class LuceneSearcherServiceTest extends AbstractTestSuite
 		{
 			try
 			{
-				assertEquals(future.get().intValue(), 100);
+				Integer res = future.get();
+				assertEquals(res.intValue(), 100);
 			}
 			catch (InterruptedException e)
 			{

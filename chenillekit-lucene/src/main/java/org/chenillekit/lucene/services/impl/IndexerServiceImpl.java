@@ -21,6 +21,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
+import org.apache.tapestry5.json.JSONObject;
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
 import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.IndexerService;
@@ -44,17 +45,28 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
     }
 
 
-    /**
-     * add a document to the standard index.
-     *
-     * @param document
+    /*
+     * (non-Javadoc)
+     * @see org.chenillekit.lucene.services.IndexerService#addDocument(org.apache.lucene.document.Document)
      */
     public void addDocument(Document document)
     {
         addDocument(this.indexWriter, document);
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.chenillekit.lucene.services.IndexerService#addDocument(java.lang.String)
+     */
+    public void addDocument(String jsonDocument)
+    {
+    	JSONObject json = new JSONObject(jsonDocument);
+    	
+    	throw new RuntimeException("NOT YET IMPLEMENTED: " + json);
+	}
 
-    /**
+
+	/**
      * delete documents by the given field name and the query.
      *
      * @param field       name of the field
@@ -151,19 +163,6 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
     public void threadDidCleanup()
     {
     	// Commit changes
-    	try
-    	{
-			this.indexWriter.commit();
-		}
-    	catch (CorruptIndexException cie)
-    	{
-    		this.logger.error(String.format("The index result corrupted: '%s'", cie.getMessage()), cie);
-			throw new ChenilleKitLuceneRuntimeException(cie);
-		}
-    	catch (IOException ioe)
-    	{
-    		this.logger.error(String.format("Unable to access the index for commiting changes: '%s'", ioe.getMessage()), ioe);
-			throw new ChenilleKitLuceneRuntimeException(ioe);
-		}
+    	commit();
     }
 }

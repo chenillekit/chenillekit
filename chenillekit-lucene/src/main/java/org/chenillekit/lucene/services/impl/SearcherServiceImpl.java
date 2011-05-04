@@ -23,9 +23,9 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.util.Version;
 import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
@@ -45,7 +45,7 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 
     private Logger logger;
 
-    private final Searcher indexSearcher;
+    private final IndexSearcher indexSearcher;
 
     private final Analyzer analyzer;
     
@@ -105,12 +105,12 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
     	TopScoreDocCollector collector = TopScoreDocCollector.create(total, true);
 		try
 		{
-			this.indexSearcher.search(query, collector);
+			indexSearcher.search(query, collector);
 			scores = collector.topDocs().scoreDocs;
 		}
 		catch (IOException ioe)
 		{
-			this.logger.error(String.format("Unable to access the index for searching: '%s'", ioe.getMessage()), ioe);
+			logger.error(String.format("Unable to access the index for searching: '%s'", ioe.getMessage()), ioe);
 			throw new ChenilleKitLuceneRuntimeException(ioe);
 		}
 
@@ -122,16 +122,16 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 
 			try
 			{
-				docs.add(this.indexSearcher.doc(docId));
+				docs.add(indexSearcher.doc(docId));
 			}
 			catch (CorruptIndexException cie)
 			{
-				this.logger.error(String.format("The index result corrupted: '%s'", cie.getMessage()), cie);
+				logger.error(String.format("The index result corrupted: '%s'", cie.getMessage()), cie);
 				throw new ChenilleKitLuceneRuntimeException(cie);
 			}
 			catch (IOException ioe)
 			{
-				this.logger.error(String.format("Unable to access the index for searching: '%s'", ioe.getMessage()), ioe);
+				logger.error(String.format("Unable to access the index for searching: '%s'", ioe.getMessage()), ioe);
 				throw new ChenilleKitLuceneRuntimeException(ioe);
 			}
 		}
@@ -155,7 +155,4 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 			this.logger.error("Unable to close the IndexSearcher during thread cleanup: " + ioe.getMessage(), ioe);
 		}
 	}
-
-
-
 }

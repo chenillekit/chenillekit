@@ -19,11 +19,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -42,6 +47,8 @@ import org.slf4j.Logger;
  */
 public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 {
+	private final Lock lock;
+	
 	private final Logger logger;
 	
 	private final Directory directory;
@@ -50,6 +57,9 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	
 	private final IndexWriter indexWriter;
 	
+	private IndexReader indexReader;
+	
+	private IndexSearcher indexSearcher;
 	
 	/**
 	 * 
@@ -58,6 +68,8 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	 */
 	public IndexSourceImpl(final Logger logger, final List<URL> configuration, Version version)
 	{
+		this.lock = new ReentrantLock(true);
+		
         this.logger = logger;
 
         if (configuration.isEmpty())
@@ -78,7 +90,7 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
             
             boolean enableLuceneOutput = Boolean.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_ELO, "false"));
             
-            int maxFieldLength = Integer.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_MFL, "250000"));
+            // int maxFieldLength = Integer.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_MFL, "250000"));
  
             this.directory = FSDirectory.open(indexFolderFile);
             
@@ -87,15 +99,55 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
             if (enableLuceneOutput)
                 IndexWriter.setDefaultInfoStream(System.out);
             
-            this.indexWriter = new IndexWriter(this.directory,
-            		this.analyzer, createFolder,
-            		new IndexWriter.MaxFieldLength(maxFieldLength));
+         // TODO Maybe in a future version I'll add more config options...
+            IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_31, this.analyzer);
+            
+            
+            if (createFolder)
+             	config.setOpenMode(OpenMode.CREATE);
+            else
+            	config.setOpenMode(OpenMode.CREATE_OR_APPEND);
+            
+            this.indexWriter = new IndexWriter(this.directory, config);
+            this.indexReader = IndexReader.open(indexWriter, true);
             
         }
         catch (IOException ioe)
         {
             throw new ChenilleKitLuceneRuntimeException(ioe);
         }
+	}
+	
+	/* Simply open a new Near-Real-Time IndexReader */
+	private final IndexReader getIndexReader()
+	{
+		lock.lock();
+		
+		try
+		{
+			
+			if ( !indexReader.isCurrent() )
+			{
+				indexReader.close();
+				indexReader = IndexReader.open(indexWriter, true);
+			}
+		}
+		catch (CorruptIndexException cie)
+		{
+			this.logger.error(String.format("The index result corrupted: '%s'", cie.getMessage()), cie);
+			throw new ChenilleKitLuceneRuntimeException(cie);
+		}
+		catch (IOException ioe)
+		{
+			this.logger.error(String.format("Unable to access the index for building new reader, reason: '%s'", ioe.getMessage()), ioe);
+			throw new ChenilleKitLuceneRuntimeException(ioe);
+		}
+		finally
+		{
+			lock.unlock();
+		}
+		
+		return indexReader;
 	}
 	
 	/*
@@ -111,6 +163,12 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 
             if (this.directory != null)
                 this.directory.close();
+            
+            if (this.indexSearcher != null)
+            	this.indexSearcher.close();
+            
+            if (this.indexReader != null)
+            	this.indexReader.close();
         }
         catch (IOException e)
         {
@@ -126,21 +184,8 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	 */
 	public IndexSearcher createIndexSearcher()
 	{
-		try
-		{
-			// This way when we close the searcher we close the reader too
-			return new IndexSearcher(this.directory);
-		}
-		catch (CorruptIndexException cie)
-		{
-			this.logger.error(String.format("The index result corrupted: '%s'", cie.getMessage()), cie);
-			throw new ChenilleKitLuceneRuntimeException(cie);
-		}
-		catch (IOException ioe)
-		{
-			this.logger.error(String.format("Unable to access the index for building new reader, reason: '%s'", ioe.getMessage()), ioe);
-			throw new ChenilleKitLuceneRuntimeException(ioe);
-		}
+		// Something similar to: http://wiki.apache.org/lucene-java/NearRealtimeSearch
+		return new IndexSearcher(getIndexReader());
 	}
 
 	/*
