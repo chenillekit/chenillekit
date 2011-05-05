@@ -121,6 +121,7 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	/* Simply open a new Near-Real-Time IndexReader */
 	private final IndexReader getIndexReader()
 	{
+		// Something similar to: http://wiki.apache.org/lucene-java/NearRealtimeSearch
 		lock.lock();
 		
 		try
@@ -129,7 +130,7 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 			if ( !indexReader.isCurrent() )
 			{
 				indexReader.close();
-				indexReader = IndexReader.open(indexWriter, true);
+				indexReader = indexReader.reopen(indexWriter, true);
 			}
 		}
 		catch (CorruptIndexException cie)
@@ -176,15 +177,12 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
         }
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.chenillekit.lucene.services.IndexSource#createIndexSearcher()
 	 */
 	public IndexSearcher createIndexSearcher()
 	{
-		// Something similar to: http://wiki.apache.org/lucene-java/NearRealtimeSearch
 		return new IndexSearcher(getIndexReader());
 	}
 

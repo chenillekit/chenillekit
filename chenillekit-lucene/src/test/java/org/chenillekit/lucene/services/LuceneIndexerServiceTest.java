@@ -39,13 +39,13 @@ public class LuceneIndexerServiceTest extends AbstractTestSuite
 {
     int repeating = 100;
     int docAmount = 3;
-
+    
     @BeforeSuite
     public final void setup_registry()
     {
         super.setup_registry(ChenilleKitLuceneTestModule.class);
     }
-
+    
     @BeforeClass
     public void initialize_lucene_dictionary()
     {

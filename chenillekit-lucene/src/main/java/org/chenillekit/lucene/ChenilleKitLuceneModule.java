@@ -19,9 +19,7 @@ import java.util.List;
 
 import org.apache.lucene.util.Version;
 import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Scope;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
@@ -67,7 +65,6 @@ public class ChenilleKitLuceneModule
      *
      * @return indexer engine
      */
-    @Scope(ScopeConstants.PERTHREAD)
     public static IndexerService buildIndexerService(Logger logger, IndexSource source,
     						PerthreadManager threadManager)
     {
@@ -85,7 +82,6 @@ public class ChenilleKitLuceneModule
      *
      * @return searcher engine
      */
-    @Scope(ScopeConstants.PERTHREAD)
     public static SearcherService buildSearcherService(Logger logger, IndexSource source,
                                                        PerthreadManager threadManager,
                                                        @Inject
@@ -94,7 +90,7 @@ public class ChenilleKitLuceneModule
     {
         SearcherServiceImpl service = new SearcherServiceImpl(logger, source, Version.valueOf(version));
 
-        threadManager.addThreadCleanupListener(service);
+        // threadManager.addThreadCleanupListener(service);
 
         return service;
     }

@@ -28,7 +28,6 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.util.Version;
-import org.apache.tapestry5.ioc.services.ThreadCleanupListener;
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
 import org.chenillekit.lucene.services.IndexSource;
 import org.chenillekit.lucene.services.SearcherService;
@@ -39,13 +38,13 @@ import org.slf4j.Logger;
  *
  * @version $Id$
  */
-public class SearcherServiceImpl implements SearcherService, ThreadCleanupListener
+public class SearcherServiceImpl implements SearcherService
 {
 	private static final int MAX_SCORE_DOC = 100;
 
     private Logger logger;
 
-    private final IndexSearcher indexSearcher;
+    private final IndexSource indexSource;
 
     private final Analyzer analyzer;
     
@@ -65,7 +64,7 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
     	
     	this.version = version;
 
-    	this.indexSearcher = indexSource.createIndexSearcher();
+    	this.indexSource = indexSource;
     }
     
     /*
@@ -103,9 +102,13 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
     	int total = howMany != null ? howMany.intValue() : MAX_SCORE_DOC;
     	
     	TopScoreDocCollector collector = TopScoreDocCollector.create(total, true);
+    	
+    	IndexSearcher indexSearcher = indexSource.createIndexSearcher();
+    	
 		try
 		{
 			indexSearcher.search(query, collector);
+			
 			scores = collector.topDocs().scoreDocs;
 		}
 		catch (IOException ioe)
@@ -122,6 +125,7 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 
 			try
 			{
+				
 				docs.add(indexSearcher.doc(docId));
 			}
 			catch (CorruptIndexException cie)
@@ -135,24 +139,18 @@ public class SearcherServiceImpl implements SearcherService, ThreadCleanupListen
 				throw new ChenilleKitLuceneRuntimeException(ioe);
 			}
 		}
+    	
+    	try
+    	{
+			indexSearcher.close();
+		}
+    	catch (IOException e)
+    	{
+    		logger.error(String.format("Unable to close the index for searching: '%s'", e.getMessage()), e);
+			throw new ChenilleKitLuceneRuntimeException(e);
+		}
 
 		return docs;
 	}
-
-
-	/*
-     * (non-Javadoc)
-     * @see org.apache.tapestry5.ioc.services.ThreadCleanupListener#threadDidCleanup()
-     */
-	public void threadDidCleanup()
-	{
-		try
-		{
-			this.indexSearcher.close();
-		}
-		catch (IOException ioe)
-		{
-			this.logger.error("Unable to close the IndexSearcher during thread cleanup: " + ioe.getMessage(), ioe);
-		}
-	}
+    
 }

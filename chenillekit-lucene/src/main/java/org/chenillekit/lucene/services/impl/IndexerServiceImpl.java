@@ -36,12 +36,12 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
 {
     private final Logger logger;
 
-    private final IndexWriter indexWriter;
+    private final IndexSource indexSource;
 
     public IndexerServiceImpl(final Logger logger, IndexSource indexSource)
     {
     	this.logger = logger;
-    	this.indexWriter = indexSource.getIndexWriter();
+    	this.indexSource = indexSource;
     }
 
 
@@ -51,7 +51,7 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
      */
     public void addDocument(Document document)
     {
-        addDocument(indexWriter, document);
+        addDocument(indexSource.getIndexWriter(), document);
     }
     
 	/*
@@ -70,7 +70,7 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
 			document.add(field);
 		}
 		
-		addDocument(indexWriter, document);
+		addDocument(indexSource.getIndexWriter(), document);
 	}
 
 	/**
@@ -83,7 +83,8 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
     {
         try
         {
-            this.indexWriter.deleteDocuments(new Term(field, queryString));
+        	IndexWriter indexWriter = indexSource.getIndexWriter();
+            indexWriter.deleteDocuments(new Term(field, queryString));
         }
         catch (IOException ioe)
         {
@@ -120,7 +121,7 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
      */
     public int getDocCount()
     {
-        return this.indexWriter.maxDoc();
+        return indexSource.getIndexWriter().maxDoc();
     }
     
     /* (non-Javadoc)
@@ -130,7 +131,7 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
 	{
 		try
 		{
-			return this.indexWriter.numDocs();
+			return indexSource.getIndexWriter().numDocs();
 		}
 		catch (IOException ioe)
 		{
@@ -148,7 +149,7 @@ public class IndexerServiceImpl implements IndexerService, ThreadCleanupListener
     {
     	try
     	{
-			this.indexWriter.commit();
+    		indexSource.getIndexWriter().commit();
 		}
     	catch (CorruptIndexException cie)
     	{
