@@ -55,6 +55,8 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	
 	private final IndexWriter indexWriter;
 	
+	private final boolean luceneNRT;
+	
 	private IndexReader indexReader;
 	
 	private IndexSearcher indexSearcher;
@@ -89,6 +91,8 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
             boolean enableLuceneOutput = Boolean.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_ELO, "false"));
             
             int maxFieldLength = Integer.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_MFL, "250000"));
+            
+            luceneNRT = Boolean.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_ELO, "false"));
  
             directory = FSDirectory.open(indexFolderFile);
             
@@ -100,7 +104,10 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
             indexWriter = new IndexWriter(directory, analyzer,
             		createFolder, new IndexWriter.MaxFieldLength(maxFieldLength));
             
-            indexReader = IndexReader.open(directory, true);
+            if (luceneNRT)
+            	indexReader = indexWriter.getReader();
+            else
+            	indexReader = IndexReader.open(directory, true);
             
         }
         catch (IOException ioe)
@@ -121,7 +128,11 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 			if ( !indexReader.isCurrent() )
 			{
 				indexReader.close();
-				indexReader = indexReader.reopen();
+				
+				if (luceneNRT)
+	            	indexReader = indexWriter.getReader();
+	            else
+	            	indexReader = IndexReader.open(directory, true);
 			}
 		}
 		catch (CorruptIndexException cie)

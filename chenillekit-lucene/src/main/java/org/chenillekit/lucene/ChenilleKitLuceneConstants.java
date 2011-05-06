@@ -54,5 +54,14 @@ public class ChenilleKitLuceneConstants
      * By default {@link FactoryDefaults} is <code>LUCENE_CURRENT</code>.
      */
     public static final String LUCENE_COMPATIBILITY_VERSION = "ck.lucene.compatibility.version";
+    
+    /**
+     * Determine if Lucene's NRT capabilities should be used or not.
+     * For more info see:
+     * <a href="http://wiki.apache.org/lucene-java/NearRealtimeSearch">
+     * http://wiki.apache.org/lucene-java/NearRealtimeSearch
+     * </a>
+     */
+    public static final String LUCENE_NEAR_REAL_TIME = "ck.lucene.near-real-time";
 
 }
