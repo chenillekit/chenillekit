@@ -27,8 +27,6 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -68,7 +66,7 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	 */
 	public IndexSourceImpl(final Logger logger, final List<URL> configuration, Version version)
 	{
-		this.lock = new ReentrantLock(true);
+		lock = new ReentrantLock(true);
 		
         this.logger = logger;
 
@@ -90,26 +88,19 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
             
             boolean enableLuceneOutput = Boolean.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_ELO, "false"));
             
-            // int maxFieldLength = Integer.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_MFL, "250000"));
+            int maxFieldLength = Integer.valueOf(prop.getProperty(ChenilleKitLuceneConstants.PROPERTIES_KEY_MFL, "250000"));
  
-            this.directory = FSDirectory.open(indexFolderFile);
+            directory = FSDirectory.open(indexFolderFile);
             
-            this.analyzer = new StandardAnalyzer(version);
+            analyzer = new StandardAnalyzer(version);
 
             if (enableLuceneOutput)
                 IndexWriter.setDefaultInfoStream(System.out);
             
-         // TODO Maybe in a future version I'll add more config options...
-            IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_31, this.analyzer);
+            indexWriter = new IndexWriter(directory, analyzer,
+            		createFolder, new IndexWriter.MaxFieldLength(maxFieldLength));
             
-            
-            if (createFolder)
-             	config.setOpenMode(OpenMode.CREATE);
-            else
-            	config.setOpenMode(OpenMode.CREATE_OR_APPEND);
-            
-            this.indexWriter = new IndexWriter(this.directory, config);
-            this.indexReader = IndexReader.open(indexWriter, true);
+            indexReader = IndexReader.open(directory, true);
             
         }
         catch (IOException ioe)
@@ -130,7 +121,7 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 			if ( !indexReader.isCurrent() )
 			{
 				indexReader.close();
-				indexReader = indexReader.reopen(indexWriter, true);
+				indexReader = indexReader.reopen();
 			}
 		}
 		catch (CorruptIndexException cie)
