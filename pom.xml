@@ -20,7 +20,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tapestry-release-version>5.2.5</tapestry-release-version>
+		<tapestry-release-version>5.2.6</tapestry-release-version>
 		<update-release-info>false</update-release-info>
 		<cobertura-plugin-version>2.3</cobertura-plugin-version>
 	</properties>
@@ -98,11 +98,6 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
-		</repository>
-
-		<repository>
-			<id>Tapestry at Formos</id>
-			<url>http://tapestry.formos.com/maven-repository/</url>
 		</repository>
 
 	</repositories>
@@ -543,8 +538,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<goals>deploy</goals>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<goal>deploy</goal>
 				</configuration>
 			</plugin>
 
@@ -557,8 +551,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
-					<argLine>-Xmx500m</argLine>
-					<redirectTestOutputToFile>false</redirectTestOutputToFile>
+					<arguments>-Xmx500m</arguments>
 				</configuration>
 			</plugin>
 
