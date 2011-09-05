@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 package org.chenillekit.tapestry.core;
 
-import org.apache.tapestry5.internal.services.ResourceCache;
+import org.apache.tapestry5.internal.services.ResourceDigestManager;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ObjectLocator;
@@ -28,6 +28,7 @@ import org.apache.tapestry5.services.BindingSource;
 import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.apache.tapestry5.services.javascript.JavaScriptStack;
+
 import org.chenillekit.tapestry.core.factories.ListBindingFactory;
 import org.chenillekit.tapestry.core.factories.LoopBindingFactory;
 import org.chenillekit.tapestry.core.factories.MessageFormatBindingFactory;
@@ -85,9 +86,9 @@ public class ChenilleKitCoreModule
 	}
 
 	@Marker(URIProvider.class)
-	public AssetFactory buildURIAssetFactory(ResourceCache resourceCache, URIAssetAliasManager aliasManager)
+	public AssetFactory buildURIAssetFactory(ResourceDigestManager digestManager, URIAssetAliasManager aliasManager)
 	{
-		return new URIAssetFactory(resourceCache, aliasManager);
+		return new URIAssetFactory(digestManager, aliasManager);
 	}
 
 	public void contributeAssetSource(MappedConfiguration<String, AssetFactory> configuration,

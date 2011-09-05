@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,19 +18,20 @@
 
 package org.chenillekit.access.services.impl;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
+
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.func.Predicate;
 import org.apache.tapestry5.model.MutableComponentModel;
 import org.apache.tapestry5.services.ClassTransformation;
 import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.TransformMethod;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
-
-import java.lang.annotation.Annotation;
-import java.util.List;
 
 /**
  * @version $Id$
@@ -62,22 +63,22 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 		// processComponentsRestrictions(transformation, model);
 	}
 
+
 	protected List<TransformMethod> getMatchedMethods(ClassTransformation transformation, final Class<? extends Annotation> annotation)
 	{
 		return transformation.matchMethods(new Predicate<TransformMethod>()
 		{
-			@Override
 			public boolean accept(TransformMethod method)
 			{
 				boolean correctPrefix = hasCorrectPrefix(method);
 				boolean hasAnnotation = hasAnnotation(method);
 				boolean notOverride = !method.isOverride();
-				
+
 				logger.debug("Method: {}", method.getName());
 				logger.debug(" correctPrefix: ", correctPrefix);
 				logger.debug(" hasAnnotation: ", hasAnnotation);
 				logger.debug(" notOverride:   ", notOverride);
-				
+
 				return (correctPrefix || hasAnnotation) && notOverride;
 			}
 
@@ -205,7 +206,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 		// mark the page as restricted, even if the no group or role weight set.
 		if (metaForPage)
 			model.setMeta(ChenilleKitAccessConstants.RESTRICTED_PAGE, Boolean.TRUE.toString());
-		
+
 		String groupsString = ChenillekitAccessInternalUtils.getStringArrayAsString(groups);
 
 		if (groupsString.trim().length() > 0)

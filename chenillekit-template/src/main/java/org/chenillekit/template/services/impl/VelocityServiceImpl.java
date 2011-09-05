@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 1996-2008 by Sven Homburg
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.tapestry5.ioc.Resource;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+
+import org.apache.tapestry5.ioc.Resource;
 
 import org.chenillekit.template.services.TemplateService;
 import org.slf4j.Logger;
@@ -162,7 +164,11 @@ public class VelocityServiceImpl implements TemplateService
             Template velocityTemplate = Velocity.getTemplate(template.getPath());
             if (velocityTemplate != null)
             {
-                Writer out = new OutputStreamWriter(outputStream);
+				String encoding = (String) context.get("output.encoding");
+				if (encoding == null)
+					encoding = Charset.defaultCharset().name();
+
+				Writer out = new OutputStreamWriter(outputStream, encoding);
                 velocityTemplate.merge(context, out);
 
                 /*

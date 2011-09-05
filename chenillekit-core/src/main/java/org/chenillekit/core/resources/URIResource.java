@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 1996-2008 by Sven Homburg
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.Locale;
 
 import org.apache.tapestry5.ioc.Resource;
-import org.apache.tapestry5.ioc.internal.util.LocalizedNameGenerator;
+import org.apache.tapestry5.ioc.util.LocalizedNameGenerator;
 
 /**
  * A resource stored with in any location (local, remote or jar archive).
@@ -110,9 +110,7 @@ public class URIResource implements Resource
 		return uri.toURL().openStream();
 	}
 
-	/**
-	 * Returns the URL for the resource, or null if it does not exist.
-	 */
+	/** Returns the URL for the resource, or null if it does not exist. */
 	public URL toURL()
 	{
 		try
@@ -128,9 +126,7 @@ public class URIResource implements Resource
 		return null;
 	}
 
-	/**
-	 * Returns a localized version of the resource. May return null if no such resource exists.
-	 */
+	/** Returns a localized version of the resource. May return null if no such resource exists. */
 	public Resource forLocale(Locale locale)
 	{
 		for (String path : new LocalizedNameGenerator(this.uri.toString(), locale))
@@ -195,9 +191,7 @@ public class URIResource implements Resource
 		return folderName;
 	}
 
-	/**
-	 * Returns the file portion of the Resource path, everything that follows the final forward slash.
-	 */
+	/** Returns the file portion of the Resource path, everything that follows the final forward slash. */
 	public String getFile()
 	{
 		String fileName = "";
@@ -214,9 +208,7 @@ public class URIResource implements Resource
 		return fileName;
 	}
 
-	/**
-	 * Return the path (the combination of folder and file).
-	 */
+	/** Return the path (the combination of folder and file). */
 	public String getPath()
 	{
 		return toURL().toExternalForm();
