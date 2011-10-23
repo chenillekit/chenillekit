@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,12 @@
  */
 
 package org.chenillekit.access;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
@@ -28,11 +34,12 @@ import org.apache.tapestry5.services.ApplicationStateContribution;
 import org.apache.tapestry5.services.ApplicationStateCreator;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentClassResolver;
-import org.apache.tapestry5.services.ComponentClassTransformWorker;
 import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.LibraryMapping;
+import org.apache.tapestry5.services.transform.ComponentClassTransformWorker2;
+
 import org.chenillekit.access.annotations.ChenilleKitAccess;
 import org.chenillekit.access.dao.JDBCProtectionRuleDAO;
 import org.chenillekit.access.dao.ProtectionRuleDAO;
@@ -49,12 +56,6 @@ import org.chenillekit.access.services.impl.RedirectServiceImpl;
 import org.chenillekit.access.services.impl.RestrictedWorker;
 import org.chenillekit.access.services.impl.SecurityServiceImpl;
 import org.slf4j.Logger;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
 
 /**
  * Main Module class for ChenilleKitAccess.
@@ -140,13 +141,13 @@ public class ChenilleKitAccessModule
 	}
 
 	/**
-	 * Contribute our {@link ComponentClassTransformWorker} to transformation pipeline to add our code to
+	 * Contribute our {@link ComponentClassTransformWorker2} to transformation pipeline to add our code to
 	 * loaded classes
 	 *
 	 * @param configuration component class transformer configuration
 	 */
 	public static void contributeComponentClassTransformWorker(
-			OrderedConfiguration<ComponentClassTransformWorker> configuration)
+			OrderedConfiguration<ComponentClassTransformWorker2> configuration)
 	{
 		configuration.addInstance("Restricted", RestrictedWorker.class, "after:Secure");
 		configuration.addInstance("ManagedRestricted", ManagedRestrictedWorker.class, "after:Restricted");

@@ -22,11 +22,14 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 
 import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.func.F;
 import org.apache.tapestry5.func.Predicate;
 import org.apache.tapestry5.model.MutableComponentModel;
-import org.apache.tapestry5.services.ClassTransformation;
-import org.apache.tapestry5.services.ComponentClassTransformWorker;
+import org.apache.tapestry5.plastic.PlasticClass;
+import org.apache.tapestry5.plastic.PlasticMethod;
 import org.apache.tapestry5.services.TransformMethod;
+import org.apache.tapestry5.services.transform.ComponentClassTransformWorker2;
+import org.apache.tapestry5.services.transform.TransformationSupport;
 
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.annotations.Restricted;
@@ -36,7 +39,7 @@ import org.slf4j.Logger;
 /**
  * @version $Id$
  */
-public class RestrictedWorker implements ComponentClassTransformWorker
+public class RestrictedWorker implements ComponentClassTransformWorker2
 {
 	private final Logger logger;
 
@@ -46,35 +49,37 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Invoked to perform part of the transformation of the {@link org.apache.tapestry5.plastic.PlasticClass}.
 	 *
-	 * @see org.apache.tapestry5.services.ComponentClassTransformWorker#transform(org.apache.tapestry5.services.ClassTransformation, org.apache.tapestry5.model.MutableComponentModel)
+	 * @param plasticClass component class being transformed
+	 * @param support	  additional utilities needed during the transformation
+	 * @param model		the model for the component being transformed
 	 */
-	public void transform(ClassTransformation transformation, MutableComponentModel model)
+	public void transform(PlasticClass plasticClass, TransformationSupport support, MutableComponentModel model)
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("Processing page render restrictions:");
-		processPageRestriction(transformation, model);
+		processPageRestriction(plasticClass, model);
 
 		if (logger.isDebugEnabled())
 			logger.debug("Processing event handlers restrictions:");
-		processEventHandlerRestrictions(transformation, model);
+		processEventHandlerRestrictions(plasticClass, model);
 
 		// processComponentsRestrictions(transformation, model);
 	}
 
-
-	protected List<TransformMethod> getMatchedMethods(ClassTransformation transformation, final Class<? extends Annotation> annotation)
+	protected List<PlasticMethod> getMatchedMethods(PlasticClass plasticClass, final Class<? extends Annotation> annotation)
 	{
-		return transformation.matchMethods(new Predicate<TransformMethod>()
+		List<PlasticMethod> methods = plasticClass.getMethods();
+		return F.flow(methods).filter(new Predicate<PlasticMethod>()
 		{
-			public boolean accept(TransformMethod method)
+			public boolean accept(PlasticMethod method)
 			{
 				boolean correctPrefix = hasCorrectPrefix(method);
 				boolean hasAnnotation = hasAnnotation(method);
 				boolean notOverride = !method.isOverride();
 
-				logger.debug("Method: {}", method.getName());
+				logger.debug("Method: {}", method.getDescription().methodName);
 				logger.debug(" correctPrefix: ", correctPrefix);
 				logger.debug(" hasAnnotation: ", hasAnnotation);
 				logger.debug(" notOverride:   ", notOverride);
@@ -82,35 +87,35 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 				return (correctPrefix || hasAnnotation) && notOverride;
 			}
 
-			private boolean hasCorrectPrefix(TransformMethod method)
+			private boolean hasCorrectPrefix(PlasticMethod method)
 			{
-				String methodName = method.getName();
+				String methodName = method.getDescription().methodName;
 
 				boolean res = methodName.startsWith("on") &&
 						method.getAnnotation(annotation) != null;
 				return res;
 			}
 
-			private boolean hasAnnotation(TransformMethod method)
+			private boolean hasAnnotation(PlasticMethod method)
 			{
 				boolean res = method.getAnnotation(OnEvent.class) != null &&
 						method.getAnnotation(annotation) != null;
 				return res;
 			}
-		});
+		}).toList();
 	}
 
 	/**
 	 * Read and process restriction on page classes annotated with {@link Restricted} annotation
 	 *
-	 * @param transformation Contains class-specific information used when transforming a raw component class
-	 *                       into an executable component class.
-	 * @param model		  Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
-	 *                       the transformation phase.
+	 * @param plasticClass Contains class-specific information used when transforming a raw component class
+	 *                     into an executable component class.
+	 * @param model		Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
+	 *                     the transformation phase.
 	 */
-	protected void processPageRestriction(ClassTransformation transformation, MutableComponentModel model)
+	protected void processPageRestriction(PlasticClass plasticClass, MutableComponentModel model)
 	{
-		Restricted restricted = transformation.getAnnotation(Restricted.class);
+		Restricted restricted = plasticClass.getAnnotation(Restricted.class);
 		if (restricted != null)
 			setGroupRoleMeta(true, model, null, null, restricted.groups(), restricted.role());
 	}
@@ -118,16 +123,16 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	/**
 	 * inject meta datas about annotated methods
 	 *
-	 * @param transformation Contains class-specific information used when transforming a raw component class
-	 *                       into an executable component class.
-	 * @param model		  Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
-	 *                       the transformation phase.
+	 * @param plasticClass Contains class-specific information used when transforming a raw component class
+	 *                     into an executable component class.
+	 * @param model		Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
+	 *                     the transformation phase.
 	 */
-	protected void processEventHandlerRestrictions(ClassTransformation transformation, MutableComponentModel model)
+	protected void processEventHandlerRestrictions(PlasticClass plasticClass, MutableComponentModel model)
 	{
-		List<TransformMethod> matchedMethods = getMatchedMethods(transformation, Restricted.class);
+		List<PlasticMethod> matchedMethods = getMatchedMethods(plasticClass, Restricted.class);
 
-		for (TransformMethod method : matchedMethods)
+		for (PlasticMethod method : matchedMethods)
 		{
 			Restricted restricted = method.getAnnotation(Restricted.class);
 
@@ -151,13 +156,13 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 *         the empty string if the event handler method is not associated to a
 	 *         particular component.
 	 */
-	protected String extractComponentId(TransformMethod method, OnEvent annotation)
+	protected String extractComponentId(PlasticMethod method, OnEvent annotation)
 	{
 		if (annotation != null) return annotation.component();
 
 		// Method name started with "on". Extract the component id, if present.
 
-		String name = method.getName();
+		String name = method.getDescription().methodName;
 
 		int fromx = name.indexOf("From");
 
@@ -178,13 +183,13 @@ public class RestrictedWorker implements ComponentClassTransformWorker
 	 * @return the event type for which the method act as an 'handler method', it
 	 *         could not be an empty string and defaults to <code>Action</code>.
 	 */
-	protected String extractEventType(TransformMethod method, OnEvent annotation)
+	protected String extractEventType(PlasticMethod method, OnEvent annotation)
 	{
 		if (annotation != null) return annotation.value();
 
 		// Method name started with "on". Extract the event type.
 
-		String name = method.getName();
+		String name = method.getDescription().methodName;
 
 		int fromx = name.indexOf("From");
 

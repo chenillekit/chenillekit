@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2009 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.ServiceResources;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
+
 import org.chenillekit.ldap.services.LDAPOperation;
 import org.chenillekit.ldap.services.impl.LDAPOperationImpl;
 import org.chenillekit.ldap.services.internal.LDAPSource;
@@ -43,8 +44,16 @@ public class ChenilleKitLDAPModule
     public static LDAPSource buildLDAPSource(ServiceResources resources,
                                                                  RegistryShutdownHub shutdownHub)
     {
-        LDAPSourceImpl service = resources.autobuild(LDAPSourceImpl.class);
-        shutdownHub.addRegistryShutdownListener(service);
+        final LDAPSourceImpl service = resources.autobuild(LDAPSourceImpl.class);
+
+		shutdownHub.addRegistryShutdownListener(new Runnable()
+		{
+			public void run()
+			{
+				service.shutdown();
+			}
+		});
+
         return service;
     }
 

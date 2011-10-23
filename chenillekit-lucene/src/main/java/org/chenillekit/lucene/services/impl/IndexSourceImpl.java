@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
-import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
+
 import org.chenillekit.lucene.ChenilleKitLuceneConstants;
 import org.chenillekit.lucene.ChenilleKitLuceneRuntimeException;
 import org.chenillekit.lucene.services.IndexSource;
@@ -43,7 +43,7 @@ import org.slf4j.Logger;
  *
  * @version $Id$
  */
-public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
+public class IndexSourceImpl implements IndexSource
 {
 	private final Lock lock;
 	
@@ -157,7 +157,7 @@ public class IndexSourceImpl implements IndexSource, RegistryShutdownListener
 	 * (non-Javadoc)
 	 * @see org.apache.tapestry5.ioc.services.RegistryShutdownListener#registryDidShutdown()
 	 */
-	public void registryDidShutdown()
+	public void shutdown()
 	{
 		try
         {   

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import java.util.Properties;
 import org.apache.tapestry5.ioc.annotations.EagerLoad;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.apache.tapestry5.ioc.services.RegistryShutdownHub;
-import org.apache.tapestry5.ioc.services.RegistryShutdownListener;
 
 import org.chenillekit.quartz.services.JobSchedulingBundle;
 import org.chenillekit.quartz.services.QuartzSchedulerManager;
@@ -70,26 +69,33 @@ public class ChenilleKitQuartzModule
         	
             final SchedulerFactory factory = new StdSchedulerFactory(prop);
 
-            shutdownHub.addRegistryShutdownListener(new RegistryShutdownListener()
+            shutdownHub.addRegistryShutdownListener(new Runnable()
             {
-                /**
-                 * Invoked when the registry shuts down, giving services a chance to perform any final operations. Service
-                 * implementations should not attempt to invoke methods on other services (via proxies) as the service proxies may
-                 * themselves be shutdown.
-                 */
-                public void registryDidShutdown()
-                {
-                    try
-                    {
-                        List<Scheduler> schedulers = CollectionFactory.newList(factory.getAllSchedulers());
-                        for (Scheduler scheduler : schedulers)
-                            scheduler.shutdown();
-                    }
-                    catch (SchedulerException e)
-                    {
-                        throw new RuntimeException(e);
-                    }
-                }
+				/**
+				 * When an object implementing interface <code>Runnable</code> is used
+				 * to create a thread, starting the thread causes the object's
+				 * <code>run</code> method to be called in that separately executing
+				 * thread.
+				 * <p/>
+				 * The general contract of the method <code>run</code> is that it may
+				 * take any action whatsoever.
+				 *
+				 * @see Thread#run()
+				 */
+				public void run()
+				{
+					try
+					{
+						List<Scheduler> schedulers = CollectionFactory.newList(factory.getAllSchedulers());
+						for (Scheduler scheduler : schedulers)
+							scheduler.shutdown();
+					}
+					catch (SchedulerException e)
+					{
+						throw new RuntimeException(e);
+					}
+				}
+
             });
 
             return factory;

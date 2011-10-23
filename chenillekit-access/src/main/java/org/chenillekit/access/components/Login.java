@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.services.Cookies;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
@@ -58,7 +59,7 @@ public class Login
 
 	private WebSessionUser<?> tmpUser;
 
-	void onValidateForm()
+	void onValidateFromChenillekitLoginForm()
 	{
 		tmpUser = authenticationService.doAuthenticate(username, password);
 

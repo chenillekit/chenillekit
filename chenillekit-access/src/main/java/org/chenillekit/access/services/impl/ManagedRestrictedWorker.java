@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.model.MutableComponentModel;
-import org.apache.tapestry5.services.ClassTransformation;
+import org.apache.tapestry5.plastic.PlasticClass;
+import org.apache.tapestry5.plastic.PlasticMethod;
 import org.apache.tapestry5.services.ComponentClassResolver;
-import org.apache.tapestry5.services.TransformMethod;
 
 import org.chenillekit.access.annotations.ManagedRestricted;
 import org.chenillekit.access.dao.ProtectionRule;
@@ -55,15 +55,15 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 	/**
 	 * Read and process restriction on page classes annotated with {@link org.chenillekit.access.annotations.ManagedRestricted} annotation
 	 *
-	 * @param transformation Contains class-specific information used when transforming a raw component class
-	 *                       into an executable component class.
-	 * @param model		  Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
-	 *                       the transformation phase.
+	 * @param plasticClass Contains class-specific information used when transforming a raw component class
+	 *                     into an executable component class.
+	 * @param model		Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
+	 *                     the transformation phase.
 	 */
 	@Override
-	protected void processPageRestriction(ClassTransformation transformation, MutableComponentModel model)
+	protected void processPageRestriction(PlasticClass plasticClass, MutableComponentModel model)
 	{
-		ManagedRestricted restricted = transformation.getAnnotation(ManagedRestricted.class);
+		ManagedRestricted restricted = plasticClass.getAnnotation(ManagedRestricted.class);
 		if (restricted == null)
 			return;
 
@@ -95,17 +95,17 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 	/**
 	 * inject meta datas about annotated methods
 	 *
-	 * @param transformation Contains class-specific information used when transforming a raw component class
-	 *                       into an executable component class.
-	 * @param model		  Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
-	 *                       the transformation phase.
+	 * @param plasticClass Contains class-specific information used when transforming a raw component class
+	 *                     into an executable component class.
+	 * @param model		Mutable version of {@link org.apache.tapestry5.model.ComponentModel} used during
+	 *                     the transformation phase.
 	 */
 	@Override
-	protected void processEventHandlerRestrictions(ClassTransformation transformation, MutableComponentModel model)
+	protected void processEventHandlerRestrictions(PlasticClass plasticClass, MutableComponentModel model)
 	{
-		List<TransformMethod> matchedMethods = getMatchedMethods(transformation, ManagedRestricted.class);
+		List<PlasticMethod> matchedMethods = getMatchedMethods(plasticClass, ManagedRestricted.class);
 
-		for (TransformMethod method : matchedMethods)
+		for (PlasticMethod method : matchedMethods)
 		{
 			String pagename = resolver.resolvePageClassNameToPageName(model.getComponentClassName());
 			String componentId = extractComponentId(method, method.getAnnotation(OnEvent.class));
