@@ -54,14 +54,6 @@ public class Slider extends AbstractYuiField
 	@Parameter(required = true, principal = true)
 	private Number value;
 
-	/**
-	 * The user presentable label for the field. If not provided, a reasonable label is generated from the component's
-	 * id, first by looking for a message key named "id-label" (substituting the component's actual id), then by
-	 * converting the actual id to a presentable string (for example, "userId" to "User Id").
-	 */
-	@Parameter(defaultPrefix = BindingConstants.LITERAL)
-	private String label;
-
 	@Parameter(required = false, defaultPrefix = BindingConstants.PROP, value = "false")
 	private boolean vertical;
 

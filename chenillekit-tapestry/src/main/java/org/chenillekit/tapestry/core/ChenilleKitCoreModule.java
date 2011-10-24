@@ -72,8 +72,8 @@ public class ChenilleKitCoreModule
 	public void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
 													 @Symbol("ck.components") String scriptPath)
 	{
-		configuration.add("fckeditor/", scriptPath + "/fckeditor/");
-		configuration.add("window/", scriptPath + "/window/");
+		configuration.add("fckeditor", scriptPath + "/fckeditor");
+		configuration.add("window", scriptPath + "/window");
 	}
 
 	public void contributeBindingSource(MappedConfiguration<String, BindingFactory> configuration,

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,11 @@
 
 package org.chenillekit.tapestry.core.components.prototype_ui;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentEventCallback;
 import org.apache.tapestry5.ComponentResources;
@@ -35,9 +39,6 @@ import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.ResponseRenderer;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
-
-import java.util.Collections;
-import java.util.List;
 
 import static org.apache.tapestry5.ioc.internal.util.CollectionFactory.newList;
 
@@ -68,13 +69,6 @@ public class AutoComplete extends AbstractField
 	 */
 	@Parameter(required = true, allowNull = false, defaultPrefix = BindingConstants.TRANSLATE)
 	private FieldTranslator<Object> translate;
-
-	/**
-	 * this parameter contains the name of the object property, that should display to user in the item list and the
-	 * box of selected items.
-	 */
-	@Parameter(required = true, allowNull = false, defaultPrefix = BindingConstants.LITERAL, name = "label")
-	private String labelPropertyName;
 
 	@Inject
 	private Request request;
@@ -217,7 +211,7 @@ public class AutoComplete extends AbstractField
 		for (Object o : matches)
 		{
 			Object value = translate.toClient(o);
-			Object label = propertyAccess.get(o, labelPropertyName);
+			Object label = propertyAccess.get(o, getLabel());
 			JSONObject item = new JSONObject();
 			item.put("text", label);
 			item.put("value", value);

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,22 +33,10 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 public class ColorPicker extends AbstractTextField
 {
 	/**
-	 * The value parameter of a ColorPicker must be a {@link java.lang.String}.
-	 */
-	@Parameter(required = true, principal = true)
-	private String value;
-
-	/**
 	 * an array of 40 colors (in hex format) to display in the swatch grid
 	 */
 	@Parameter(required = false, defaultPrefix = BindingConstants.PROP)
 	private String[] colors;
-
-	/**
-	 * the text to display in the "add custom color" button, defaults to "Add"
-	 */
-	@Parameter(required = false, defaultPrefix = BindingConstants.LITERAL)
-	private String label;
 
 	/**
 	 * RenderSupport to get unique client side id
@@ -96,8 +84,8 @@ public class ColorPicker extends AbstractTextField
 
 		if (colors != null)
 			setup.put("colors", colors);
-		if (label != null)
-			setup.put("addLabel", label);
+		if (getLabel() != null)
+			setup.put("addLabel", getLabel());
 
 		javascriptSupport.addScript("new Control.ColorPicker('%s', %s);", getClientId(), setup);
 	}
