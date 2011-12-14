@@ -204,7 +204,6 @@
 		<module>chenillekit-core</module>
 		<module>chenillekit-test</module>
 		<module>chenillekit-quartz</module>
-		<!-- <module>chenillekit-hivemind</module> -->
 		<module>chenillekit-hibernate</module>
 		<module>chenillekit-tapestry</module>
 		<module>chenillekit-lucene</module>
