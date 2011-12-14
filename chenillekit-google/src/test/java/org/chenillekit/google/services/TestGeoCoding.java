@@ -112,16 +112,16 @@ public class TestGeoCoding extends AbstractTestSuite
     public void test_latlng(GeoCodeLocation geo1)
     {
         GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
-        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.368533);
-        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 10.030249);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.36826);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 10.03012);
     }
 
     @Test(dataProvider = "localeIsNull")
     public void test_localeIsNull(GeoCodeLocation geo1)
     {
         GeoCodeResult result = googleGeoCoder.getGeoCode(geo1);
-        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.368533);
-        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 10.030249);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLatitude(), 53.36826);
+        assertEquals(result.getPlacemarks().get(0).getLatLng().getLongitude(), 10.03012);
     }
 
 }
