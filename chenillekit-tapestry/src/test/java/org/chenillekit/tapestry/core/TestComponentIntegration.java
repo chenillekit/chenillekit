@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2011 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package org.chenillekit.tapestry.core;
 
 import org.apache.tapestry5.test.SeleniumTestCase;
+
 import org.testng.annotations.Test;
 
 /**
@@ -30,7 +31,7 @@ public class TestComponentIntegration extends SeleniumTestCase
 		openBaseURL();
 
 		clickAndWait("link=Accordion");
-		
+
 		click("xpath=//div[@id='accordion_toggle_1']");
 		waitForCondition("selenium.browserbot.getCurrentWindow().$('accordion_content_0').style.display == 'none'", "1000");
 		waitForCondition("selenium.browserbot.getCurrentWindow().$('accordion_content_1').style.overflow == 'hidden'", "1000");
@@ -53,7 +54,7 @@ public class TestComponentIntegration extends SeleniumTestCase
 	}
 
 	@Test
-	public void test_formater() 
+	public void test_formater()
 	{
 		openBaseURL();
 
@@ -101,11 +102,11 @@ public class TestComponentIntegration extends SeleniumTestCase
 		waitForCondition("selenium.browserbot.getCurrentWindow().$('fieldSet1').select('div.ck_fieldset_content').first().readAttribute('style') == 'overflow: visible;'", "2000");
 
 		click("xpath=//fieldset[@id='fieldSet2']//legend");
-                waitForCondition("selenium.browserbot.getCurrentWindow().$('fieldSet2').select('div.ck_fieldset_content').first().readAttribute('style') == 'overflow: visible; display: none;'", "2000");
+		waitForCondition("selenium.browserbot.getCurrentWindow().$('fieldSet2').select('div.ck_fieldset_content').first().readAttribute('style') == 'overflow: visible; display: none;'", "2000");
 	}
 
 	@Test
-	public void test_element() 
+	public void test_element()
 	{
 		openBaseURL();
 
@@ -133,7 +134,7 @@ public class TestComponentIntegration extends SeleniumTestCase
 	}
 
 	@Test
-    public void test_inplace()
+	public void test_inplace()
 	{
 		openBaseURL();
 
@@ -220,6 +221,6 @@ public class TestComponentIntegration extends SeleniumTestCase
 
 		clickAndWait("link=UriAsset");
 
-		assertEquals(this.getAttribute("xpath=//img[@id='test1']@src"), "/uri/http%3A%2F%2Fwww.heise.de%2Fct%2Fmotive%2Fimage%2F1476%2Fp800_en.jpg");
+		assertTrue(this.getAttribute("xpath=//img[@id='test1']@src").startsWith("/uri/http%3A%2F%2Fwww.heise.de%2Fct%2Fmotive%2Fimage%2F1476%2Fp800"));
 	}
 }
