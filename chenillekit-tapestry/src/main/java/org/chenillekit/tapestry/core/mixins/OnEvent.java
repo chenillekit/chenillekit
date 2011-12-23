@@ -19,8 +19,8 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.chenillekit.tapestry.core.base.AbstractEventMixin;
 
 /**
- * OnChange mixin catch the browser event "onChange" from a select component
- * and redirect it to your application via tapestry event "change".
+ * OnEven mixin catch the browser event defined by the <code>event</code>
+ * parameter then fire an action on your application via a tapestry event.
  *
  * @version $Id$
  */
