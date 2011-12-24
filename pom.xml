@@ -39,7 +39,7 @@
 	<parent>
 		<groupId>org.codehaus</groupId>
 		<artifactId>codehaus-parent</artifactId>
-		<version>3</version>
+		<version>4</version>
 	</parent>
 
 	<url>http://chenillekit.codehaus.org</url>
@@ -561,7 +561,6 @@
 			</plugin>
 
 		</plugins>
-		<!--
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
@@ -569,7 +568,6 @@
 				<version>1.0-beta-2</version>
 			</extension>
 		</extensions>
-		-->
 	</build>
 
 
@@ -661,6 +659,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
