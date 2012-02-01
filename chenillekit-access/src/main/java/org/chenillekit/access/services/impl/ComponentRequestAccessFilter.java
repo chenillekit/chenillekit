@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,16 @@ import java.io.IOException;
 
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.EventContext;
+import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.internal.EmptyEventContext;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AccessValidator;
@@ -45,6 +48,8 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 
 	private final AccessValidator accessValidator;
 	private final ApplicationStateManager stateManager;
+	private final AlertManager alertManager;
+	private final Messages messages;
 
 	private final String loginPage;
 	private final String fallbackPage;
@@ -65,12 +70,16 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 										SymbolSource symbols,
 										Logger logger,
 										RedirectService redirect,
-										ApplicationStateManager stateManager)
+										ApplicationStateManager stateManager,
+										AlertManager alertManager,
+										Messages messages)
 	{
 		this.symbols = symbols;
 		this.logger = logger;
 		this.accessValidator = accessValidator;
 		this.stateManager = stateManager;
+		this.alertManager = alertManager;
+		this.messages = messages;
 		this.loginPage = symbols.valueForSymbol(ChenilleKitAccessConstants.LOGIN_PAGE);
 
 		String tempFallbackPage;
@@ -161,7 +170,10 @@ public class ComponentRequestAccessFilter implements ComponentRequestFilter
 			redirect.rememberPageRenderParameter(parameters);
 
 			if (isUserLoggedIn)
+			{
 				requestParameters = fallbackPageRenderParameters;
+				alertManager.warn(messages.get("not-allowed-to-access-this-page"));
+			}
 			else
 				requestParameters = loginPageRenderParameters;
 
