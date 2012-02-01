@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package org.chenillekit.access.services.impl;
 import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Session;
+
+import org.chenillekit.access.Logical;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.SecurityService;
@@ -77,15 +79,23 @@ public class SecurityServiceImpl implements SecurityService
 	/**
 	 * returns true, if user profile contains all af the given groups.
 	 */
-	public boolean hasGroups(String... groups)
+	public boolean hasGroups(Logical logical, String... groups)
 	{
 		boolean hasGroups = false;
 
 		WebSessionUser<?> webSessionUser = stateManager.getIfExists(WebSessionUser.class);
 		if (webSessionUser != null)
-			hasGroups = ChenillekitAccessInternalUtils.hasUserRequiredGroup(webSessionUser.getGroups(), groups);
+			hasGroups = ChenillekitAccessInternalUtils.hasUserRequiredGroup(webSessionUser.getGroups(), groups, logical);
 
 		return hasGroups;
+	}
+
+	/**
+	 * returns true, if user profile contains all af the given groups.
+	 */
+	public boolean hasGroups(String... groups)
+	{
+		return hasGroups(Logical.AND, groups);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package org.chenillekit.access.integration.app1;
 
 import org.apache.tapestry5.test.SeleniumTestCase;
+
 import org.testng.annotations.Test;
 
 /**
@@ -268,6 +269,20 @@ public class AccessIntegration1 extends SeleniumTestCase
 
 		assertTextPresent("Login Page");
 
+		openBaseURL();
+
+		clickAndWait("link=Logout");
+
+		assertTextPresent("Logout Page");
+
+		assertTextPresent("User logged in: NO");
+
+		openBaseURL();
+
+		clickAndWait("link=ManagedRestricted");
+
+		assertTextPresent("Login Page");
+
 		type("chenillekitUsername", "root");
 		type("chenillekitPassword", "banane");
 
@@ -357,7 +372,31 @@ public class AccessIntegration1 extends SeleniumTestCase
 
 		assertTextPresent("User logged in: NO");
 	}
-	
+
+	public void test_managedrestricted3_logical()
+	{
+		openBaseURL();
+
+		clickAndWait("link=ManagedRestricted3");
+
+		assertTextPresent("Login Page");
+
+		type("chenillekitUsername", "dummy");
+		type("chenillekitPassword", "pere");
+
+		clickAndWait("//input[@id='chenillekitLoginSubmit']");
+
+		assertTextPresent("Logged in at page ManagedRestrictedPage3");
+
+		openBaseURL();
+
+		clickAndWait("link=Logout");
+
+		assertTextPresent("Logout Page");
+
+		assertTextPresent("User logged in: NO");
+	}
+
 	public void secure_rescricted() throws Exception
 	{
 		openBaseURL();
@@ -372,7 +411,7 @@ public class AccessIntegration1 extends SeleniumTestCase
 		clickAndWait("//input[@id='chenillekitLoginSubmit']");
 
 		assertTextPresent("This page is Secure");
-		
+
 		openBaseURL();
 
 		clickAndWait("link=Logout");
@@ -381,5 +420,4 @@ public class AccessIntegration1 extends SeleniumTestCase
 
 		assertTextPresent("User logged in: NO");
 	}
-
 }

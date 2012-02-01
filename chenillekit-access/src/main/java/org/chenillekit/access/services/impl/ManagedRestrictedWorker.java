@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2011 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import org.apache.tapestry5.plastic.PlasticClass;
 import org.apache.tapestry5.plastic.PlasticMethod;
 import org.apache.tapestry5.services.ComponentClassResolver;
 
+import org.chenillekit.access.Logical;
 import org.chenillekit.access.annotations.ManagedRestricted;
 import org.chenillekit.access.dao.ProtectionRule;
 import org.chenillekit.access.dao.ProtectionRuleDAO;
@@ -75,6 +76,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 		ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(pagename);
 		String[] groups = {};
 		int roleWeight = 0;
+		Logical logical = Logical.AND;
 
 		/**
 		 * there is no protection rule for that component
@@ -83,13 +85,13 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 		{
 			groups = protectionRule.getGroups();
 			roleWeight = protectionRule.getRoleWeight();
+			logical = protectionRule.getLogical();
 		}
 
 		if (logger.isDebugEnabled())
 			logger.debug("found permission groups {} for component {}", groups, pagename);
 
-
-		setGroupRoleMeta(true, model, null, null, groups, roleWeight);
+		setGroupRoleMeta(true, model, null, null, groups, roleWeight, logical);
 	}
 
 	/**
@@ -125,6 +127,7 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 			ProtectionRule protectionRule = protectionRuleDAO.retrieveProtectionRule(builder.toString());
 			String[] groups = {};
 			int roleWeight = 0;
+			Logical logical = Logical.AND;
 
 			/**
 			 * there is no protection rule for that component
@@ -133,13 +136,14 @@ public class ManagedRestrictedWorker extends RestrictedWorker
 			{
 				groups = protectionRule.getGroups();
 				roleWeight = protectionRule.getRoleWeight();
+				logical = protectionRule.getLogical();
 			}
 
 			if (logger.isDebugEnabled())
 				logger.debug("found permission groups {} for event {}",
 							 Arrays.toString(groups), builder.toString());
 
-			setGroupRoleMeta(false, model, componentId, eventType, groups, roleWeight);
+			setGroupRoleMeta(false, model, componentId, eventType, groups, roleWeight, logical);
 		}
 	}
 }

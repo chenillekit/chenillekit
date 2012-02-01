@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import org.chenillekit.access.Logical;
 
 /**
  * Annotation to hold role weight and/or group names the user
@@ -40,4 +42,9 @@ public @interface Restricted
 	 * @return the groups names (or ids if you like) a user should be listed in
 	 */
 	String[] groups() default {};
+
+	/**
+	 * @return the, if groups should handled as AND or OR
+	 */
+	Logical logical() default Logical.AND;
 }

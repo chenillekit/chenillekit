@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
 
 package org.chenillekit.access.dao;
 
+import org.chenillekit.access.Logical;
+
 /**
  * @version $Id$
  */
@@ -21,6 +23,7 @@ public class ProtectionRuleImpl implements ProtectionRule
 {
     private String[] groups;
     private int roleWeight;
+    private Logical logical;
 
     public void setGroups(String groups)
     {
@@ -48,4 +51,17 @@ public class ProtectionRuleImpl implements ProtectionRule
     {
         return roleWeight;
     }
+
+	public void setLogical(Logical logical)
+	{
+		this.logical = logical;
+	}
+
+	/**
+	 * get the logical.
+	 */
+	public Logical getLogical()
+	{
+		return logical;
+	}
 }

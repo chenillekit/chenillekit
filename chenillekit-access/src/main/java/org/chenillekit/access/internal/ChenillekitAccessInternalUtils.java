@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,17 @@
 /**
  *
  */
+
 package org.chenillekit.access.internal;
 
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.ioc.services.TypeCoercer;
 
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.Logical;
 
 /**
- *	@version $Id$
+ * @version $Id$
  */
 public class ChenillekitAccessInternalUtils
 {
@@ -32,12 +34,15 @@ public class ChenillekitAccessInternalUtils
 	private static final String CK_EVENT_CONTEXT_PREFIX = "ckEventContext";
 	private static final String CK_EVENT_CONTEXT_DELIMITER = "####";
 
-	private ChenillekitAccessInternalUtils() {}
+	private ChenillekitAccessInternalUtils()
+	{
+	}
 
 	/**
 	 * Build a string representing the context to be stored inside a cookie.
 	 *
 	 * @param context the context to be stored in the cookie
+	 *
 	 * @return a String rapresentation of the {@link EventContext}
 	 */
 	public static final String getContextAsString(EventContext context)
@@ -60,9 +65,9 @@ public class ChenillekitAccessInternalUtils
 	}
 
 	/**
-	 *
 	 * @param coercer
 	 * @param contextString
+	 *
 	 * @return
 	 */
 	public static final EventContext getContextFromString(TypeCoercer coercer, String contextString)
@@ -82,7 +87,7 @@ public class ChenillekitAccessInternalUtils
 	/**
 	 * check if user has required role to access page/component/event.
 	 *
-	 * @param userRoleWeigh     role weigh the user have
+	 * @param userRoleWeigh	 role weigh the user have
 	 * @param requiredRoleWeigh role weigh required for page/component/event access
 	 *
 	 * @return true if user fulfill the required role
@@ -95,14 +100,29 @@ public class ChenillekitAccessInternalUtils
 	/**
 	 * Check if user has required group to access page/component/event.
 	 *
-	 * @param userGroups     groups the user have
+	 * @param userGroups	 groups the user have
 	 * @param requiredGroups groups required for page/component/event access
 	 *
 	 * @return true if user has the required group
 	 */
 	public static final boolean hasUserRequiredGroup(String[] userGroups, String[] requiredGroups)
 	{
+		return hasUserRequiredGroup(userGroups, requiredGroups, Logical.AND);
+	}
+
+	/**
+	 * Check if user has required group to access page/component/event.
+	 *
+	 * @param userGroups	 groups the user have
+	 * @param requiredGroups groups required for page/component/event access
+	 * @param logical
+	 *
+	 * @return true if user has the required group
+	 */
+	public static final boolean hasUserRequiredGroup(String[] userGroups, String[] requiredGroups, Logical logical)
+	{
 		boolean hasGroup = false;
+		boolean hasAllGroups = true;
 
 		/**
 		 * if no group required
@@ -114,34 +134,36 @@ public class ChenillekitAccessInternalUtils
 		{
 			for (String requiredGroup : requiredGroups)
 			{
-				for (String userGroup : userGroups)
+				if (contains(userGroups, requiredGroup))
 				{
-					if (userGroup.equalsIgnoreCase(requiredGroup))
-					{
-						hasGroup = true;
+					hasGroup = true;
+					if (logical == Logical.OR)
 						break;
-					}
 				}
+				else
+					hasAllGroups = false;
 
-				if (hasGroup)
+				if (!hasAllGroups && logical == Logical.AND)
 					break;
 			}
 		}
+		else
+			hasAllGroups = false;
 
-		return hasGroup;
+		return logical == Logical.OR ? hasGroup : hasAllGroups;
 	}
 
 	/**
-	 *
 	 * @param componentId
 	 * @param eventType
 	 * @param suffix
+	 *
 	 * @return
 	 */
 	public static final String buildMetaForHandlerMethod(String componentId, String eventType, String suffix)
 	{
 		return ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_PREFIX
-					+ "-" + componentId + "-" + eventType + "-" + suffix;
+				+ "-" + componentId + "-" + eventType + "-" + suffix;
 
 	}
 
@@ -172,11 +194,12 @@ public class ChenillekitAccessInternalUtils
 	 * Split the {@link String} array into a CSV {@link String}.
 	 *
 	 * @param groups the array to split
+	 *
 	 * @return the CSV {@link String}
 	 */
 	public static final String[] getStringAsStringArray(String groups)
 	{
-		if ( groups == null ||
+		if (groups == null ||
 				ChenilleKitAccessConstants.NO_GROUP_RESTRICTION.equals(groups)) return NO_GROUPS;
 
 		return groups.split(",");
@@ -196,6 +219,24 @@ public class ChenillekitAccessInternalUtils
 		String metaId = ChenilleKitAccessConstants.RESTRICTED_PAGE_ROLE;
 		if (!metaForPage)
 			metaId = ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX;
+
+		return metaForPage ? metaId : buildMetaIdForHandler(componentId, eventType, metaId);
+	}
+
+	/**
+	 * get the meta id for the role weight.
+	 *
+	 * @param metaForPage if true, we set meta for a page, otherwise for an event
+	 * @param componentId id of the component
+	 * @param eventType   event type
+	 *
+	 * @return the meta id
+	 */
+	public static String getLogicalMetaId(boolean metaForPage, String componentId, String eventType)
+	{
+		String metaId = ChenilleKitAccessConstants.RESTRICTED_PAGE_LOGICAL;
+		if (!metaForPage)
+			metaId = ChenilleKitAccessConstants.RESTRICTED_EVENT_HANDLER_LOGICAL_SUFFIX;
 
 		return metaForPage ? metaId : buildMetaIdForHandler(componentId, eventType, metaId);
 	}
@@ -235,5 +276,21 @@ public class ChenillekitAccessInternalUtils
 	public static boolean isNotBlank(String value)
 	{
 		return value != null && value.length() > 0;
+	}
+
+	private static boolean contains(String[] array, String value)
+	{
+		boolean contains = false;
+
+		for (String s : array)
+		{
+			if (s.equalsIgnoreCase(value))
+			{
+				contains = true;
+				break;
+			}
+		}
+
+		return contains;
 	}
 }

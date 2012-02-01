@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2011 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import org.apache.tapestry5.services.transform.ComponentClassTransformWorker2;
 import org.apache.tapestry5.services.transform.TransformationSupport;
 
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.Logical;
 import org.chenillekit.access.annotations.Restricted;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.slf4j.Logger;
@@ -79,10 +80,13 @@ public class RestrictedWorker implements ComponentClassTransformWorker2
 				boolean hasAnnotation = hasAnnotation(method);
 				boolean notOverride = !method.isOverride();
 
-				logger.debug("Method: {}", method.getDescription().methodName);
-				logger.debug(" correctPrefix: ", correctPrefix);
-				logger.debug(" hasAnnotation: ", hasAnnotation);
-				logger.debug(" notOverride:   ", notOverride);
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("Method: {}", method.getDescription().methodName);
+					logger.debug(" correctPrefix: ", correctPrefix);
+					logger.debug(" hasAnnotation: ", hasAnnotation);
+					logger.debug(" notOverride:   ", notOverride);
+				}
 
 				return (correctPrefix || hasAnnotation) && notOverride;
 			}
@@ -117,7 +121,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker2
 	{
 		Restricted restricted = plasticClass.getAnnotation(Restricted.class);
 		if (restricted != null)
-			setGroupRoleMeta(true, model, null, null, restricted.groups(), restricted.role());
+			setGroupRoleMeta(true, model, null, null, restricted.groups(), restricted.role(), restricted.logical());
 	}
 
 	/**
@@ -139,7 +143,7 @@ public class RestrictedWorker implements ComponentClassTransformWorker2
 			String componentId = extractComponentId(method, method.getAnnotation(OnEvent.class));
 			String eventType = extractEventType(method, method.getAnnotation(OnEvent.class));
 
-			setGroupRoleMeta(false, model, componentId, eventType, restricted.groups(), restricted.role());
+			setGroupRoleMeta(false, model, componentId, eventType, restricted.groups(), restricted.role(), restricted.logical());
 		}
 	}
 
@@ -206,7 +210,13 @@ public class RestrictedWorker implements ComponentClassTransformWorker2
 	 * @param groups	  groups for access
 	 * @param roleWeight  role weight for access
 	 */
-	protected void setGroupRoleMeta(boolean metaForPage, MutableComponentModel model, String componentId, String eventType, String[] groups, int roleWeight)
+	protected void setGroupRoleMeta(boolean metaForPage,
+									MutableComponentModel model,
+									String componentId,
+									String eventType,
+									String[] groups,
+									int roleWeight,
+									Logical logical)
 	{
 		// mark the page as restricted, even if the no group or role weight set.
 		if (metaForPage)
@@ -218,5 +228,6 @@ public class RestrictedWorker implements ComponentClassTransformWorker2
 			model.setMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(metaForPage, componentId, eventType), groupsString);
 
 		model.setMeta(ChenillekitAccessInternalUtils.getRoleMetaId(metaForPage, componentId, eventType), Integer.toString(roleWeight));
+		model.setMeta(ChenillekitAccessInternalUtils.getLogicalMetaId(metaForPage, componentId, eventType), String.valueOf(logical));
 	}
 }

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,9 @@ import org.apache.tapestry5.services.ApplicationStateManager;
 import org.apache.tapestry5.services.ComponentEventRequestParameters;
 import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.services.PageRenderRequestParameters;
+
 import org.chenillekit.access.ChenilleKitAccessConstants;
+import org.chenillekit.access.Logical;
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.internal.ChenillekitAccessInternalUtils;
 import org.chenillekit.access.services.AccessValidator;
@@ -45,7 +47,7 @@ public class AccessValidatorImpl implements AccessValidator
 		this.logger = logger;
 		this.manager = manager;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.chenillekit.access.services.AccessValidator#hasAccessToPageRender(org.apache.tapestry5.services.PageRenderRequestParameters)
@@ -53,17 +55,17 @@ public class AccessValidatorImpl implements AccessValidator
 	public boolean hasAccessToPageRender(PageRenderRequestParameters renderParameters)
 	{
 		String pageName = renderParameters.getLogicalPageName();
-		
+
 		logger.debug(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS, "check access for rendering page: {}", new Object[]{pageName});
-		
+
 		Component page = getPage(pageName);
-		
+
 		if (page == null || !isPageRestricted(page))
 			return true;
-		
+
 		return checkForPageAccess(page);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.chenillekit.access.services.AccessValidator#hasAccessToComponentEvent(org.apache.tapestry5.services.ComponentEventRequestParameters)
@@ -73,23 +75,23 @@ public class AccessValidatorImpl implements AccessValidator
 		String pageName = eventParameters.getActivePageName();
 		String componentId = eventParameters.getNestedComponentId();
 		String eventType = eventParameters.getEventType();
-		
+
 		if (logger.isDebugEnabled())
 			logger.debug(ChenilleKitAccessConstants.CHENILLEKIT_ACCESS, "check access for pageName/componentId/eventType: {}/{}/{}",
 						 new Object[]{pageName, componentId, eventType});
 
 		Component page = getPage(pageName);
-		
+
 		if (page == null)
 			return true;
-		
+
 		boolean hasAccess = checkForComponentEventHandlerAccess(page, componentId, eventType);
 
 		if (hasAccess)
 		{
-			
+
 			// XXX Should we check for more restriction on page?!
-			
+
 //			hasAccess = checkForPageAccess(page);
 //
 //				if (hasAccess)
@@ -110,7 +112,7 @@ public class AccessValidatorImpl implements AccessValidator
 		}
 
 		return hasAccess;
-		
+
 	}
 
 	/*
@@ -124,18 +126,20 @@ public class AccessValidatorImpl implements AccessValidator
 	}
 
 	/*
-	 * 
+	 *
 	 */
 	private boolean checkForComponentEventHandlerAccess(Component page, String componentId, String eventType)
 	{
 		boolean hasAccess = true;
-		
+
 		if (componentId != null && eventType != null)
 		{
 			String groups =
 					page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(false, componentId, eventType));
 			String role =
 					page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getRoleMetaId(false, componentId, eventType));
+			String logical =
+					page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getLogicalMetaId(false, componentId, eventType));
 
 			if (groups == null)
 				groups = ChenilleKitAccessConstants.NO_GROUP_RESTRICTION;
@@ -143,14 +147,17 @@ public class AccessValidatorImpl implements AccessValidator
 			if (role == null)
 				role = "0";
 
+			if (logical == null)
+				logical = String.valueOf(Logical.AND);
+
 			if (logger.isDebugEnabled())
 				logger.debug("user needs group(s) {} and roleWeight {} for accessing {}/{}/{}",
 							 new String[]{groups, role, page.getComponentResources().getPageName(), componentId, eventType});
-			
+
 			if (groups.equals(ChenilleKitAccessConstants.NO_GROUP_RESTRICTION) && role.equals("0"))
 				return true;
 
-			hasAccess = enoughRights(groups, Integer.parseInt(role), page);
+			hasAccess = enoughRights(groups, Integer.parseInt(role), Enum.valueOf(Logical.class, logical), page);
 		}
 
 		return hasAccess;
@@ -168,6 +175,7 @@ public class AccessValidatorImpl implements AccessValidator
 	{
 		String groups = page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getGroupsMetaId(true, null, null));
 		String role = page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getRoleMetaId(true, null, null));
+		String logical = page.getComponentResources().getComponentModel().getMeta(ChenillekitAccessInternalUtils.getLogicalMetaId(true, null, null));
 
 		if (groups == null)
 			groups = ChenilleKitAccessConstants.NO_GROUP_RESTRICTION;
@@ -175,20 +183,23 @@ public class AccessValidatorImpl implements AccessValidator
 		if (role == null)
 			role = "0";
 
+		if (logical == null)
+			logical = String.valueOf(Logical.AND);
+
 		if (logger.isDebugEnabled())
 			logger.debug("user needs group(s) {} and roleWeight {} for accessing {}",
 						 new String[]{groups, role, page.getComponentResources().getPageName()});
 
-		return enoughRights(groups, Integer.parseInt(role), page);
+		return enoughRights(groups, Integer.parseInt(role), Enum.valueOf(Logical.class, logical), page);
 	}
 
-	private boolean enoughRights(String groups, Integer role, Component page)
+	private boolean enoughRights(String groups, Integer role, Logical logical, Component page)
 	{
 		boolean hasGroup = true;
 		boolean hasRole = true;
-		
+
 		WebSessionUser<?> webSessionUser = manager.getIfExists(WebSessionUser.class);
-		
+
 		//
 		// if the user NOT logged in, he has no access.
 		//
@@ -209,7 +220,7 @@ public class AccessValidatorImpl implements AccessValidator
 				logger.debug("user has groups: " + Arrays.toString(webSessionUser.getGroups()) + " and needs " + groups);
 
 			hasGroup = ChenillekitAccessInternalUtils.hasUserRequiredGroup(webSessionUser.getGroups(),
-																		   ChenillekitAccessInternalUtils.getStringAsStringArray(groups));
+																		   ChenillekitAccessInternalUtils.getStringAsStringArray(groups), logical);
 		}
 
 		//

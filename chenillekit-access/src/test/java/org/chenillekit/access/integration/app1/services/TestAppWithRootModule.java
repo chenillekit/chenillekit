@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,18 +91,21 @@ public class TestAppWithRootModule
 
 			Statement statement = connection.createStatement();
 			statement.execute("DROP TABLE IF EXISTS " + tableName);
-			statement.execute("CREATE TABLE " + tableName + " (COMPONENT_ID VARCHAR(99), GROUPS VARCHAR(255), ROLE_WEIGHT INTEGER)");
-			statement.execute("INSERT INTO " + tableName + " (COMPONENT_ID, GROUPS, ROLE_WEIGHT) " +
-					"VALUES ('ManagedRestrictedPage', 'admin', 10)," +
-					"('ManagedRestrictedPage2', 'admin', 10)," +
-					"('ManagedRestrictedPage2:event1', 'admin', 10)," +
-					"('ManagedRestrictedPage2:event2', 'admin', 100)," +
-					"('ManagedRestrictedPage:event1', 'admin', 10)," +
-					"('ManagedRestrictedPage:event2', 'admin', 100)," +
-					"('ManagedRestrictedPage:event3', 'admin', 10)," +
-					"('ManagedRestrictedPage.firstActionLink:action', 'admin', 10)," +
-					"('ManagedRestrictedPage.secondActionLink:action', 'admin', 100)," +
-					"('ManagedRestrictedPage.thirdActionLink:action', 'admin', 10)"
+			statement.execute("CREATE TABLE " + tableName + " (COMPONENT_ID VARCHAR(99), GROUPS VARCHAR(255), ROLE_WEIGHT INTEGER, LOGICAL CHAR(5))");
+			statement.execute("INSERT INTO " + tableName + " (COMPONENT_ID, GROUPS, ROLE_WEIGHT, LOGICAL) " +
+									  "VALUES ('ManagedRestrictedPage', 'admin', 10, 'AND')," +
+									  "('ManagedRestrictedPage2', 'admin', 10, 'AND')," +
+									  "('ManagedRestrictedPage2:event1', 'admin', 10, 'AND')," +
+									  "('ManagedRestrictedPage2:event2', 'admin', 100, 'AND')," +
+									  "('ManagedRestrictedPage:event1', 'admin', 10, 'AND')," +
+									  "('ManagedRestrictedPage:event2', 'admin', 100, 'AND')," +
+									  "('ManagedRestrictedPage:event3', 'admin', 10, 'AND')," +
+									  "('ManagedRestrictedPage.firstActionLink:action', 'admin', 10, 'AND')," +
+									  "('ManagedRestrictedPage.secondActionLink:action', 'admin', 100, 'AND')," +
+									  "('ManagedRestrictedPage.thirdActionLink:action', 'admin', 10, 'AND')," +
+									  "('ManagedRestrictedPage3', 'admin,dummy', 0, 'OR')," +
+									  "('ManagedRestrictedPage3:event1', 'admin,dummy', 10, 'OR')," +
+									  "('ManagedRestrictedPage3:event2', 'admin,dummy', 10, 'OR')"
 			);
 
 			return connection;

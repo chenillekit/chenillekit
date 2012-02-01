@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,9 +84,11 @@ public final class ChenilleKitAccessConstants
      */
     public static final String RESTRICTED_PAGE = "chenillekit.access-restricted-page";
     public static final String RESTRICTED_PAGE_ROLE = "chenillekit.access-restricted-page-role"; // are these too verbose?
+    public static final String RESTRICTED_PAGE_LOGICAL = "chenillekit.access-restricted-page-logical"; // are these too verbose?
     public static final String RESTRICTED_PAGE_GROUP = "chenillekit.access-restricted-page-group";
     public static final String RESTRICTED_EVENT_HANDLER_PREFIX = "chenillekit.access-restricted-handler";
     public static final String RESTRICTED_EVENT_HANDLER_ROLE_SUFFIX = "role";
+	public static final String RESTRICTED_EVENT_HANDLER_LOGICAL_SUFFIX = "logical";
     public static final String RESTRICTED_EVENT_HANDLER_GROUPS_SUFFIX = "groups";
 
     public static final String NO_GROUP_RESTRICTION = "NONE";

@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.apache.tapestry5.corelib.components.If;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
+
 import org.chenillekit.access.WebSessionUser;
 import org.chenillekit.access.services.AuthenticationService;
 
@@ -91,6 +92,7 @@ public class Start
 			new Item("Logout", "Logout", "Logout user"),
 			new Item("ManagedRestrictedPage", "ManagedRestricted", "test ManagedRestricted page"),
 			new Item("ManagedRestrictedPage2", "ManagedRestricted2", "test logged in user but no access page"),
+			new Item("ManagedRestrictedPage3", "ManagedRestricted3", "test logged in user and has access page"),
 			new Item("Login", "Login", "Login access form")
 	);
 

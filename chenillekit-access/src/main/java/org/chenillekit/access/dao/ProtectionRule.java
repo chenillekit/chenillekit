@@ -3,7 +3,7 @@
  * Version 2.0, January 2004
  * http://www.apache.org/licenses/
  *
- * Copyright 2008-2010 by chenillekit.org
+ * Copyright 2008-2012 by chenillekit.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
  */
 
 package org.chenillekit.access.dao;
+
+import org.chenillekit.access.Logical;
 
 /**
  * @version $Id: ProtectionRule.java 628 2010-02-24 11:05:45Z homburgs $
@@ -28,4 +30,9 @@ public interface ProtectionRule
      * get the role weight.
      */
     int getRoleWeight();
+
+    /**
+     * get the logical.
+     */
+    Logical getLogical();
 }
