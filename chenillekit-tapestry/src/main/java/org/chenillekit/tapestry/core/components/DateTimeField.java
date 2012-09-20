@@ -198,12 +198,15 @@ public class DateTimeField extends AbstractField
 		if (value == null) value = formatCurrentValue();
 
 		String clientId = getClientId();
+		String cssName = timePicker ? "datetimepicker" : "datepicker";
+		if (!datePicker)
+			cssName = "timepicker";
 
 		writer.element("input",
 
 					   "type", "text",
 
-					   "class", "datepicker",
+					   "class", cssName,
 
 					   "name", getControlName(),
 
