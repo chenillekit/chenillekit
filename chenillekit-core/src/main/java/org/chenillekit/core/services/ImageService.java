@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.chenillekit.image.services;
+package org.chenillekit.core.services;
 
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
