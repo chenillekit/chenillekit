@@ -17,15 +17,18 @@ package org.chenillekit.core;
 import org.apache.tapestry5.ioc.ServiceBinder;
 
 import org.chenillekit.core.services.ConfigurationService;
+import org.chenillekit.core.services.ImageService;
 import org.chenillekit.core.services.impl.ConfigurationServiceImpl;
+import org.chenillekit.core.services.impl.ImageServiceImpl;
 
 /**
  * @version $Id$
  */
 public class ChenilleKitCoreModule
 {
-    public static void bind(ServiceBinder binder)
-    {
-        binder.bind(ConfigurationService.class, ConfigurationServiceImpl.class);
-    }
+	public static void bind(ServiceBinder binder)
+	{
+		binder.bind(ConfigurationService.class, ConfigurationServiceImpl.class);
+		binder.bind(ImageService.class, ImageServiceImpl.class);
+	}
 }

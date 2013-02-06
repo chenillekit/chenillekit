@@ -29,7 +29,7 @@ import org.apache.tapestry5.ioc.internal.util.InternalUtils;
 import org.apache.tapestry5.services.AssetFactory;
 import org.apache.tapestry5.services.Context;
 
-import org.chenillekit.image.services.ImageService;
+import org.chenillekit.core.services.ImageService;
 import org.chenillekit.tapestry.core.ChenilleKitCoreConstants;
 import org.chenillekit.tapestry.core.services.ThumbNailService;
 import org.slf4j.Logger;

@@ -36,9 +36,9 @@ import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 
 import freemarker.template.Configuration;
+import org.chenillekit.core.services.ImageService;
 import org.chenillekit.demo.data.Track;
 import org.chenillekit.google.ChenilleKitGoogleConstants;
-import org.chenillekit.image.services.ImageService;
 import org.chenillekit.tapestry.core.services.ThumbNailService;
 import org.chenillekit.tapestry.core.services.impl.ThumbNailServiceImpl;
 import org.chenillekit.tapestry.core.services.impl.URIDispatcher;
